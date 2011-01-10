@@ -25,7 +25,7 @@ const
 {$Endif}
 
 const
-  VersionAS   = '0.2.7'; // Версия программы
+  VersionAS   = '0.3.2'; // Версия программы
   TempLogName = 'log.txt';
 // Имя временного лог файла (отправляемого по почте)
 
@@ -61,10 +61,22 @@ const           // Константы типа задачи
   ttSync   = 3; //Сихронизирование
   ttArhRar = 5; //Архивирование Rar
   ttArhZip = 4; //Архивирование Zip
+  ttArh7Zip =6; //Архивирование 7Zip
 
 const       // Константы типа сортировки файлов источника
   tsNoMask = 0; // Исключая
   tsMask   = 1; // Только по маске
+
+type               // Список файлов для обработки удаления старых архивов
+    TArhList=record
+    NameFile:string;  // Имя файла
+    DateFile:TDateTime; // Дата файла
+    IsYear:boolean; // Годовой
+    IsMonth:boolean; // Месячный
+    IsDay:boolean;  // Дневной
+    IsStay:boolean; // Не удалять (все вместе, дубляж)
+    end;
+
 
 type // Тип ProgressType для типа события OnProgress
   ProgressType = (NewFile, ProgressUpdate, EndOfBatch, TotalFiles2Process,
@@ -173,12 +185,12 @@ type
     procedure LogMessage(MesStrings: TStringList);
     //function ArhDir(sourdir,destdir:string;arhname:string):boolean;
     function ArhRarDir(NumTask: integer): integer;
+    //function ArhZipDir(numtask: integer): integer;
+    function Arh7zipDir(NumTask: integer): integer;
 
-    function ArhZipDir(numtask: integer): integer;
-    procedure GetFileList(sordir: string; NumTask: integer;
-      var FileList: TStrings; recurse: boolean; ForZip: boolean);
-    function GetArhName(numtask: integer; ext: string): string;
-    procedure DelOldArhs(NumTask: integer);
+
+
+
     //  procedure DelOldArhs(dir,arhname:string;olddays,oldMonths,OldYears:integer);
     //  function WinExecute(CmdLine: string; Wait: Boolean): Boolean;
 
@@ -215,8 +227,11 @@ type
     // Выполнение внешней программы (платформо независимая)
     function ExecProc(const FileName, Param: string; const Wait: boolean): integer;
 
-    function BuildRarFileList(NumTask: integer): string;
+    function BuildRarFileList(NumTask: integer): string; // Построение командной строки для архивации RAR
 
+    function Build7zipFileList(NumTask:integer):string; // Построение командной строки для архивации 7zip
+    procedure GetFileList(sordir: string; NumTask: integer; var FileList: TStrings; recurse: boolean; ForZip: boolean);
+    function GetArhName(numtask: integer): string;
     // Выполнение внешней программы (Win)
   //  function WinExec(const FileName, Param: string; const Wait: boolean;const WinState: word): boolean;
 
@@ -225,6 +240,11 @@ type
     Function DosToWin(Const S: String) : String;
     //  function CompareFileDate (aDate,bDate:integer):boolean;
     function CompareFileDate(aFileName, bFileName: string): boolean;
+
+    procedure DelOldArhs(NumTask: integer);
+ //   function MinInMonth(ArhList:TArhList;FindDate:TDateTime):integer;
+//    function MinInYear(ArhList:TArhList;FindDate:TDateTime):integer;
+    function MinInRange(ArhList:array of TArhList;DateBeg,DateEnd:TDateTime):integer;
 
     procedure SaveToXMLFile(filenam: string);
     procedure LoadFromXMLFile(filenam: string);
@@ -871,6 +891,7 @@ function TTaskCl.RunTask(num: integer; countsize: boolean): integer;
 var
   AlertMes:  string;// TStrings; // Сообщение высылаемое на почту
   str, subj: string;
+  SorPath,DestPath:string;
   AlertType: integer; // Тип уведомлений на почту
   SendMail:  TSendMail;
   // LastRun:TDateTime;
@@ -932,51 +953,64 @@ begin
     end;
   end;
 
+  SorPath:=ReplDate(Tasks[num].SorPath);
+  SorPath:=Utf8toansi(SorPath);
+  DestPath:=ReplDate(Tasks[num].DestPath);
+  DestPath:=Utf8toansi(DestPath);
+
   if Tasks[num].Action = ttCopy then // Копирование
   begin
-    str := Format(misc(rsLogCopy, 'rsLogCopy'), [Tasks[num].SorPath, Tasks[num].DestPath]);
+    str := Format(misc(rsLogCopy, 'rsLogCopy'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
     LogMessage(str);
-    Result := CopyDirs(Utf8ToAnsi(Tasks[num].SorPath), Utf8ToAnsi(
-      Tasks[num].DestPath), num, False, Countsize);
+
+    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
     //Result:=SyncDirs(Tasks[num].SorPath,Tasks[num].DestPath,0,Tasks[num].NTFSPerm,false);
-    Tasks[num].LastResult := Result;
-    Tasks[num].LastRunDate := Now;
+  //  Tasks[num].LastResult := Result;
+  //  Tasks[num].LastRunDate := Now;
   end;
   if Tasks[num].Action = ttSync then // Синхронизирование
   begin
-    str := Format(misc(rsLogSync, 'rsLogSync'), [Tasks[num].SorPath, Tasks[num].DestPath]);
+    str := Format(misc(rsLogSync, 'rsLogSync'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
     LogMessage(str);
-    Result := CopyDirs(Utf8ToAnsi(Tasks[num].SorPath), Utf8ToAnsi(
-      Tasks[num].DestPath), num, False, Countsize);
-    Tasks[num].LastResult := Result;
-    Tasks[num].LastRunDate := Now;
+    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
+  //  Tasks[num].LastResult := Result;
+  //  Tasks[num].LastRunDate := Now;
   end;
   if Tasks[num].Action = ttZerk then // Зеркалирование
   begin
     str := Format(misc(rsLogMirror, 'rsLogMirror'),
-      [Tasks[num].SorPath, Tasks[num].DestPath]);
+      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
     LogMessage(str);
-    Result := CopyDirs(Utf8ToAnsi(Tasks[num].SorPath), Utf8ToAnsi(
-      Tasks[num].DestPath), num, False, Countsize);
-    Tasks[num].LastResult := Result;
-    Tasks[num].LastRunDate := Now;
+    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
+  //  Tasks[num].LastResult := Result;
+  //  Tasks[num].LastRunDate := Now;
   end;
   if Tasks[num].Action = ttArhRar then // Архивирование Rar
   begin
     str := Format(misc(rsLogArcRar, 'rsLogArcRar'),
-      [Tasks[num].SorPath, Tasks[num].DestPath]);
+      [ReplDate(Tasks[num].SorPath),ReplDate( Tasks[num].DestPath)]);
     LogMessage(str);
     Result := ArhRarDir(num);
-    Tasks[num].LastResult := Result;
-    Tasks[num].LastRunDate := Now;
+ //   Tasks[num].LastResult := Result;
+ //   Tasks[num].LastRunDate := Now;
   end;
   if Tasks[num].Action = ttArhZip then // Архивирование Zip
   begin
     str := Format(misc(rsLogArcZip, 'rsLogArcZip'),
-      [Tasks[num].SorPath, Tasks[num].DestPath]);
+      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
     LogMessage(str);
-    Result := ArhZipDir(num);
+    Result := Arh7ZipDir(num);
   end;
+  if Tasks[num].Action = ttArh7zip then // Архивирование 7zip
+  begin
+    str := Format(misc(rsLogArc7Zip, 'rsLogArc7Zip'),
+      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+    LogMessage(str);
+    Result := Arh7zipDir(num);
+  //  Tasks[num].LastResult := Result;
+  //  Tasks[num].LastRunDate := Now;
+  end;
+
 
   if Tasks[num].ExtProgs.AfterStart then
     // Запуск внешней программы после задания
@@ -1053,20 +1087,26 @@ begin
   //AlertMes.Free;
 end;
 //=========================================================
-//Получение имени архива ext-расширение файла (.zip,.rar)
-function TTaskCl.GetArhName(numtask: integer; ext: string): string;
+//Получение имени архива
+function TTaskCl.GetArhName(numtask: integer): string;
 var
   ResName: string;
+  ext:string; // расширение
   // SorPath,DestPath:String;
 begin
   //SorPath:=ReplaceNameDisk(Tasks[numtask].SorPath);
   //DestPath:=ReplaceNameDisk(Tasks[numtask].DestPath);
-
+  ext:='';
   //DateTimeToString(ResName,'YYMMDD',Now);
   ResName := ReplDate(Tasks[numtask].Arh.Name);
+  case Tasks[NumTask].Action of
+  ttArhRar: ext:='.rar';
+  ttArhZip: ext:='.zip';
+  ttArh7zip: ext:='.7z';
+  end;
   // Замена спец символов на дату
   //ResName:=Tasks[numtask].DestPath+slash+Tasks[numtask].Arh.Name+ResName+ext;
-  ResName := Tasks[numtask].DestPath + slash + ResName + ext;
+  ResName := ReplDate(Tasks[numtask].DestPath) + slash + ResName + ext;
 {
 if FileExists(ResName) then // архивация уже выполнялась в этот день
    begin
@@ -1074,7 +1114,7 @@ if FileExists(ResName) then // архивация уже выполнялась 
    ResName:=Tasks[numtask].DestPath+slash+Tasks[numtask].Arh.Name+ResName+ext;
    end;
    }
-  Result  := ResName;
+  Result  := utf8toansi(ResName);
 end;
 //------------------------------------------------------------------------
 {Замена всяких символов типа %date% в строке на текущую дату}
@@ -1176,6 +1216,7 @@ begin
 end;
  //===========================================================
  // Архивация директории zip
+{
 function TTaskCl.ArhZipDir(numtask: integer): integer;
   //var
   // zipfname,str:string;
@@ -1258,6 +1299,8 @@ DelOldArhs(numtask);
 //Result:=true;
 }
 end;
+}
+
 //==========================================================
 // Создание файла исключений, генерация командной строки для архивации rar
 function TTaskCl.BuildRarFileList(NumTask: integer): string;
@@ -1315,6 +1358,97 @@ begin
   Result := res;
   FileList.Free;
 end;
+//==========================================================
+// Создание командной строки для архивации 7zip  (без 7z.exe)
+function TTaskCl.Build7zipFileList(NumTask: integer): string;
+var
+  FileList: TStrings;
+  tmpfile:  string;
+  res:      string;
+  cmdstr: string; // Генерируемая строка
+  arhname:string;
+  arhsor:string; // Что архивировать
+  i: integer;
+begin
+
+  arhname := GetArhName(numtask);
+  //arhname:=utf8toansi(arhname);
+  arhsor:=ReplDate(Tasks[NumTask].SorPath);
+  arhsor:=utf8toansi(arhsor)+slash+'*'; // По умолчанию все
+  //7z a -tzip archive.zip *.txt -x!temp.*
+  cmdstr:='a '+arhname;
+  if Tasks[NumTask].Action=ttArhZip then // архивация zip
+   begin
+   cmdstr:=cmdstr+' -tzip'; // архивация зип
+   end;
+
+
+
+  if Tasks[NumTask].SourceFilt.Recurse then // рекурсивно
+     begin
+      cmdstr:=cmdstr+' -r';
+     end
+    else         // не рекурсивно
+      begin
+       cmdstr:=cmdstr+' -r-';
+      end;
+ {
+  if not Tasks[NumTask].SourceFilt.FiltSubDir and not
+    Tasks[NumTask].SourceFilt.FiltFiles then
+    // нет исключений
+  begin
+    cmdstr:=cmdstr+' '+utf8toansi(Tasks[NumTask].SorPath)+slash+'*'; // Добавление списка архивируемых файлов
+    Result:=cmdstr;
+    exit;
+  end;
+  }
+
+  // Исключение директорий
+  if Tasks[NumTask].SourceFilt.FiltSubDir then
+  begin
+    for i := 0 to Tasks[NumTask].SourceFilt.SubDirs.Count - 1 do
+    begin
+   //   cmdstr := cmdstr + ' -xr!""' + utf8toansi(Tasks[numtask].SorPath) + slash +
+      cmdstr := cmdstr + ' -xr!""' + utf8toansi(Tasks[NumTask].SourceFilt.SubDirs[i])+slash+'*"" ';
+    end;
+  end;
+
+  // исключение файлов
+  if Tasks[NumTask].SourceFilt.FiltFiles then
+  begin
+    // Если исключать файлы
+    if Tasks[NumTask].SourceFilt.ModeFiltFiles=tsNoMask then // Файлы исключаются
+      begin
+      for i := 0 to Tasks[NumTask].SourceFilt.FileMask.Count - 1 do
+        begin
+         cmdstr := cmdstr + ' -xr!'+utf8toansi(Tasks[NumTask].SourceFilt.FileMask[i]);
+        end;
+      end
+     else // Обрабатывать только эти файлы
+       begin
+       if Tasks[NumTask].SourceFilt.FileMask.Count=1 then // в списке только одно исключение
+         begin
+         arhsor:=utf8toansi(ReplDate(Tasks[NumTask].SorPath))+slash+Tasks[NumTask].SourceFilt.FileMask[0];
+         end
+        else // в списке несколько исключений, делаем файл со списком файлов
+          begin
+           tmpfile := ExtractFileDir(ParamStr(0)) + slash + 'tmp.txt';
+           FileList := TStringList.Create;
+           for i := 0 to Tasks[NumTask].SourceFilt.FileMask.Count - 1 do
+               begin
+                 FileList.Add(utf8toansi(Tasks[NumTask].SorPath)+slash+utf8toansi(Tasks[NumTask].SourceFilt.FileMask[i]));
+               end;
+           FileList.SaveToFile(tmpfile);
+           FileList.Free;
+           arhsor:='@"'+tmpfile+'"';
+          end;
+       end;
+  end;
+
+  cmdstr:=cmdstr+' '+arhsor; // Добавление списка архивируемых файлов
+  Result:=cmdstr;
+end;
+
  //=====================================================
  // Копирование задания
 procedure TTaskCl.DublicateTask(NumTask: integer);
@@ -1325,6 +1459,7 @@ begin
   AddTask;
   CopyTask(numtask, Count);
   Tasks[Count].Name := misc(rsCopyPerfix, 'rsCopyPerfix') + ' ' + Tasks[numtask].Name;
+  Tasks[Count].LastRunDate:=0;
 end;
  //===========================================================
  // Архивация Rar директории sourdir в директорию destdir
@@ -1337,38 +1472,14 @@ var
   ExitCode:    integer;
   // tmpstr:TStrings;
 begin
-  SorPath := utf8toansi(Tasks[numtask].SorPath);
+  SorPath:=ReplDate(Tasks[numtask].SorPath);
+  SorPath := utf8toansi(SorPath);
   //DestPath:=utf8toansi(Tasks[numtask].DestPath);
 
   if not CheckDirs(NumTask) then
     exit; // Проверка существования каталогов
-{
-// Проверка существования каталогов источника и приемника
-if NOT DirectoryExists(SorPath) then
-  begin
-  str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[Tasks[numtask].SorPath]);
-  LogMessage(str);
-  Result:=trError;
-  exit;
-  end;
-if NOT DirectoryExists(SorPath) then // каталог приемник не существует
-  begin
-  if ForceDirectories(SorPath) then // он успешно создан
-    begin
-    str:=Format(misc(rsLogDirCreated,'rsLogDirCreated'),[Tasks[numtask].DestPath]);
-    LogMessage(str);
-    end
-   else
-    begin
-     str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[Tasks[numtask].DestPath]);
-     LogMessage(str);
-     Result:=trError;
-     exit;
-    end;
-  end;
- }
   Result  := trOk;
-  arhname := GetArhName(numtask, '.rar');
+  arhname := GetArhName(numtask);
   //rarexe:=Getfilenam('rar.exe');
   rarexe  := ExtractFileDir(ParamStr(0)) + slash + 'rar.exe';
   if not FileExists(rarexe) then
@@ -1387,7 +1498,7 @@ if NOT DirectoryExists(SorPath) then // каталог приемник не с�
   if Tasks[numtask].NTFSPerm then
     runstr := runstr + ' -ow '; // NTFS права
   //runstr:=runstr+arhname+' '+Tasks[numtask].SorPath+slash+'*';
-  runstr   := runstr + utf8toansi(arhname) + ' ' + SorPath + slash + '*';
+  runstr   := runstr + arhname + ' ' + SorPath + slash + '*';
 
   //runstr:=rarexe+' a -r -dh -ep1 -u -ibck -ow -y '+arhname+' '+Tasks[numtask].SorPath;
   // a-добавить файлы в архив
@@ -1453,6 +1564,140 @@ if NOT DirectoryExists(SorPath) then // каталог приемник не с�
   //if Tasks[numtask].Arh.DelOldArh then
   DelOldArhs(numtask);
 end;
+ //===========================================================
+ // Архивация 7zip
+function TTaskCl.Arh7zipDir(NumTask: integer): integer;
+var
+  cmdexe, str: string;
+  runstr:      string;
+  arhname:     string;
+  SorPath:     string;
+  ExitCode:    integer;
+  // tmpstr:TStrings;
+begin
+  SorPath:=ReplDate(Tasks[numtask].SorPath);
+  SorPath := utf8toansi(SorPath);
+  arhname:=GetArhName(NumTask);
+  if not CheckDirs(NumTask) then
+    exit; // Проверка существования каталогов
+  Result  := trOk;
+
+  cmdexe  := ExtractFileDir(ParamStr(0)) + slash + '7za.exe';
+  if not FileExists(cmdexe) then
+  begin
+    LogMessage(misc(rsLog7zipNotFound, 'rsLog7zipNotFound'));
+    Result := trError;
+    exit;
+  end;
+
+  runstr := Build7zipFileList(NumTask); // Параметры запуска
+
+  ExitCode := ExecProc(cmdexe, runstr, True);   // Запуск с ожиданием
+  {
+  if ExitCode = 0 then // Все хорошо
+  begin
+    str := Format(misc(rsLogArcCreated, 'rsLogArcCreated'), [arhname]);
+    // Создан архив
+    LogMessage(str);
+    Result := trOk;
+    //  exit;
+  end
+  else //
+  begin
+  }
+       case ExitCode of // Обрабатываем код возврата
+       0: // Все хорошо
+         begin
+         str := Format(misc(rsLogArcCreated, 'rsLogArcCreated'), [ansitoutf8(arhname)]);
+         // Создан архив
+         LogMessage(str);
+         Result := trOk;
+         end;
+       1: // Предупреждение
+         begin
+         str := Format(misc(rsLogArcWarn, 'rsLogArcWarn'), [arhname]);
+         // Создан архив
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+          Result := trFileError;
+         end;
+        2: // Fatal error
+         begin
+         str := Format(misc(rsLogArcErr, 'rsLogArcErr'), [IntToStr(ExitCode), arhname]);
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trError;
+         end;
+        7: // Ошибка командной строки
+         begin
+         str := Format(misc(rsLogArcErrCmd, 'rsLogArcErrCmd'), [arhname]);
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trError;
+         end;
+        8: // Недостаточно памяти
+         begin
+         str := Format(misc(rsLogArcErrMemory, 'rsLogArcErrMemory'), [arhname]);
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trError;
+         end;
+      255: // Прервано пользователем
+         begin
+         str := Format(misc(rsLogArcWarnUserStop, 'rsLogArcWarnUserStop'), [arhname]);
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trFileError;
+         end;
+       else // Неизветсная ошибка
+        begin
+         str := Format(misc(rsLogArcErr, 'rsLogArcErr'), [IntToStr(ExitCode), arhname]);
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trError;
+        end;
+
+       end;
+ {
+       if ExitCode = 1 then // Предупреждение
+         begin
+         str := Format(misc(rsLogArcWarn, 'rsLogArcWarn'), [arhname]);
+         // Создан архив
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+
+         Result := trFileError;
+         //  exit;
+         end
+        else // Обшибка
+         begin
+         str := Format(misc(rsLogArcErr, 'rsLogArcErr'), [IntToStr(ExitCode), arhname]);
+
+         // Ошибка создания архива
+         LogMessage(str);
+         LogMessage(LastStdOut); // Вывод вывода архиватора
+         Result := trError;
+         //  exit;
+         end;
+      }
+ // end;
+
+  //LogMessage('Создан архив '+arhname);
+  // Удаление старых архивов
+  //if Tasks[numtask].Arh.DelOldArh then
+  DelOldArhs(numtask);
+end;
+
+
+
+
+
+
  //==========================================================
  // Удаление файлов архивов в папке dir с именем arhname
  // позднее olddays дней
@@ -1463,12 +1708,14 @@ procedure TTaskCl.DelOldArhs(NumTask: integer);
 var
   olddays, oldMonths, OldYears: integer;
   dir, exten: string;
-  Day, Month: integer;
-  BeforeDate: TDateTime;
+  Col,i,j,Day, Month,year: integer;
+  BeforeDate,DateBeg,DateEnd,CurrDate: TDateTime;
   sr:      TSearchRec;
   FileAttrs: integer;
+
   //  filesync:String;
   sordata: TDateTime; // даты файлов источ и приемника
+  ArhList:array of TArhList;
 
 begin
   if not Tasks[numtask].Arh.DelOldArh then
@@ -1476,14 +1723,95 @@ begin
   dir := Tasks[numtask].DestPath + slash;
   // каталог приемник где ищутся архивы
   //exten:=Tasks[numtask].Arh.Name;
-  if Tasks[numtask].Action = ttArhZip then
-    exten := '*.zip'
-  else
-    exten := '*.rar';
+  if Tasks[numtask].Action = ttArhZip then exten := '*.zip';
+  if Tasks[numtask].Action = ttArh7Zip then exten := '*.7z';
+  if Tasks[numtask].Action = ttArhRar then exten := '*.rar';
   olddays := Tasks[numtask].Arh.DaysOld;
   oldMonths := Tasks[numtask].Arh.MonthsOld;
   oldYears  := Tasks[numtask].Arh.YearsOld;
   FileAttrs := faReadOnly + faHidden + faSysFile + faArchive + faAnyFile;
+// Создаем список всех файлов
+  // Подсчет кол-ва файлов
+  Col:=0;
+  if FindFirst(dir + exten, FileAttrs, sr) = 0 then
+  repeat
+    begin
+    Col:=Col+1;
+    end;
+  until FindNext(sr) <> 0;
+  FindClose(sr);
+  // заполение списка
+  SetLength (ArhList,Col);
+  i:=0;
+  if FindFirst(dir + exten, FileAttrs, sr) = 0 then
+  repeat
+    begin
+
+    ArhList[i].DateFile:=FileDateToDateTime(sr.Time);
+    ArhList[i].NameFile:=sr.Name;
+    ArhList[i].IsStay:=false;
+    i:=i+1;
+    end;
+  until (FindNext(sr) <> 0) and (i<=Col);
+  FindClose(sr);
+// Помечаем в списке файлы которые нужно оставить
+// Дневные
+CurrDate:=Now;
+if olddays > 0 then
+    begin
+    beforedate := IncDay(CurrDate, -olddays);
+    // Обходим все файлы ищем те которые позже beforedate
+    for i:=0 to Col-1 do
+      begin
+        if CompareDateTime(ArhList[i].DateFile, beforedate) > -1 then ArhList[i].IsStay:=true;
+      end;
+    end;
+// Ежемесячные
+if oldmonths > 0 then
+   begin
+    for i:=0 to oldmonths do // перебираем все месяцы по порядку
+     begin
+     beforedate := IncMonth(CurrDate, -i);
+     month:=MonthOf(beforedate);
+     year:=YearOf(beforedate);
+     day:=DaysInMonth(beforedate);
+     DateBeg:=EncodeDate(year,month,1); // Диапазон месяц
+     DateEnd:=EncodeDate(year,month,day);
+     // Ищем файл с мин датой в диапазоне
+     j:=MinInRange(ArhList,DateBeg,DateEnd);
+     if j>-1 then ArhList[j].IsStay:=true;
+     end;
+   end;
+// Годовые
+if oldyears > 0 then
+   begin
+    for i:=0 to oldyears do // перебираем все года по порядку
+     begin
+     beforedate := IncYear(CurrDate, -i);
+     //month:=MonthOf(beforedate);
+     year:=YearOf(beforedate);
+     //day:=DaysInMonth(beforedate);
+     DateBeg:=EncodeDate(year,1,1); // Диапазон год
+     DateEnd:=EncodeDate(year,12,31);
+     // Ищем файл с мин датой в диапазоне
+     j:=MinInRange(ArhList,DateBeg,DateEnd);
+     if j>-1 then ArhList[j].IsStay:=true;
+     end;
+   end;
+// Удаляем не помеченные файлы
+for i:=0 to Col-1 do
+      begin
+        if Not ArhList[i].IsStay then DelFile(dir + ArhList[i].NameFile);
+      end;
+
+
+
+
+
+
+
+{
+
   if FindFirst(dir + exten, FileAttrs, sr) = 0 then
   begin
     repeat
@@ -1545,6 +1873,7 @@ begin
     until FindNext(sr) <> 0;
     FindClose(sr);
   end;
+  }
 {
 // удаление интервальных дневных архивов
 if FindFirst(dir+'\'+arhname+'??????????.rar', FileAttrs, sr) = 0 then
@@ -1565,6 +1894,31 @@ if FindFirst(dir+'\'+arhname+'??????????.rar', FileAttrs, sr) = 0 then
     end;
     }
 end;
+//==============================================================
+// Поиск файла в списке архивов с минимальной датой из заданного диапазона (края диапазона включаются в поиск)
+// Нужна для DelOldArhs
+// Возвращает индекс найденного файла, или -1 если ничего не найдено
+function TTaskCl.MinInRange(ArhList:array of TArhList;DateBeg,DateEnd:TDateTime):integer;
+var
+  i,len:integer;
+  MinDate:TDateTime;
+begin
+len:=Length(ArhList);
+MinDate:=IncDay(DateEnd,10);
+Result:=-1;
+for i:=0 to len do
+    begin
+    if (CompareDateTime(ArhList[i].DateFile,DateBeg)>-1) and (CompareDateTime(ArhList[i].DateFile,DateEnd)<1) then // Дата файла в диапазоне
+         begin
+          if CompareDateTime(ArhList[i].DateFile,MinDate)<0 then // Дата файла меньше чем текущий мин
+             begin
+             MinDate:=ArhList[i].DateFile;
+             Result:=i;
+             end;
+         end;
+    end;
+end;
+
  //==============================================================
  // Удаление файла с записью в лог
 function TTaskCl.DelFile(namef: string): boolean;
@@ -2687,8 +3041,8 @@ var
   dir, syncdir, dira, syncdira: string;
   str: string;
 begin
-  dir      := Tasks[NumTask].SorPath;
-  syncdir  := Tasks[NumTask].DestPath;
+  dir      := ReplDate(Tasks[NumTask].SorPath);
+  syncdir  := ReplDate(Tasks[NumTask].DestPath);
   dira     := Utf8ToAnsi(dir);
   syncdira := Utf8ToAnsi(syncdir);
   if not DirectoryExists(dira) then

@@ -11,11 +11,12 @@ uses
 
 
 const       // Константы типа задачи
-  ttCopy=1; // Копирование
-  ttZerk=2; //Зеркалирование
-  ttSync=3; //Сихронизирование
-  ttArhRar=5; //Архивирование Rar
-  ttArhZip=4; // Архивирование Zip
+ ttCopy   = 1; // Копирование
+  ttZerk   = 2; //Зеркалирование
+  ttSync   = 3; //Сихронизирование
+  ttArhRar = 5; //Архивирование Rar
+  ttArhZip = 4; //Архивирование Zip
+  ttArh7Zip =6; //Архивирование 7Zip
 
 type
 
@@ -210,13 +211,14 @@ if DestDir='' then
  ShowMessage(misc(rsEnterDest,'rsEnterDest'));
  exit;
  end;
-if (Not DirectoryExists(SorDir)) then // Не задан источник
+
+if (Not DirectoryExists(SorDir)) and (Pos('%',SorDir)=0) then // Не задан источник
  begin
  str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[EditSor.Text]);
  ShowMessage(str);
  exit;
  end;
-if (Not DirectoryExists(DestDir)) then // Не задан приемник
+if (Not DirectoryExists(DestDir)) and (Pos('%',DestDir)=0) then // Не задан приемник
  begin
  str:=Format(misc(rsDirNotExsistCreate,'rsDirNotExsistCreate'),[EditDest.Text]);
  if MessageDlg(str, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
@@ -238,6 +240,16 @@ if CBoxAct.ItemIndex=-1 then // Не задано действие
  ShowMessage(misc(rsSelectAction,'rsSelectAction'));
  exit;
  end;
+
+if (CBoxAct.ItemIndex=ttArhRar-1) or (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
+  begin
+  if EditArhNam.Text='' then // Не задано имя архива
+   begin
+   ShowMessage(misc(rsNoArcName,'rsNoArcName'));
+   exit;
+   end;
+  end;
+
 if CBoxAct.ItemIndex=ttArhRar-1 then
  begin
   if Not FileExists(ExtractFileDir(ParamStr(0))+'\rar.exe') then
@@ -245,23 +257,17 @@ if CBoxAct.ItemIndex=ttArhRar-1 then
    ShowMessage(misc(rsNoRar,'rsNoRar'));
    exit;
    end;
- if EditArhNam.Text='' then // Не задано имя архива
-  begin
-  ShowMessage(misc(rsNoArcName,'rsNoArcName'));
-  exit;
-  end;
  end;
 
-if CBoxAct.ItemIndex=ttArhZip-1 then
+if (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
  begin
- ShowMessage(misc(rsLogNoZipDll,'rsLogNoZipDll'));// Зип не поддерживается
- exit;
- if EditArhNam.Text='' then // Не задано имя архива
-  begin
-  ShowMessage(misc(rsNoArcName,'rsNoArcName'));
-  exit;
-  end;
+  if Not FileExists(ExtractFileDir(ParamStr(0))+'\7za.exe') then // Нет файла 7z.exe
+   begin
+   ShowMessage(misc(rsNo7zip,'rsNo7zip'));
+   exit;
+   end;
  end;
+
 MForm.TaskCl.Tasks[numTask].Name:=EditName.Text;
 MForm.TaskCl.Tasks[numTask].SorPath:=EditSor.Text;
 MForm.TaskCl.Tasks[numTask].DestPath:=EditDest.Text;
@@ -422,8 +428,14 @@ if CBoxAct.ItemIndex<3 then
       Label10.Caption:='.zip';
       NTFSCheck.Checked:=false;
       NTFSCheck.Enabled:=false;
-      end
-   else
+      end;
+ if CBoxAct.ItemIndex=ttArh7Zip-1 then
+     begin
+      Label10.Caption:='.7z';
+      NTFSCheck.Checked:=false;
+      NTFSCheck.Enabled:=false;
+      end;
+  if CBoxAct.ItemIndex=ttArhRar-1 then
      begin
      Label10.Caption:='.rar';
      NTFSCheck.Enabled:=true;
@@ -498,7 +510,7 @@ if FiltFilesCheck.Checked then
    EditFileMask.Enabled:=false;
   end;
 
-  NTFSCheck.Enabled:=true;
+//  NTFSCheck.Enabled:=true;
 //  SpeedButton1.Enabled:=true;
 
 end;

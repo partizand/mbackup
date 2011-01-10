@@ -45,6 +45,7 @@ MForm.ActOpenProfile.Caption=
 MForm.ActAddProfile.Caption=  
 MForm.ActSaveProf.Caption= 
 MForm.ActHelp.Caption=
+MForm.ActCopy.Caption=Copy
 
 [FormSet]
 FormSet.Caption=Program settings
@@ -93,6 +94,7 @@ FormTask.CBoxAct.Items[1]=Mirror
 FormTask.CBoxAct.Items[2]=Sync
 FormTask.CBoxAct.Items[3]=Arh ZIP
 FormTask.CBoxAct.Items[4]=Arh RAR
+FormTask.CBoxAct.Items[5]=Arh 7zip
 FormTask.GroupBox6.Caption=Destination
 FormTask.GroupBox7.Caption=External programs
 FormTask.BeforeCheck.Caption=Run before
@@ -117,7 +119,7 @@ FormTask.cbAlert.Items[2]=Always
 
 FormTask.GroupBox10.Caption=Other
 FormTask.OnceDayCheck.Caption=Once in day
-
+FormTask.NTFSCheck.Caption=Copy NTFS perm
 
 [FormAbout]
 FormAbout.Caption=About AutoSave
@@ -198,5 +200,19 @@ rsAlertTestErr=Eror send email: %s
 rsLogFileDateErr=[Error] Can't read file date %s
 rsLogFileDateErrEx=[Error] Can't read files date %s, %s. %s
 rsLogArcErr=[Error] RAR finished with error (Exit code %s). Arh: %s
-rsLogArcWarn=[Warning] RAR finished with warning. Arh: %s
+
 rsLogExtProgErrEx=[Error] External program %s throw exception %s
+
+
+rsLogDirCreateErr=[Error] Can't create dir %s. %s
+rsLogArcWarn=[Warning] Archiver finished with warning. Arh name: %s
+rsLogDelDirErr=[Error] Can't delete dir %s. %s
+rsLogFileDateErr=[Warning] Can't get file date %s
+rsLogFileDateErrEx=[Warning] Can't get files date %s, %s. %s
+rsLog7zipNotFound=[Error] 7z.exe not found
+rsLogArcErrCmd=[Error] Archiver finished with error. Command line error. Arh name: %s
+rsLogArcErrMemory=[Error] Archiver finished with error. Not enough memory for operation. Arh name: %s
+rsLogArcWarnUserStop=[Warning] Archiver finished with warning. User stopped the process. Arh name: %s
+rsLogArc7Zip=Arh 7zip %s in %s
+rsNo7zip=7za.exe not found, can't archive
+rsArc7Zip=Arh 7zip

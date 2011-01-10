@@ -1,7 +1,7 @@
 object MForm: TMForm
-  Left = 352
+  Left = 370
   Height = 294
-  Top = 249
+  Top = 268
   Width = 723
   ActiveControl = ListTask
   Align = alTop
@@ -256,6 +256,10 @@ object MForm: TMForm
         Action = ActDown
         OnClick = ActDownExecute
       end
+      object mnutCopy: TMenuItem
+        Action = ActCopy
+        OnClick = ActCopyExecute
+      end
     end
     object mnutSetmain: TMenuItem
       Caption = 'Настройки'
@@ -341,6 +345,10 @@ object MForm: TMForm
       Caption = 'Помощь'
       OnExecute = ActHelpExecute
       ShortCut = 112
+    end
+    object ActCopy: TAction
+      Caption = 'Копировать'
+      OnExecute = ActCopyExecute
     end
   end
   object ImageList1: TImageList

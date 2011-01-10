@@ -23,6 +23,7 @@ type
     ActAbout: TAction;
     ActAddProfile: TAction;
     ActHelp: TAction;
+    ActCopy: TAction;
     ActSaveProf: TAction;
     ActOpenProfile: TAction;
     ActNewProfile: TAction;
@@ -34,6 +35,7 @@ type
     ListTask: TListView;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
+    mnutCopy: TMenuItem;
     mnuSave: TMenuItem;
     mnuHelp: TMenuItem;
     mnuTOpenProfile: TMenuItem;
@@ -72,6 +74,7 @@ type
     procedure ActAboutExecute(Sender: TObject);
     procedure ActAddExecute(Sender: TObject);
     procedure ActAddProfileExecute(Sender: TObject);
+    procedure ActCopyExecute(Sender: TObject);
     procedure ActDelExecute(Sender: TObject);
     procedure ActDownExecute(Sender: TObject);
     procedure ActEditExecute(Sender: TObject);
@@ -166,6 +169,18 @@ if OpenDialog1.Execute then
   FillListTask(-1);
   end;
 end;
+
+procedure TMForm.ActCopyExecute(Sender: TObject);
+var
+ num:integer;
+begin
+if ListTask.SelCount=0 then exit;
+  num:=ListTask.Selected.Index+1;
+  if num<1 then exit;
+  TaskCl.DublicateTask (num);
+  FillListTask(num);
+end;
+
 procedure TMForm.ActAboutExecute(Sender: TObject);
 begin
 Application.CreateForm(TFormAbout, FormAbout); // создание формы
@@ -427,7 +442,8 @@ for i:=1 to TaskCl.Count do
       ListTask.Items.Item[i-1].SubItems.Add(misc(rsArcRar,'rsArcRar'));
      if TaskCl.Tasks[i].Action=ttArhZip then
       ListTask.Items.Item[i-1].SubItems.Add(misc(rsArcZip,'rsArcZip'));
-
+     if TaskCl.Tasks[i].Action=ttArh7Zip then
+      ListTask.Items.Item[i-1].SubItems.Add(misc(rsArc7Zip,'rsArc7Zip'));
 
      ListTask.Items.Item[i-1].SubItems.Add(TaskCl.Tasks[i].DestPath);
      // Время запуска/состояние
@@ -479,6 +495,11 @@ for i:=1 to TaskCl.Count do
     end;
   ListTask.Items.Item[i-1].SubItems.Add(strStatus);
   end;
+
+ // if ListTask.Selected.Index+1<1 then
+//   begin
+//   ActionList1.Actions[1]. ActionByName('ActCopy').;
+//   end;
 {
 if numTask<0 then ListTask. ItemFocused item Selected.Index:=oldItem
   else

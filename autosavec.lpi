@@ -203,6 +203,7 @@
     <SearchPaths>
       <IncludeFiles Value="include\"/>
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\"/>
+      <UnitOutputDirectory Value="compile"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

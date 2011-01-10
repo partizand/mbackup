@@ -292,6 +292,7 @@ object FormTask: TFormTask
         'Синхронизация'
         'Архивация ZIP'
         'Архивация RAR'
+        'Архивация 7zip'
       )
       OnChange = CBoxActChange
       Style = csDropDownList
@@ -303,9 +304,7 @@ object FormTask: TFormTask
       Top = 31
       Width = 140
       Caption = 'Копировать права NTFS'
-      Enabled = False
       TabOrder = 1
-      Visible = False
     end
   end
   object GroupBox6: TGroupBox
