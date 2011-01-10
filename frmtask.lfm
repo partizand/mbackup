@@ -1,11 +1,11 @@
 object FormTask: TFormTask
-  Left = 552
-  Height = 578
-  Top = 215
-  Width = 638
+  Left = 562
+  Height = 587
+  Top = 136
+  Width = 605
   Caption = 'Task settings'
-  ClientHeight = 578
-  ClientWidth = 638
+  ClientHeight = 587
+  ClientWidth = 605
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
@@ -13,16 +13,16 @@ object FormTask: TFormTask
   LCLVersion = '0.9.28.2'
   object pcMenu: TPageControl
     Left = 152
-    Height = 532
+    Height = 541
     Top = 0
-    Width = 486
-    ActivePage = tabArh
+    Width = 453
+    ActivePage = tabSource
     Align = alClient
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 0
     object tabMain: TTabSheet
       Caption = 'tabMain'
-      ClientHeight = 504
+      ClientHeight = 592
       ClientWidth = 478
       TabVisible = False
       object Image1: TImage
@@ -189,19 +189,23 @@ object FormTask: TFormTask
         AnchorSideLeft.Control = groupTaskName
         AnchorSideTop.Control = groupTaskName
         AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = tabMain
+        AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 19
         Top = 74
-        Width = 62
+        Width = 462
+        Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
+        BorderSpacing.Right = 10
         Caption = 'Enabled'
         TabOrder = 1
       end
     end
     object tabSource: TTabSheet
       Caption = 'tabSource'
-      ClientHeight = 504
-      ClientWidth = 478
+      ClientHeight = 513
+      ClientWidth = 445
       TabVisible = False
       object GroupSourceFilt: TGroupBox
         AnchorSideLeft.Control = tabSource
@@ -211,9 +215,9 @@ object FormTask: TFormTask
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = GroupDest
         Left = 6
-        Height = 244
+        Height = 253
         Top = 94
-        Width = 466
+        Width = 433
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoSize = True
         BorderSpacing.Left = 6
@@ -221,8 +225,8 @@ object FormTask: TFormTask
         BorderSpacing.Right = 6
         BorderSpacing.Bottom = 6
         Caption = 'Source filtering'
-        ClientHeight = 226
-        ClientWidth = 462
+        ClientHeight = 235
+        ClientWidth = 429
         TabOrder = 0
         object RecurseCheck: TCheckBox
           AnchorSideLeft.Control = GroupSourceFilt
@@ -244,9 +248,9 @@ object FormTask: TFormTask
           AnchorSideBottom.Control = GroupSourceFilt
           AnchorSideBottom.Side = asrBottom
           Left = 6
-          Height = 185
+          Height = 194
           Top = 35
-          Width = 274
+          Width = 241
           Anchors = [akTop, akLeft, akRight, akBottom]
           AutoSize = True
           BorderSpacing.Left = 6
@@ -254,8 +258,8 @@ object FormTask: TFormTask
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
           Caption = 'Excluded folders'
-          ClientHeight = 167
-          ClientWidth = 270
+          ClientHeight = 176
+          ClientWidth = 237
           TabOrder = 1
           object SubDirBox: TListBox
             AnchorSideLeft.Control = GroupExcludeFold
@@ -266,9 +270,9 @@ object FormTask: TFormTask
             AnchorSideBottom.Control = GroupExcludeFold
             AnchorSideBottom.Side = asrBottom
             Left = 6
-            Height = 66
+            Height = 75
             Top = 95
-            Width = 258
+            Width = 225
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
@@ -282,7 +286,7 @@ object FormTask: TFormTask
             AnchorSideTop.Control = EditExcDir
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = BtnDirDel
-            Left = 127
+            Left = 94
             Height = 25
             Top = 64
             Width = 48
@@ -301,7 +305,7 @@ object FormTask: TFormTask
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = GroupExcludeFold
             AnchorSideRight.Side = asrBottom
-            Left = 181
+            Left = 148
             Height = 25
             Top = 64
             Width = 59
@@ -323,7 +327,7 @@ object FormTask: TFormTask
             Left = 6
             Height = 23
             Top = 35
-            Width = 234
+            Width = 201
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
@@ -371,12 +375,16 @@ object FormTask: TFormTask
           object FiltDirCheck: TCheckBox
             AnchorSideLeft.Control = GroupExcludeFold
             AnchorSideTop.Control = GroupExcludeFold
+            AnchorSideRight.Control = GroupExcludeFold
+            AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 19
             Top = 10
-            Width = 99
+            Width = 225
+            Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 10
+            BorderSpacing.Right = 6
             Caption = 'Exclude folders'
             OnChange = FiltDirCheckChange
             TabOrder = 4
@@ -388,7 +396,7 @@ object FormTask: TFormTask
           AnchorSideTop.Control = GroupExcludeFold
           AnchorSideRight.Control = GroupSourceFilt
           AnchorSideRight.Side = asrBottom
-          Left = 286
+          Left = 253
           Height = 111
           Top = 35
           Width = 170
@@ -440,12 +448,16 @@ object FormTask: TFormTask
           object FiltFilesCheck: TCheckBox
             AnchorSideLeft.Control = GroupProcFiles
             AnchorSideTop.Control = GroupProcFiles
+            AnchorSideRight.Control = GroupProcFiles
+            AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 19
             Top = 10
-            Width = 84
+            Width = 154
+            Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 10
+            BorderSpacing.Right = 6
             Caption = 'Process files'
             OnChange = FiltFilesCheckChange
             TabOrder = 2
@@ -460,7 +472,7 @@ object FormTask: TFormTask
         AnchorSideBottom.Side = asrBottom
         Left = 6
         Height = 62
-        Top = 436
+        Top = 445
         Width = 208
         Anchors = [akLeft, akBottom]
         AutoSize = True
@@ -502,7 +514,7 @@ object FormTask: TFormTask
         Left = 6
         Height = 82
         Top = 6
-        Width = 466
+        Width = 433
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
         BorderSpacing.Left = 6
@@ -511,7 +523,7 @@ object FormTask: TFormTask
         BorderSpacing.InnerBorder = 10
         Caption = 'Source'
         ClientHeight = 64
-        ClientWidth = 462
+        ClientWidth = 429
         ParentBidiMode = False
         TabOrder = 2
         object EditSor: TDirectoryEdit
@@ -621,8 +633,8 @@ object FormTask: TFormTask
         AnchorSideBottom.Control = GroupAction
         Left = 6
         Height = 86
-        Top = 344
-        Width = 466
+        Top = 353
+        Width = 433
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = True
         BorderSpacing.Left = 6
@@ -631,7 +643,7 @@ object FormTask: TFormTask
         BorderSpacing.Bottom = 6
         Caption = 'Destination'
         ClientHeight = 68
-        ClientWidth = 462
+        ClientWidth = 429
         TabOrder = 3
         object EditDest: TDirectoryEdit
           AnchorSideLeft.Control = radioDestFolder
@@ -740,44 +752,36 @@ object FormTask: TFormTask
     end
     object tabArh: TTabSheet
       Caption = 'tabArh'
-      ClientHeight = 504
+      ClientHeight = 592
       ClientWidth = 478
       TabVisible = False
       object ArhBox: TGroupBox
         AnchorSideLeft.Control = tabArh
         AnchorSideTop.Control = tabArh
+        AnchorSideRight.Control = tabArh
+        AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 94
+        Height = 57
         Top = 6
-        Width = 249
+        Width = 466
+        Anchors = [akTop, akLeft, akRight]
         AutoSize = True
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
-        Caption = 'Archive optinos'
-        ClientHeight = 76
-        ClientWidth = 245
+        BorderSpacing.Right = 6
+        Caption = 'Archive name'
+        ClientHeight = 39
+        ClientWidth = 462
         Enabled = False
         TabOrder = 0
         OnClick = ArhBoxClick
-        object LabelArhName: TLabel
-          AnchorSideLeft.Control = ArhBox
-          AnchorSideTop.Control = ArhBox
-          Left = 6
-          Height = 16
-          Top = 6
-          Width = 74
-          BorderSpacing.Left = 6
-          BorderSpacing.Top = 6
-          Caption = 'Archive name'
-          ParentColor = False
-        end
         object LabelExten: TLabel
           AnchorSideTop.Control = EditArhNam
           AnchorSideRight.Control = ArhBox
           AnchorSideRight.Side = asrBottom
-          Left = 220
+          Left = 437
           Height = 16
-          Top = 28
+          Top = 10
           Width = 19
           Anchors = [akTop, akRight]
           BorderSpacing.Right = 6
@@ -786,32 +790,21 @@ object FormTask: TFormTask
         end
         object EditArhNam: TEdit
           AnchorSideLeft.Control = ArhBox
-          AnchorSideTop.Control = LabelArhName
-          AnchorSideTop.Side = asrBottom
+          AnchorSideTop.Control = ArhBox
           AnchorSideRight.Control = LabelExten
+          AnchorSideBottom.Control = ArhBox
+          AnchorSideBottom.Side = asrBottom
           Left = 6
           Height = 23
-          Top = 28
-          Width = 208
-          Anchors = [akTop, akLeft, akRight]
+          Top = 10
+          Width = 425
+          Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 10
           BorderSpacing.Right = 6
+          BorderSpacing.Bottom = 6
           TabOrder = 0
           Text = 'EditArhNam'
-        end
-        object chkDelAfterArh: TCheckBox
-          AnchorSideLeft.Control = ArhBox
-          AnchorSideTop.Control = EditArhNam
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 19
-          Top = 57
-          Width = 156
-          BorderSpacing.Left = 6
-          BorderSpacing.Top = 6
-          Caption = 'Delete files after archiving'
-          TabOrder = 1
         end
       end
       object ArhDelBox: TGroupBox
@@ -824,7 +817,7 @@ object FormTask: TFormTask
         AnchorSideBottom.Side = asrBottom
         Left = 6
         Height = 136
-        Top = 106
+        Top = 69
         Width = 188
         AutoSize = True
         BorderSpacing.Top = 6
@@ -849,22 +842,28 @@ object FormTask: TFormTask
         object LabelMonthly: TLabel
           AnchorSideLeft.Control = ArhDelBox
           AnchorSideTop.Control = EditMonthsOld
+          AnchorSideRight.Control = EditMonthsOld
           Left = 6
           Height = 16
           Top = 60
-          Width = 46
+          Width = 81
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
+          BorderSpacing.Right = 6
           Caption = 'Monthly'
           ParentColor = False
         end
         object LabelYearly: TLabel
           AnchorSideLeft.Control = ArhDelBox
           AnchorSideTop.Control = EditYearsOld
+          AnchorSideRight.Control = EditYearsOld
           Left = 6
           Height = 16
           Top = 89
-          Width = 33
+          Width = 81
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
+          BorderSpacing.Right = 6
           Caption = 'Yearly'
           ParentColor = False
         end
@@ -950,21 +949,219 @@ object FormTask: TFormTask
         object DelArhCheck: TCheckBox
           AnchorSideLeft.Control = ArhDelBox
           AnchorSideTop.Control = ArhDelBox
+          AnchorSideRight.Control = ArhDelBox
+          AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 19
           Top = 6
-          Width = 93
+          Width = 172
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
           Caption = 'Store archives'
           OnChange = DelArhCheckChange
+          TabOrder = 3
+        end
+      end
+      object GroupEncrypt: TGroupBox
+        AnchorSideLeft.Control = tabArh
+        AnchorSideTop.Control = ArhDelBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = ArhDelBox
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 82
+        Top = 211
+        Width = 188
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        Caption = 'Encrypt archive'
+        ClientHeight = 64
+        ClientWidth = 184
+        TabOrder = 2
+        object chkEncrypt: TCheckBox
+          AnchorSideLeft.Control = GroupEncrypt
+          AnchorSideTop.Control = GroupEncrypt
+          AnchorSideRight.Control = GroupEncrypt
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 10
+          Width = 172
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 10
+          BorderSpacing.Right = 6
+          Caption = 'Set password'
+          OnChange = chkEncryptChange
+          TabOrder = 0
+        end
+        object EditArhPass: TEdit
+          AnchorSideLeft.Control = GroupEncrypt
+          AnchorSideTop.Control = chkEncrypt
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = GroupEncrypt
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = GroupEncrypt
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 23
+          Top = 35
+          Width = 172
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          BorderSpacing.Bottom = 6
+          OnKeyPress = EditArhPassKeyPress
+          TabOrder = 1
+          Text = 'EditArhPass'
+        end
+      end
+      object GroupCompress: TGroupBox
+        AnchorSideLeft.Control = ArhDelBox
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = ArhDelBox
+        Left = 200
+        Height = 57
+        Top = 69
+        Width = 168
+        AutoSize = True
+        BorderSpacing.Left = 6
+        Caption = 'Level compress'
+        ClientHeight = 39
+        ClientWidth = 164
+        TabOrder = 3
+        object cbLevelCompress: TComboBox
+          AnchorSideLeft.Control = GroupCompress
+          AnchorSideTop.Control = GroupCompress
+          AnchorSideRight.Control = GroupCompress
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = GroupCompress
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 23
+          Top = 10
+          Width = 152
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 10
+          BorderSpacing.Right = 6
+          BorderSpacing.Bottom = 6
+          ItemHeight = 15
+          Style = csDropDownList
+          TabOrder = 0
+        end
+      end
+      object GroupAddOptions: TGroupBox
+        AnchorSideLeft.Control = tabArh
+        AnchorSideTop.Control = GroupEncrypt
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = tabArh
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 132
+        Top = 299
+        Width = 466
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 6
+        Caption = 'Options'
+        ClientHeight = 114
+        ClientWidth = 462
+        TabOrder = 4
+        object LabelAddOpt: TLabel
+          AnchorSideLeft.Control = GroupAddOptions
+          AnchorSideTop.Control = EditAddOpt
+          Left = 6
+          Height = 16
+          Top = 85
+          Width = 104
+          BorderSpacing.Left = 6
+          Caption = 'Additional switches'
+          ParentColor = False
+        end
+        object EditAddOpt: TEdit
+          AnchorSideLeft.Control = LabelAddOpt
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = chkDelAfterArh
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = GroupAddOptions
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = GroupAddOptions
+          AnchorSideBottom.Side = asrBottom
+          Left = 116
+          Height = 23
+          Top = 85
+          Width = 340
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          BorderSpacing.Bottom = 6
+          TabOrder = 0
+          Text = 'EditAddOpt'
+        end
+        object chkArhOpenFiles: TCheckBox
+          AnchorSideLeft.Control = GroupAddOptions
+          AnchorSideTop.Control = GroupAddOptions
+          AnchorSideRight.Control = GroupAddOptions
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 10
+          Width = 450
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 10
+          BorderSpacing.Right = 6
+          Caption = 'Compress files open for writing'
+          TabOrder = 1
+        end
+        object chkSolid: TCheckBox
+          AnchorSideLeft.Control = GroupAddOptions
+          AnchorSideTop.Control = chkArhOpenFiles
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = GroupAddOptions
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 35
+          Width = 450
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Solid archive'
+          TabOrder = 2
+        end
+        object chkDelAfterArh: TCheckBox
+          AnchorSideLeft.Control = GroupAddOptions
+          AnchorSideTop.Control = chkSolid
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = GroupAddOptions
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 60
+          Width = 450
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 6
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
+          Caption = 'Delete files after archiving (rar only)'
           TabOrder = 3
         end
       end
     end
     object tabOther: TTabSheet
       Caption = 'tabOther'
-      ClientHeight = 504
+      ClientHeight = 592
       ClientWidth = 478
       TabVisible = False
       object GroupNotifi: TGroupBox
@@ -1060,12 +1257,15 @@ object FormTask: TFormTask
         object BeforeCheck: TCheckBox
           AnchorSideLeft.Control = GroupExtProg
           AnchorSideTop.Control = GroupExtProg
+          AnchorSideRight.Control = cbCondBefore
+          AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 19
           Top = 10
           Width = 78
           BorderSpacing.Left = 6
           BorderSpacing.Top = 10
+          BorderSpacing.Right = 6
           Caption = 'Run before'
           OnChange = BeforeCheckChange
           TabOrder = 0
@@ -1074,12 +1274,15 @@ object FormTask: TFormTask
           AnchorSideLeft.Control = GroupExtProg
           AnchorSideTop.Control = BeforeName
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbCondAfter
           Left = 6
           Height = 19
           Top = 68
-          Width = 68
+          Width = 138
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
           Caption = 'Run after'
           OnChange = AfterCheckChange
           TabOrder = 1
@@ -1095,7 +1298,7 @@ object FormTask: TFormTask
           Top = 39
           Width = 309
           DialogOptions = []
-          Filter = 'Выполняемые файлы|*.exe|Все файлы|*.*'
+          Filter = 'Выполняемые файлы|*.exe;*.bat;*.cmd;*.vbs|Все файлы|*.*'
           FilterIndex = 0
           HideDirectories = False
           ButtonWidth = 23
@@ -1115,6 +1318,7 @@ object FormTask: TFormTask
           Top = 97
           Width = 309
           DialogOptions = []
+          Filter = 'Выполняемые файлы|*.exe;*.bat;*.cmd;*.vbs|Все файлы|*'
           FilterIndex = 0
           HideDirectories = False
           ButtonWidth = 23
@@ -1126,14 +1330,13 @@ object FormTask: TFormTask
           TabOrder = 3
         end
         object cbCondBefore: TComboBox
-          AnchorSideLeft.Control = BeforeCheck
-          AnchorSideLeft.Side = asrBottom
+          AnchorSideLeft.Control = GroupExtProg
           AnchorSideTop.Control = GroupExtProg
-          Left = 114
+          Left = 150
           Height = 23
           Top = 10
           Width = 158
-          BorderSpacing.Left = 30
+          BorderSpacing.Left = 150
           BorderSpacing.Top = 10
           ItemHeight = 15
           ItemIndex = 0
@@ -1142,6 +1345,7 @@ object FormTask: TFormTask
             'Ok'
             'Warning'
           )
+          Style = csDropDownList
           TabOrder = 4
           Text = 'Always'
         end
@@ -1149,7 +1353,7 @@ object FormTask: TFormTask
           AnchorSideLeft.Control = cbCondBefore
           AnchorSideTop.Control = BeforeName
           AnchorSideTop.Side = asrBottom
-          Left = 114
+          Left = 150
           Height = 23
           Top = 68
           Width = 158
@@ -1161,6 +1365,7 @@ object FormTask: TFormTask
             'Ok'
             'Warning'
           )
+          Style = csDropDownList
           TabOrder = 5
           Text = 'Always'
         end
@@ -1208,12 +1413,16 @@ object FormTask: TFormTask
         object DelZerkCheck: TCheckBox
           AnchorSideLeft.Control = ZerkDelBox
           AnchorSideTop.Control = ZerkDelBox
+          AnchorSideRight.Control = ZerkDelBox
+          AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 19
           Top = 10
-          Width = 113
+          Width = 145
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 10
+          BorderSpacing.Right = 6
           Caption = 'Store deleted files'
           OnChange = DelZerkCheckChange
           TabOrder = 0
@@ -1241,7 +1450,7 @@ object FormTask: TFormTask
   end
   object tvMenu: TTreeView
     Left = 0
-    Height = 532
+    Height = 541
     Top = 0
     Width = 147
     Align = alLeft
@@ -1261,15 +1470,15 @@ object FormTask: TFormTask
   end
   object Splitter2: TSplitter
     Left = 147
-    Height = 532
+    Height = 541
     Top = 0
     Width = 5
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34
-    Top = 538
-    Width = 626
+    Top = 547
+    Width = 593
     TabOrder = 3
     OnClick = ButtonPanel1Click
     ShowButtons = [pbOK, pbCancel]

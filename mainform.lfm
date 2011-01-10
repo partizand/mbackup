@@ -1,7 +1,7 @@
 object MForm: TMForm
-  Left = 466
+  Left = 461
   Height = 385
-  Top = 292
+  Top = 312
   Width = 780
   ActiveControl = ListTask
   Align = alTop

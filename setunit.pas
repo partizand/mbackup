@@ -42,6 +42,9 @@ type
     mailfrom: string;
     Subj:string; // Тема письма
     Body:string; // Текст письма
+    SubjAlert:string; // Тема письма при параметре -alert
+    BodyAlert:string; // Текст письма при параметре -alert
+
     SysCopyFunc: boolean; // Использовать системную функцию копирования
 
     procedure ReadIni;
@@ -130,8 +133,10 @@ begin
                 smtppass:=DecryptString(cr,KeyStr);
  }
   mailfrom := SaveIniFile.ReadString('alerts', 'mailfrom', 'from@mail');
-  subj := SaveIniFile.ReadString('alerts', 'subj', 'mBackup %Status% %Name%');
+  subj := SaveIniFile.ReadString('alerts', 'subj', 'mBackup %ComputerName% %Status% %Name%');
+  SubjAlert := SaveIniFile.ReadString('alerts', 'SubjAlert', 'mBackup on %ComputerName% %ProgStatus%');
   Body:=SaveIniFile.ReadString('alerts', 'body', 'Task %Name% is %Status%');
+  BodyAlert:=SaveIniFile.ReadString('alerts', 'BodyAlert', 'mBackup on %ComputerName% %ProgStatus%');
   //TrayIcon.MinimizeToTray:=IsClosing;
   //TrayIcon.IconVisible:=IsClosing;
   //IsClosing:=Not (IsClosing);
@@ -168,6 +173,8 @@ begin
   SaveIniFile.WriteString('alerts', 'mailfrom', mailfrom);
   SaveIniFile.WriteString('alerts', 'subj', subj);
   SaveIniFile.WriteString('alerts', 'body', Body);
+  SaveIniFile.WriteString('alerts', 'SubjAlert', SubjAlert);
+  SaveIniFile.WriteString('alerts', 'BodyAlert', BodyAlert);
   // Язык
   //SaveIniFile.WriteString('Language', 'LangFile', LangFile);
   SaveIniFile.WriteString('Language', 'Lang', Lang);

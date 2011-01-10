@@ -150,8 +150,8 @@ if Backup.Count=MaxTasks then exit; // ѕеребор
 Backup.AddTask;
 
 //FormTask.numTask:=Backup.Count;
-if Not ShowTaskForm(Backup.Count) then
-                Backup.DelTask(Backup.Count);
+if Not ShowTaskForm(Backup.Count-1) then
+                Backup.DelTask(Backup.Count-1);
 
 
 // FormTask.Showmodal;
@@ -175,8 +175,8 @@ var
  num:integer;
 begin
 if ListTask.SelCount=0 then exit;
-  num:=ListTask.Selected.Index+1;
-  if num<1 then exit;
+  num:=ListTask.Selected.Index;
+  if num<0 then exit;
   Backup.DublicateTask (num);
   FillListTask(num);
 end;
@@ -213,8 +213,8 @@ var
  num:integer;
 begin
 if ListTask.SelCount=0 then exit;
-num:=ListTask.Selected.Index+1;
-if num>Backup.Count-1 then exit;
+num:=ListTask.Selected.Index;
+if num>Backup.Count-2 then exit;
 Backup.DownTask(num);
 FillListTask(num+1);
 Backup.SaveToFile('');
@@ -225,8 +225,8 @@ var
  num:integer;
 begin
 if ListTask.SelCount=0 then exit;
-  num:=ListTask.Selected.Index+1;
-  if num<1 then exit;
+  num:=ListTask.Selected.Index;
+  if num<0 then exit;
   ShowTaskForm(num);
 end;
 
@@ -286,8 +286,8 @@ var
  num:integer;
 begin
 if ListTask.SelCount=0 then exit;
-num:=ListTask.Selected.Index+1;
-if num<1 then exit;
+num:=ListTask.Selected.Index;
+if num<0 then exit;
 RunThTask(num);
 //ButStart.Down:=false;
 end;
@@ -324,8 +324,8 @@ var
  num:integer;
 begin
 if ListTask.SelCount=0 then exit;
-num:=ListTask.Selected.Index+1;
-if num<2 then exit;
+num:=ListTask.Selected.Index;
+if num<1 then exit;
 Backup.UpTask(num);
 FillListTask(num-1);
 Backup.SaveToFile('');
@@ -437,31 +437,31 @@ var
  frmTime:string;
 begin
 if ListTask.SelCount>0 then
-    olditem:=ListTask. Selected.Index  //ListTask.ItemIndex;
+    olditem:=ListTask.Selected.Index  //ListTask.ItemIndex;
   else
     olditem:=-1;
 ListTask.Items.Clear;
 // «апись задач
-for i:=1 to Backup.Count do
+for i:=0 to Backup.Count-1 do
  begin
      ListTask.Items.Add;
-     ListTask.Items.Item[i-1].Caption:=Backup.Tasks[i].Name;
+     ListTask.Items.Item[i].Caption:=Backup.Tasks[i].Name;
      //ListTask.Items.Item[i-1].Checked:=true;
-     ListTask.Items.Item[i-1].SubItems.Add(Backup.GetNameFS(Backup.Tasks[i].SrcFSParam));
+     ListTask.Items.Item[i].SubItems.Add(Backup.GetNameFS(Backup.Tasks[i].SrcFSParam));
      if Backup.Tasks[i].Action=ttCopy then
-      ListTask.Items.Item[i-1].SubItems.Add(rsCopyng);
+      ListTask.Items.Item[i].SubItems.Add(rsCopyng);
      if Backup.Tasks[i].Action=ttZerk then
-      ListTask.Items.Item[i-1].SubItems.Add(rsMirror);
+      ListTask.Items.Item[i].SubItems.Add(rsMirror);
      if Backup.Tasks[i].Action=ttSync then
-      ListTask.Items.Item[i-1].SubItems.Add(rsSync);
+      ListTask.Items.Item[i].SubItems.Add(rsSync);
      if Backup.Tasks[i].Action=ttArhRar then
-      ListTask.Items.Item[i-1].SubItems.Add(rsArcRar);
+      ListTask.Items.Item[i].SubItems.Add(rsArcRar);
      if Backup.Tasks[i].Action=ttArhZip then
-      ListTask.Items.Item[i-1].SubItems.Add(rsArcZip);
+      ListTask.Items.Item[i].SubItems.Add(rsArcZip);
      if Backup.Tasks[i].Action=ttArh7Zip then
-      ListTask.Items.Item[i-1].SubItems.Add(rsArc7Zip);
+      ListTask.Items.Item[i].SubItems.Add(rsArc7Zip);
 
-     ListTask.Items.Item[i-1].SubItems.Add(Backup.GetNameFS(Backup.Tasks[i].DstFSParam));
+     ListTask.Items.Item[i].SubItems.Add(Backup.GetNameFS(Backup.Tasks[i].DstFSParam));
      // ¬рем€ запуска/состо€ние
      strStatus:='';
      strstend:='';
@@ -474,7 +474,7 @@ for i:=1 to Backup.Count do
          strStatus:=rsIsWaiting+ ' (';
      if Backup.Tasks[i].Enabled then
        begin
-       ListTask.Items.Item[i-1].SubItems.Add(strStatus+rsYes+strstend);
+       ListTask.Items.Item[i].SubItems.Add(strStatus+rsYes+strstend);
 {
         if Backup.Tasks[i].Rasp.Manual then
           begin
@@ -494,7 +494,7 @@ for i:=1 to Backup.Count do
 
       else
        begin
-       ListTask.Items.Item[i-1].SubItems.Add(strStatus+rsNo+strstend);
+       ListTask.Items.Item[i].SubItems.Add(strStatus+rsNo+strstend);
        end;
   // —осто€ние последнего запуска
   if Backup.Tasks[i].LastRunDate=0 then // еще ни разу не запускалась
@@ -509,7 +509,7 @@ for i:=1 to Backup.Count do
      DateTimeToString(frmTime,'DD.MM.YY HH:MM',Backup.Tasks[i].LastRunDate);
      strStatus:=strStatus+' '+frmTime;
     end;
-  ListTask.Items.Item[i-1].SubItems.Add(strStatus);
+  ListTask.Items.Item[i].SubItems.Add(strStatus);
   end;
 
  // if ListTask.Selected.Index+1<1 then
@@ -525,8 +525,8 @@ if numTask<0 then
     end
   else
     begin
-    if (numTask>0) and (numTask<=ListTask.Items.Count) then
-        ListTask.Items[numTask-1].Selected:=true;// ItemIndex:=numTask-1;
+    if (numTask>=0) and (numTask<=ListTask.Items.Count-1) then
+        ListTask.Items[numTask].Selected:=true;// ItemIndex:=numTask-1;
 
     end;
 end;
@@ -635,6 +635,7 @@ estr:=Backup.ReadArgv(IsProfile);
 // ≈сли есть параметр -r запуск заданий
 if estr {or (NOT AutoOnlyClose))} then // автозапуск заданий
     begin
+      if Backup.AlertStart then Backup.SendAlert(rsStarted);
       if RunAllTasks then
         begin
         ParamRun:=true;
@@ -661,7 +662,7 @@ var
   k:integer;
 begin
 Result:=false;
-  for k:=1 to Backup.Count do
+  for k:=0 to Backup.Count-1 do
            begin
            // «адание включено                      (и на запуск при запуске)
            if Backup.Tasks[k].Enabled  then //and Backup.Tasks[k].Rasp.AtStart
@@ -779,8 +780,8 @@ procedure TMForm.RunThTask(numT:integer);
 // num:integer;
 // taskth:TTaskThread;
 begin
-if numt<1 then exit;
-if numt>Backup.Count then exit;
+if numt<0 then exit;
+if numt>Backup.Count-1 then exit;
 if taskcount=0 then // нет запущенных потоков
   begin
    taskcount:=1;
@@ -819,6 +820,10 @@ if numRun=-1 then // в очереди ничего нет
    if Backup.ParamQ then // если указан параметр автозавершени€
      begin
      IsClosing:=true;
+       if Backup.AlertFinish then // уведомление о завершении
+          begin
+          Backup.SendAlert(rsFinished);
+          end;
      MForm.Close;
      end;
 

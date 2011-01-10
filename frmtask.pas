@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   EditBtn, ExtCtrls, Buttons, MaskEdit, Spin, ComCtrls, ButtonPanel, msgStrings,
-  DateUtils, customfs, taskunit, frmftp;
+  DateUtils, customfs, taskunit, frmftp,unitfunc;
 
 
 const       // Константы типа задачи
@@ -35,11 +35,18 @@ type
     cbAlert: TComboBox;
     CBoxAct: TComboBox;
     CBoxFileMode: TComboBox;
+    chkSolid: TCheckBox;
+    chkArhOpenFiles: TCheckBox;
+    EditAddOpt: TEdit;
+    GroupAddOptions: TGroupBox;
+    chkEncrypt: TCheckBox;
     chkDelAfterArh: TCheckBox;
     cbCondBefore: TComboBox;
     cbCondAfter: TComboBox;
+    cbLevelCompress: TComboBox;
     DelArhCheck: TCheckBox;
     DelZerkCheck: TCheckBox;
+    EditArhPass: TEdit;
     EditArhNam: TEdit;
     EditDaysOld: TSpinEdit;
     EditExcDir: TEditButton;
@@ -55,6 +62,8 @@ type
     EnabledCheck: TCheckBox;
     FiltDirCheck: TCheckBox;
     FiltFilesCheck: TCheckBox;
+    GroupCompress: TGroupBox;
+    GroupEncrypt: TGroupBox;
     groupTaskName: TGroupBox;
     GroupOther: TGroupBox;
     groupSource: TGroupBox;
@@ -66,12 +75,12 @@ type
     GroupExtProg: TGroupBox;
     GroupNotifi: TGroupBox;
     Image1: TImage;
+    LabelAddOpt: TLabel;
     LabelDaily: TLabel;
     LabelDay: TLabel;
     LabelExten: TLabel;
     LabelFor: TLabel;
     LabelDays: TLabel;
-    LabelArhName: TLabel;
     LabelMon: TLabel;
     LabelMonthly: TLabel;
     LabelYear: TLabel;
@@ -100,8 +109,10 @@ type
     procedure BtnOKClick(Sender: TObject);
     procedure ButtonPanel1Click(Sender: TObject);
     procedure CBoxActChange(Sender: TObject);
+    procedure chkEncryptChange(Sender: TObject);
     procedure DelArhCheckChange(Sender: TObject);
     procedure DelZerkCheckChange(Sender: TObject);
+    procedure EditArhPassKeyPress(Sender: TObject; var Key: char);
     procedure EditDestFTPButtonClick(Sender: TObject);
     procedure EditExcDirButtonClick(Sender: TObject);
     procedure EditSorFtpButtonClick(Sender: TObject);
@@ -132,6 +143,7 @@ type
     procedure FillDest;
     function ConvertCBtoCond(index:integer):integer; // Преобразовывает выбранный индекс в условие для выполнения внешней проги
     function ConvertCondtoCB(cond:integer):integer; // Перобразование наоборот
+    PassArhChanged:boolean;
   public
     { public declarations }
     procedure FillForm;
@@ -278,14 +290,32 @@ CBoxAct.ItemIndex:=Task.Action-1;
 
 
 // Блок про архивацию
-
+  // Уровень сжатия
+  case Task.Arh.LevelCompress of
+   lcNone: cbLevelCompress.ItemIndex:=0;
+   lcFastest: cbLevelCompress.ItemIndex:=1;
+   lcFast: cbLevelCompress.ItemIndex:=2;
+   lcNormal: cbLevelCompress.ItemIndex:=3;
+   lcMaximum: cbLevelCompress.ItemIndex:=4;
+   lcUltra: cbLevelCompress.ItemIndex:=5;
+   else
+     cbLevelCompress.ItemIndex:=3;
+  end;
   EditArhNam.Text:=Task.Arh.Name;
+  chkArhOpenFiles.Checked:=Task.Arh.ArhOpenFiles;
+  chkSolid.Checked:=Task.Arh.Solid;
+  EditAddOpt.Text:=Task.Arh.AddOptions;
+
   DelArhCheck.Checked:=Task.Arh.DelOldArh;
   chkDelAfterArh.Checked:=Task.Arh.DelAfterArh;
   EditDaysOld.Value:=Task.Arh.DaysOld;
   EditMonthsOld.Value:=Task.Arh.MonthsOld;
   EditYearsOld.Value:=Task.Arh.YearsOld;
-
+  chkEncrypt.Checked:=Task.Arh.EncryptEnabled;
+  if PassArhChanged then
+       EditArhPass.Text:=DecryptString(Task.Arh.Password,KeyStrTask)
+     else
+       EditArhPass.Text:='################';
 // Хранить файлы
 
   DelZerkCheck.Checked:=Task.Arh.DelOldArh;
@@ -498,6 +528,24 @@ if (CBoxAct.ItemIndex=ttArhZip-1) or (CBoxAct.ItemIndex=ttArh7Zip-1) or (CBoxAct
   Task.Arh.MonthsOld:=EditMonthsOld.Value;
   Task.Arh.YearsOld:=EditYearsOld.Value;
   Task.Arh.DelAfterArh:=chkDelAfterArh.Checked;
+  Task.Arh.EncryptEnabled:=chkEncrypt.Checked;
+  Task.Arh.ArhOpenFiles:=chkArhOpenFiles.Checked;
+  Task.Arh.Solid:=chkSolid.Checked;
+  Task.Arh.AddOptions:=EditAddOpt.Text;
+  // Пароль
+  if PassArhChanged then
+       Task.Arh.Password:=EncryptString(EditArhPass.Text,KeyStrTask);
+  // Уровень сжатия
+    case cbLevelCompress.ItemIndex of
+      0: Task.Arh.LevelCompress:=lcNone;
+      1: Task.Arh.LevelCompress:=lcFastest;
+      2: Task.Arh.LevelCompress:=lcFast;
+      3: Task.Arh.LevelCompress:=lcNormal;
+      4: Task.Arh.LevelCompress:=lcMaximum;
+      5: Task.Arh.LevelCompress:=lcUltra;
+      else
+        Task.Arh.LevelCompress:=lcNormal;
+    end;
   end;
 // Зеркалирование
 if (CBoxAct.ItemIndex=ttZerk-1) then
@@ -551,6 +599,12 @@ end;
 procedure TFormTask.DelZerkCheckChange(Sender: TObject);
 begin
   FillChecks;
+end;
+
+procedure TFormTask.EditArhPassKeyPress(Sender: TObject; var Key: char);
+begin
+  PassArhChanged:=true;
+  EditArhPass.EchoMode:=emNormal;
 end;
 
 procedure TFormTask.EditDestFTPButtonClick(Sender: TObject);
@@ -620,6 +674,11 @@ begin
   FillChecks;
 end;
 
+procedure TFormTask.chkEncryptChange(Sender: TObject);
+begin
+  FillChecks;
+end;
+
 procedure TFormTask.AfterCheckChange(Sender: TObject);
 begin
   FillChecks;
@@ -670,15 +729,45 @@ if StartCheck.Checked then
     TimeCheck.Checked:=false;
   end;
   }
-   ZerkDelBox.Enabled:=false;
-   DelZerkCheck.Enabled:=false;
-   ArhBox.Enabled:=false;
-   ArhBox.Visible:=false;
-   ArhDelBox.Visible:=false;
-   ZerkDelBox.Visible:=false;
-// EditArhNam.Enabled:=true;
- ArhDelBox.Enabled:=false;
+//   ZerkDelBox.Enabled:=false;
 
+//   ArhBox.Enabled:=false;
+
+//   ArhBox.Visible:=false;
+//   ArhDelBox.Visible:=false;
+//   ZerkDelBox.Visible:=false;
+//   GroupEncrypt.Visible:=false;
+
+// EditArhNam.Enabled:=true;
+// ArhDelBox.Enabled:=false;
+
+
+// Копирование, синхронизация или зеркалирование
+if (CBoxAct.ItemIndex=ttCopy-1) OR (CBoxAct.ItemIndex=ttSync-1) OR (CBoxAct.ItemIndex=ttZerk-1) then
+begin
+ArhBox.Enabled:=false;
+   ArhDelBox.Enabled:=false;
+   EditArhNam.Enabled:=false;
+   NTFSCheck.Enabled:=true;
+
+   radioSorFTP.Enabled:=true;
+   ArhDelBox.Visible:=false;
+   GroupEncrypt.Visible:=false;
+   GroupCompress.Visible:=false;
+   GroupAddOptions.Visible:=false;
+   ArhBox.Visible:=false;
+   ZerkDelBox.Visible:=false;
+  if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
+  begin
+   ZerkDelBox.Visible:=true;
+//   DelZerkCheck.Enabled:=false;
+   if DelZerkCheck.Checked then
+      EditZerkOld.Enabled:=true
+     else
+      EditZerkOld.Enabled:=false;
+  end;
+end;
+  {
 if (CBoxAct.ItemIndex=ttCopy-1) OR (CBoxAct.ItemIndex=ttSync-1) then // Копирование, синхронизация
   begin
    ArhBox.Enabled:=false;
@@ -688,6 +777,11 @@ if (CBoxAct.ItemIndex=ttCopy-1) OR (CBoxAct.ItemIndex=ttSync-1) then // Копи
 
    radioSorFTP.Enabled:=true;
    ArhDelBox.Visible:=false;
+   GroupEncrypt.Visible:=false;
+   GroupCompress.Visible:=false;
+   GroupAddOptions.Visible:=false;
+   ArhBox.Visible:=false;
+   ZerkDelBox.Visible:=false;
   end;
 if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
   begin
@@ -696,6 +790,10 @@ if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
 
   radioSorFTP.Enabled:=true;
   ArhDelBox.Visible:=false;
+  GroupEncrypt.Visible:=false;
+  GroupCompress.Visible:=false;
+  GroupAddOptions.Visible:=false;
+  ArhBox.Visible:=false;
 
    ZerkDelBox.Enabled:=true;
    DelZerkCheck.Enabled:=true;
@@ -705,14 +803,21 @@ if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
       EditZerkOld.Enabled:=false;
 
   end;
+  }
 if (CBoxAct.ItemIndex>2) then // архивация
  begin
+ EditArhPass.Enabled:=chkEncrypt.Checked;
  ArhBox.Visible:=true;
  ArhBox.Enabled:=true;
  EditArhNam.Enabled:=true;
 
+ GroupEncrypt.Visible:=true;
+ GroupCompress.Visible:=true;
+ GroupAddOptions.Visible:=true;
+
  ArhDelBox.Enabled:=true;
  ArhDelBox.Visible:=true;
+ ZerkDelBox.Visible:=false;
 
  radioSorFTP.Enabled:=false;
  radioSorFTP.Checked:=false;
@@ -737,6 +842,7 @@ if (CBoxAct.ItemIndex>2) then // архивация
       NTFSCheck.Checked:=false;
       NTFSCheck.Enabled:=false;
       chkDelAfterArh.Enabled:=false;
+      chkSolid.Enabled:=false;
       end;
  if CBoxAct.ItemIndex=ttArh7Zip-1 then
      begin
@@ -744,12 +850,14 @@ if (CBoxAct.ItemIndex>2) then // архивация
       NTFSCheck.Checked:=false;
       NTFSCheck.Enabled:=false;
       chkDelAfterArh.Enabled:=false;
+      chkSolid.Enabled:=true;
       end;
   if CBoxAct.ItemIndex=ttArhRar-1 then
      begin
      LabelExten.Caption:='.rar';
      NTFSCheck.Enabled:=true;
      chkDelAfterArh.Enabled:=true;
+     chkSolid.Enabled:=true;
      end;
 
  end;
@@ -798,22 +906,22 @@ if EvMinCheck.Checked then
 if BeforeCheck.Checked then //до
    begin
    BeforeName.Enabled:=true;
-//   BeforeBtn.Enabled:=true;
+   cbCondBefore.Enabled:=true;
    end
   else
    begin
    BeforeName.Enabled:=false;
-//   BeforeBtn.Enabled:=false;
+   cbCondBefore.Enabled:=false;
    end;
 if AfterCheck.Checked then //после
    begin
    AfterName.Enabled:=true;
-//   AfterBtn.Enabled:=true;
+   cbCondAfter.Enabled:=true;
    end
   else
    begin
    AfterName.Enabled:=false;
-//   AfterBtn.Enabled:=false;
+   cbCondAfter.Enabled:=false;
    end;
 // Фильтация источника
 if FiltDirCheck.Checked then
@@ -901,6 +1009,17 @@ TC: array[1..1] of TComponent;
 }
 
 begin
+PassArhChanged:=false;
+EditArhPass.EchoMode:=emPassword;
+
+cbLevelCompress.Clear;
+cbLevelCompress.Items.Add(rsNone);
+cbLevelCompress.Items.Add(rsFastest);
+cbLevelCompress.Items.Add(rsFast);
+cbLevelCompress.Items.Add(rsNormal);
+cbLevelCompress.Items.Add(rsMaximum);
+cbLevelCompress.Items.Add(rsUltra);
+
 CBoxAct.Clear;
 CBoxAct.Items.Add(rsCopyng);
 CBoxAct.Items.Add(rsMirror);
@@ -934,7 +1053,7 @@ tvMenu.Items.Clear;
 tvMenu.Items.Add(nil,rsTaskSettingsNode1);
 tvMenu.Items.Add(nil,rsTaskSettingsNode2);
 tvMenu.Items.Add(nil,rsTaskSettingsNode3);
-tvMenu.Items.Add(nil,rsTaskSettingsNode4);
+tvMenu.Items.Add(nil,rsOther);
 
 tvMenu.Items[0].Selected:=true;
 pcMenu.ActivePageIndex:=0;

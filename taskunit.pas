@@ -14,13 +14,15 @@ uses Windows, SysUtils, DateUtils, Classes, StrUtils, masks, Process,//fileutil,
   {iniLangC,} XMLCfg,{ inifiles,}gettext,translations,fileutil,
   setunit,unitfunc,delfiles,customfs,filefs,ftpfs, // Мои модули
  { idAttachmentFile,idsmtp,idmessage,}{idAttachment,} {,IdExplicitTLSClientServerBase,IdSSLOpenSSL,idiohandler} // Indy10
-  smtpsend,mimemess,mimepart,synachar,ssl_openssl{, blcksock} //synapse
+  smtpsend,mimemess,mimepart,synachar,ssl_openssl,httpsend{, blcksock} //synapse
   ;
 //uses FileCtrl;
 
 const
-  VersionAS   = '0.5.0'; // Версия программы
+  VersionAS   = '0.5.1'; // Версия программы
   TempLogName = 'log.txt'; // Имя временного лог файла (отправляемого по почте)
+  LastVerLnk   = 'http://atsave.narod.ru/autosave/update.html'; // Страничка с номером последней версии
+  LastBinLnk   = 'http://atsave.narod.ru/autosave/mbackup.zip'; // Дистрибутив
 
 const
   MaxTasks = 100; // Макс количество заданий
@@ -62,6 +64,15 @@ const       // Константы типа сортировки файлов и�
   tsNoMask = 0; // Исключая
   tsMask   = 1; // Только по маске
 
+type  // Запись для передачи параметров для замены в строках (типа %Name%)
+ TReplParam=record
+    TaskName:string; // Имя задания
+    TaskStatus:string; // Результат задания
+//    ComputerName:string; // Имя компьютера
+//    ProfileName:string; // Имя профайла с заданиями
+    AlertProgStatus:string; // Статус alert (started, finished)
+    end;
+
 type               // Список файлов для обработки удаления старых архивов
     TArhList=record
     NameFile:string;  // Имя файла
@@ -99,10 +110,21 @@ type    // Парметры расписания
     //   Minutes:integer; // Через каждые столько минут в течении дня
   end;
 
+// Степень сжатия архива
+type
+  TLevelCompress=(lcNone=0,lcFastest=1,lcFast=3,lcNormal=5,lcMaximum=7,lcUltra=9); // Совпадает с 7-zip (zip - тоже самое, но нет 0)
+
+
 type  //параметры архива
   TArh = record
     Name:      string;  // имя архива
+    LevelCompress:TLevelCompress;
     DelAfterArh:boolean; // Удалять архивы после упаковки (только Rar)
+    EncryptEnabled:boolean; // Устанавливать пароль на архив
+    Password:string; // Пароль на архив
+    ArhOpenFiles:boolean; // Архивировать файлы открытые для записи
+    Solid:boolean; // непрерывный архив
+    AddOptions:string; // Дополнительные опции архивирования
     DelOldArh: boolean; //Удалять старые архивы
     DaysOld:   integer; // старше дней
     MonthsOld: integer; // страше месяцев
@@ -176,9 +198,8 @@ type  // Запись для параметров одного копирова�
   //--------------------------------------------------------------
 type
   TBackup = class
-    Tasks: array[1..MaxTasks] of TTask; //Массив заданий
-    //  ZipMaster:TZipMaster;
-    //  procedure OnProgress; // Событие
+//    Tasks: array[1..MaxTasks] of TTask; //Массив заданий
+    Tasks: array of TTask; //Массив заданий
 
     // Типа конструктор
     constructor Create;
@@ -217,7 +238,9 @@ type
 
     function SendMailS(Subj:string;Body:string;FileName:string;var MsgError:string):boolean; //Synapse
     class function SendMailEx(Settings:TSettings;Subj:string;Body:string;FileName:string;var MsgError:string):boolean; //Synapse
-
+    procedure SendAlert(ProgStatus:string); //  Отправка уведомления о запуске/завершении работы программы на почту
+    // Возвращает имя компа
+    class function GetHostName:string;
     //  procedure DelOldArhs(dir,arhname:string;olddays,oldMonths,OldYears:integer);
     //  function WinExecute(CmdLine: string; Wait: Boolean): Boolean;
 
@@ -225,7 +248,7 @@ type
     //function  GetFileNam(shortnam:String):String;
     procedure DublicateTask(NumTask: integer);
     //procedure TaskCopy(NumTask:integer);
-    procedure CopyTask(FromTask, ToTask: integer);
+
     procedure UpTask(NumTask: integer);
     procedure DownTask(NumTask: integer);
     function GetSizeDir(dir, syncdir: string; NumTask: integer; Recurse: boolean): integer;
@@ -240,8 +263,15 @@ type
    // procedure ReadIni;
 //    procedure SaveIni;
     function ReadArgv(var IsProfile: boolean): boolean;
+//    class function CheckNewVer:boolean;
+    // Проверка наличия новой версии в интернете (-1 - Не подключились, 0-нет, 1-есть новая версия NewVer)
+    class function CheckNewVer(var NewVer:string):integer;
     class function GetVer: string;
 
+
+
+    // Скопировать задания (перегружена)
+    class procedure CopyTask(var FromTask:TTask;var ToTask:TTask);
     //  procedure SendMail(MesSubject:string;MesBody:TStrings);
     //  procedure StrToList (Str:string;var StrList:StringList);
   private
@@ -250,15 +280,24 @@ type
     function CopyDirFS(NumTask:integer;var SrcFS:TCustomFS;var DstFS:TCustomFS):integer;
     function SynDirFS(NumTask:integer;var SrcFS:TCustomFS;var DstFS:TCustomFS):integer;
     function ZerkDirFS(NumTask:integer;var SrcFS:TCustomFS;var DstFS:TCustomFS):integer;
+
     function ArhRarDirFS(NumTask: integer;SrcFS:TCustomFS;DstFS:TCustomFS): integer;
+    function BuildRarFileList(NumTask: integer;ArhFullName:string;SrcFS:TCustomFS): string; // Построение командной строки для архивации RAR
+
     function Arh7zipDirFS(NumTask: integer;var SrcFS:TCustomFS;var DstFS:TCustomFS): integer;
+    function Build7zipFileList(NumTask: integer;ArhFileName:string;SrcFS:TCustomFS): string; // Построение командной строки для архивации 7zip
 
     function CheckFileMask(FileName: string; NumTask: integer): boolean;
     function CheckSubDir(SubDir: string; NumTask: integer): boolean;
 
     procedure BuildFS(const S:string;var FSParam:TFSParam);
+    // Раскусывает строку S на две через разделитель split, если разделителя нет, то Part2 - пустая, а Part1=S
+    procedure Split2String(const S:string; const Split:string; var Part1:string;var Part2:string);
 
     procedure RunExtProg(ExtProg:TExtProg;Cond:integer); // Запуск внешней проги в задании
+
+     // Возвращает значения тэга <TagName>возвращаемое значение</TagName> из строки Content
+    function GetTagValue(Content:TStrings;TagName:string):string;
 
 
     function SimpleGetSizeDirFS (SorDir,DestDir:string;var SrcFS:TCustomFS;var DstFS:TCustomFS; NumTask: integer; Recurse: boolean): int64;
@@ -275,19 +314,24 @@ type
 
     function ForceDir(DirName: string): boolean;
 
+    // Поменять задания местами
+    procedure SwapTask(NumTask1,NumTask2:integer);
+
+    procedure CopyTask(FromTask, ToTask: integer);
+
     // Выполнение внешней программы (платформо независимая)
     function ExecProc(const FileName, Param: string; const Wait: boolean): integer;
 
-    function BuildRarFileList(NumTask: integer;ArhFullName:string;SrcFS:TCustomFS): string; // Построение командной строки для архивации RAR
 
-    function Build7zipFileList(NumTask: integer;ArhFileName:string;SrcFS:TCustomFS): string; // Построение командной строки для архивации 7zip
+
+
     procedure GetFileList(sordir: string; NumTask: integer; var FileList: TStrings; recurse: boolean; ForZip: boolean);
     function GetArhFileName(numtask:integer):string;
     function GetArhDir(NumTask:integer;SrcFS,DstFS:TCustomFS;var TmpExist:boolean):string;
 
 //    function CheckSubDirFS(SubDir: string; NumTask: integer;CustomFS:TCustomFS): boolean;
 
-    function ReplaceParam(S:string;numtask:integer):string;
+
     Function DosToWin(Const S: String) : String;
     function CompareFileDateFS(SorFS,DestFS:TCustomFS; FileName: string): boolean;
 
@@ -298,6 +342,9 @@ type
     procedure SaveToXMLFile(filenam: string);
     procedure LoadFromXMLFile(filenam: string);
     function ReplDate(S: string): string;
+    function ReplaceParam(S:string;numtask:integer):string;
+    function ReplaceParamEx(const S:string;RParam:TReplParam):string;
+
     function ReplDateToMask(S: string): string;
     function FindStrVar(S: string): string;
 
@@ -348,10 +395,10 @@ type
     OnProgress: TProgressEvent; // Процедура события обновления %
     //----
     // Параметры запуска
-    ParamQ:   boolean;
-    // -q  В строке запуска есть команда выхода по окончании
-    InCmdMode: boolean;
-    // Запуск заданий происходит из командной строки (для одно разово дневных заданий)
+    ParamQ:   boolean;  // -q  В строке запуска есть команда выхода по окончании
+    InCmdMode: boolean;  // Запуск заданий происходит из командной строки (для одно разово дневных заданий)
+    AlertStart:boolean; // -as в командной строке
+    AlertFinish:boolean; // -af в командной строке
     Count:    integer; //Количество заданий
      {
     SysCopyFunc: boolean;
@@ -408,6 +455,7 @@ constructor TBackup.Create;
 begin
   inherited Create;
   Count  := 0;
+  SetLength(Tasks,0);
   LastStdOut := TStringList.Create;
  // DelFiles:=TDeletedFiles.Create;
    Settings:=TSettings.Create;
@@ -525,6 +573,54 @@ begin
   SaveIniFile.Destroy;// Free;
 end;
  }
+//=======================================================
+// Проверка наличия новой версии в интернете
+// -1 - не удалось подключиться
+//  0  - обновлений нет
+//  1  - Обновлнеие есть
+class function TBackup.CheckNewVer(var NewVer:string):integer;
+var
+  Lines:TStringList;
+  //NewVer:string;
+begin
+ Lines:=TStringList.Create;
+ if (HttpGetText(LastVerLnk,Lines)) then
+     begin
+     NewVer:=GetTagValue(Lines,'versionas');
+     if SameText(NewVer,VersionAS) then
+            Result:=0
+          else
+            Result:=1
+     end
+    else
+     Result:=-1;
+ Lines.Free;
+end;
+//=======================================================
+// Возвращает значения тэга <TagName>возвращаемое значение</TagName> из строки Content
+function TBackup.GetTagValue(Content:TStrings;TagName:string):string;
+var
+  i,len:integer;
+  strTagStart,strTagEnd:string;
+  PosStart,PosEnd:integer;
+begin
+Result:='';
+strTagStart:='<'+TagName+'>';
+strTagEnd:='</'+TagName+'>';
+for i:=0 to Content.Count-1 do
+  begin
+   // Ищем начало тэга
+  PosStart:=Pos(strTagStart,Content[i]);
+  if PosStart=0 then continue;
+  PosEnd:=Pos(strTagEnd,Content[i]);
+  if PosEnd=0 then continue;
+  len:=Length(strTagStart);
+  Result:=MidStr(Content[i],PosStart+Len,PosEnd-PosStart-len);
+  Result:=Trim(Result);
+  exit;
+  end;
+end;
+
  //=======================================================
  // Чтение командной строки
  // Загружает нужный профиль и
@@ -533,20 +629,23 @@ end;
 function TBackup.ReadArgv(var IsProfile: boolean): boolean;
   //=====================================================
 var
-  j, i:     integer;
+  i,StartIndx:     integer;
   s, p:     string;
   sour, dest: string; // Источник, получатель
   act:      integer;  // действие
   recurs:   boolean;  // Обрабатывать рекурсивно
-  alertmes: string;   //TStrings;
+//  alertsubj: string;   //TStrings;
+//  alertbody:string;
+//  RParam:TReplParam;
 //  SendMail: TSendMail;
   // est:boolean;
-  MsgErr:string;
+//  MsgErr:string;
   estp:     boolean; // Есть профиль на загрузку
   estr:     boolean; // Есть параметр /r
 begin
   //alertmes:='';TStringList.Create;
-  j      := paramcount; // Кол-во параметров командной строки
+//  j      := paramcount; // Кол-во параметров командной строки
+  StartIndx:=1; // C какого номера параметров начинать их перебирать
   ParamQ := False; // Есть параметр закрыть прогу
   sour   := '';    // Источник и приемник не указаны
   dest   := '';
@@ -555,8 +654,31 @@ begin
   estp   := False;
   IsProfile := False;
   estr   := False;
-  Clear; //Count:=0;
-  for i := 1 to j do // перебор всех параметров
+  AlertFinish:=false;
+  AlertStart:=false;
+//  Clear; //Count:=0;
+  if paramcount>=3 then // Пробуем найти действие, источник и получатель
+      begin
+          if SameText(ParamStr(1), 'copy') then // Указание действия copy
+          begin
+            act := ttCopy;
+          end;
+          if SameText(ParamStr(1), 'sync') then // Указание действия sync
+          begin
+            act := ttSync;
+          end;
+          if SameText(ParamStr(1), 'mirr') then // Указание действия mirr
+          begin
+            act := ttZerk;
+          end;
+         if act<>0 then
+             begin
+              sour:=ParamStr(2);
+              dest:=ParamStr(3);
+              StartIndx:=4;
+             end;
+      end;
+  for i := StartIndx to paramcount do // перебор всех параметров
   begin
     s := ParamStr(i); // s очередной параметр
     if SameText(s, '-r') then // автозапуск заданий
@@ -568,19 +690,22 @@ begin
       ParamQ := True;
       //   Estp:=true;
     end;
-    if SameText(s, '-alert') then // Уведомление о запуске
+    if SameText(s, '-as') then // Уведомление о запуске
     begin
-      AlertMes := rsAlertRunMes;
-   //   SendMail := TSendMail.Create;
-     SendMailS(rsAlertRunSubj,AlertMes, '',MsgErr);
-//      SendMail.Send(Settings.smtpserv, Settings.smtpport, Settings.mailfrom, Settings.email, rsAlertRunSubj, AlertMes, '');
-//      SendMail.Destroy;
-      //    TaskCl.SendMail(misc(rsAlertRunSubj,'rsAlertRunSubj'),AlertMes);
+     //SendAlert(rsStarted);
+     AlertStart:=true;
     end;
+
+   if SameText(s, '-af') then // Уведомление о завершении
+      begin
+      AlertFinish:=true;
+      end;
+
+
     if SameText(s, '-p') then // загрузка профиля
     begin
       //    i:=i+1;
-      if i + 1 <= j then
+      if i + 1 <= paramcount then
         p := ParamStr(i + 1)
       else
         continue;
@@ -591,12 +716,13 @@ begin
     end;
     if SameText(s, '-log') then // Указание лог файла
     begin
-      if i + 1 <= j then
+      if i + 1 <= paramcount then
         p := ParamStr(i + 1)
       else
         continue;
       Settings.logfile := p;
     end;
+    {
     //--------
     if SameText(s, '-source') then // Указание источника
     begin
@@ -606,12 +732,13 @@ begin
         continue;
       sour := p;
     end;
+    }
     //--------
-    if SameText(s, '-recurse') then // Указание действия copy
+    if SameText(s, '-recurse') then // Указание рекурсии
     begin
       recurs := True;
     end;
-
+    {
     //--------
     if SameText(s, '-dest') then // Указание получателя
     begin
@@ -621,6 +748,8 @@ begin
         continue;
       dest := p;
     end;
+    }
+    {
     //--------
     if SameText(s, 'copy') then // Указание действия copy
     begin
@@ -636,7 +765,7 @@ begin
     begin
       act := ttZerk;
     end;
-
+    }
   end;
 
   if not estp then
@@ -654,13 +783,15 @@ begin
       begin
         Clear;
         AddTask;
-        Tasks[1].Name := 'Cmd';
-        Tasks[1].Action := act;
-        Tasks[1].SrcFSParam.RootDir:= sour;
-        Tasks[1].SrcFSParam.FSType:=fstFile;
-        Tasks[1].DstFSParam.RootDir:= dest;
-        Tasks[1].DstFSParam.FSType:=fstFile;
-        Tasks[1].SourceFilt.Recurse := recurs;
+        Tasks[0].Name := 'Cmd';
+        Tasks[0].Action := act;
+        BuildFS(sour,Tasks[0].SrcFSParam); // читаем источник
+        //Tasks[0].SrcFSParam.RootDir:= sour;
+        //Tasks[0].SrcFSParam.FSType:=fstFile;
+        BuildFS(dest,Tasks[0].DstFSParam); // читаем приемник
+        //Tasks[0].DstFSParam.RootDir:= dest;
+        //Tasks[0].DstFSParam.FSType:=fstFile;
+        Tasks[0].SourceFilt.Recurse := recurs;
         estr := True;
       end;
 
@@ -682,34 +813,56 @@ var
   str:string;
   SrvParam:string;
   i,len:integer;
-
+  Part1,Part2:string;
+  strftp,strftps:string;
 begin
 str:=LeftStr(S,6); // ftp://
-if SameText(str,'ftp://') then // Это фтп
+strftp:='ftp://';
+strftps:='ftps://';
+if (Pos(strftp,S)>0) or (Pos(strftps,S)>0) then // SameText(str,'ftp://') then // Это фтп
     begin
     FSParam.FSType:=fstFTP;
-    FSParam.FtpServParam.AutoTLS:=true;
-    // Ищем слэш
-    i:=PosEx('/',S,7);
-    if i=0 then
+
+    if Pos(strftps,S)>0 then FSParam.FtpServParam.AutoTLS:=true;
+    FSParam.FtpServParam.Host:='';
+    FSParam.FtpServParam.Port:='21';
+    FSParam.FtpServParam.UserName:='anonymous';
+    FSParam.FtpServParam.Password:='anonymous@mymail.com';
+    FSParam.FtpServParam.PassiveMode:=true;
+    if Pos(strftp,S)>0 then  // ftp://
           begin
-          i:=Length(S);
-          FSParam.FtpServParam.InintialDir:='/';
+           FSParam.FtpServParam.AutoTLS:=false;
+           SrvParam:=RightStr(S,Length(S)-Length(strftp)); // выкусываем ftp://
           end
         else
-          begin
-          len:=Length(S)-i;
-          FSParam.FtpServParam.InintialDir:=RightStr(S,len);
+          begin    // ftps://
+            FSParam.FtpServParam.AutoTLS:=true;
+            SrvParam:=RightStr(S,Length(S)-Length(strftps)); // выкусываем ftps://
           end;
-    // Выкусываем данные о сервере
-    len:=i-6;
-    SrvParam:=MidBStr(S,7,len);  // пользователь:пароль@сервер:порт
+//    SrvParam:=RightStr(S,Length(S)-6); // выкусываем ftp://
+    // Ищем слэш
+    //SrvParam=пользователь:пароль@сервер:порт/папка
+    Split2String(SrvParam,'/',Part1,Part2); //Part1=пользователь:пароль@сервер:порт Part2=папка
+    FSParam.FtpServParam.InintialDir:='/'+Part2;
+    SrvParam:=Part1;   // пользователь:пароль@сервер:порт
     // Ищем @
-    i:=Pos('@',SrvParam);
-    if i=0 then
-           begin
-
+    Split2String(SrvParam,'@',Part1,Part2);
+    if Part2<>'' then
+           begin //Part1=пользователь:пароль Part2=сервер:порт
+             SrvParam:=Part2;
+             // Разделяем Part1=пользователь:пароль
+             str:=Part1;
+             Split2String(str,':',Part1,Part2);
+             FSParam.FtpServParam.UserName:=Part1;
+             if Part2<>'' then //Part1=пользователь Part2=пароль
+                  begin
+                  FSParam.FtpServParam.Password:=EncryptString(Part2,KeyStrTask);
+                  end;
            end;
+     // Разделяем SrvParam=сервер:порт
+     Split2String(SrvParam,':',Part1,Part2);
+     FSParam.FtpServParam.Host:=Part1;
+     if Part2<>'' then FSParam.FtpServParam.Port:=Part2;
     end
   else
     begin       // Это каталог
@@ -717,6 +870,25 @@ if SameText(str,'ftp://') then // Это фтп
     FSParam.RootDir:=S;
     end;
 end;
+//================================================================
+// Раскусывает строку S на две через разделитель split, если разделителя нет, то Part2 - пустая, а Part1=S
+procedure TBackup.Split2String(const S:string; const Split:string; var Part1:string;var Part2:string);
+var
+  i:integer;
+begin
+i:=Pos(Split,S);
+    if i=0 then // Разделителя нет
+           begin
+           Part1:=S;
+           Part2:=''
+           end
+         else
+           begin
+           Part1:=LeftStr(S,i-1);
+           Part2:=RightStr(S,Length(S)-i-Length(Split)+1);
+           end;
+end;
+
 //================================================================
 // Возвращает отображемое имя FS
 class function TBackup.GetNameFS(FSParam:TFSparam):string;
@@ -735,7 +907,10 @@ begin
   // Найти свободный элемент
   if Count = MaxTasks then
     exit;
-  Inc(Count);
+
+
+  SetLength(Tasks,Count+1);
+
   Tasks[Count].Name      := '';
   Tasks[Count].SrcFSParam.RootDir   := '';
   Tasks[Count].SrcFSParam.FSType:=fstFile;
@@ -752,14 +927,18 @@ begin
   //Tasks[count].Rasp.EvMinutes:=false;
   //Tasks[count].Rasp.Minutes:=60;
   Tasks[Count].Enabled   := True;
-  //Tasks[count].Rasp.Manual:=true;
-  //Tasks[count].Rasp.AtStart:=false;
-  //Tasks[count].Rasp.AtTime:=false;
+  // Архив
   Tasks[Count].Arh.DelOldArh := False;
   Tasks[Count].Arh.DelAfterArh := False;
   Tasks[Count].Arh.DaysOld := 7;
   Tasks[Count].Arh.MonthsOld := 12;
   Tasks[Count].Arh.YearsOld := 5;
+  Tasks[Count].Arh.EncryptEnabled:=false;
+  Tasks[Count].Arh.LevelCompress:= lcNormal;
+  Tasks[Count].Arh.ArhOpenFiles:=false;
+  Tasks[Count].Arh.Solid:=false;
+  Tasks[Count].Arh.AddOptions:='';
+
   Tasks[Count].Enabled   := True;
   Tasks[Count].Status    := stNone;
   Tasks[Count].LastRunDate := 0;
@@ -783,9 +962,8 @@ begin
   Tasks[Count].SourceFilt.FiltFiles  := False;
   Tasks[Count].SourceFilt.ModeFiltFiles := 0;
   Tasks[Count].SourceFilt.FileMask   :='*.tmp;*.bak';// TStringList.Create;
-//  Tasks[Count].SourceFilt.FileMask.Delimiter := ';';
-//  Tasks[Count].SourceFilt.FileMask.Add('*.tmp');
-//  Tasks[Count].SourceFilt.FileMask.Add('*.bak');
+
+  Inc(Count);
 end;
  //============================================================
  // Очистка списка заданий
@@ -800,6 +978,7 @@ begin
     Tasks[i].SourceFilt.FileMask.Destroy;
   end;
   }
+  SetLength(Tasks,0);
   Count := 0;
 end;
 //=========================================================
@@ -811,7 +990,7 @@ var
   i: integer;
 begin
   Result := -1;
-  for i := 1 to Count do
+  for i := 0 to Count-1 do
   begin
     if Tasks[i].Status = state then
     begin
@@ -826,11 +1005,11 @@ procedure TBackup.DelTask(numTask: integer);
 var
   i: integer;
 begin
-  if numTask > Count then
+  if numTask > Count-1 then
     exit;
-  if numTask < 1 then
+  if numTask < 0 then
     exit;
-  for i := numTask + 1 to Count do
+  for i := numTask + 1 to Count-1 do
   begin
     CopyTask(i, i - 1);
 
@@ -860,14 +1039,17 @@ begin
 //  Tasks[Count].SourceFilt.SubDirs.Free;
 //  Tasks[Count].SourceFilt.FileMask.Free;
   Dec(Count);
+  SetLength(Tasks,Count);
 end;
 //==================================================
 //   Копирование задания с номером FromTask в задание с номером ToTask
 //--------------------------------------------------------------------
 procedure TBackup.CopyTask(FromTask, ToTask: integer);
 begin
-  if (FromTask > Count) or (ToTask > Count) then
+  if (FromTask > Count-1) or (ToTask > Count-1) then
     exit;
+ CopyTask(Tasks[FromTask],Tasks[ToTask]);
+{
   Tasks[ToTask].Enabled  := Tasks[FromTask].Enabled; // задание разрешено
   Tasks[ToTask].Name     := Tasks[FromTask].Name;
   Tasks[ToTask].Status   := Tasks[FromTask].Status;
@@ -875,40 +1057,57 @@ begin
   Tasks[ToTask].LastRunDate := Tasks[FromTask].LastRunDate;
   Tasks[ToTask].SrcFSParam := Tasks[FromTask].SrcFSParam;
   Tasks[ToTask].DstFSParam := Tasks[FromTask].DstFSParam;
-
-//  Tasks[ToTask].DestPath := Tasks[FromTask].DestPath;
   Tasks[ToTask].Action   := Tasks[FromTask].Action;
   Tasks[ToTask].Rasp     := Tasks[FromTask].Rasp;
   Tasks[ToTask].Arh      := Tasks[FromTask].Arh;
   Tasks[ToTask].NTFSPerm := Tasks[FromTask].NTFSPerm;
   Tasks[ToTask].ExtBefore := Tasks[FromTask].ExtBefore;
   Tasks[ToTask].ExtAfter := Tasks[FromTask].ExtAfter;
-
   Tasks[ToTask].SourceFilt:= Tasks[FromTask].SourceFilt;
-
   Tasks[ToTask].MailAlert:= Tasks[FromTask].MailAlert;
+}
 
-   {
-  Tasks[ToTask].SourceFilt.Recurse    := Tasks[FromTask].SourceFilt.Recurse;
-  Tasks[ToTask].SourceFilt.FiltSubDir := Tasks[FromTask].SourceFilt.FiltSubDir;
-  Tasks[ToTask].SourceFilt.FiltFiles  := Tasks[FromTask].SourceFilt.FiltFiles;
-  Tasks[ToTask].SourceFilt.ModeFiltFiles := Tasks[FromTask].SourceFilt.ModeFiltFiles;
-  Tasks[ToTask].SourceFilt.SubDirs.Assign(Tasks[FromTask].SourceFilt.SubDirs);
-  Tasks[ToTask].SourceFilt.FileMask.Assign(Tasks[FromTask].SourceFilt.FileMask);
-  }
 end;
+//=============================================================
+// Скопировать задания (перегружена)
+class procedure TBackup.CopyTask(var FromTask:TTask;var ToTask:TTask);
+begin
+  ToTask.Enabled  := FromTask.Enabled; // задание разрешено
+  ToTask.Name     := FromTask.Name;
+  ToTask.Status   := FromTask.Status;
+  ToTask.LastResult := FromTask.LastResult;
+  ToTask.LastRunDate := FromTask.LastRunDate;
+  ToTask.SrcFSParam := FromTask.SrcFSParam;
+  ToTask.DstFSParam := FromTask.DstFSParam;
+
+
+  ToTask.Action   := FromTask.Action;
+  ToTask.Rasp     := FromTask.Rasp;
+  ToTask.Arh      := FromTask.Arh;
+  ToTask.NTFSPerm := FromTask.NTFSPerm;
+  ToTask.ExtBefore := FromTask.ExtBefore;
+  ToTask.ExtAfter := FromTask.ExtAfter;
+
+  ToTask.SourceFilt:= FromTask.SourceFilt;
+
+  ToTask.MailAlert:= FromTask.MailAlert;
+end;
+
  //==================================================
  //   Поднять задание вверх по списку
  //--------------------------------------------------------------------
 procedure TBackup.UpTask(NumTask: integer);
 begin
-  if NumTask <= 1 then
+  if NumTask <= 0 then
     exit;
+  SwapTask(NumTask,NumTask-1);
+  {
   AddTask;
   CopyTask(NumTask, Count);
   CopyTask(NumTask - 1, NumTask);
   CopyTask(Count, NumTask - 1);
   DelTask(Count);
+  }
 end;
  //==================================================
  //   Опустить задание вниз по списку
@@ -917,12 +1116,30 @@ procedure TBackup.DownTask(NumTask: integer);
 begin
   if NumTask > Count - 1 then
     exit;
+  SwapTask(NumTask,NumTask+1);
+  {
   AddTask;
   CopyTask(NumTask, Count);
   CopyTask(NumTask + 1, NumTask);
   CopyTask(Count, NumTask + 1);
   DelTask(Count);
+  }
 end;
+//=================================================================
+// Поменять задания местами
+procedure TBackup.SwapTask(NumTask1,NumTask2:integer);
+var
+  Task:TTask;
+begin
+if (NumTask1 > Count-1) or (NumTask1 > Count-1) then
+    exit;
+if (NumTask1 < 0) or (NumTask1 < 0 ) then
+    exit;
+CopyTask(Tasks[NumTask1],Task);
+CopyTask(Tasks[NumTask2],Tasks[NumTask1]);
+CopyTask(Task,Tasks[NumTask2]);
+end;
+
  //=================================================
  // Разбивает строку по ";" на список строк StringList
  //procedure TBackup.StrToList (Str:string;var StrList:StringList);
@@ -1179,13 +1396,13 @@ var
 
   AlertType: integer; // Тип уведомлений на почту
   lyear, lmonth, lday, cyear, cmonth, cday: word;  // Год мес день (текущие и из задания)
-  ExitCode:  integer;
+//  ExitCode:  integer;
 begin
 //  AlertMes := '';
   Result   := trOk;
-  if num > Count then
+  if num > Count-1 then
     exit;
-  if num < 1 then
+  if num < 0 then
     exit;
   // Проверка разово дневного задания
   if InCmdMode then
@@ -1515,8 +1732,9 @@ var
    Msg : TMimeMess; //собщение
    MIMEPart : TMimePart; //части сообщения (на будущее)
    SmtpSnd:TSmtpSend;
-   BodyList:TStringList;
+   BodyList,MailToList:TStringList;
    str:string;
+   i:integer;
 begin
 Result:=true;
 Msg := TMimeMess.Create; //создаем новое сообщение
@@ -1562,6 +1780,26 @@ BodyList := TStringList.Create;
       //SmtpSnd.Free;
       exit;
      end;
+
+    // Отправка на множественные адреса
+    MailToList:=TStringList.Create;
+    MailToList.Delimiter:=';';
+    MailToList.DelimitedText:=Settings.email;
+    for i:=0 to MailToList.Count-1 do
+    begin
+    if not smtpSnd.MailTo(MailToList[i]) then
+
+    //if not smtpSnd.MailTo('Andrey.Kapustin@volga.bnk.ru') then
+      begin
+      Result:=false;
+      MsgError:=format(rsSmtpMailToErr,[MailToList[i],SmtpSnd.EnhCodeString]);
+      MailToList.Free;
+      exit;
+      end;
+    end;
+    MailToList.Free;
+    //--конец множественной отправки
+    {
     if not smtpSnd.MailTo(Settings.email) then
            begin
       Result:=false;
@@ -1569,6 +1807,7 @@ BodyList := TStringList.Create;
       //SmtpSnd.Free;
       exit;
       end;
+    }
     if not smtpSnd.MailData(Msg.Lines) then
      begin
       Result:=false;
@@ -1597,8 +1836,33 @@ BodyList := TStringList.Create;
    BodyList.Free;
    SmtpSnd.Free;
  end;
+end;
+//=========================================================
+// Отправка уведомления о завершении работы программы на почту
+// ProgStatus- строка заменяющаяя %ProgStatus% (запущена, остановлена)
+procedure TBackup.SendAlert(ProgStatus:string);
+var
+  AlertSubj:string;
+  AlertBody:string;
+  RParam:TReplParam;
+  MsgErr:string;
+begin
+RParam.AlertProgStatus:=ProgStatus;
+AlertSubj:=ReplaceParamEx(Settings.SubjAlert,RParam);
+AlertBody:=ReplaceParamEx(Settings.BodyAlert,RParam);
+SendMailS(AlertSubj,AlertBody,'',MsgErr);
+end;
 
-
+//=========================================================
+// Возвращает имя компа
+class function TBackup.GetHostName:string;
+var
+  computerNameBuffer: array[0..255] of char;
+  sizeBuffer: DWord;
+begin
+  SizeBuffer := 256;
+  getComputerName(computerNameBuffer, sizeBuffer);
+  result := string(computerNameBuffer);
 end;
 
 
@@ -1742,18 +2006,46 @@ end;
 function TBackup.ReplaceParam(S:string;numtask:integer):string;
 var
   str:string;
+  RParam:TReplParam;
 begin
 
    case Tasks[numtask].LastResult of
       trOk:
-        str:=rsOk;
+        RParam.TaskStatus:=rsOk;
+//        str:=rsOk;
       trError:
-        str:=rsTaskError;
+        RParam.TaskStatus:=rsTaskError;
+//        str:=rsTaskError;
       trFileError:
-         str:=rsTaskEndError;
+         RParam.TaskStatus:=rsTaskEndError;
+//         str:=rsTaskEndError;
     end;
-    str :=StringReplace(S,'%Status%',str,[rfReplaceAll, rfIgnoreCase]);
-    str:=StringReplace(str,'%Name%',Tasks[numtask].Name,[rfReplaceAll, rfIgnoreCase]);
+    RParam.TaskName:=Tasks[NumTask].Name;
+    str:=ReplaceParamEx(S,RParam);
+//    str :=StringReplace(S,'%Status%',str,[rfReplaceAll, rfIgnoreCase]);
+//    str:=StringReplace(str,'%Name%',Tasks[numtask].Name,[rfReplaceAll, rfIgnoreCase]);
+//    str:=StringReplace(str,'%ComputerName%',GetHostName,[rfReplaceAll, rfIgnoreCase]);
+//    str:=StringReplace(str,'%ProfileName%',Settings.profile,[rfReplaceAll, rfIgnoreCase]);
+//    str:=ReplDate(str);
+Result:=str;
+end;
+//=========================================================
+// Заменяет все спец параметры в строке, типа %Status%
+// Перечень команд:
+// %Name% - имя задания
+// %Status% - результат выполнения (берется из задания)
+// + замена даты/времени
+
+function TBackup.ReplaceParamEx(const S:string;RParam:TReplParam):string;
+var
+  str:string;
+begin
+
+    str :=StringReplace(S,'%Status%',RParam.TaskStatus,[rfReplaceAll, rfIgnoreCase]);
+    str:=StringReplace(str,'%Name%',RParam.TaskName,[rfReplaceAll, rfIgnoreCase]);
+    str:=StringReplace(str,'%ComputerName%',GetHostName,[rfReplaceAll, rfIgnoreCase]);
+    str:=StringReplace(str,'%ProfileName%',Settings.profile,[rfReplaceAll, rfIgnoreCase]);
+    str:=StringReplace(str,'%ProgStatus%',RParam.AlertProgStatus,[rfReplaceAll, rfIgnoreCase]);
     str:=ReplDate(str);
 Result:=str;
 end;
@@ -2088,172 +2380,6 @@ DelOldArhs(numtask);
 end;
 }
 
-//==========================================================
-// Создание файла исключений, генерация командной строки для архивации rar
-function TBackup.BuildRarFileList(NumTask: integer;ArhFullName:string;SrcFS:TCustomFS): string;
-var
-  FileList: TStrings;
-  tmpfile:  string;
-  res:      string;
-  i: integer;
-  SubDirs:TStringList;
-begin
-  res:='a -dh -ep1 -u -ibck -y ';
-
-//    runstr := 'a -dh -ep1 -u -ibck -y ';
-//  runstr := runstr + BuildRarFileList(numtask) + ' ';
-//  runstr   := runstr + '"'+ArhFullName + '" "' + SrcFS.RootDir + DirectorySeparator + '*"';
-
-
-    // -df удалить файлы после упаковки
-  if Tasks[NumTask].Arh.DelAfterArh then
-    begin
-    res:=res+' -df ';
-    end;
-
-// Нет фильтрации источника и приемника
-  if (not Tasks[NumTask].SourceFilt.FiltSubDir) and (not Tasks[NumTask].SourceFilt.FiltFiles) then
-  begin
-         if Tasks[NumTask].SourceFilt.Recurse then
-             res :=res+ ' -r ';
-         Result:=res;
-         exit;
-  end;
-  FileList := TStringList.Create;
-  if Tasks[NumTask].SourceFilt.Recurse then
-    res := res+' -r';
-  // исключение файлов
-  if Tasks[NumTask].SourceFilt.FiltFiles then
-  begin
-    GetFileList(SrcFS.RootDir, NumTask, FileList, False, False);
-    tmpfile := ExtractFileDir(ParamStr(0)) + DirectorySeparator + 'tmp.txt';
-    //tmpfile:='tmp.txt';
-    FileList.SaveToFile(tmpfile);
-    res := res + ' -x@"' + tmpfile + '" ';
-  end;
-  // Исключение директорий
-  if Tasks[NumTask].SourceFilt.FiltSubDir then
-  begin
-    SubDirs:=TStringList.Create;
-    SubDirs.Delimiter:=';';
-    SubDirs.DelimitedText:=Tasks[NumTask].SourceFilt.SubDirs;
-    for i := 0 to SubDirs.Count - 1 do
-    begin
-      res := res + ' -x\"' + SrcFS.RootDir + DirectorySeparator +SubDirs[i] + '" ';
-    end;
-    SubDirs.Free;
-  end;
-
-
-  res:=res+' "'+ArhFullName + '" "' + SrcFS.RootDir + DirectorySeparator + '*"';
-
-  Result := res;
-  FileList.Free;
-end;
-//==========================================================
-// Создание командной строки для архивации 7zip  (без 7z.exe)
-// ArhFileName - имя файла архива без пути
-function TBackup.Build7zipFileList(NumTask: integer;ArhFileName:string;SrcFS:TCustomFS): string;
-var
-  FileList: TStrings;
-  tmpfile:  string;
-  //res:      string;
-  cmdstr: string; // Генерируемая строка
-//  arhname:string;
-  tmpbool:boolean;
-  arhsor:string; // Что архивировать
-  i: integer;
-  SubDirs,FileMask:TStringList;
-begin
-
-  //arhname := GetArhName(numtask,ArhFileName,false,tmpbool);
-  //arhname:=utf8toansi(arhname);
-
-
-  arhsor:=SrcFS.RootDir;// ReplDate(Tasks[NumTask].SrcFSParam.RootDir SorPath);
-
-  //arhsor:=utf8toansi(arhsor)+DirectorySeparator+'*'; // По умолчанию все
-  arhsor:=SrcFS.RootDir+DirectorySeparator+'*'; // По умолчанию все
-  //7z a -tzip archive.zip *.txt -x!temp.*
-  cmdstr:='a "'+ArhFileName+'"';
-  if Tasks[NumTask].Action=ttArhZip then // архивация zip
-   begin
-   cmdstr:=cmdstr+' -tzip'; // архивация зип
-   end;
-
-
-
-  if Tasks[NumTask].SourceFilt.Recurse then // рекурсивно
-     begin
-      cmdstr:=cmdstr+' -r';
-     end
-    else         // не рекурсивно
-      begin
-       cmdstr:=cmdstr+' -r-';
-      end;
- {
-  if not Tasks[NumTask].SourceFilt.FiltSubDir and not
-    Tasks[NumTask].SourceFilt.FiltFiles then
-    // нет исключений
-  begin
-    cmdstr:=cmdstr+' '+utf8toansi(Tasks[NumTask].SorPath)+slash+'*'; // Добавление списка архивируемых файлов
-    Result:=cmdstr;
-    exit;
-  end;
-  }
-
-  // Исключение директорий
-  if Tasks[NumTask].SourceFilt.FiltSubDir then
-  begin
-    SubDirs:=TStringList.Create;
-    SubDirs.Delimiter:=';';
-    SubDirs.DelimitedText:=Tasks[NumTask].SourceFilt.SubDirs;
-    for i := 0 to SubDirs.Count - 1 do
-    begin
-      cmdstr := cmdstr + ' -xr!"' + utf8toansi(SubDirs[i])+DirectorySeparator+'*" ';
-    end;
-    SubDirs.Free;
-  end;
-
-  // исключение файлов
-  if Tasks[NumTask].SourceFilt.FiltFiles then
-  begin
-    FileMask:=TStringList.Create;
-    FileMask.Delimiter:=';';
-    FileMask.DelimitedText:=Tasks[NumTask].SourceFilt.FileMask;
-    // Если исключать файлы
-    if Tasks[NumTask].SourceFilt.ModeFiltFiles=tsNoMask then // Файлы исключаются
-      begin
-      for i := 0 to FileMask.Count - 1 do
-        begin
-         cmdstr := cmdstr + ' -xr!'+utf8toansi(FileMask[i]);
-        end;
-      end
-     else // Обрабатывать только эти файлы
-       begin
-       if FileMask.Count=1 then // в списке только одно исключение
-         begin
-         arhsor:=utf8toansi(SrcFS.RootDir)+DirectorySeparator+FileMask[0];
-         end
-        else // в списке несколько исключений, делаем файл со списком файлов
-          begin
-           tmpfile := ExtractFileDir(ParamStr(0)) + DirectorySeparator + 'tmp.txt';
-           FileList := TStringList.Create;
-           for i := 0 to FileMask.Count - 1 do
-               begin
-                 FileList.Add(utf8toansi(SrcFS.RootDir)+DirectorySeparator+utf8toansi(FileMask[i]));
-               end;
-           FileList.SaveToFile(tmpfile);
-           FileList.Free;
-           arhsor:='@"'+tmpfile+'"';
-          end;
-       end;
-     FileMask.Free;
-  end;
-
-  cmdstr:=cmdstr+' "'+arhsor+'"'; // Добавление списка архивируемых файлов
-  Result:=cmdstr;
-end;
 
  //=====================================================
  // Копирование задания
@@ -2263,9 +2389,9 @@ begin
   if Count = MaxTasks then
     exit;
   AddTask;
-  CopyTask(numtask, Count);
-  Tasks[Count].Name := rsCopyPerfix + ' ' + Tasks[numtask].Name;
-  Tasks[Count].LastRunDate:=0;
+  CopyTask(numtask, Count-1);
+  Tasks[Count-1].Name := rsCopyPerfix + ' ' + Tasks[numtask].Name;
+  Tasks[Count-1].LastRunDate:=0;
 end;
  //===========================================================
  // Архивация Rar директории sourdir в директорию destdir
@@ -2553,9 +2679,21 @@ begin
 //  runstr   := runstr + '"'+ArhFullName + '" "' + SrcFS.RootDir + DirectorySeparator + '*"';
 
   runstr := BuildRarFileList(numtask,ArhFullName,SrcFS);
-  str := Format(rsRunArhCmd, ['rar.exe '+ansitoutf8(runstr)]);
+
+
+  // Замена пароля звездочками для отображения
+  str:=ansitoutf8(runstr);
+  if Tasks[NumTask].Arh.EncryptEnabled then  // Пароль
+       begin
+       str:=StringReplace(str,' -p'+DecryptString(Tasks[NumTask].Arh.Password,KeyStrTask),' -p**********',[rfReplaceAll]);
+       end;
+
+//  str := Format(rsRunArhCmd, ['rar.exe '+ansitoutf8(runstr)]);
+  str := Format(rsRunArhCmd, ['rar.exe '+str]);
   //str:=ansitoutf8(str);
   LogMessage(str);
+
+
   ExitCode := ExecProc(rarexe, runstr, True);   // Запуск с ожиданием
 
 
@@ -2600,6 +2738,102 @@ begin
         end;
 
  DelOldArhsFS(numtask,DstFS);
+end;
+ //==========================================================
+// Создание файла исключений, генерация командной строки для архивации rar
+function TBackup.BuildRarFileList(NumTask: integer;ArhFullName:string;SrcFS:TCustomFS): string;
+var
+  FileList: TStrings;
+  tmpfile:  string;
+  res:      string;
+  i: integer;
+  SubDirs:TStringList;
+begin
+  res:='a -ep1 -u -ibck -y ';
+
+//    runstr := 'a -dh -ep1 -u -ibck -y ';
+//  runstr := runstr + BuildRarFileList(numtask) + ' ';
+//  runstr   := runstr + '"'+ArhFullName + '" "' + SrcFS.RootDir + DirectorySeparator + '*"';
+
+ if Tasks[NumTask].Arh.ArhOpenFiles then // Архивировать открытые для записи файлы
+    begin
+    res:=res+' -dh';
+    end;
+
+    // -df удалить файлы после упаковки
+  if Tasks[NumTask].Arh.DelAfterArh then
+    begin
+    res:=res+' -df';
+    end;
+  // непрерывный архив
+  if Tasks[NumTask].Arh.Solid then
+         res:=res+' -s'
+    else
+         res:=res+' -s-';
+
+  // Дополнительные опции
+  res:=res+' '+Tasks[NumTask].Arh.AddOptions;
+
+  if Tasks[NumTask].Arh.LevelCompress<>lcNormal then // Уровень сжатия
+    begin
+    case Tasks[NumTask].Arh.LevelCompress of
+      lcNone:    i:=0;
+      lcFastest: i:=1;
+      lcFast:    i:=2;
+      lcNormal:  i:=3;
+      lcMaximum: i:=4;
+      lcUltra:   i:=5;
+     else
+        i:=3;
+    end;
+    res:=res+' -m'+IntToStr(i);
+    end;
+
+
+  if Tasks[NumTask].Arh.EncryptEnabled then // Пароль
+    begin
+    res:=res+' -p'+DecryptString(Tasks[NumTask].Arh.Password,KeyStrTask);
+    end;
+
+
+// Нет фильтрации источника и приемника
+  if (not Tasks[NumTask].SourceFilt.FiltSubDir) and (not Tasks[NumTask].SourceFilt.FiltFiles) then
+  begin
+         if Tasks[NumTask].SourceFilt.Recurse then
+             res :=res+ ' -r';
+         Result:=res;
+         exit;
+  end;
+  FileList := TStringList.Create;
+  if Tasks[NumTask].SourceFilt.Recurse then
+    res := res+' -r';
+  // исключение файлов
+  if Tasks[NumTask].SourceFilt.FiltFiles then
+  begin
+    GetFileList(SrcFS.RootDir, NumTask, FileList, False, False);
+    tmpfile := ExtractFileDir(ParamStr(0)) + DirectorySeparator + 'tmp.txt';
+    //tmpfile:='tmp.txt';
+    FileList.SaveToFile(tmpfile);
+    res := res + ' -x@"' + tmpfile + '" ';
+  end;
+  // Исключение директорий
+  if Tasks[NumTask].SourceFilt.FiltSubDir then
+  begin
+    SubDirs:=TStringList.Create;
+    SubDirs.Delimiter:=';';
+    SubDirs.DelimitedText:=Tasks[NumTask].SourceFilt.SubDirs;
+    for i := 0 to SubDirs.Count - 1 do
+    begin
+      res := res + ' -x\"' + SrcFS.RootDir + DirectorySeparator +SubDirs[i] + '" ';
+    end;
+    SubDirs.Free;
+  end;
+
+
+  res:=res+' "'+ArhFullName + '" "' + SrcFS.RootDir + DirectorySeparator + '*"';
+
+  Result := res;
+  FileList.Free;
 end;
 
 
@@ -2658,7 +2892,15 @@ if not (SrcFS is TFileFS) then
   end;
 
   runstr := Build7zipFileList(NumTask,ArhFullName,SrcFS); // Параметры запуска
-  str := Format(rsRunArhCmd, ['7za.exe '+ansitoutf8(runstr)]);
+  // Замена пароля звездочками для отображения
+  str:=ansitoutf8(runstr);
+  if Tasks[NumTask].Arh.EncryptEnabled then  // Пароль
+       begin
+       str:=StringReplace(str,' -p'+DecryptString(Tasks[NumTask].Arh.Password,KeyStrTask),' -p**********',[rfReplaceAll]);
+       end;
+
+  //str := Format(rsRunArhCmd, ['7za.exe '+ansitoutf8(runstr)]);
+  str := Format(rsRunArhCmd, ['7za.exe '+str]);
   //str:=ansitoutf8(str);
   LogMessage(str);
   ExitCode := ExecProc(cmdexe, runstr, True);   // Запуск с ожиданием
@@ -2722,14 +2964,159 @@ if not (SrcFS is TFileFS) then
 
        end;
 
-  if (TmpExist) and ((ExitCode=0) or (ExitCode=1)) then // Копируем архив
+  if (TmpExist) and ((ExitCode=0) or (ExitCode=1)) and (Result<=trFileError) then // Копируем архив
         begin
         SrcFS.ChangeWorkingDir(arhDir);
         DstFS.ChangeWorkingDir(DstFS.RootDir);
+        if (DstFS is TFTPFS) then // приемник Ftp,
+             begin
+             if Not (DstFS as TFTPFS).Connected then  //отвалился пока архивировали
+                 begin
+                 if Not (DstFS as TFTPFS).Connect then // И обратно не цепляется
+                     begin
+                     Result:=trError;
+                     LogMessage(rsFTPLostConnect);
+                     exit;
+                     end;
+                 end;
+             end;
         if SimpleCopyFileFS(SrcFS,DstFS,ArhFileName) then
             DelFileFS(ArhFileName,SrcFS);
         end;
-  DelOldArhsFS(numtask,DstFS);
+// Удаление старых архивов
+if Result<=trFileError then DelOldArhsFS(numtask,DstFS);
+end;
+//==========================================================
+// Создание командной строки для архивации 7zip  (без 7z.exe)
+// ArhFileName - имя файла архива без пути
+function TBackup.Build7zipFileList(NumTask: integer;ArhFileName:string;SrcFS:TCustomFS): string;
+var
+  FileList: TStrings;
+  tmpfile:  string;
+  //res:      string;
+  cmdstr: string; // Генерируемая строка
+//  arhname:string;
+//  tmpbool:boolean;
+  arhsor:string; // Что архивировать
+  i: integer;
+  SubDirs,FileMask:TStringList;
+begin
+
+  //arhname := GetArhName(numtask,ArhFileName,false,tmpbool);
+  //arhname:=utf8toansi(arhname);
+
+
+  arhsor:=SrcFS.RootDir;// ReplDate(Tasks[NumTask].SrcFSParam.RootDir SorPath);
+
+  //arhsor:=utf8toansi(arhsor)+DirectorySeparator+'*'; // По умолчанию все
+  arhsor:=SrcFS.RootDir+DirectorySeparator+'*'; // По умолчанию все
+  //7z a -tzip archive.zip *.txt -x!temp.*
+  cmdstr:='a "'+ArhFileName+'" -y';            // -y - yes на все вопросы
+
+  if Tasks[NumTask].Arh.ArhOpenFiles then // архивировать открытые файлы
+   begin
+   cmdstr:=cmdstr+' -ssw';
+   end;
+
+  // Непрерывный архив
+  if Tasks[NumTask].Action=ttArh7Zip then
+      begin
+      if Tasks[NumTask].Arh.Solid then
+         cmdstr:=cmdstr+' -ms'
+
+       else
+         cmdstr:=cmdstr+' -ms=off';
+
+      end;
+
+  if Tasks[NumTask].Action=ttArhZip then // архивация zip
+   begin
+   cmdstr:=cmdstr+' -tzip'; // архивация зип
+   end;
+
+  cmdstr:=cmdstr+' '+ Tasks[NumTask].Arh.AddOptions;
+
+  if Tasks[NumTask].Arh.EncryptEnabled then  // Пароль
+       begin
+       cmdstr:=cmdstr+' -p'+DecryptString(Tasks[NumTask].Arh.Password,KeyStrTask);
+       end;
+
+  if Tasks[NumTask].Arh.LevelCompress<>lcNormal then  // Уровень сжатия
+       begin
+       cmdstr:=cmdstr+' -mx'+IntToStr(Integer(Tasks[NumTask].Arh.LevelCompress));
+       end;
+
+
+  if Tasks[NumTask].SourceFilt.Recurse then // рекурсивно
+     begin
+      cmdstr:=cmdstr+' -r';
+     end
+    else         // не рекурсивно
+      begin
+       cmdstr:=cmdstr+' -r-';
+      end;
+ {
+  if not Tasks[NumTask].SourceFilt.FiltSubDir and not
+    Tasks[NumTask].SourceFilt.FiltFiles then
+    // нет исключений
+  begin
+    cmdstr:=cmdstr+' '+utf8toansi(Tasks[NumTask].SorPath)+slash+'*'; // Добавление списка архивируемых файлов
+    Result:=cmdstr;
+    exit;
+  end;
+  }
+
+  // Исключение директорий
+  if Tasks[NumTask].SourceFilt.FiltSubDir then
+  begin
+    SubDirs:=TStringList.Create;
+    SubDirs.Delimiter:=';';
+    SubDirs.DelimitedText:=Tasks[NumTask].SourceFilt.SubDirs;
+    for i := 0 to SubDirs.Count - 1 do
+    begin
+      cmdstr := cmdstr + ' -xr!"' + utf8toansi(SubDirs[i])+DirectorySeparator+'*" ';
+    end;
+    SubDirs.Free;
+  end;
+
+  // исключение файлов
+  if Tasks[NumTask].SourceFilt.FiltFiles then
+  begin
+    FileMask:=TStringList.Create;
+    FileMask.Delimiter:=';';
+    FileMask.DelimitedText:=Tasks[NumTask].SourceFilt.FileMask;
+    // Если исключать файлы
+    if Tasks[NumTask].SourceFilt.ModeFiltFiles=tsNoMask then // Файлы исключаются
+      begin
+      for i := 0 to FileMask.Count - 1 do
+        begin
+         cmdstr := cmdstr + ' -xr!'+utf8toansi(FileMask[i]);
+        end;
+      end
+     else // Обрабатывать только эти файлы
+       begin
+       if FileMask.Count=1 then // в списке только одно исключение
+         begin
+         arhsor:=utf8toansi(SrcFS.RootDir)+DirectorySeparator+FileMask[0];
+         end
+        else // в списке несколько исключений, делаем файл со списком файлов
+          begin
+           tmpfile := ExtractFileDir(ParamStr(0)) + DirectorySeparator + 'tmp.txt';
+           FileList := TStringList.Create;
+           for i := 0 to FileMask.Count - 1 do
+               begin
+                 FileList.Add(utf8toansi(SrcFS.RootDir)+DirectorySeparator+utf8toansi(FileMask[i]));
+               end;
+           FileList.SaveToFile(tmpfile);
+           FileList.Free;
+           arhsor:='@"'+tmpfile+'"';
+          end;
+       end;
+     FileMask.Free;
+  end;
+
+  cmdstr:=cmdstr+' "'+arhsor+'"'; // Добавление списка архивируемых файлов
+  Result:=cmdstr;
 end;
 
 
@@ -2743,7 +3130,7 @@ end;
 procedure TBackup.DelOldArhsFS(NumTask: integer;CustomFS:TCustomFS);
 var
   olddays, oldMonths, OldYears: integer;
-  dir, exten: string;
+  exten: string;
   Col,i,j,Day, Month,year: integer;
   BeforeDate,DateBeg,DateEnd,CurrDate: TDateTime;
   sr:      TSearchRecFS;
@@ -2755,7 +3142,7 @@ var
 
 begin
   if not Tasks[numtask].Arh.DelOldArh then  exit; // Если не задано удаление архивов выход из функции
-  dir := CustomFS.RootDir;// Tasks[numtask]. DestPath + DirectorySeparator;
+//  dir := CustomFS.RootDir;// Tasks[numtask]. DestPath + DirectorySeparator;
   // каталог приемник где ищутся архивы
   //exten:=Tasks[numtask].Arh.Name;
   exten:=ReplDateToMask(Tasks[numtask].Arh.Name); // Заменяем %% на *
@@ -3360,12 +3747,12 @@ end;
  //----------------------------------------------------------------
 procedure TBackup.SaveToXMLFile(filenam: string);
 var
-  i, j, cnt: integer;
+  i: integer;
   //MailAlert:integer;
   xmldoc: TXMLConfig;
   sec: string;
   FrmSet:TFormatSettings;
-  cr:string;
+  //cr:string;
 begin
 
   if filenam = '' then filenam := Settings.profile;
@@ -3382,11 +3769,11 @@ begin
   xmldoc.SetValue('version/value', versionas);
   // количество заданий
   xmldoc.SetValue('tasks/count/value', Count);
-  for i := 1 to Count do
+  for i := 0 to Count-1 do
   begin
     // Имя секции с заданием
 
-    sec := 'tasks/task' + IntToStr(i) + '/';
+    sec := 'tasks/task' + IntToStr(i+1) + '/';
 
     xmldoc.SetValue(sec + 'name/value', Tasks[i].Name);
     // Источник
@@ -3430,6 +3817,13 @@ begin
     xmldoc.SetValue(sec + 'Arh/MonthsOld/value', Tasks[i].Arh.MonthsOld);
     xmldoc.SetValue(sec + 'Arh/YearsOld/value', Tasks[i].Arh.YearsOld);
     xmldoc.SetValue(sec + 'Arh/DelAfterArh/value', Tasks[i].Arh.DelAfterArh);
+    xmldoc.SetValue(sec + 'Arh/EncryptEnabled/value', Tasks[i].Arh.EncryptEnabled);
+    xmldoc.SetValue(sec + 'Arh/Password/value', Tasks[i].Arh.Password);
+    xmldoc.SetValue(sec + 'Arh/LevelCompress/value', integer(Tasks[i].Arh.LevelCompress));
+    xmldoc.SetValue(sec + 'Arh/ArhOpenFiles/value', Tasks[i].Arh.ArhOpenFiles);
+    xmldoc.SetValue(sec + 'Arh/Solid/value', Tasks[i].Arh.Solid);
+    xmldoc.SetValue(sec + 'Arh/AddOptions/value', Tasks[i].Arh.AddOptions);
+
    {
      TmpStr.Add(BoolToStr(Tasks[i].Rasp.Manual));
      TmpStr.Add(BoolToStr(Tasks[i].Rasp.AtTime));
@@ -3489,7 +3883,7 @@ end;
  // Возвращает PName - имя профиля загруженного
 procedure TBackup.LoadFromXMLFile(filenam: string);
 var
-  i, j, cnt, cntdir: integer;
+  i, cnt: integer;
   // TmpStr:TStringList;
   // ver:integer;
   // i,j,cnt:integer;
@@ -3498,7 +3892,7 @@ var
   strDate: string;
   FrmSet:TFormatSettings;
   tmpint:integer;
-  cr:string;
+  //cr:string;
 begin
   if filenam = '' then    filenam := Settings.profile;
   //filenam:=FullFileNam(filenam);
@@ -3528,7 +3922,7 @@ begin
 
   //xmldoc.Filename:='probcfg.xml';
 
-
+//  Clear;
   // количество заданий
   cnt := xmldoc.GetValue('tasks/count/value', 0);
   if cnt = 0 then
@@ -3542,13 +3936,15 @@ begin
   //TmpStr.LoadFromFile(filenam);
   //ProfName:='';
   //strcount:=1;
-  Clear;
+//  Clear;
 
-  for i := 1 to cnt do
+  SetLength(Tasks,cnt);
+//  Count:=cnt
+  for i := 0 to cnt-1 do
     //while strcount<TmpStr.Count do
   begin
     // Имя секции с заданием
-    sec := 'tasks/task' + IntToStr(i) + '/';
+    sec := 'tasks/task' + IntToStr(i+1) + '/';
     if i > MaxTasks then
       exit; // вдруг пакостный файл
 
@@ -3605,17 +4001,9 @@ begin
         Tasks[i].DstFSParam.RootDir:=xmldoc.GetValue(sec + 'DestPath/value','');
 
 
-//    Tasks[i].SrcFSParam.FSType:=fstFile;
-//    Tasks[i].SrcFSParam.RootDir:=Tasks[i].SorPath;
-
-//    Tasks[i].DstFSParam.FSType:=fstFile;
-//    Tasks[i].DstFSParam.RootDir:=Tasks[i].DestPath;
-
-    //TmpStr[strcount+2];
     Tasks[i].Action   := xmldoc.GetValue(sec + 'Action/value', 0);
-    //StrToInt(TmpStr[strcount+3]);
     Tasks[i].Enabled  := xmldoc.GetValue(sec + 'Enabled/value', False);
-    //StrToBool(TmpStr[strcount+4]);
+
     Tasks[i].Status   := stNone;
     // Чтение параметров архива
 
@@ -3625,6 +4013,14 @@ begin
     Tasks[i].Arh.MonthsOld := xmldoc.GetValue(sec + 'Arh/MonthsOld/value', 0);
     Tasks[i].Arh.YearsOld  := xmldoc.GetValue(sec + 'Arh/YearsOld/value', 0);
     Tasks[i].Arh.DelAfterArh:=xmldoc.GetValue(sec + 'Arh/DelAfterArh/value', False);
+    Tasks[i].Arh.ArhOpenFiles:=xmldoc.GetValue(sec + 'Arh/ArhOpenFiles/value', False);
+    Tasks[i].Arh.Solid:=xmldoc.GetValue(sec + 'Arh/Solid/value', true);
+    Tasks[i].Arh.AddOptions:=xmldoc.GetValue(sec + 'Arh/AddOptions/value', '');
+
+    Tasks[i].Arh.EncryptEnabled:=xmldoc.GetValue(sec + 'Arh/EncryptEnabled/value', False);
+    Tasks[i].Arh.Password:=xmldoc.GetValue(sec + 'Arh/Password/value', '');
+    Tasks[i].Arh.LevelCompress:=TLevelCompress(xmldoc.GetValue(sec + 'Arh/LevelCompress/value',integer(lcNormal)));
+//    Tasks[i].Arh.LevelCompress:=k;
 
     // Чтение параметров запуска внешних программ
     Tasks[i].ExtBefore.Enabled :=xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Enabled/value', False);
@@ -3684,7 +4080,7 @@ begin
     Tasks[i].SourceFilt.FiltFiles :=xmldoc.GetValue(sec + 'SourceFilt/FiltFiles/value', False);
     Tasks[i].SourceFilt.ModeFiltFiles:=xmldoc.GetValue(sec + 'SourceFilt/ModeFiltFiles/value', 0);
     Tasks[i].SourceFilt.FileMask:=xmldoc.GetValue(sec + 'SourceFilt/FileMask/value', '');
-    Count := i;
+    Count := i+1;
   end;
   xmldoc.Free;
 end;
@@ -4836,15 +5232,15 @@ var
 //  filesync, filesor: string;
   FullSor,FullDest:string;
   DelFiles:TDeletedFiles;
-  i:integer;
-  beforedate:TDateTime;
-  IsSubDir:boolean;
+  //i:integer;
+  //beforedate:TDateTime;
+//  IsSubDir:boolean;
   isrSor:integer;
 //  WasDelFiles:boolean;
 begin
 Result:=trOk;
 //FileAttrs := faReadOnly + faHidden + faSysFile + faArchive + faAnyFile + faDirectory;
-IsSubDir:=false; // Есть подкаталоги
+//IsSubDir:=false; // Есть подкаталоги
 //WasDelFiles:=true; // Очищали каталог по DelFiles
 sr:=TSearchRecFS.Create;
 srSour:=TSearchRecFS.Create;
@@ -4892,7 +5288,7 @@ isrSor:=SrcFS.FindFirstFS(srSour);
                        end;
                    if not (SameText(sr.sr.Name, '.')) and not (SameText(sr.sr.Name, '..')) then
                 begin
-                  IsSubDir:=true;
+//                  IsSubDir:=true;
                   if (CheckSubDir(FullSor, NumTask)) then
                      begin
                        if Not Tasks[NumTask].Arh.DelOldArh then // не задано хранение удаленных файлов
@@ -5206,7 +5602,7 @@ end;
 function TBackup.SimpleCopyFileFS(FromFS,ToFS:TCustomFS;ShortFileName:string):boolean;
 var
   FullSorFile,FullDestFile:string;
-  DestDir:string;
+//  DestDir:string;
 begin
 FullSorFile:=FromFS.PathCombine(FromFS.WorkingDir,ShortFileName);
 FullDestFile:=ToFS.PathCombine(ToFS.WorkingDir,ShortFileName);
@@ -5440,7 +5836,7 @@ function TBackup.CompareFileDateFS(SorFS,DestFS:TCustomFS; FileName: string): bo
 var
   Hourd: double;
   aaDate, bbDate: TDateTime; // Нормальное время
-  aDate, bDate: integer;     // Файловое время
+//  aDate, bDate: integer;     // Файловое время
   str:   string;
 begin
   try

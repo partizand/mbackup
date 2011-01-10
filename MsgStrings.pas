@@ -26,10 +26,13 @@ resourcestring
  rsTest='Test';
  rsYes='Yes';
  rsNo='No';
+ rsLogging='Logging';
+ rsEMail='E-Mail';
  rsTaskError='Error';
  rsTaskEndError='Warning';    // Выполнено с ошибками
- rsAlertRunMes='Program started';
- rsAlertRunSubj='mBackup alert';
+ rsStarted='started';
+ rsFinished='finished';
+// rsAlertRunSubj='mBackup alert';
  rsQuestDeleteTask='Delete task %s?';
  // FormTask
  rsEnterSource='Enter source';
@@ -96,7 +99,7 @@ resourcestring
  rsAlways='Always';
  rsSmtpLoginErr='SMTP Login error: %s';
  rsSmtpMailFromErr='SMTP MailFrom error: %s';
- rsSmtpMailToErr='SMTP MailTo error: %s';
+ rsSmtpMailToErr='SMTP MailTo error: %s. %s';
  rsSmtpMailDataErr='SMTP MailData error: %s';
  rsSmtpLogoutErr='SMTP Logout error: %s';
  rsSmtpStartTLSErr='SMTP Start TLS error: %s';
@@ -127,7 +130,13 @@ resourcestring
  rsTaskSettingsNode1='Name';
  rsTaskSettingsNode2='Action';
  rsTaskSettingsNode3='Archiving';
- rsTaskSettingsNode4='Other';
+ rsOther='Other';
+ // Уровни сжатия архива
+ rsFastest='Fastest';
+ rsFast='Fast';
+ rsNormal='Normal';
+ rsMaximum='Maximum';
+ rsUltra='Ultra';
  //rsTest='This is test';
 implementation
 

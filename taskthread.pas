@@ -30,10 +30,12 @@ type
   numT:integer; // Номер задания на запуск
   TotGaugeVis:boolean; // Видимость прогресса gauge
   status,stmemo,stfile:string;
+  Task:TTask; // Выполняемое задание
  // prog2pos:integer; //положение прогрессбара
   procedure ShowProc(Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: Int64);
   //  constructor Create(newtask:TTask;logfile:string);
   constructor Create(numTask:integer);
+//  constructor Create(TaskToRun:TTask);
   destructor Destroy;override;
   end;
 
@@ -157,20 +159,21 @@ end;
 procedure TTaskThread.ReadTaskCl;
 begin
 //  Backup:=TBackup.Create;
-  Backup.Count:=1;
-  Backup.Tasks[1]:=MForm.Backup.Tasks[numt];
-  Backup.Count:=1;
+//  Backup.Count:=1;
+//  SetLength(Backup.Tasks,1);
+  Backup.AddTask;
+  Backup.CopyTask(MForm.Backup.Tasks[numt],Backup.Tasks[0]);
+  //Backup.Tasks[1]:=MForm.Backup.Tasks[numt];
+  {
   Backup.Settings.logfile:=MForm.Backup.Settings.logfile;
   Backup.Settings.loglimit:=MForm.Backup.Settings.loglimit;
-
-//  Backup.alerttype:=MForm.Backup.alerttype;
-  Backup.Settings.smtpserv:=MForm.Backup.Settings.smtpserv;
+    Backup.Settings.smtpserv:=MForm.Backup.Settings.smtpserv;
   Backup.Settings.smtpport:=MForm.Backup.Settings.smtpport;
   Backup.Settings.smtpuser:=MForm.Backup.Settings.smtpuser;
   Backup.Settings.smtppass:=MForm.Backup.Settings.smtppass;
   Backup.Settings.email:=MForm.Backup.Settings.email;
   Backup.Settings.mailfrom:=MForm.Backup.Settings.mailfrom;
-  
+  }
 end;
 // Безопасная запись параметров Task
 procedure TTaskThread.SaveTaskCl;
@@ -178,17 +181,21 @@ var
  i:integer;
 begin
   i:=MForm.Backup.FindTaskSt(stRunning);
-  MForm.Backup.Tasks[i].LastResult:=Backup.Tasks[1].LastResult;
-  MForm.Backup.Tasks[i].LastRunDate:=Backup.Tasks[1].LastRunDate;
+  MForm.Backup.Tasks[i].LastResult:=Backup.Tasks[0].LastResult;
+  MForm.Backup.Tasks[i].LastRunDate:=Backup.Tasks[0].LastRunDate;
 end;
 
 
 
 // Создание объекта потока
 constructor TTaskThread.Create(numtask:integer);
+//constructor TTaskThread.Create(TaskToRun:TTask);
 begin
-  numT:=numtask;
   Backup:=TBackup.Create;
+  NumT:=numtask;
+//  Backup.Count:=1;
+//  SetLength(Backup.Tasks,1);
+//  Backup.CopyTask(TaskToRun,Backup.Tasks[0]);
   Synchronize(@ReadTaskCl);
   Backup.OnProgress:=@ShowProc;
 //  Backup.Tasks[1]:=newtask;
@@ -214,31 +221,31 @@ begin
 
 //sp:=TTaskThread.ShowProc;
 //ShowProgress:=ShowProc;
-status:=Format(rsTaskIsRunning,[Backup.Tasks[1].Name]);
+status:=Format(rsTaskIsRunning,[Backup.Tasks[0].Name]);
 //status:='Выполняется задача "'+Backup.Tasks[1].Name+'"';
 stfile:='';
 Synchronize(@UpdateSatus);
 stMemo:='';
 Synchronize(@UpdateMsgMemo);
 //MForm.MsgMemo.Lines.Clear;
-res:=Backup.RunTask(1,true);
+res:=Backup.RunTask(0,true);
 Synchronize(@SaveTaskCl);
 //nam:=MForm.Backup.Name;
 //res:=Backup.RunTask(1);
 if res=trOk then
  begin
  // status:=Format(misc(
-  status:=Format(rsLogTaskEndOk,[Backup.Tasks[1].Name]);
+  status:=Format(rsLogTaskEndOk,[Backup.Tasks[0].Name]);
  // status:='Задача "'+Backup.Tasks[1].Name+'" выполнена успешно';
  end;
 if res=trError then
  begin
-  status:=Format(rsLogTaskError,[Backup.Tasks[1].Name]);
+  status:=Format(rsLogTaskError,[Backup.Tasks[0].Name]);
  // status:='Задача "'+Backup.Tasks[1].Name+'" не выполнена';
  end;
 if res=trFileError then
  begin
-  status:=Format(rsLogTaskEndErr,[Backup.Tasks[1].Name]);
+  status:=Format(rsLogTaskEndErr,[Backup.Tasks[0].Name]);
 //  status:='Задача "'+Backup.Tasks[1].Name+'" выполнена с ошибками';
  end;
 

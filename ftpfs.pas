@@ -8,8 +8,7 @@ uses
   Classes, SysUtils,customfs,logunit,unitfunc,ftpsend,blcksock,ssl_openssl,msgstrings;
 
 
-const
-  KeyStrTask='a2JH380oUtkI67B345d3OF2yeKMXHfD8q670z26007tJcdg1oy'; // Ключ шифрования
+//const KeyStrTask='a2JH380oUtkI67B345d3OF2yeKMXHfD8q670z26007tJcdg1oy'; // Ключ шифрования
 
  // Структура настроек ftp сервера
 type
@@ -156,10 +155,14 @@ end;
 class function TFTPFS.GetSrvName(FtpParam:TFtpServParam):string;
 var
   strport:string;
+  strS:string;
 begin
 strport:='';
-if FtpParam.Port<>'21' then strport:=FtpParam.Port+':';
-Result:='ftp://'+FtpParam.Host+strport;
+strS:='';
+
+if FtpParam.AutoTLS then StrS:='s';
+if FtpParam.Port<>'21' then strport:=':'+FtpParam.Port;
+Result:='ftp'+strS+'://'+FtpParam.Host+strport;
 end;
 //--------------------------------------------------
 function TFTPFS.IsAvalible(TryCreate:boolean):boolean;

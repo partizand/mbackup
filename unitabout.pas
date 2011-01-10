@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons,{inilang,}shellapi,Windows,
-  gettext,translations,taskunit
+  Buttons,{inilang,}{shellapi,}Windows,
+  gettext,{translations,}taskunit
   ;
   {Прежде всего добавьте модули "gettext" и "translations"}
 

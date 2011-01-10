@@ -1,7 +1,7 @@
 object frmFTPParam: TfrmFTPParam
-  Left = 459
+  Left = 768
   Height = 253
-  Top = 224
+  Top = 178
   Width = 372
   Caption = 'FTP Params'
   ClientHeight = 253

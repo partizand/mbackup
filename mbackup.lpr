@@ -6,7 +6,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, CustApp,{iniLangC,}TaskUnit,Windows//,ShellApi
+  Classes, SysUtils, CustApp,{iniLangC,}TaskUnit,Windows,MsgStrings//,ShellApi
   { you can add units after this };
 
 
@@ -48,7 +48,8 @@ PrintStartInfo;
 if estr  then // автозапуск заданий
     begin
     Backup.InCmdMode:=true;
-        for k:=1 to Backup.Count do
+    if Backup.AlertStart then Backup.SendAlert(rsStarted);
+        for k:=0 to Backup.Count-1 do
            begin
            // Задание включено                      (и на запуск при запуске)
            if Backup.Tasks[k].Enabled  then //and Backup.Tasks[k].Rasp.AtStart
@@ -57,6 +58,7 @@ if estr  then // автозапуск заданий
               end;
            end;
          if IsProfile then Backup.SaveToFile(''); // Результаты работы
+    if Backup.AlertFinish then Backup.SendAlert(rsFinished);
     end // end if r
   else
     begin
@@ -135,9 +137,9 @@ end;
 { Вывод справки }
 procedure TASCons.UsageInfo;
 begin
-writeln('Usage: mbackup -r [-p profile_name] [-log logfile] [-alert]');
+writeln('Usage: mbackup -r [-p profile_name] [-log logfile] [-as] [-af]');
 writeln(' or');
-writeln('mbackup <command> -source source_path -dest dest_path [-recurse] [-log logfile] [-alert]');
+writeln('mbackup <command> <Source> <Destination> [-recurse] [-log logfile] [-as] [-af]');
 writeln('-r :Start enabled tasks in profile');
 writeln('-p profile_name: Profile to start, else takes from autosave.ini');
 writeln('<command>');
@@ -145,11 +147,15 @@ writeln('copy       Simple copy dirs');
 writeln('mirr       Copy source to destination, delete other files from destination (Mirror)');
 writeln('sync       Syncs sourse and destination');
 writeln('');
-writeln('-source source_path: Path to source');
-writeln('-dest dest_path: Path to destination');
-writeln('-recurse: Work with paths recurse');
+writeln('<Source>: Path to source directory or ftp server');
+writeln('<Destination>: Path to destination directory or ftp server');
+writeln(' ftp server string: ftp[s]://[Username:password@]Server[:port][/Directory]');
+writeln('                     default port: 21, default Username: anonymous');
+writeln('                     Passive mode always enabled');
+writeln('-recurse: Work with paths recurse. Without this switch not recurse');
 writeln('-log log_file :Logfile name, if not set then takes from mbackup.ini settings');
-writeln('-alert: Send email alert about start program');
+writeln('-as: Send email alert about start program (alert start)');
+writeln('-af: Send email alert about finish program (alert finished)');
 end;
 
 

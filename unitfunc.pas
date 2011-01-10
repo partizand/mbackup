@@ -8,6 +8,9 @@ interface
 uses
   Classes, SysUtils,dcprijndael,dcpsha1;
 
+const
+  KeyStrTask='a2JH380oUtkI67B345d3OF2yeKMXHfD8q670z26007tJcdg1oy'; // Ключ шифрования в задании
+
 function ShortFileNam(FileName: string): string;
 function FullFileNam(FileName: string): string;
 function EncryptString(Str:string;KeyStr:string):string; // Шифрование строки

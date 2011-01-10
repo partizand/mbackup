@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Spin, Buttons, ExtCtrls, EditBtn, ButtonPanel, StrUtils, msgStrings, windows,
-  taskunit, unitfunc,setunit{,idSmtp,idMessage};
+  Spin, Buttons, ExtCtrls, EditBtn, ButtonPanel, ComCtrls, StrUtils, msgStrings,
+  windows, taskunit, unitfunc, setunit{,idSmtp,idMessage};
 
 type
 
@@ -15,51 +15,61 @@ type
 
   TFormSet = class(TForm)
     BitBtn1: TBitBtn;
+    BoxLang: TComboBox;
     butTestSmtp: TButton;
     ButtonPanel1: TButtonPanel;
-    CheckSysCopyFunc: TCheckBox;
     CheckGroup2: TCheckGroup;
-    BoxLang: TComboBox;
+    CheckSysCopyFunc: TCheckBox;
     chkFTPLogEnabled: TCheckBox;
+    EditArhTmpDir: TDirectoryEdit;
+    EditBody: TEdit;
+    EditBodyAlert: TEdit;
     EditCurProf: TFileNameEdit;
     EditDefProf: TFileNameEdit;
+    EditFTPLim: TSpinEdit;
+    EditLim: TSpinEdit;
     EditLogFTPNam: TEdit;
-    EditProfNam: TEdit;
-    EditSubj: TEdit;
-    EditBody: TEdit;
-    EditArhTmpDir: TDirectoryEdit;
-    EditUser: TEdit;
-    EditPass: TEdit;
-    EditServ: TEdit;
+    EditLogNam: TEdit;
     EditMailFrom: TEdit;
     EditMailTo: TEdit;
-    EditLogNam: TEdit;
-    GroupProfStart: TGroupBox;
-    GroupLog: TGroupBox;
+    EditPass: TEdit;
+    EditPort: TSpinEdit;
+    EditProfNam: TEdit;
+    EditServ: TEdit;
+    EditSubj: TEdit;
+    EditSubjAlert: TEdit;
+    EditUser: TEdit;
     GroupBox4: TGroupBox;
-    GroupLang: TGroupBox;
     GroupEmail: TGroupBox;
-    GroupTempArh: TGroupBox;
+    GroupLang: TGroupBox;
+    GroupLog: TGroupBox;
     GroupLogFtp: TGroupBox;
-    LabelLimit: TLabel;
-    EditLim: TSpinEdit;
-    LabelPass: TLabel;
-    LabelSubj: TLabel;
-    LabelText: TLabel;
-    LabelLimFTp: TLabel;
-    LabelKbftp: TLabel;
-    LabelKb: TLabel;
+    GroupProfStart: TGroupBox;
+    GroupTempArh: TGroupBox;
+    LabelBodyAlert: TLabel;
+    LabelSubjAlert: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    LabelSmtpSrv: TLabel;
-    LabelPort: TLabel;
+    LabelKb: TLabel;
+    LabelKbftp: TLabel;
+    LabelLimFTp: TLabel;
+    LabelLimit: TLabel;
     LabelMailFrom: TLabel;
     LabelMailTO: TLabel;
+    LabelPass: TLabel;
+    LabelPort: TLabel;
+    LabelSmtpSrv: TLabel;
+    LabelSubj: TLabel;
+    LabelText: TLabel;
     LabelUser: TLabel;
-    EditPort: TSpinEdit;
-    EditFTPLim: TSpinEdit;
+    pcSettings: TPageControl;
     RadioLastProf: TRadioButton;
     RadioThisProf: TRadioButton;
+    Splitter1: TSplitter;
+    TabLog: TTabSheet;
+    TabMail: TTabSheet;
+    TabOther: TTabSheet;
+    tvSettings: TTreeView;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure butTestSmtpClick(Sender: TObject);
@@ -79,6 +89,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure RadioLastProfChange(Sender: TObject);
     procedure RadioThisProfChange(Sender: TObject);
+    procedure tvSettingsSelectionChanged(Sender: TObject);
   private
     { private declarations }
     LangNameList:TStringList;
@@ -151,6 +162,8 @@ if PassChanged then
 Editmailfrom.Text:=Settings.mailfrom;
 EditSubj.Text:=Settings.Subj;
 EditBody.TExt:=Settings.Body;
+EditSubjAlert.Text:=Settings.SubjAlert;
+EditBodyAlert.Text:=Settings.BodyAlert;
 //if not CheckStartMin.Enabled then CheckStartMin.Checked:=false;
 FillLangs;
 FillChecks;
@@ -230,6 +243,8 @@ if PassChanged then Settings.smtppass:=EncryptString(EditPass.Text,KeyStr);
 Settings.mailfrom:=EditMailfrom.Text;
 Settings.Subj:=EditSubj.Text;
 Settings.Body:=EditBody.Text;
+Settings.SubjAlert:=EditSubjAlert.Text;
+Settings.BodyAlert:=EditBodyAlert.Text;
 Settings.Lang:=LangFileList.Strings[BoxLang.ItemIndex];
 
 // FTP
@@ -461,6 +476,15 @@ ButtonPanel1.CancelButton.Caption:=rsCancel;
 ButtonPanel1.OKButton.Caption:=rsOk;
 PassChanged:=false;
 EditPass.EchoMode:=emPassword;
+
+tvSettings.Items.Clear;
+tvSettings.Items.Add(nil,rsLogging);
+tvSettings.Items.Add(nil,rsEMail);
+tvSettings.Items.Add(nil,rsOther);
+tvSettings.Items[0].Selected:=true;
+
+pcSettings.ActivePageIndex:=0;
+
 //FillForm;
 end;
 
@@ -478,6 +502,14 @@ end;
 procedure TFormSet.RadioThisProfChange(Sender: TObject);
 begin
     EditDefProf.Enabled:=NOT RadioLastProf.Checked;
+end;
+
+procedure TFormSet.tvSettingsSelectionChanged(Sender: TObject);
+begin
+  if tvSettings.Selected<>nil then
+   begin
+   pcSettings.ActivePageIndex:=tvSettings.Selected.Index;
+   end;
 end;
 
 
