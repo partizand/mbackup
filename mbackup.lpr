@@ -27,7 +27,7 @@ type
     // Событие
     procedure OnProgress(Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: Int64);
     //--------------- переменные
-    TaskCl:TTaskCl;
+    Backup:TBackup;
   end;
 
 { TASCons }
@@ -39,24 +39,24 @@ var
   k:integer;
   IsProfile:boolean; // Запускается профиль
 begin
-//TaskCl.ReadIni;
-//CL:=LoadLangIni(TaskCl.LangFile);
-estr:=TaskCl.ReadArgv(IsProfile);
+//Backup.ReadIni;
+//CL:=LoadLangIni(Backup.LangFile);
+estr:=Backup.ReadArgv(IsProfile);
 
 PrintStartInfo;
 //AConsole.UsageInfo;
 if estr  then // автозапуск заданий
     begin
-    TaskCl.InCmdMode:=true;
-        for k:=1 to TaskCl.Count do
+    Backup.InCmdMode:=true;
+        for k:=1 to Backup.Count do
            begin
            // Задание включено                      (и на запуск при запуске)
-           if TaskCl.Tasks[k].Enabled  then //and TaskCl.Tasks[k].Rasp.AtStart
+           if Backup.Tasks[k].Enabled  then //and Backup.Tasks[k].Rasp.AtStart
               begin
-              TaskCl.RunTask(k,false);
+              Backup.RunTask(k,false);
               end;
            end;
-         if IsProfile then TaskCl.SaveToFile(''); // Результаты работы
+         if IsProfile then Backup.SaveToFile(''); // Результаты работы
     end // end if r
   else
     begin
@@ -83,13 +83,13 @@ constructor TASCons.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   StopOnException:=True;
-  TaskCl:=TTaskCl.Create;
-  TaskCl.OnProgress:=@OnProgress;
+  Backup:=TBackup.Create;
+  Backup.OnProgress:=@OnProgress;
 end;
 
 destructor TASCons.Destroy;
 begin
-  TaskCl.Destroy;
+  Backup.Destroy;
   inherited Destroy;
 end;
 

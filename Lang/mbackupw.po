@@ -34,6 +34,7 @@ msgid "Mail sucsessfuly sended"
 msgstr ""
 
 #: msgstrings.rsalways
+msgctxt "msgstrings.rsalways"
 msgid "Always"
 msgstr ""
 
@@ -55,6 +56,11 @@ msgstr ""
 
 #: msgstrings.rsatstart
 msgid "At stratup"
+msgstr ""
+
+#: msgstrings.rscancel
+msgctxt "msgstrings.rscancel"
+msgid "Cancel"
 msgstr ""
 
 #: msgstrings.rscopyng
@@ -100,6 +106,102 @@ msgstr ""
 
 #: msgstrings.rsexclude
 msgid "Exclude"
+msgstr ""
+
+#: msgstrings.rsftpchangedirerror
+msgid "[Error] Cannot change working directory on ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpchangeworkdir
+msgid "Changing working dir on ftp %s"
+msgstr ""
+
+#: msgstrings.rsftpconnect
+msgid "Login to %s"
+msgstr ""
+
+#: msgstrings.rsftpconnerr
+msgid "[Error] Cannot connect to FTP %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpconnsuc
+msgid "Sucsessfuly connected"
+msgstr ""
+
+#: msgstrings.rsftpcreatedir
+msgctxt "msgstrings.rsftpcreatedir"
+msgid "Directory on ftp created: %s"
+msgstr ""
+
+#: msgstrings.rsftpcreatedirerror
+msgid "[Error] Cannot create directory on ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpcreatedirstart
+msgctxt "msgstrings.rsftpcreatedirstart"
+msgid "Creating directory on ftp %s"
+msgstr ""
+
+#: msgstrings.rsftpdeletedir
+msgctxt "msgstrings.rsftpdeletedir"
+msgid "Directory on ftp deleted: %s"
+msgstr ""
+
+#: msgstrings.rsftpdeletedirerror
+msgid "[Error] Cannot delete directory on ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpdeletedirstart
+msgctxt "msgstrings.rsftpdeletedirstart"
+msgid "Deleting directory on ftp %s"
+msgstr ""
+
+#: msgstrings.rsftpdeletefile
+msgid "Deleting file on ftp %s"
+msgstr ""
+
+#: msgstrings.rsftpdisconnect
+msgid "Logout from ftp"
+msgstr ""
+
+#: msgstrings.rsftpgetfile
+msgid "File recived from ftp: %s"
+msgstr ""
+
+#: msgstrings.rsftpgetfileerror
+msgid "[Error] Cannot get file from ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpgetfilestart
+msgid "Getting file from ftp %s"
+msgstr ""
+
+#: msgstrings.rsftplist
+msgid "Sending list command"
+msgstr ""
+
+#: msgstrings.rsftplisterror
+msgid "[Error] Cannot get list directory on ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftplostconnect
+msgid "[Error] Lost connection to ftp"
+msgstr ""
+
+#: msgstrings.rsftpnotconnected
+msgid "Not connected to ftp server"
+msgstr ""
+
+#: msgstrings.rsftpuploadfile
+msgid "File uploaded: %s"
+msgstr ""
+
+#: msgstrings.rsftpuploadfileerror
+msgid "[Error] Cannot upload file to ftp: %s. %s"
+msgstr ""
+
+#: msgstrings.rsftpuploadfilestart
+msgid "Uploading file on ftp %s"
 msgstr ""
 
 #: msgstrings.rsisrunning
@@ -290,6 +392,10 @@ msgstr ""
 msgid "Delete task %s?"
 msgstr ""
 
+#: msgstrings.rsrunarhcmd
+msgid "Start external archiver: %s"
+msgstr ""
+
 #: msgstrings.rsselectaction
 msgid "Select action"
 msgstr ""
@@ -338,6 +444,29 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
+#: msgstrings.rstasksettingsnode1
+msgid "Name"
+msgstr ""
+
+#: msgstrings.rstasksettingsnode2
+msgctxt "msgstrings.rstasksettingsnode2"
+msgid "Action"
+msgstr ""
+
+#: msgstrings.rstasksettingsnode3
+msgid "Archiving"
+msgstr ""
+
+#: msgstrings.rstasksettingsnode4
+msgctxt "msgstrings.rstasksettingsnode4"
+msgid "Other"
+msgstr ""
+
+#: msgstrings.rstest
+msgctxt "msgstrings.rstest"
+msgid "Test"
+msgstr ""
+
 #: msgstrings.rsyes
 msgid "Yes"
 msgstr ""
@@ -346,8 +475,8 @@ msgstr ""
 msgid "Keep deleted files"
 msgstr ""
 
-#: TFORMABOUT.BITBTN1.CAPTION
-msgctxt "TFORMABOUT.BITBTN1.CAPTION"
+#: TFORMABOUT.BTNOK.CAPTION
+msgctxt "TFORMABOUT.BTNOK.CAPTION"
 msgid "OK"
 msgstr ""
 
@@ -355,23 +484,28 @@ msgstr ""
 msgid "About mBackup"
 msgstr ""
 
-#: TFORMABOUT.LABEL1.CAPTION
-msgid "Autosave ver 0.2 (beta)"
-msgstr ""
-
-#: TFORMABOUT.LABEL2.CAPTION
+#: TFORMABOUT.LABELDESR.CAPTION
+msgctxt "TFORMABOUT.LABELDESR.CAPTION"
 msgid "Backup utility"
 msgstr ""
 
-#: TFORMABOUT.LABEL3.CAPTION
+#: TFORMABOUT.LABELLIC.CAPTION
+msgctxt "TFORMABOUT.LABELLIC.CAPTION"
 msgid "Freeware"
 msgstr ""
 
-#: TFORMABOUT.LABEL4.CAPTION
+#: TFORMABOUT.LABELMAIL.CAPTION
+msgctxt "TFORMABOUT.LABELMAIL.CAPTION"
 msgid "atsave@narod.ru"
 msgstr ""
 
-#: TFORMABOUT.LABEL5.CAPTION
+#: TFORMABOUT.LABELPROGNAME.CAPTION
+msgctxt "TFORMABOUT.LABELPROGNAME.CAPTION"
+msgid "Autosave ver 0.2 (beta)"
+msgstr ""
+
+#: TFORMABOUT.LABELSITE.CAPTION
+msgctxt "TFORMABOUT.LABELSITE.CAPTION"
 msgid "http://atsave.narod.ru"
 msgstr ""
 
@@ -379,21 +513,12 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: TFORMSET.BITBTN2.CAPTION
-msgctxt "TFORMSET.BITBTN2.CAPTION"
-msgid "OK"
-msgstr ""
-
-#: TFORMSET.BITBTN3.CAPTION
-msgctxt "TFORMSET.BITBTN3.CAPTION"
-msgid "Cancel"
-msgstr ""
-
 #: TFORMSET.BOXLANG.TEXT
 msgid "BoxLang"
 msgstr ""
 
 #: TFORMSET.BUTTESTSMTP.CAPTION
+msgctxt "TFORMSET.BUTTESTSMTP.CAPTION"
 msgid "Test"
 msgstr ""
 
@@ -410,8 +535,16 @@ msgstr ""
 msgid "Use system copy function"
 msgstr ""
 
+#: TFORMSET.CHKFTPLOGENABLED.CAPTION
+msgid "Enable FTP log"
+msgstr ""
+
 #: TFORMSET.EDITBODY.TEXT
 msgid "EditBody"
+msgstr ""
+
+#: TFORMSET.EDITLOGFTPNAM.TEXT
+msgid "EditLogFTPNam"
 msgstr ""
 
 #: TFORMSET.EDITLOGNAM.TEXT
@@ -446,53 +579,36 @@ msgstr ""
 msgid "EditUser"
 msgstr ""
 
-#: TFORMSET.GROUPBOX1.CAPTION
-msgid "Log file"
-msgstr ""
-
-#: TFORMSET.GROUPBOX2.CAPTION
-msgid "Profiles"
-msgstr ""
-
-#: TFORMSET.GROUPBOX3.CAPTION
-msgid "On start open"
-msgstr ""
-
 #: TFORMSET.GROUPBOX4.CAPTION
 msgid "Current profile"
 msgstr ""
 
-#: TFORMSET.GROUPBOX5.CAPTION
-msgid "Language"
-msgstr ""
-
-#: TFORMSET.GROUPBOX6.CAPTION
-msgctxt "TFORMSET.GROUPBOX6.CAPTION"
+#: TFORMSET.GROUPEMAIL.CAPTION
+msgctxt "TFORMSET.GROUPEMAIL.CAPTION"
 msgid "E-mail notifications"
 msgstr ""
 
-#: TFORMSET.GROUPBOX7.CAPTION
+#: TFORMSET.GROUPLANG.CAPTION
+msgctxt "TFORMSET.GROUPLANG.CAPTION"
+msgid "Language"
+msgstr ""
+
+#: TFORMSET.GROUPLOG.CAPTION
+msgctxt "TFORMSET.GROUPLOG.CAPTION"
+msgid "Log file"
+msgstr ""
+
+#: TFORMSET.GROUPLOGFTP.CAPTION
+msgid "FTP log"
+msgstr ""
+
+#: TFORMSET.GROUPPROFSTART.CAPTION
+msgid "On start open profile"
+msgstr ""
+
+#: TFORMSET.GROUPTEMPARH.CAPTION
+msgctxt "TFORMSET.GROUPTEMPARH.CAPTION"
 msgid "Temporary directory for archiver"
-msgstr ""
-
-#: TFORMSET.LABEL1.CAPTION
-msgid "Limit"
-msgstr ""
-
-#: TFORMSET.LABEL10.CAPTION
-msgid "Password"
-msgstr ""
-
-#: TFORMSET.LABEL11.CAPTION
-msgid "Subject"
-msgstr ""
-
-#: TFORMSET.LABEL12.CAPTION
-msgid "Text"
-msgstr ""
-
-#: TFORMSET.LABEL2.CAPTION
-msgid "Kb"
 msgstr ""
 
 #: TFORMSET.LABEL3.CAPTION
@@ -503,23 +619,63 @@ msgstr ""
 msgid "Имя профиля"
 msgstr ""
 
-#: TFORMSET.LABEL5.CAPTION
-msgid "SMTP server"
+#: TFORMSET.LABELKB.CAPTION
+msgctxt "TFORMSET.LABELKB.CAPTION"
+msgid "Kb"
 msgstr ""
 
-#: TFORMSET.LABEL6.CAPTION
-msgid "Port"
+#: TFORMSET.LABELKBFTP.CAPTION
+msgctxt "TFORMSET.LABELKBFTP.CAPTION"
+msgid "Kb"
 msgstr ""
 
-#: TFORMSET.LABEL7.CAPTION
+#: TFORMSET.LABELLIMFTP.CAPTION
+msgctxt "TFORMSET.LABELLIMFTP.CAPTION"
+msgid "Limit"
+msgstr ""
+
+#: TFORMSET.LABELLIMIT.CAPTION
+msgctxt "TFORMSET.LABELLIMIT.CAPTION"
+msgid "Limit"
+msgstr ""
+
+#: TFORMSET.LABELMAILFROM.CAPTION
+msgctxt "TFORMSET.LABELMAILFROM.CAPTION"
 msgid "Mail from"
 msgstr ""
 
-#: TFORMSET.LABEL8.CAPTION
+#: TFORMSET.LABELMAILTO.CAPTION
+msgctxt "TFORMSET.LABELMAILTO.CAPTION"
 msgid "Mail to"
 msgstr ""
 
-#: TFORMSET.LABEL9.CAPTION
+#: TFORMSET.LABELPASS.CAPTION
+msgctxt "TFORMSET.LABELPASS.CAPTION"
+msgid "Password"
+msgstr ""
+
+#: TFORMSET.LABELPORT.CAPTION
+msgctxt "TFORMSET.LABELPORT.CAPTION"
+msgid "Port"
+msgstr ""
+
+#: TFORMSET.LABELSMTPSRV.CAPTION
+msgctxt "TFORMSET.LABELSMTPSRV.CAPTION"
+msgid "SMTP server"
+msgstr ""
+
+#: TFORMSET.LABELSUBJ.CAPTION
+msgctxt "TFORMSET.LABELSUBJ.CAPTION"
+msgid "Subject"
+msgstr ""
+
+#: TFORMSET.LABELTEXT.CAPTION
+msgctxt "TFORMSET.LABELTEXT.CAPTION"
+msgid "Text"
+msgstr ""
+
+#: TFORMSET.LABELUSER.CAPTION
+msgctxt "TFORMSET.LABELUSER.CAPTION"
 msgid "User"
 msgstr ""
 
@@ -535,13 +691,12 @@ msgstr ""
 msgid "Archive optinos"
 msgstr ""
 
-#: TFORMTASK.BEFORECHECK.CAPTION
-msgid "Run before"
+#: TFORMTASK.ARHDELBOX.CAPTION
+msgid "Archives rotate"
 msgstr ""
 
-#: TFORMTASK.BTNCANCEL.CAPTION
-msgctxt "TFORMTASK.BTNCANCEL.CAPTION"
-msgid "Cancel"
+#: TFORMTASK.BEFORECHECK.CAPTION
+msgid "Run before"
 msgstr ""
 
 #: TFORMTASK.BTNDIRADD.CAPTION
@@ -554,13 +709,18 @@ msgctxt "TFORMTASK.BTNDIRDEL.CAPTION"
 msgid "Delete"
 msgstr ""
 
-#: TFORMTASK.BTNOK.CAPTION
-msgctxt "TFORMTASK.BTNOK.CAPTION"
-msgid "OK"
-msgstr ""
-
 #: TFORMTASK.CAPTION
 msgid "Task settings"
+msgstr ""
+
+#: TFORMTASK.CBCONDAFTER.TEXT
+msgctxt "TFORMTASK.CBCONDAFTER.TEXT"
+msgid "Always"
+msgstr ""
+
+#: TFORMTASK.CBCONDBEFORE.TEXT
+msgctxt "TFORMTASK.CBCONDBEFORE.TEXT"
+msgid "Always"
 msgstr ""
 
 #: TFORMTASK.CHKDELAFTERARH.CAPTION
@@ -568,6 +728,7 @@ msgid "Delete files after archiving"
 msgstr ""
 
 #: TFORMTASK.DELARHCHECK.CAPTION
+msgctxt "TFORMTASK.DELARHCHECK.CAPTION"
 msgid "Store archives"
 msgstr ""
 
@@ -592,107 +753,112 @@ msgctxt "TFORMTASK.ENABLEDCHECK.CAPTION"
 msgid "Enabled"
 msgstr ""
 
-#: TFORMTASK.EVMINCHECK.CAPTION
-msgid "Повторять запуск"
-msgstr ""
-
 #: TFORMTASK.FILTDIRCHECK.CAPTION
 msgid "Exclude folders"
 msgstr ""
 
 #: TFORMTASK.FILTFILESCHECK.CAPTION
+msgctxt "TFORMTASK.FILTFILESCHECK.CAPTION"
 msgid "Process files"
 msgstr ""
 
-#: TFORMTASK.GROUPBOX1.CAPTION
-msgid "Task name"
-msgstr ""
-
-#: TFORMTASK.GROUPBOX10.CAPTION
-msgid "Other"
-msgstr ""
-
-#: TFORMTASK.GROUPBOX2.CAPTION
-msgid "Source"
-msgstr ""
-
-#: TFORMTASK.GROUPBOX5.CAPTION
+#: TFORMTASK.GROUPACTION.CAPTION
+msgctxt "TFORMTASK.GROUPACTION.CAPTION"
 msgid "Action"
 msgstr ""
 
-#: TFORMTASK.GROUPBOX6.CAPTION
+#: TFORMTASK.GROUPDEST.CAPTION
+msgctxt "TFORMTASK.GROUPDEST.CAPTION"
 msgid "Destination"
 msgstr ""
 
-#: TFORMTASK.GROUPBOX7.CAPTION
+#: TFORMTASK.GROUPEXCLUDEFOLD.CAPTION
+msgid "Excluded folders"
+msgstr ""
+
+#: TFORMTASK.GROUPEXTPROG.CAPTION
+msgctxt "TFORMTASK.GROUPEXTPROG.CAPTION"
 msgid "External programs"
 msgstr ""
 
-#: TFORMTASK.GROUPBOX8.CAPTION
-msgid "Расписание"
-msgstr ""
-
-#: TFORMTASK.GROUPBOX9.CAPTION
-msgctxt "TFORMTASK.GROUPBOX9.CAPTION"
+#: TFORMTASK.GROUPNOTIFI.CAPTION
+msgctxt "TFORMTASK.GROUPNOTIFI.CAPTION"
 msgid "E-mail notifications"
 msgstr ""
 
-#: TFORMTASK.LABEL1.CAPTION
-msgid "Время"
+#: TFORMTASK.GROUPOTHER.CAPTION
+msgctxt "TFORMTASK.GROUPOTHER.CAPTION"
+msgid "Other"
 msgstr ""
 
-#: TFORMTASK.LABEL10.CAPTION
-msgid ".zip"
+#: TFORMTASK.GROUPPROCFILES.CAPTION
+msgctxt "TFORMTASK.GROUPPROCFILES.CAPTION"
+msgid "Process files"
 msgstr ""
 
-#: TFORMTASK.LABEL11.CAPTION
-msgid "years"
+#: TFORMTASK.GROUPSOURCE.CAPTION
+msgctxt "TFORMTASK.GROUPSOURCE.CAPTION"
+msgid "Source"
 msgstr ""
 
-#: TFORMTASK.LABEL12.CAPTION
-msgid "For"
+#: TFORMTASK.GROUPSOURCEFILT.CAPTION
+msgctxt "TFORMTASK.GROUPSOURCEFILT.CAPTION"
+msgid "Source filtering"
 msgstr ""
 
-#: TFORMTASK.LABEL13.CAPTION
-msgctxt "TFORMTASK.LABEL13.CAPTION"
-msgid "days"
+#: TFORMTASK.GROUPTASKNAME.CAPTION
+msgctxt "TFORMTASK.GROUPTASKNAME.CAPTION"
+msgid "Task name"
 msgstr ""
 
-#: TFORMTASK.LABEL2.CAPTION
-msgid "Каждые"
-msgstr ""
-
-#: TFORMTASK.LABEL3.CAPTION
-msgid "Минут(ы)"
-msgstr ""
-
-#: TFORMTASK.LABEL4.CAPTION
+#: TFORMTASK.LABELARHNAME.CAPTION
+msgctxt "TFORMTASK.LABELARHNAME.CAPTION"
 msgid "Archive name"
 msgstr ""
 
-#: TFORMTASK.LABEL5.CAPTION
+#: TFORMTASK.LABELDAILY.CAPTION
+msgctxt "TFORMTASK.LABELDAILY.CAPTION"
 msgid "Daily"
 msgstr ""
 
-#: TFORMTASK.LABEL6.CAPTION
-msgid "Monthly"
-msgstr ""
-
-#: TFORMTASK.LABEL7.CAPTION
-msgid "Yearly"
-msgstr ""
-
-#: TFORMTASK.LABEL8.CAPTION
-msgctxt "TFORMTASK.LABEL8.CAPTION"
+#: TFORMTASK.LABELDAY.CAPTION
+msgctxt "TFORMTASK.LABELDAY.CAPTION"
 msgid "days"
 msgstr ""
 
-#: TFORMTASK.LABEL9.CAPTION
+#: TFORMTASK.LABELDAYS.CAPTION
+msgctxt "TFORMTASK.LABELDAYS.CAPTION"
+msgid "days"
+msgstr ""
+
+#: TFORMTASK.LABELEXTEN.CAPTION
+msgctxt "TFORMTASK.LABELEXTEN.CAPTION"
+msgid ".zip"
+msgstr ""
+
+#: TFORMTASK.LABELFOR.CAPTION
+msgctxt "TFORMTASK.LABELFOR.CAPTION"
+msgid "For"
+msgstr ""
+
+#: TFORMTASK.LABELMON.CAPTION
+msgctxt "TFORMTASK.LABELMON.CAPTION"
 msgid "mon"
 msgstr ""
 
-#: TFORMTASK.MANUALCHECK.CAPTION
-msgid "Вручную"
+#: TFORMTASK.LABELMONTHLY.CAPTION
+msgctxt "TFORMTASK.LABELMONTHLY.CAPTION"
+msgid "Monthly"
+msgstr ""
+
+#: TFORMTASK.LABELYEAR.CAPTION
+msgctxt "TFORMTASK.LABELYEAR.CAPTION"
+msgid "years"
+msgstr ""
+
+#: TFORMTASK.LABELYEARLY.CAPTION
+msgctxt "TFORMTASK.LABELYEARLY.CAPTION"
+msgid "Yearly"
 msgstr ""
 
 #: TFORMTASK.NTFSCHECK.CAPTION
@@ -703,20 +869,88 @@ msgstr ""
 msgid "Once a day"
 msgstr ""
 
-#: TFORMTASK.RADIOGROUP1.CAPTION
-msgid "Запуск"
+#: TFORMTASK.RADIODESTFOLDER.CAPTION
+msgctxt "TFORMTASK.RADIODESTFOLDER.CAPTION"
+msgid "Folder"
+msgstr ""
+
+#: TFORMTASK.RADIODESTFTP.CAPTION
+msgctxt "TFORMTASK.RADIODESTFTP.CAPTION"
+msgid "FTP"
+msgstr ""
+
+#: TFORMTASK.RADIOSORFOLDER.CAPTION
+msgctxt "TFORMTASK.RADIOSORFOLDER.CAPTION"
+msgid "Folder"
+msgstr ""
+
+#: TFORMTASK.RADIOSORFTP.CAPTION
+msgctxt "TFORMTASK.RADIOSORFTP.CAPTION"
+msgid "FTP"
 msgstr ""
 
 #: TFORMTASK.RECURSECHECK.CAPTION
 msgid "Include subfolders"
 msgstr ""
 
-#: TFORMTASK.STARTCHECK.CAPTION
-msgid "При запуске"
+#: TFORMTASK.TABARH.CAPTION
+msgid "tabArh"
 msgstr ""
 
-#: TFORMTASK.TIMECHECK.CAPTION
-msgid "Заданное время"
+#: TFORMTASK.TABMAIN.CAPTION
+msgid "tabMain"
+msgstr ""
+
+#: TFORMTASK.TABOTHER.CAPTION
+msgid "tabOther"
+msgstr ""
+
+#: TFORMTASK.TABSOURCE.CAPTION
+msgid "tabSource"
+msgstr ""
+
+#: TFORMTASK.ZERKDELBOX.CAPTION
+msgid "Delete files settings"
+msgstr ""
+
+#: TFRMFTPPARAM.CAPTION
+msgid "FTP Params"
+msgstr ""
+
+#: TFRMFTPPARAM.CHKAUTOTLS.CAPTION
+msgid "SSL/TLS"
+msgstr ""
+
+#: TFRMFTPPARAM.CHKPASSIVE.CAPTION
+msgid "Passive mode"
+msgstr ""
+
+#: TFRMFTPPARAM.EDITHOST.EDITLABEL.CAPTION
+msgid "FTP server"
+msgstr ""
+
+#: TFRMFTPPARAM.EDITINITDIR.EDITLABEL.CAPTION
+msgid "Init dir"
+msgstr ""
+
+#: TFRMFTPPARAM.EDITPASS.EDITLABEL.CAPTION
+msgctxt "TFRMFTPPARAM.EDITPASS.EDITLABEL.CAPTION"
+msgid "Password"
+msgstr ""
+
+#: TFRMFTPPARAM.EDITPORT.EDITLABEL.CAPTION
+msgctxt "TFRMFTPPARAM.EDITPORT.EDITLABEL.CAPTION"
+msgid "Port"
+msgstr ""
+
+#: TFRMFTPPARAM.EDITUSER.EDITLABEL.CAPTION
+msgctxt "TFRMFTPPARAM.EDITUSER.EDITLABEL.CAPTION"
+msgid "User"
+msgstr ""
+
+#: TFRMFTPPARAM.GROUPFTPPARAM.CAPTION
+msgctxt "TFRMFTPPARAM.GROUPFTPPARAM.CAPTION"
+msgid "FTP"
 msgstr ""
 
 #: TMFORM.ACTABOUT.CAPTION

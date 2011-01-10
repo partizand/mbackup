@@ -22,6 +22,8 @@ resourcestring
  rsEnabled='Enabled';
  rsTaskNeverRun='Never';
  rsOk='Ok';
+ rsCancel='Cancel';
+ rsTest='Test';
  rsYes='Yes';
  rsNo='No';
  rsTaskError='Error';
@@ -98,6 +100,34 @@ resourcestring
  rsSmtpMailDataErr='SMTP MailData error: %s';
  rsSmtpLogoutErr='SMTP Logout error: %s';
  rsSmtpStartTLSErr='SMTP Start TLS error: %s';
+ rsFTPConnErr='[Error] Cannot connect to FTP %s. %s';
+ rsFTPConnSuc='Sucsessfuly connected';
+ rsRunArhCmd='Start external archiver: %s';
+ rsFTPGetFileStart='Getting file from ftp %s';
+ rsFTPGetFile='File recived from ftp: %s';
+ rsFTPGetFileError='[Error] Cannot get file from ftp: %s. %s';
+ rsFTPUploadFileStart='Uploading file on ftp %s';
+ rsFTPUploadFile='File uploaded: %s';
+ rsFTPUploadFileError='[Error] Cannot upload file to ftp: %s. %s';
+ rsFTPChangeWorkDir='Changing working dir on ftp %s';
+ rsFTPList='Sending list command';
+ rsFTPListError='[Error] Cannot get list directory on ftp: %s. %s';
+ rsFTPConnect='Login to %s';
+ rsFTPNotConnected='Not connected to ftp server';
+ rsFTPLostConnect='[Error] Lost connection to ftp';
+ rsFTPDisconnect='Logout from ftp';
+ rsFTPDeleteFile='Deleting file on ftp %s';
+ rsFTPCreateDirStart='Creating directory on ftp %s';
+ rsFTPCreateDir='Directory on ftp created: %s';
+ rsFTPCreateDirError= '[Error] Cannot create directory on ftp: %s. %s';
+ rsFTPDeleteDirStart='Deleting directory on ftp %s';
+ rsFTPDeleteDir='Directory on ftp deleted: %s';
+ rsFTPDeleteDirError= '[Error] Cannot delete directory on ftp: %s. %s';
+ rsFTPChangeDirError='[Error] Cannot change working directory on ftp: %s. %s';
+ rsTaskSettingsNode1='Name';
+ rsTaskSettingsNode2='Action';
+ rsTaskSettingsNode3='Archiving';
+ rsTaskSettingsNode4='Other';
  //rsTest='This is test';
 implementation
 

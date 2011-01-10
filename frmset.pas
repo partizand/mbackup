@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Spin, Buttons, ExtCtrls, EditBtn, {MaskEdit,}{ IniFiles,}StrUtils, {IniLang,} msgStrings,
-  windows, taskunit,unitfunc{,idSmtp,idMessage};
+  Spin, Buttons, ExtCtrls, EditBtn, ButtonPanel, StrUtils, msgStrings, windows,
+  taskunit, unitfunc,setunit{,idSmtp,idMessage};
 
 type
 
@@ -15,12 +15,16 @@ type
 
   TFormSet = class(TForm)
     BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    BitBtn3: TBitBtn;
     butTestSmtp: TButton;
+    ButtonPanel1: TButtonPanel;
     CheckSysCopyFunc: TCheckBox;
     CheckGroup2: TCheckGroup;
     BoxLang: TComboBox;
+    chkFTPLogEnabled: TCheckBox;
+    EditCurProf: TFileNameEdit;
+    EditDefProf: TFileNameEdit;
+    EditLogFTPNam: TEdit;
+    EditProfNam: TEdit;
     EditSubj: TEdit;
     EditBody: TEdit;
     EditArhTmpDir: TDirectoryEdit;
@@ -29,46 +33,48 @@ type
     EditServ: TEdit;
     EditMailFrom: TEdit;
     EditMailTo: TEdit;
-    EditProfNam: TEdit;
     EditLogNam: TEdit;
-    EditDefProf: TFileNameEdit;
-    EditCurProf: TFileNameEdit;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    GroupBox3: TGroupBox;
+    GroupProfStart: TGroupBox;
+    GroupLog: TGroupBox;
     GroupBox4: TGroupBox;
-    GroupBox5: TGroupBox;
-    GroupBox6: TGroupBox;
-    GroupBox7: TGroupBox;
-    Label1: TLabel;
+    GroupLang: TGroupBox;
+    GroupEmail: TGroupBox;
+    GroupTempArh: TGroupBox;
+    GroupLogFtp: TGroupBox;
+    LabelLimit: TLabel;
     EditLim: TSpinEdit;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label2: TLabel;
+    LabelPass: TLabel;
+    LabelSubj: TLabel;
+    LabelText: TLabel;
+    LabelLimFTp: TLabel;
+    LabelKbftp: TLabel;
+    LabelKb: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
+    LabelSmtpSrv: TLabel;
+    LabelPort: TLabel;
+    LabelMailFrom: TLabel;
+    LabelMailTO: TLabel;
+    LabelUser: TLabel;
+    EditPort: TSpinEdit;
+    EditFTPLim: TSpinEdit;
     RadioLastProf: TRadioButton;
     RadioThisProf: TRadioButton;
-    EditPort: TSpinEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure butTestSmtpClick(Sender: TObject);
-    procedure EditLogNamKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure chkFTPLogEnabled1Change(Sender: TObject);
+    procedure EditPassKeyPress(Sender: TObject; var Key: char);
+//    procedure EditLogNamKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 //    procedure EditLogNamKeyPress(Sender: TObject; var Key: char);
 //    procedure BitOpenPClick(Sender: TObject);
  //   procedure BoxLangChange(Sender: TObject);
 //    procedure BtnProfNewClick(Sender: TObject);
 //    procedure BtnProfOpenClick(Sender: TObject);
 //    procedure BtnProfSaveClick(Sender: TObject);
-    procedure FillForm;
+
     procedure FillLangs;
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure RadioLastProfChange(Sender: TObject);
@@ -77,41 +83,50 @@ type
     { private declarations }
     LangNameList:TStringList;
     LangFileList:TStringList;
+    PassChanged:boolean;
   public
     { public declarations }
+    procedure FillForm;
+    function ReadForm:boolean;
+    procedure FillChecks;
+    Settings:TSettings; // Настройки
   end; 
 
 var
   FormSet: TFormSet;
 
 implementation
-uses mainform{,sendmailunit};
+//uses mainform{,sendmailunit};
 //========================================================
 // Заполнение формы данными
 procedure TformSet.FillForm;
 //========================================================
 begin
-EditLogNam.Text:=MForm.TaskCl.Settings.logfile;
-EditLim.Value:=MForm.TaskCl.Settings.loglimit;
-//CheckTray.Checked:=Not(MForm.IsClosing);
-//CheckAutoRun.Checked:=MForm.AutoOnlyClose;
-//CheckStartMin.Checked:=MForm.StartMin;
-RadioLastProf.Checked:=MForm.TaskCl.Settings.LoadLastProf;
-RadioThisProf.Checked:=Not MForm.TaskCl.Settings.LoadLastProf;
-if MForm.TaskCl.Settings.LoadLastProf then
+EditLogNam.Text:=Settings.logfile;
+EditLim.Value:=Settings.loglimit;
+
+chkFTPLogEnabled.Checked:=Settings.LogFtpEnabled;
+EditLogFTPNam.Text:=Settings.LogFileFTP;
+EditFTPLim.Value:=Settings.LogFTPLimit;
+//if MForm.TaskCl.Settings.LogFtpEnabled
+
+RadioLastProf.Checked:=Settings.LoadLastProf;
+RadioThisProf.Checked:=Not Settings.LoadLastProf;
+if Settings.LoadLastProf then
   begin
-  EditDefProf.Text:=MForm.TaskCl.Settings.profile;
+  EditDefProf.Text:=Settings.profile;
   EditDefProf.Enabled:=true;
   end
  else
   begin
-  EditDefProf.Text:=MForm.TaskCl.Settings.DefaultProf;
+  EditDefProf.Text:=Settings.DefaultProf;
   EditDefProf.Enabled:=false;
    end;
-CheckSysCopyFunc.Checked:=MForm.TaskCl.Settings.SysCopyFunc;
-EditCurProf.Text:=MForm.TaskCl.Settings.profile;
+CheckSysCopyFunc.Checked:=Settings.SysCopyFunc;
+EditCurProf.Text:=Settings.profile;
 EditDefProf.Enabled:=NOT RadioLastProf.Checked;
-EditArhTmpDir.Text:=ShortFileNam(MForm.TaskCl.Settings.ArhTmpDir);
+EditArhTmpDir.Text:=ShortFileNam(Settings.ArhTmpDir);
+//EditArhTmpDir.Text:=ShortFileNam(Settings.ArhTmpDir);
 //BtnDefProf.Enabled:=NOT RadioLastProf.Checked;
 //CheckStartMin.Enabled:=CheckTray.Checked;
 //EditProfNam.Text:=MForm.TaskCl.ProfName;
@@ -123,24 +138,45 @@ AlertErr: rAlertErr.Checked:=true;
 AlertAlways: rAlertAlways.Checked:=true;
 end;
     }
-EditMailTo.Text:=MForm.TaskCl.Settings.email;
-EditServ.Text:=MForm.TaskCl.Settings.smtpserv;
-Editport.Value:=MForm.TaskCl.Settings.smtpport;
-Edituser.Text:=MForm.TaskCl.Settings.smtpuser;
-Editpass.Text:=MForm.TaskCl.Settings.smtppass;
-Editmailfrom.Text:=MForm.TaskCl.Settings.mailfrom;
-EditSubj.Text:=MForm.TaskCl.Settings.Subj;
-EditBody.TExt:=MForm.TaskCl.Settings.Body;
+EditMailTo.Text:=Settings.email;
+EditServ.Text:=Settings.smtpserv;
+Editport.Value:=Settings.smtpport;
+Edituser.Text:=Settings.smtpuser;
+if PassChanged then
+        Editpass.Text:=DecryptString(Settings.smtppass,KeyStr)
+     else
+       begin
+        Editpass.Text:='################';
+       end;
+Editmailfrom.Text:=Settings.mailfrom;
+EditSubj.Text:=Settings.Subj;
+EditBody.TExt:=Settings.Body;
 //if not CheckStartMin.Enabled then CheckStartMin.Checked:=false;
 FillLangs;
+FillChecks;
 end;
 //======================================================================
-procedure TFormSet.BitBtn2Click(Sender: TObject);
+procedure TFormSet.FillChecks;
+begin
+if chkFTPLogEnabled.Checked then
+      begin
+      EditLogFTPNam.Enabled:=true;
+      EditFTPLim.Enabled:=true;
+      end
+    else
+      begin
+      EditLogFTPNam.Enabled:=false;
+      EditFTPLim.Enabled:=false;
+      end;
+end;
+
+//======================================================================
+function TFormSet.ReadForm:boolean;
 var
  str:string;
  ArhTmpDir:string;
-//TC: array[1..1] of TComponent;
 begin
+Result:=false;
 if EditLogNam.Text='' then
  begin
    ShowMessage(rsEnterLogFile);
@@ -169,74 +205,65 @@ if (ArhTmpDir<>'') and (Not DirectoryExists(utf8toansi(ArhTmpDir)))  then
     end
    else exit;
  end;
-MForm.TaskCl.Settings.ArhTmpDir:=ArhTmpDir;
+if (chkFTPLogEnabled.Checked) and (EditLogFTPNam.Text='') then
+     begin
+     ShowMessage(rsEnterLogFile);
+     exit;
+     end;
+Result:=true;
 
-MForm.TaskCL.Settings.logfile:=EditLogNam.Text;
-MForm.TaskCl.Settings.loglimit:=EditLim.Value;
-//MForm.TrayIcon.MinimizeToTray:=FormSet.CheckTray.Checked ;
-//MForm.TrayIcon.IconVisible:=FormSet.CheckTray.Checked;
-//MForm.IsClosing:=Not (FormSet.CheckTray.Checked);
-//MForm.AutoOnlyClose:=CheckAutoRun.Checked;
-MForm.TaskCl.Settings.LoadLastProf:=RadioLastProf.Checked;
-//if not MForm.TaskCl.LoadLastProf then
-MForm.TaskCl.Settings.DefaultProf:=ShortFileNam(EditDefProf.Text);
-MForm.TaskCl.Settings.SysCopyFunc:=CheckSysCopyFunc.Checked;
+Settings.ArhTmpDir:=ArhTmpDir;
 
-//MForm.TaskCl.ProfName:=EditProfNam.Text;
-//MForm.Caption:='AutoSave '+MForm.TaskCl.ProfName;
+Settings.logfile:=EditLogNam.Text;
+Settings.loglimit:=EditLim.Value;
+Settings.LoadLastProf:=RadioLastProf.Checked;
 
-// чтение уведомлений
-{
-if rAlertNone.Checked then MForm.TaskCl.alerttype:=alertNone;
-if rAlertErr.Checked then MForm.TaskCl.alerttype:=alertErr;
-if rAlertAlways.Checked then MForm.TaskCl.alerttype:=alertAlways;
-    }
-MForm.TaskCl.Settings.email:=EditMailTo.Text;
-MForm.TaskCl.Settings.smtpserv:=EditServ.Text;
-MForm.TaskCl.Settings.smtpport:=Editport.Value;
-MForm.TaskCl.Settings.smtpuser:=EditUser.Text;
-MForm.TaskCl.Settings.smtppass:=EditPass.Text;
-MForm.TaskCl.Settings.mailfrom:=EditMailfrom.Text;
-MForm.TaskCl.Settings.Subj:=EditSubj.Text;
-MForm.TaskCl.Settings.Body:=EditBody.Text;
-MForm.TaskCl.Settings.Lang:=LangFileList.Strings[BoxLang.ItemIndex];
-//MForm.TaskCl.LangFile:=LangFileList.Strings[BoxLang.ItemIndex];
+Settings.DefaultProf:=ShortFileNam(EditDefProf.Text);
+Settings.SysCopyFunc:=CheckSysCopyFunc.Checked;
 
-// Перевод
-{
-CL:=LoadLangIni(MForm.TaskCl.LangFile);
-if CL<>nil then
-   begin
-   TC[1]:=MForm;
-   fillProps(TC,CL);
-   end;
- }
-//MForm.TaskCl.SaveToFile('');
-ModalResult:=mrOk;
+Settings.email:=EditMailTo.Text;
+Settings.smtpserv:=EditServ.Text;
+Settings.smtpport:=Editport.Value;
+Settings.smtpuser:=EditUser.Text;
+if PassChanged then Settings.smtppass:=EncryptString(EditPass.Text,KeyStr);
+
+Settings.mailfrom:=EditMailfrom.Text;
+Settings.Subj:=EditSubj.Text;
+Settings.Body:=EditBody.Text;
+Settings.Lang:=LangFileList.Strings[BoxLang.ItemIndex];
+
+// FTP
+Settings.LogFtpEnabled:=chkFTPLogEnabled.Checked;
+Settings.LogFileFTP:=EditLogFTPNam.Text;
+Settings.LogFTPLimit:=EditFTPLim.Value;
+
+//ModalResult:=mrOk;
+end;
+
+//======================================================================
+procedure TFormSet.BitBtn2Click(Sender: TObject);
+
+begin
+if ReadForm then ModalResult:=mrOk;
 end;
 //Проверка отправки почты
 procedure TFormSet.butTestSmtpClick(Sender: TObject);
 var
  MsgErr:string;
- // SendMail:TSendMail;
-//  idMsg:TIdMessage;
-//  idSmtp:TIdSMTP;
-  //suc:boolean;
   str:string;
 begin
  // Отсылка почты -----
+ if Not ReadForm then exit;
 
 
 
 
-
-   if MForm.TaskCl.SendMailS('mBackup test','mBackup test letter','',MsgErr) then
+   if TBackup.SendMailEx(Settings,'mBackup test','mBackup test letter','',MsgErr) then
        begin
        ShowMessage(rsAlertTestOk);
        end
      else
       begin // Не успешно
-//      str:=Format(rsAlertTestErr,[MsgErr]);
       ShowMessage(msgErr);
        end;
 
@@ -265,18 +292,18 @@ begin
   }
 end;
 
-procedure TFormSet.EditLogNamKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
- // var
-//TC: array[1..3] of TComponent;
+procedure TFormSet.chkFTPLogEnabled1Change(Sender: TObject);
 begin
-{
-if (Key=VK_F5) then
-   begin
-   fillcustomini;
-   end;
-   }
+  FillChecks;
 end;
+
+procedure TFormSet.EditPassKeyPress(Sender: TObject; var Key: char);
+begin
+  PassChanged:=true;
+  EditPass.EchoMode:=emNormal;
+end;
+
+
 
 
 
@@ -353,7 +380,7 @@ procedure TFormSet.BitBtn1Click(Sender: TObject);
 var
  buf: array [0..MaxPChar] of char;
 begin
-buf:=FullFileNam(MForm.TaskCl.Settings.logfile);
+buf:=FullFileNam(Settings.logfile);
 ShellExecute(0,nil,buf,nil,nil,SW_SHOWNORMAL);
 end;
 
@@ -392,7 +419,7 @@ if findFirst(rep+'mbackupw.??.po',faAnyFile,sr)=0 then
     LangNameList.Add(langname);
     BoxLang.Items.Add(langname);
     LangFileList.Add(langshort);
-    if langshort=MForm.TaskCl.Settings.Lang then
+    if langshort=Settings.Lang then
      begin
      BoxLang.ItemIndex:=LangNameList.Count-1;
      end;
@@ -414,18 +441,27 @@ if findFirst(rep+'mbackupw.??.po',faAnyFile,sr)=0 then
 
 end;
 
+procedure TFormSet.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  if ModalResult=mrOk then
+       begin
+       if ReadForm then CanClose:=true
+             else
+               CanClose:=false;
+       end
+     else
+       CanClose:=true;
+end;
+
 procedure TFormSet.FormCreate(Sender: TObject);
 //var
 //TC: array[1..1] of TComponent;
 begin
-{
-if CL<>nil then
-   begin
-   TC[1]:=FormSet;
-   fillProps(TC,CL);
-   end;
-   }
-FillForm;
+ButtonPanel1.CancelButton.Caption:=rsCancel;
+ButtonPanel1.OKButton.Caption:=rsOk;
+PassChanged:=false;
+EditPass.EchoMode:=emPassword;
+//FillForm;
 end;
 
 procedure TFormSet.FormKeyDown(Sender: TObject; var Key: Word;

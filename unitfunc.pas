@@ -6,12 +6,39 @@ unit unitfunc;
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils,dcprijndael,dcpsha1;
 
 function ShortFileNam(FileName: string): string;
 function FullFileNam(FileName: string): string;
+function EncryptString(Str:string;KeyStr:string):string; // Шифрование строки
+function DecryptString(Str:string;KeyStr:string):string; // Расшифрование строки
 
 implementation
+
+//======================================================
+// Шифрование строки
+function EncryptString(Str:string;KeyStr:string):string;
+var
+   Cipher: TDCP_rijndael;
+begin
+  Cipher:= TDCP_rijndael.Create(nil);
+  Cipher.InitStr(KeyStr,TDCP_sha1);         // initialize the cipher with a hash of the passphrase
+  Result:=Cipher.EncryptString(Str);
+  Cipher.Burn;
+  Cipher.Free;
+end;
+//======================================================
+// Расшифрование строки
+function DecryptString(Str:string;KeyStr:string):string;
+var
+   Cipher: TDCP_rijndael;
+begin
+  Cipher:= TDCP_rijndael.Create(nil);
+  Cipher.InitStr(KeyStr,TDCP_sha1);         // initialize the cipher with a hash of the passphrase
+  Result:=Cipher.DecryptString(Str);
+  Cipher.Burn;
+  Cipher.Free;
+end;
 
  //======================================================
  // Получение короткого имени файла

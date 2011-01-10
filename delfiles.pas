@@ -5,30 +5,33 @@ unit delfiles;
 interface
 
 uses
-  Classes, SysUtils,XMLCfg;
+  Classes, SysUtils,XMLCfg,customfs;
 
-  const
-   DeletedFilesF='deleted$.xml'; // Файл для хранения сведений об удаленных файлах
+//  const
+//   DeletedFilesF='deleted$.xml'; // Файл для хранения сведений об удаленных файлах
 
 // Класс хранения сведений об удаленных файлах
 // Массив: Имя файла, дата удаления из источника
 type
  TDeletedFiles=class
-   constructor Create(RootDirName:string);
-   destructor Destroy;
+   //constructor Create(RootDirName:string);
+   constructor Create(CustomFS:TCustomFS);
+   destructor Destroy; override;
    Count:integer; // Кол-во файлов
-   DirName:string; // Каталог, где все происходит
+//   DirName:string; // Каталог, где все происходит
    function GetIndex(FileName:string):integer;
    function GetName(Index:integer):string;
    function GetDate(Index:integer):TDateTime;
    function Add(FileName:string):integer;
    procedure Delete(Index:integer);
-   procedure SaveToFile;
+   procedure SaveToFile(CustomFS:TCustomFS);
 
  private
-   procedure LoadFromFile;
+   procedure LoadFromFile(CustomFS:TCustomFS);
    NameList:TStringList; // Список имен файлов
    DateList:TStringList; // Список дат файлов
+   CustFS:TCustomFS; // FS
+   TempFileName:string; // Имя файла с данными о файлах, возвращенное FS
   // Delimiter:string; // Разделитель целой и дробной части в float
 //   DateArray:array[0..100] of TDateTime; // если файлов не больше 100, используем этот массив
  end;
@@ -38,6 +41,7 @@ implementation
 // Функции класса TDeletedFiles
  //=====================================================
  // Конструктор
+{
 constructor TDeletedFiles.Create(RootDirName:string);
 //var
 begin
@@ -48,7 +52,20 @@ begin
   DirName:=RootDirName;
   LoadFromFile;
 end;
-
+}
+ //=====================================================
+ // Конструктор
+constructor TDeletedFiles.Create(CustomFS:TCustomFS);
+//var
+begin
+  inherited Create;
+  Count  := 0;
+  NameList := TStringList.Create;
+  DateList := TStringList.Create;
+//  DirName:=RootDirName;
+//  CustFS:=CustomFS;
+  LoadFromFile(CustomFS);
+end;
  // Деструктор
 destructor TDeletedFiles.Destroy;
 begin
@@ -115,26 +132,22 @@ NameList.Delete(Index);
 DateList.Delete(Index);
 Dec(Count);
 end;
+//-----------------------------------------------------------------
 // Запись в файл
-procedure TDeletedFiles.SaveToFile;
+procedure TDeletedFiles.SaveToFile(CustomFS:TCustomFS);
 var
   i: integer;
   xmldoc: TXMLConfig;
   sec,SaveFileName: string;
-//  Attr:integer;
 begin
-SaveFileName:=DirName+DirectorySeparator+DeletedFilesF;
+SaveFileName:=TempFileName;// DirName+DirectorySeparator+DeletedFilesF;
 if Count>0 then
   begin
-//  if FileExists(SaveFileName) then // Сбрасываем атрибут скрытый
-//    begin
-//    FileSetAttr(SaveFileName, 0);
-//    end;
-  if Not DirectoryExists(DirName) then exit;
+//  if Not DirectoryExists(DirName) then exit;
   xmldoc := TXMLConfig.Create(nil);
   xmldoc.StartEmpty := True;
-  xmldoc.Filename := SaveFileName; //'probcfg.xml';
-  xmldoc.RootName := 'mBackup';
+  xmldoc.Filename :=SaveFileName; //'probcfg.xml';
+  xmldoc.RootName := 'autosave';
   // Версия программы
 //  xmldoc.SetValue('version/value', versionas);
   // количество заданий
@@ -151,14 +164,16 @@ if Count>0 then
 
   end;
   xmldoc.Flush;
-  xmldoc.Destroy;
+  xmldoc.Free;
  // Attr:=faHidden;
-  FileSetAttr(SaveFileName, faHidden);
-
+//  FileSetAttr(SaveFileName, faHidden);
+  CustomFS.SetDelFileName(TempFileName);
 
  end
   else
     begin
+    CustomFS.RemoveDelFileName(TempFileName);
+{
     if FileExists(SaveFileName) then
           begin
             // Удаляем файл
@@ -167,34 +182,38 @@ if Count>0 then
           except
           end;
          end;
-
+ }
     end;
 
 end;
+//-----------------------------------------------------------------
 // Чтение из файла
-procedure TDeletedFiles.LoadFromFile;
+procedure TDeletedFiles.LoadFromFile(CustomFS:TCustomFS);
 var
   i: integer;
   xmldoc:  TXMLConfig;
   sec,SaveFileName:     string;
   //strDate: string;
 begin
-  SaveFileName:=DirName+DirectorySeparator+DeletedFilesF;
-     NameList.Clear;
+  SaveFileName:=CustomFS.GetDelFileName; // DirName+DirectorySeparator+DeletedFilesF;
+    NameList.Clear;
     DateList.Clear;
     Count:=0;
-  if not FileExists(SaveFileName) then
+   TempFileName:=SaveFileName;
+  if Not FileExists(SaveFileName) then
     begin
     exit;
     end;
-  FileSetAttr(SaveFileName, 0);
+//  FileSetAttr(SaveFileName, 0);
   xmldoc := TXMLConfig.Create(nil);
+
   //xmldoc := TXMLConfig.Create(SaveFileName);
 
   xmldoc.StartEmpty := False; //false;
-  xmldoc.RootName   := 'mBackup';
+  xmldoc.RootName   := 'autosave';
   xmldoc. flush;
   xmldoc.Filename := SaveFileName;
+
 
   // количество заданий
   Count := xmldoc.GetValue('deleted/count/value', 0);
@@ -207,7 +226,7 @@ begin
     DateList.Add(xmldoc.GetValue(sec + 'txtdate/value', ''));
  //   if i<100 then DateArray[i]:= xmldoc.GetValue(sec + 'date/value', '');
   end;
-  xmldoc.Destroy;
+  xmldoc.Free;
 end;
 
 

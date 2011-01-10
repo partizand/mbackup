@@ -8,9 +8,9 @@ uses
 //  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
   Forms, LResources
-  { add your units here }, mainform, taskunit, taskthread, frmtask, frmset,
-  UnitAbout, PoTranslator, setunit, unitfunc,
-  msgstrings, delfiles;
+  { add your units here }, mainform,PoTranslator, taskunit{, taskthread, frmtask, frmset,}
+  {UnitAbout, , setunit, unitfunc}
+  {msgstrings, delfiles, customfs, filefs, ftpfs, logunit}{, frmftp};
 
 {$R mbackupw.res}
 

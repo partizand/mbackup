@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  EditBtn, ExtCtrls, Buttons, MaskEdit, Spin,{iniLang,}msgStrings,
-  DateUtils;
+  EditBtn, ExtCtrls, Buttons, MaskEdit, Spin, ComCtrls, ButtonPanel, msgStrings,
+  DateUtils, customfs, taskunit, frmftp;
 
 
 const       // Константы типа задачи
@@ -23,87 +23,101 @@ type
   { TFormTask }
 
   TFormTask = class(TForm)
-    BtnOK: TBitBtn;
-    BtnCancel: TBitBtn;
-    BtnDirAdd: TBitBtn;
-    BtnDirDel: TBitBtn;
-    CBoxFileMode: TComboBox;
-    CBoxAct: TComboBox;
-    BeforeCheck: TCheckBox;
     AfterCheck: TCheckBox;
-    cbAlert: TComboBox;
-    chkDelAfterArh: TCheckBox;
-    DelZerkCheck: TCheckBox;
-    Label12: TLabel;
-    Label13: TLabel;
-    EditZerkOld: TSpinEdit;
-    ZerkDelBox: TGroupBox;
-    OnceDayCheck: TCheckBox;
-    DelArhCheck: TCheckBox;
-    EditArhNam: TEdit;
-    EvMinCheck: TCheckBox;
-    EditDest: TDirectoryEdit;
-    BeforeName: TFileNameEdit;
     AfterName: TFileNameEdit;
-    GroupBox10: TGroupBox;
-    GroupBox6: TGroupBox;
-    GroupBox7: TGroupBox;
-    GroupBox8: TGroupBox;
     ArhBox: TGroupBox;
     ArhDelBox: TGroupBox;
-    GroupBox9: TGroupBox;
-    Label11: TLabel;
-    Label4: TLabel;
-    Label10: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    //EditTime: TMaskEdit;
-    RepeatBox: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    ManualCheck: TRadioButton;
-    EditTime: TMaskEdit;
-    NTFSCheck: TCheckBox;
-    EditFileMask: TEdit;
-    FiltFilesCheck: TCheckBox;
-    FiltDirCheck: TCheckBox;
-    GroupBox3: TGroupBox;
-    GroupBox4: TGroupBox;
-    GroupBox5: TGroupBox;
-    RadioGroup1: TRadioGroup;
-    EditMin: TSpinEdit;
+    BeforeCheck: TCheckBox;
+    BeforeName: TFileNameEdit;
+    BtnDirAdd: TBitBtn;
+    BtnDirDel: TBitBtn;
+    ButtonPanel1: TButtonPanel;
+    cbAlert: TComboBox;
+    CBoxAct: TComboBox;
+    CBoxFileMode: TComboBox;
+    chkDelAfterArh: TCheckBox;
+    cbCondBefore: TComboBox;
+    cbCondAfter: TComboBox;
+    DelArhCheck: TCheckBox;
+    DelZerkCheck: TCheckBox;
+    EditArhNam: TEdit;
     EditDaysOld: TSpinEdit;
+    EditExcDir: TEditButton;
+    EditDest: TDirectoryEdit;
+    EditDestFTP: TEditButton;
     EditMonthsOld: TSpinEdit;
-    EditYearsOld: TSpinEdit;
-    StartCheck: TRadioButton;
-    SubDirBox: TListBox;
-    RecurseCheck: TCheckBox;
+    EditSorFtp: TEditButton;
     EditSor: TDirectoryEdit;
-    EnabledCheck: TCheckBox;
+    EditFileMask: TEdit;
     EditName: TEdit;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
+    EditYearsOld: TSpinEdit;
+    EditZerkOld: TSpinEdit;
+    EnabledCheck: TCheckBox;
+    FiltDirCheck: TCheckBox;
+    FiltFilesCheck: TCheckBox;
+    groupTaskName: TGroupBox;
+    GroupOther: TGroupBox;
+    groupSource: TGroupBox;
+    GroupSourceFilt: TGroupBox;
+    GroupExcludeFold: TGroupBox;
+    GroupProcFiles: TGroupBox;
+    GroupAction: TGroupBox;
+    GroupDest: TGroupBox;
+    GroupExtProg: TGroupBox;
+    GroupNotifi: TGroupBox;
     Image1: TImage;
-    TimeCheck: TRadioButton;
+    LabelDaily: TLabel;
+    LabelDay: TLabel;
+    LabelExten: TLabel;
+    LabelFor: TLabel;
+    LabelDays: TLabel;
+    LabelArhName: TLabel;
+    LabelMon: TLabel;
+    LabelMonthly: TLabel;
+    LabelYear: TLabel;
+    LabelYearly: TLabel;
+    NTFSCheck: TCheckBox;
+    OnceDayCheck: TCheckBox;
+    pcMenu: TPageControl;
+    radioDestFolder: TRadioButton;
+    radioDestFtp: TRadioButton;
+    radioSorFolder: TRadioButton;
+    radioSorFTP: TRadioButton;
+    RecurseCheck: TCheckBox;
+    Splitter2: TSplitter;
+    SubDirBox: TListBox;
+    tabSource: TTabSheet;
+    tabArh: TTabSheet;
+    tabOther: TTabSheet;
+    tabMain: TTabSheet;
+    tvMenu: TTreeView;
+    ZerkDelBox: TGroupBox;
     procedure AfterCheckChange(Sender: TObject);
     procedure ArhBoxClick(Sender: TObject);
     procedure BeforeCheckChange(Sender: TObject);
     procedure BtnDirAddClick(Sender: TObject);
     procedure BtnDirDelClick(Sender: TObject);
     procedure BtnOKClick(Sender: TObject);
+    procedure ButtonPanel1Click(Sender: TObject);
     procedure CBoxActChange(Sender: TObject);
     procedure DelArhCheckChange(Sender: TObject);
     procedure DelZerkCheckChange(Sender: TObject);
+    procedure EditDestFTPButtonClick(Sender: TObject);
+    procedure EditExcDirButtonClick(Sender: TObject);
+    procedure EditSorFtpButtonClick(Sender: TObject);
 //    procedure EditNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState      );
     procedure EvMinCheckChange(Sender: TObject);
-    procedure FillForm;
-    procedure FillChecks;
-    procedure GroupBox9Click(Sender: TObject);
-    function  ReadTaskForm:Boolean;
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+
+
+
+//    procedure GroupBox9Click(Sender: TObject);
+//    procedure pcMenuChange(Sender: TObject);
+    procedure radioDestFolderChange(Sender: TObject);
+    procedure radioDestFtpChange(Sender: TObject);
+    procedure radioSorFolderChange(Sender: TObject);
+    procedure radioSorFTPChange(Sender: TObject);
+
     procedure FiltDirCheckChange(Sender: TObject);
     procedure FiltFilesCheckChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -111,11 +125,21 @@ type
     procedure ManualCheckChange(Sender: TObject);
     procedure StartCheckChange(Sender: TObject);
     procedure TimeCheckChange(Sender: TObject);
+    procedure tvMenuSelectionChanged(Sender: TObject);
   private
     { private declarations }
+    procedure FillSor;
+    procedure FillDest;
+    function ConvertCBtoCond(index:integer):integer; // Преобразовывает выбранный индекс в условие для выполнения внешней проги
+    function ConvertCondtoCB(cond:integer):integer; // Перобразование наоборот
   public
     { public declarations }
-    numTask:integer; // Номер добавляемого/редактируемого задания
+    procedure FillForm;
+    procedure FillChecks;
+    function  ReadTaskForm:Boolean;
+    function ShowFTPform(Indx:integer):boolean; // Показать форму с фтп параметрами
+//    numTask:integer; // Номер добавляемого/редактируемого задания
+    Task:TTask; // Редактируемое задание
   end; 
 
 var
@@ -123,7 +147,81 @@ var
 
 implementation
 
-uses mainform;
+//uses mainform;
+//================================================
+// Показать форму с фтп параметрами
+// Indx-1 - источник Indx-2 - применик
+// Возвращает true если сохранение параметров
+function TFormTask.ShowFTPform(Indx:integer):boolean;
+begin
+//Application.CreateForm(TfrmFTPParam, frmFTPParam); // создание формы
+frmFTPParam:=TfrmFTPParam.Create(self);
+//FormTask.numTask:=NumEdTask;
+if Indx=1 then
+    begin
+    frmFTPParam.FtpServParam:=Task.SrcFSParam.FtpServParam;
+//    frmFTPParam.RealPass:=;
+    end
+  else
+    frmFTPParam.FtpServParam:=Task.DstFSParam.FtpServParam;
+frmFTPParam.FillForm;
+if frmFTPParam.ShowModal=mrOk then
+  begin
+  if Indx=1 then
+       Task.SrcFSParam.FtpServParam:=frmFTPParam.FtpServParam
+    else
+       Task.DstFSParam.FtpServParam:=frmFTPParam.FtpServParam;
+  FillForm;
+  Result:=true;
+  end
+ else
+  begin
+  Result:=false;
+  end;
+frmFTPParam.Free;
+end;
+//================================================
+// Заполнение текста источника
+procedure TFormTask.FillSor;
+begin
+// Источник
+if Task.SrcFSParam.FSType=fstFile then
+     begin
+     EditSor.Text:=Task.SrcFSParam.RootDir;
+     EditSorFtp.Text:='';
+     radioSorFolder.Checked:=true;
+     radioSorFTP.Checked:=false;
+     end
+   else
+     begin
+     EditSor.Text:='';
+     EditSorFtp.Text:=TBackup.GetNameFS(Task.SrcFSParam);
+     radioSorFolder.Checked:=false;
+     radioSorFTP.Checked:=true;
+     end;
+
+end;
+
+//================================================
+// Заполнение текста источника
+procedure TFormTask.FillDest;
+begin
+// Приемник
+if Task.DstFSParam.FSType=fstFile then
+     begin
+     EditDest.Text:=Task.DstFSParam.RootDir;
+     EditDestFtp.Text:='';
+     radioDestFolder.Checked:=true;
+     radioDestFTP.Checked:=false;
+     end
+   else
+     begin
+     EditDest.Text:='';
+     EditDestFtp.Text:=TBackup.GetNameFS(Task.DstFSParam);
+     radioDestFolder.Checked:=false;
+     radioDestFTP.Checked:=true;
+     end;
+end;
 //================================================
 // Заполнение формы
 procedure TFormTask.FillForm;
@@ -131,77 +229,139 @@ procedure TFormTask.FillForm;
 var
   ETime:string;
 begin
-EnabledCheck.Checked:=MForm.TaskCl.Tasks[numTask].Enabled;
-EditName.Text:=MForm.TaskCl.Tasks[numTask].Name;
-EditSor.Text:=MForm.TaskCl.Tasks[numTask].SorPath;
-EditDest.Text:=MForm.TaskCl.Tasks[numTask].DestPath;
+EnabledCheck.Checked:=Task.Enabled;// Task.Enabled;
+EditName.Text:= Task.Name;
+// Источник
+FillSor;
+{
+if Task.SrcFSParam.FSType=fstFile then
+     begin
+     EditSor.Text:=Task.SrcFSParam.RootDir;
+     EditSorFtp.Text:='';
+     radioSorFolder.Checked:=true;
+     radioSorFTP.Checked:=false;
+     end
+   else
+     begin
+     EditSor.Text:='';
+     EditSorFtp.Text:=TBackup.GetNameFS(Task.SrcFSParam);
+     radioSorFolder.Checked:=false;
+     radioSorFTP.Checked:=true;
+     end;
+}
+// Приемник
+FillDest;
+{
+if Task.DstFSParam.FSType=fstFile then
+     begin
+     EditDest.Text:=Task.DstFSParam.RootDir;
+     EditDestFtp.Text:='';
+     radioDestFolder.Checked:=true;
+     radioDestFTP.Checked:=false;
+     end
+   else
+     begin
+     EditDest.Text:='';
+     EditDestFtp.Text:=TBackup.GetNameFS(Task.DstFSParam);
+     radioDestFolder.Checked:=false;
+     radioDestFTP.Checked:=true;
+     end;
+     }
+//EditDest.Text:=Task.DestPath;
+
 CBoxAct.ItemIndex:=-1;
 
 
 
 
-CBoxAct.ItemIndex:=MForm.TaskCl.Tasks[numTask].Action-1;
+CBoxAct.ItemIndex:=Task.Action-1;
+
+
 // Блок про архивацию
-if MForm.TaskCl.Tasks[numTask].Action=ttZerk then
-  begin
-  DelZerkCheck.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelOldArh;
-  EditZerkOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.DaysOld);
-  end
- else
- begin
-  EditArhNam.Text:=MForm.TaskCl.Tasks[numTask].Arh.Name;
-  DelArhCheck.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelOldArh;
-  chkDelAfterArh.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelAfterArh;
-  EditDaysOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.DaysOld);
-  EditMonthsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.MonthsOld);
-  EditYearsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.YearsOld);
- end;
+
+  EditArhNam.Text:=Task.Arh.Name;
+  DelArhCheck.Checked:=Task.Arh.DelOldArh;
+  chkDelAfterArh.Checked:=Task.Arh.DelAfterArh;
+  EditDaysOld.Value:=Task.Arh.DaysOld;
+  EditMonthsOld.Value:=Task.Arh.MonthsOld;
+  EditYearsOld.Value:=Task.Arh.YearsOld;
+
+// Хранить файлы
+
+  DelZerkCheck.Checked:=Task.Arh.DelOldArh;
+  EditZerkOld.Value:=Task.Arh.DaysOld;
 // Уведомления
-cbAlert.ItemIndex:=MForm.TaskCl.Tasks[numTask].MailAlert;
+cbAlert.ItemIndex:=Task.MailAlert;
 
 
 // расписание
 
-OnceDayCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.OnceForDay;
-//DateTimeToString(ETime,'HH:MM',MForm.TaskCl.Tasks[numTask].Rasp.Time);
+OnceDayCheck.Checked:=Task.Rasp.OnceForDay;
+//DateTimeToString(ETime,'HH:MM',Task.Rasp.Time);
 //EditTime.Text:=ETime;
 
-//ManualCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.Manual;
-//TimeCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtTime;
-//StartCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtStart;
+//ManualCheck.Checked:=Task.Rasp.Manual;
+//TimeCheck.Checked:=Task.Rasp.AtTime;
+//StartCheck.Checked:=Task.Rasp.AtStart;
 
-//EvMinCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes;
-//EditMin.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Rasp.Minutes);
+//EvMinCheck.Checked:=Task.Rasp.EvMinutes;
+//EditMin.Text:=IntToStr(Task.Rasp.Minutes);
 
 // Запуск внешних программ
-BeforeCheck.Checked:=MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeStart;
-BeforeName.Text:=MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeName;
-AfterCheck.Checked:=MForm.TaskCl.Tasks[numTask].ExtProgs.AfterStart;
-AfterName.Text:=MForm.TaskCl.Tasks[numTask].ExtProgs.AfterName;
+BeforeCheck.Checked:=Task.ExtBefore.Enabled;
+BeforeName.Text:=Task.ExtBefore.Cmd;
+cbCondBefore.ItemIndex:=ConvertCondtoCB(Task.ExtBefore.Condition);
+AfterCheck.Checked:=Task.ExtAfter.Enabled;
+AfterName.Text:=Task.ExtAfter.Cmd;
+cbCondAfter.ItemIndex:=ConvertCondtoCB(Task.ExtAfter.Condition);
 // фильтрация источника
-RecurseCheck.Checked:=MForm.TaskCl.Tasks[numTask].SourceFilt.Recurse;
-FiltDirCheck.Checked:=MForm.TaskCl.Tasks[numTask].SourceFilt.FiltSubDir;
-SubDirBox.Items.Assign(MForm.TaskCl.Tasks[numTask].SourceFilt.SubDirs);
-FiltFilesCheck.Checked:=MForm.TaskCl.Tasks[numTask].SourceFilt.FiltFiles;
-CBoxFileMode.ItemIndex:=MForm.TaskCl.Tasks[numTask].SourceFilt.ModeFiltFiles;
-EditFileMask.Text:=MForm.TaskCl.Tasks[numTask].SourceFilt.FileMask.DelimitedText;
+RecurseCheck.Checked:=Task.SourceFilt.Recurse;
+FiltDirCheck.Checked:=Task.SourceFilt.FiltSubDir;
+SubDirBox.Items.DelimitedText:=Task.SourceFilt.SubDirs;
+FiltFilesCheck.Checked:=Task.SourceFilt.FiltFiles;
+CBoxFileMode.ItemIndex:=Task.SourceFilt.ModeFiltFiles;
+EditFileMask.Text:=Task.SourceFilt.FileMask;
 // NTFSCopy
-NTFSCheck.Checked:=MForm.TaskCl.Tasks[numTask].NTFSPerm;
+NTFSCheck.Checked:=Task.NTFSPerm;
 FillChecks;
 // FTP источника
-//BoxSorType.ItemIndex:=MForm.TaskCl.Tasks[numTask].SorType;
-//EditFtpUserNam.Text:=MForm.TaskCl.Tasks[numTask].FTP.UserName;
-//EditFtpPass.Text:=MForm.TaskCl.Tasks[numTask].FTP.Pass;
-//EditFtpPort.Value:=MForm.TaskCl.Tasks[numTask].FTP.Port;
+//BoxSorType.ItemIndex:=Task.SorType;
+//EditFtpUserNam.Text:=Task.FTP.UserName;
+//EditFtpPass.Text:=Task.FTP.Pass;
+//EditFtpPort.Value:=Task.FTP.Port;
 // FTP приемника
-//BoxDestType.ItemIndex:=MForm.TaskCl.Tasks[numTask].DestType;
-//EditFtpNamDest.Text:=MForm.TaskCl.Tasks[numTask].DestFTP.UserName;
-//EditFtpPassDest.Text:=MForm.TaskCl.Tasks[numTask].DestFTP.Pass;
-//EditFtpPortDest.Value:=MForm.TaskCl.Tasks[numTask].DestFTP.Port;
+//BoxDestType.ItemIndex:=Task.DestType;
+//EditFtpNamDest.Text:=Task.DestFTP.UserName;
+//EditFtpPassDest.Text:=Task.DestFTP.Pass;
+//EditFtpPortDest.Value:=Task.DestFTP.Port;
 
 end;
+//================================================
+// Преобразовывает выбранный индекс в условие для выполнения внешней проги
+function TFormTask.ConvertCBtoCond(index:integer):integer;
+begin
+case index of
+  0: Result:= -1;
+  1: Result:= 1;
+  2: Result:= 10;
+else
+  Result:= -1;
+end;
 
+end;
+//================================================
+// Преобразовывает условие в выбранный индекс (для выполнения внешней проги)
+function TFormTask.ConvertCondtoCB(cond:integer):integer;
+begin
+case cond of
+  -1: Result:= 0;
+  0..9: Result:= 1;
+  10..19: Result:= 2;
+else
+  Result:= 0;
+end;
 
+end;
 //================================================
 // Чтение формы задания
 // возвращает при успехе true при неудаче false
@@ -212,45 +372,57 @@ var
 
 begin
 Result:=false;
-MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath:=EditSor.Text;
-MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath:=EditDest.Text;
-MForm.TaskCl.ReplaceNameDisk(MForm.TaskCl.count+1,true);
-SorDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath);
-DestDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath);
-if SorDir='' then
- begin
- ShowMessage(rsEnterSource);
- exit;
- end;
-if DestDir='' then
- begin
- ShowMessage(rsEnterDest);
- exit;
- end;
+//MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath:=EditSor1.Text;
+//MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath:=EditDest.Text;
+//MForm.TaskCl.ReplaceNameDisk(MForm.TaskCl.count+1,true);
 
-if (Not DirectoryExists(SorDir)) and (Pos('%',SorDir)=0) then // Не задан источник
- begin
- str:=Format(rsLogDirNotFound,[EditSor.Text]);
- ShowMessage(str);
- exit;
- end;
-if (Not DirectoryExists(DestDir)) and (Pos('%',DestDir)=0) then // Не задан приемник
- begin
- str:=Format(rsDirNotExsistCreate,[EditDest.Text]);
- if MessageDlg(str, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    begin
-     if ForceDirectories(DestDir) then
+// Источник папка
+if radioSorFolder.Checked then
+   begin
+   SorDir:=utf8toAnsi(EditSor.Text);
+
+   if SorDir='' then
+       begin
+       ShowMessage(rsEnterSource);
+       exit;
+       end;
+   if (Not DirectoryExists(SorDir)) and (Pos('%',SorDir)=0) then // Не существует каталог источника
+       begin
+       str:=Format(rsLogDirNotFound,[EditSor.Text]);
+       ShowMessage(str);
+       exit;
+       end;
+   Task.SrcFSParam.RootDir:=EditSor.Text;
+   end;
+// Приемник папка
+if radioDestFolder.Checked then
+   begin
+   DestDir:=utf8toAnsi(EditDest.Text);
+   if DestDir='' then
         begin
-        ShowMessage(rsDirCreated);
+        ShowMessage(rsEnterDest);
+        exit;
+        end;
+
+   if (Not DirectoryExists(DestDir)) and (Pos('%',DestDir)=0) then // Не задан приемник
+        begin
+        str:=Format(rsDirNotExsistCreate,[EditDest.Text]);
+        if MessageDlg(str, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+        begin
+         if ForceDirectories(DestDir) then
+            begin
+            ShowMessage(rsDirCreated);
+            end
+           else
+             begin
+              ShowMessage(rsErrCreateDir);
+              exit;
+             end;
         end
-       else
-         begin
-          ShowMessage(rsErrCreateDir);
-          exit;
-         end;
-    end
-   else exit;
- end;
+         else exit;
+        end;
+   Task.DstFSParam.RootDir:=EditDest.Text;
+   end;
 if CBoxAct.ItemIndex=-1 then // Не задано действие
  begin
  ShowMessage(rsSelectAction);
@@ -268,7 +440,9 @@ if (CBoxAct.ItemIndex=ttArhRar-1) or (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct
 
 if CBoxAct.ItemIndex=ttArhRar-1 then
  begin
-  if Not FileExists(ExtractFileDir(ParamStr(0))+'\rar.exe') then
+  str:=TBackup.GetFullExePath('rar.exe') ;
+//  if Not FileExists(ExtractFileDir(ParamStr(0))+'\rar.exe') then
+  if str='' then
    begin
    ShowMessage(rsNoRar);
    exit;
@@ -277,64 +451,77 @@ if CBoxAct.ItemIndex=ttArhRar-1 then
 
 if (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
  begin
-  if Not FileExists(ExtractFileDir(ParamStr(0))+'\7za.exe') then // Нет файла 7z.exe
+  str:=TBackup.GetFullExePath('7za.exe');
+//  if Not FileExists(ExtractFileDir(ParamStr(0))+'\7za.exe') then // Нет файла 7z.exe
+  if str=''then // Нет файла 7z.exe
    begin
    ShowMessage(rsNo7zip);
    exit;
    end;
  end;
 
-MForm.TaskCl.Tasks[numTask].Name:=EditName.Text;
-MForm.TaskCl.Tasks[numTask].SorPath:=EditSor.Text;
-MForm.TaskCl.Tasks[numTask].DestPath:=EditDest.Text;
+Task.Name:=EditName.Text;
 
-MForm.TaskCl.Tasks[numTask].Action:=CBoxAct.ItemIndex+1;
+//Task.DestPath:=EditDest.Text;
+
+//Task.SrcFSParam.RootDir:=EditSor.Text;
+if radioSorFolder.Checked then Task.SrcFSParam.FSType:=fstFile;
+if radioSorFTP.Checked then Task.SrcFSParam.FSType:=fstFTP;
+
+//Task.DstFSParam.RootDir:=EditDest.Text;
+if radioDestFolder.Checked then Task.DstFSParam.FSType:=fstFile;
+if radioDestFTP.Checked then Task.DstFSParam.FSType:=fstFTP;
+
+
+Task.Action:=CBoxAct.ItemIndex+1;
 // Уведомления
-MForm.TaskCl.Tasks[numTask].MailAlert:=cbAlert.ItemIndex;
-//MForm.TaskCl.Tasks[numTask].Rasp.Time:=StrToTime(EditTime.Text);
-//MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
-//MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeMilliSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
+Task.MailAlert:=cbAlert.ItemIndex;
+//Task.Rasp.Time:=StrToTime(EditTime.Text);
+//Task.Rasp.Time:=RecodeSecond(Task.Rasp.Time,0);
+//Task.Rasp.Time:=RecodeMilliSecond(Task.Rasp.Time,0);
 // Расписание
-MForm.TaskCl.Tasks[numTask].Rasp.OnceForDay:=OnceDayCheck.Checked;
-//MForm.TaskCl.Tasks[numTask].Rasp.Manual:=ManualCheck.Checked;
-//MForm.TaskCl.Tasks[numTask].Rasp.AtStart:=StartCheck.Checked;
-//MForm.TaskCl.Tasks[numTask].Rasp.AtTime:=TimeCheck.Checked;
+Task.Rasp.OnceForDay:=OnceDayCheck.Checked;
+//Task.Rasp.Manual:=ManualCheck.Checked;
+//Task.Rasp.AtStart:=StartCheck.Checked;
+//Task.Rasp.AtTime:=TimeCheck.Checked;
 
-//MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes:=EvMinCheck.Checked;
+//Task.Rasp.EvMinutes:=EvMinCheck.Checked;
 
-//MForm.TaskCl.Tasks[numTask].Rasp.Minutes:=EditMin.Value;
+//Task.Rasp.Minutes:=EditMin.Value;
 
 // Архивация
 if (CBoxAct.ItemIndex=ttArhZip-1) or (CBoxAct.ItemIndex=ttArh7Zip-1) or (CBoxAct.ItemIndex=ttArhRar-1) then
   begin
-  MForm.TaskCl.Tasks[numTask].Arh.Name:=EditArhNam.Text;
-  MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelArhCheck.Checked;
-  MForm.TaskCl.Tasks[numTask].Arh.DaysOld:=EditDaysOld.Value;
-  MForm.TaskCl.Tasks[numTask].Arh.MonthsOld:=EditMonthsOld.Value;
-  MForm.TaskCl.Tasks[numTask].Arh.YearsOld:=EditYearsOld.Value;
-  MForm.TaskCl.Tasks[numTask].Arh.DelAfterArh:=chkDelAfterArh.Checked;
+  Task.Arh.Name:=EditArhNam.Text;
+  Task.Arh.DelOldArh:=DelArhCheck.Checked;
+  Task.Arh.DaysOld:=EditDaysOld.Value;
+  Task.Arh.MonthsOld:=EditMonthsOld.Value;
+  Task.Arh.YearsOld:=EditYearsOld.Value;
+  Task.Arh.DelAfterArh:=chkDelAfterArh.Checked;
   end;
 // Зеркалирование
 if (CBoxAct.ItemIndex=ttZerk-1) then
   begin
-  MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelZerkCheck.Checked;
-  MForm.TaskCl.Tasks[numTask].Arh.DaysOld:=EditZerkOld.Value;
+  Task.Arh.DelOldArh:=DelZerkCheck.Checked;
+  Task.Arh.DaysOld:=EditZerkOld.Value;
   end;
-MForm.TaskCl.Tasks[numTask].Enabled:=EnabledCheck.Checked;
+Task.Enabled:=EnabledCheck.Checked;
 // Внешние программы
-MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeStart:=BeforeCheck.Checked;
-MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeName:=BeforeName.Text;
-MForm.TaskCl.Tasks[numTask].ExtProgs.AfterStart:=AfterCheck.Checked;
-MForm.TaskCl.Tasks[numTask].ExtProgs.AfterName:=AfterName.Text;
+Task.ExtBefore.Enabled:=BeforeCheck.Checked;
+Task.ExtBefore.Cmd:=BeforeName.Text;
+Task.ExtBefore.Condition:=ConvertCBtoCond(cbCondBefore.ItemIndex);
+Task.ExtAfter.Enabled:=AfterCheck.Checked;
+Task.ExtAfter.Cmd:=AfterName.Text;
+Task.ExtAfter.Condition:=ConvertCBtoCond(cbCondAfter.ItemIndex);
 // NTFS
-MForm.TaskCl.Tasks[numTask].NTFSPerm:=NTFSCheck.Checked;
+Task.NTFSPerm:=NTFSCheck.Checked;
 // Фильтрация источника
-MForm.TaskCl.Tasks[numTask].SourceFilt.Recurse:=RecurseCheck.Checked;
-MForm.TaskCl.Tasks[numTask].SourceFilt.FiltSubDir:=FiltDirCheck.Checked;
-MForm.TaskCl.Tasks[numTask].SourceFilt.SubDirs.Assign(SubDirBox.Items);
-MForm.TaskCl.Tasks[numTask].SourceFilt.FiltFiles:=FiltFilesCheck.Checked;
-MForm.TaskCl.Tasks[numTask].SourceFilt.ModeFiltFiles:=CBoxFileMode.ItemIndex;
-MForm.TaskCl.Tasks[numTask].SourceFilt.FileMask.DelimitedText:=EditFileMask.Text;
+Task.SourceFilt.Recurse:=RecurseCheck.Checked;
+Task.SourceFilt.FiltSubDir:=FiltDirCheck.Checked;
+Task.SourceFilt.SubDirs:=SubDirBox.Items.DelimitedText;
+Task.SourceFilt.FiltFiles:=FiltFilesCheck.Checked;
+Task.SourceFilt.ModeFiltFiles:=CBoxFileMode.ItemIndex;
+Task.SourceFilt.FileMask:=EditFileMask.Text;
 Result:=true;
 end;
 //===================================================================
@@ -344,6 +531,18 @@ begin
   FillChecks;
 end;
 
+
+procedure TFormTask.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+ if ModalResult=mrOk then
+      begin
+        CanClose:=ReadTaskForm;
+      end
+   else
+     CanClose:=true;
+end;
+
+
 procedure TFormTask.DelArhCheckChange(Sender: TObject);
 begin
   FillChecks;
@@ -352,6 +551,33 @@ end;
 procedure TFormTask.DelZerkCheckChange(Sender: TObject);
 begin
   FillChecks;
+end;
+
+procedure TFormTask.EditDestFTPButtonClick(Sender: TObject);
+begin
+  ShowFTPform(2);
+end;
+// Выбор каталога для исключения
+procedure TFormTask.EditExcDirButtonClick(Sender: TObject);
+var
+  Dir,RelDir:string;
+begin
+if EditSor.Text='' then
+  begin
+   ShowMessage(rsEnterSource);
+   Exit;
+  end;
+if SelectDirectory('',EditSor.Text,Dir) then
+ begin
+  RelDir:=ExtractRelativePath(EditSor.Text+'\',Dir);
+  EditExcDir.Text:=RelDir;
+//  SubDirBox.Items.Add(RelDir);
+ end;
+end;
+
+procedure TFormTask.EditSorFtpButtonClick(Sender: TObject);
+begin
+  ShowFTPform(1);
 end;
 
 
@@ -364,16 +590,10 @@ procedure TFormTask.BtnDirAddClick(Sender: TObject);
 var
   Dir,RelDir:string;
 begin
-if EditSor.Text='' then
-  begin
-   ShowMessage(rsEnterSource);
-   Exit;
-  end;
-if SelectDirectory('',EditSor.Text,Dir) then
- begin
-  RelDir:=ExtractRelativePath(EditSor.Text+'\',Dir);
-  SubDirBox.Items.Add(RelDir);
- end;
+if EditExcDir.Text<>'' then
+     begin
+     SubDirBox.Items.Add(EditExcDir.Text);
+     end;
 end;
 
 procedure TFormTask.BtnDirDelClick(Sender: TObject);
@@ -385,9 +605,14 @@ procedure TFormTask.BtnOKClick(Sender: TObject);
 begin
   if ReadTaskForm then
   begin
-  MForm.TaskCl.SaveToFile('');
+//  MForm.TaskCl.SaveToFile('');
   ModalResult:=mrOk;
   end;
+end;
+
+procedure TFormTask.ButtonPanel1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TFormTask.CBoxActChange(Sender: TObject);
@@ -410,10 +635,15 @@ end;
 procedure TFormTask.FillChecks;
 //=====================================================
 begin
+
+
+
+
 if Not RecurseCheck.Checked then
  begin
  FiltDirCheck.Checked:=false;
  end;
+{
 if ManualCheck.Checked then
   begin
     EditTime.Enabled:=false;
@@ -429,6 +659,8 @@ if TimeCheck.Checked then
     RepeatBox.Enabled:=true;
     EvMinCheck.Enabled:=true;
   end;
+
+
 if StartCheck.Checked then
   begin
     EditTime.Enabled:=false;
@@ -437,10 +669,12 @@ if StartCheck.Checked then
     EvMinCheck.Checked:=false;
     TimeCheck.Checked:=false;
   end;
+  }
    ZerkDelBox.Enabled:=false;
    DelZerkCheck.Enabled:=false;
    ArhBox.Enabled:=false;
    ArhBox.Visible:=false;
+   ArhDelBox.Visible:=false;
    ZerkDelBox.Visible:=false;
 // EditArhNam.Enabled:=true;
  ArhDelBox.Enabled:=false;
@@ -451,16 +685,17 @@ if (CBoxAct.ItemIndex=ttCopy-1) OR (CBoxAct.ItemIndex=ttSync-1) then // Копи
    ArhDelBox.Enabled:=false;
    EditArhNam.Enabled:=false;
    NTFSCheck.Enabled:=true;
- //  RepeatBox.Enabled:=true;
- //   EvMinCheck.Enabled:=true;
+
+   radioSorFTP.Enabled:=true;
+   ArhDelBox.Visible:=false;
   end;
 if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
   begin
    ZerkDelBox.Visible:=true;
-   //ArhBox.Enabled:=false;
-   //ArhDelBox.Enabled:=false;
-   //EditArhNam.Enabled:=false;
    NTFSCheck.Enabled:=true;
+
+  radioSorFTP.Enabled:=true;
+  ArhDelBox.Visible:=false;
 
    ZerkDelBox.Enabled:=true;
    DelZerkCheck.Enabled:=true;
@@ -475,10 +710,13 @@ if (CBoxAct.ItemIndex>2) then // архивация
  ArhBox.Visible:=true;
  ArhBox.Enabled:=true;
  EditArhNam.Enabled:=true;
+
  ArhDelBox.Enabled:=true;
-// EditMonthsOld.Enabled:=true;
-// EditYearsOld.Enabled:=true;
-// DelArhCheck.Caption:=misc(rsArcOldCheckName, 'rsArcOldCheckName');
+ ArhDelBox.Visible:=true;
+
+ radioSorFTP.Enabled:=false;
+ radioSorFTP.Checked:=false;
+ radioSorFolder.Checked:=true;
 
  if DelArhCheck.Checked then
   begin
@@ -495,27 +733,55 @@ if (CBoxAct.ItemIndex>2) then // архивация
 
  if CBoxAct.ItemIndex=ttArhZip-1 then
      begin
-      Label10.Caption:='.zip';
+      LabelExten.Caption:='.zip';
       NTFSCheck.Checked:=false;
       NTFSCheck.Enabled:=false;
       chkDelAfterArh.Enabled:=false;
       end;
  if CBoxAct.ItemIndex=ttArh7Zip-1 then
      begin
-      Label10.Caption:='.7z';
+      LabelExten.Caption:='.7z';
       NTFSCheck.Checked:=false;
       NTFSCheck.Enabled:=false;
       chkDelAfterArh.Enabled:=false;
       end;
   if CBoxAct.ItemIndex=ttArhRar-1 then
      begin
-     Label10.Caption:='.rar';
+     LabelExten.Caption:='.rar';
      NTFSCheck.Enabled:=true;
      chkDelAfterArh.Enabled:=true;
      end;
 
  end;
 
+
+if radioSorFolder.Checked then // Источник папка
+      begin
+      Task.SrcFSParam.FSType:=fstFile;
+      EditSorFtp.Enabled:=false;
+      EditSor.Enabled:=true;
+      EditExcDir.Button.Enabled:=true;
+      end;
+if radioSorFTP.Checked then // Источник FTP
+      begin
+      Task.SrcFSParam.FSType:=fstFTP;
+      EditSor.Enabled:=false;
+      EditSorFtp.Enabled:=true;
+      EditExcDir.Button.Enabled:=false;
+      end;
+
+if radioDestFolder.Checked then // Приемник папка
+      begin
+      Task.DstFSParam.FSType:=fstFile;
+      EditDestFtp.Enabled:=false;
+      EditDest.Enabled:=true;
+      end;
+if radioDestFTP.Checked then // Приемник FTP
+      begin
+      Task.DstFSParam.FSType:=fstFTP;
+      EditDest.Enabled:=false;
+      EditDestFtp.Enabled:=true;
+      end;
 
 // расписание
 {
@@ -555,12 +821,18 @@ if FiltDirCheck.Checked then
   SubDirBox.Enabled:=true;
   BtnDirAdd.Enabled:=true;
   BtnDirDel.Enabled:=true;
+  EditExcDir.Enabled:=true;
+  if radioSorFolder.Checked then EditExcDir.Button.Enabled:=true; // Источник папка
+  if radioSorFTP.Checked then EditExcDir.Button.Enabled:=false;  // Источник FTP
+  //  EditExcDir.Button.Enabled:=true;
  end
  else
   begin
     SubDirBox.Enabled:=false;
     BtnDirAdd.Enabled:=false;
     BtnDirDel.Enabled:=false;
+    EditExcDir.Enabled:=false;
+    EditExcDir.Button.Enabled:=false;
   end;
 if FiltFilesCheck.Checked then
   begin
@@ -578,8 +850,36 @@ if FiltFilesCheck.Checked then
 
 end;
 
-procedure TFormTask.GroupBox9Click(Sender: TObject);
+
+
+procedure TFormTask.radioDestFolderChange(Sender: TObject);
 begin
+  FillChecks;
+  FillDest;
+//  FillForm;
+end;
+
+procedure TFormTask.radioDestFtpChange(Sender: TObject);
+begin
+  FillChecks;
+  FillDest;
+  //FillForm;
+end;
+
+procedure TFormTask.radioSorFolderChange(Sender: TObject);
+begin
+  //Task.SrcFSParam.FSType:=fstFile;
+  FillChecks;
+  FillSor;
+  //FillForm;
+end;
+
+procedure TFormTask.radioSorFTPChange(Sender: TObject);
+begin
+//  Task.SrcFSParam.FSType:=fstFTP;
+  FillChecks;
+// Источник
+FillSor;
 
 end;
 
@@ -617,26 +917,37 @@ cbAlert.Clear;
 cbAlert.Items.Add(rsNone);
 cbAlert.Items.Add(rsOnlyError);
 cbAlert.Items.Add(rsAlways);
-{
-Copying
-Mirroring
-Synchronization
-Archiving ZIP
-Archiving RAR
-Archiving 7zip
-}
-{
-if CL<>nil then
-   begin
-   TC[1]:=FormTask;
-   fillProps(TC,CL);
-   end;
-   }
+
+cbCondBefore.Clear;
+cbCondBefore.Items.Add(rsAlways);
+cbCondBefore.Items.Add(rsOk);
+cbCondBefore.Items.Add(rsTaskEndError);
+cbCondBefore.ItemIndex:=0;
+
+cbCondAfter.Clear;
+cbCondAfter.Items.Add(rsAlways);
+cbCondAfter.Items.Add(rsOk);
+cbCondAfter.Items.Add(rsTaskEndError);
+cbCondAfter.ItemIndex:=0;
+
+tvMenu.Items.Clear;
+tvMenu.Items.Add(nil,rsTaskSettingsNode1);
+tvMenu.Items.Add(nil,rsTaskSettingsNode2);
+tvMenu.Items.Add(nil,rsTaskSettingsNode3);
+tvMenu.Items.Add(nil,rsTaskSettingsNode4);
+
+tvMenu.Items[0].Selected:=true;
+pcMenu.ActivePageIndex:=0;
+
+ButtonPanel1.CancelButton.Caption:=rsCancel;
+ButtonPanel1.OKButton.Caption:=rsOk;
+
+SubDirBox.Items.Delimiter:=';';
 end;
 
 procedure TFormTask.FormShow(Sender: TObject);
 begin
-  FillForm;
+ // FillForm;
 end;
 
 procedure TFormTask.ManualCheckChange(Sender: TObject);
@@ -652,6 +963,14 @@ end;
 procedure TFormTask.TimeCheckChange(Sender: TObject);
 begin
   FillChecks;
+end;
+
+procedure TFormTask.tvMenuSelectionChanged(Sender: TObject);
+begin
+  if tvMenu.Selected<>nil then
+   begin
+   pcMenu.ActivePageIndex:=tvMenu.Selected.Index;
+   end;
 end;
 
 

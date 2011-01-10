@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   Buttons,{inilang,}shellapi,Windows,
-  gettext,translations
+  gettext,translations,taskunit
   ;
   {Прежде всего добавьте модули "gettext" и "translations"}
 
@@ -16,15 +16,15 @@ type
   { TFormAbout }
 
   TFormAbout = class(TForm)
-    BitBtn1: TBitBtn;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
+    btnOk: TBitBtn;
+    LabelProgName: TLabel;
+    LabelDesr: TLabel;
+    LabelLic: TLabel;
+    LabelMail: TLabel;
+    LabelSite: TLabel;
     procedure FormCreate(Sender: TObject);
-    procedure Label4Click(Sender: TObject);
-    procedure Label5Click(Sender: TObject);
+    procedure LabelMailClick(Sender: TObject);
+    procedure LabelSiteClick(Sender: TObject);
 
 
   private
@@ -37,14 +37,14 @@ var
   FormAbout: TFormAbout;
 
 implementation
-uses mainform;
+//uses mainform;
 { TFormAbout }
 
 
 procedure TFormAbout.FormCreate(Sender: TObject);
-var
+//var
 //TC: array[1..1] of TComponent;
-PODirectory, Lang, FallbackLang: String;
+//PODirectory, Lang, FallbackLang: String;
 
 begin
 {
@@ -55,20 +55,20 @@ if CL<>nil then
    end;
    }
 // Версия программы
-Label1.Caption:='mBackup ver '+MForm.TaskCl.GetVer;
+LabelProgName.Caption:='mBackup ver '+TBackup.GetVer;
 
-PODirectory := 'D:\temp\lang\';
-GetLanguageIDs(Lang, FallbackLang); // определено в модуле gettext
-TranslateUnitResourceStrings('unitabout', PODirectory + 'mbackupw.%s.po', Lang, FallbackLang);
+//PODirectory := 'D:\temp\lang\';
+//GetLanguageIDs(Lang, FallbackLang); // определено в модуле gettext
+//TranslateUnitResourceStrings('unitabout', PODirectory + 'mbackupw.%s.po', Lang, FallbackLang);
 
 end;
 
-procedure TFormAbout.Label4Click(Sender: TObject);
+procedure TFormAbout.LabelMailClick(Sender: TObject);
 begin
 ShellExecute(Handle,'open','mailto:atsave@narod.ru',nil,nil,SW_Normal);
 end;
 
-procedure TFormAbout.Label5Click(Sender: TObject);
+procedure TFormAbout.LabelSiteClick(Sender: TObject);
 begin
   // Ссылка на сайт
 //OpenURL('sdf');

@@ -1,71 +1,104 @@
 object FormAbout: TFormAbout
-  Left = 289
-  Height = 120
-  Top = 273
-  Width = 332
-  ActiveControl = BitBtn1
+  Left = 372
+  Height = 192
+  Top = 220
+  Width = 342
+  ActiveControl = btnOk
   Caption = 'About mBackup'
-  ClientHeight = 120
-  ClientWidth = 332
+  ClientHeight = 192
+  ClientWidth = 342
   OnCreate = FormCreate
   Position = poMainFormCenter
   LCLVersion = '0.9.28.2'
-  object Label1: TLabel
-    Left = 26
-    Height = 16
-    Top = 13
-    Width = 131
+  object LabelProgName: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 15
+    Height = 26
+    Top = 15
+    Width = 206
+    BorderSpacing.Left = 15
+    BorderSpacing.Top = 15
     Caption = 'Autosave ver 0.2 (beta)'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
   end
-  object Label2: TLabel
-    Left = 26
-    Height = 16
-    Top = 32
-    Width = 73
+  object LabelDesr: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = LabelProgName
+    AnchorSideTop.Side = asrBottom
+    Left = 15
+    Height = 26
+    Top = 47
+    Width = 114
+    BorderSpacing.Left = 15
+    BorderSpacing.Top = 6
     Caption = 'Backup utility'
     ParentColor = False
   end
-  object Label3: TLabel
-    Left = 26
-    Height = 16
-    Top = 50
-    Width = 48
+  object LabelLic: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = LabelDesr
+    AnchorSideTop.Side = asrBottom
+    Left = 15
+    Height = 26
+    Top = 79
+    Width = 78
+    BorderSpacing.Left = 15
+    BorderSpacing.Top = 6
     Caption = 'Freeware'
     ParentColor = False
   end
-  object Label4: TLabel
+  object LabelMail: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = LabelSite
+    AnchorSideTop.Side = asrBottom
     Cursor = crHandPoint
-    Left = 26
-    Height = 16
-    Top = 96
-    Width = 90
+    Left = 15
+    Height = 26
+    Top = 143
+    Width = 144
+    BorderSpacing.Left = 15
+    BorderSpacing.Top = 6
     Caption = 'atsave@narod.ru'
     Font.Color = clBlue
     ParentColor = False
     ParentFont = False
-    OnClick = Label4Click
+    OnClick = LabelMailClick
   end
-  object Label5: TLabel
+  object LabelSite: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = LabelLic
+    AnchorSideTop.Side = asrBottom
     Cursor = crHandPoint
-    Left = 26
-    Height = 16
-    Top = 72
-    Width = 117
+    Left = 15
+    Height = 26
+    Top = 111
+    Width = 182
+    BorderSpacing.Left = 15
+    BorderSpacing.Top = 6
     Caption = 'http://atsave.narod.ru'
     Font.Color = clBlue
     Font.Style = [fsUnderline]
     ParentColor = False
     ParentFont = False
-    OnClick = Label5Click
+    OnClick = LabelSiteClick
   end
-  object BitBtn1: TBitBtn
-    Left = 232
-    Height = 30
-    Top = 72
-    Width = 75
+  object btnOk: TBitBtn
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 266
+    Height = 35
+    Top = 151
+    Width = 70
+    Anchors = [akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
     Caption = 'OK'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100

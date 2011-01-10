@@ -11,7 +11,7 @@ type
   TTaskThread = class(TThread)
   private
 
-    TaskCl:TTaskCl;
+    Backup:TBackup;
     procedure UpdateSatus;
     procedure UpdateTotalGauge;
     procedure UpdateMsgMemo;
@@ -68,23 +68,10 @@ Begin
                     MaxVal:=FileSize;
                     TotGaugeVis:=true;
                     Synchronize(@UpdateTotalGauge);
-                   // Synchronize(UpdateProgress);
-                   // status:='Сообщение: общий размер: '+IntToStr(FileSize);
-                   // Synchronize(UpdateMsgMemo);
-                    //Form1.ProgressBar2.Position := 1;
-                    //MsgForm.ProgressBar1.Max := 10001;
-                   // TotalSize2 := FileSize;
-                   // TotalProgress2 := 0;
                 End
                 Else
                 Begin
-               //     stmemo:='Файл '+FileName;
-                //    Synchronize(UpdateMsgMemo);
-                //    stFile:=FileName;
-                //    Synchronize(UpdateSatus);
-                    //MsgForm.FileBeingZipped.Caption := Filename;
-                    //MsgForm.ProgressBar1.Position := 1;
-                    //MsgForm.ProgressBar1.Max := FileSize;
+
                 End;
             End;
         TotalFiles2Process:
@@ -103,29 +90,19 @@ Begin
             Begin
                  stmemo:=FileName;
                  Synchronize(@UpdateMsgMemo);
-                // stFile:=FileName;
-                // Synchronize(UpdateSatus);
 
             End;
 
         NewFile:
             Begin
-             //   MsgForm.FileBeingZipped.Caption := Filename;
-              //  MsgForm.ProgressBar1.Position := 1; // Current position of bar.
-            //    TotalSize1 := FileSize;
-            //    TotalProgress1 := 0;
-             //    stmemo:='Копирование файла '+FileName+' ...';
-            //     Synchronize(UpdateMsgMemo);
                  stFile:=FileName;
                  Synchronize(@UpdateSatus);
 
             End;
         ProgressUpdate:
             Begin
-                If Filename = '' Then
+                If (Filename = '') and (MaxVal>0) Then
                 Begin
-                //status:='Сообщение: ProgressUpdate FileName=null '+' FileSize='+IntToStr(FileSize);
-                //Synchronize(UpdateMsgMemo);
                 CurPos:=CurPos+FileSize;
                 if (CurPos>0) then
                   begin
@@ -144,12 +121,6 @@ Begin
              // Synchronize(UpdateMsgMemo);
              stFile:='';
              Synchronize(@UpdateSatus);
-               // ZipMaster1Message( self, 0, 'in OnProgress type EndOfBatch' );
-      //          MsgForm.FileBeingZipped.Caption := '';
-      //          MsgForm.ProgressBar1.Position := 1;
-      //          MsgForm.StatusBar1.Panels[0].Text := '';
-      //          MsgForm.StatusBar1.Panels[1].Text := '';
-      //          MsgForm.ProgressBar2.Position := 1;
             End;
     End;                                // EOF Case
 End;
@@ -185,20 +156,20 @@ end;
 // Безопасное чтение параметров Task
 procedure TTaskThread.ReadTaskCl;
 begin
-//  TaskCl:=TTaskCl.Create;
-  TaskCl.Count:=1;
-  TaskCl.Tasks[1]:=MForm.TaskCl.Tasks[numt];
-  TaskCl.Count:=1;
-  TaskCl.Settings.logfile:=MForm.TaskCl.Settings.logfile;
-  TaskCl.Settings.loglimit:=MForm.TaskCl.Settings.loglimit;
+//  Backup:=TBackup.Create;
+  Backup.Count:=1;
+  Backup.Tasks[1]:=MForm.Backup.Tasks[numt];
+  Backup.Count:=1;
+  Backup.Settings.logfile:=MForm.Backup.Settings.logfile;
+  Backup.Settings.loglimit:=MForm.Backup.Settings.loglimit;
 
-//  TaskCl.alerttype:=MForm.TaskCl.alerttype;
-  TaskCl.Settings.smtpserv:=MForm.TaskCl.Settings.smtpserv;
-  TaskCl.Settings.smtpport:=MForm.TaskCl.Settings.smtpport;
-  TaskCl.Settings.smtpuser:=MForm.TaskCl.Settings.smtpuser;
-  TaskCl.Settings.smtppass:=MForm.TaskCl.Settings.smtppass;
-  TaskCl.Settings.email:=MForm.TaskCl.Settings.email;
-  TaskCl.Settings.mailfrom:=MForm.TaskCl.Settings.mailfrom;
+//  Backup.alerttype:=MForm.Backup.alerttype;
+  Backup.Settings.smtpserv:=MForm.Backup.Settings.smtpserv;
+  Backup.Settings.smtpport:=MForm.Backup.Settings.smtpport;
+  Backup.Settings.smtpuser:=MForm.Backup.Settings.smtpuser;
+  Backup.Settings.smtppass:=MForm.Backup.Settings.smtppass;
+  Backup.Settings.email:=MForm.Backup.Settings.email;
+  Backup.Settings.mailfrom:=MForm.Backup.Settings.mailfrom;
   
 end;
 // Безопасная запись параметров Task
@@ -206,9 +177,9 @@ procedure TTaskThread.SaveTaskCl;
 var
  i:integer;
 begin
-  i:=MForm.TaskCl.FindTaskSt(stRunning);
-  MForm.TaskCl.Tasks[i].LastResult:=TaskCl.Tasks[1].LastResult;
-  MForm.TaskCl.Tasks[i].LastRunDate:=TaskCl.Tasks[1].LastRunDate;
+  i:=MForm.Backup.FindTaskSt(stRunning);
+  MForm.Backup.Tasks[i].LastResult:=Backup.Tasks[1].LastResult;
+  MForm.Backup.Tasks[i].LastRunDate:=Backup.Tasks[1].LastRunDate;
 end;
 
 
@@ -217,19 +188,19 @@ end;
 constructor TTaskThread.Create(numtask:integer);
 begin
   numT:=numtask;
-  TaskCl:=TTaskCl.Create;
+  Backup:=TBackup.Create;
   Synchronize(@ReadTaskCl);
-  TaskCl.OnProgress:=@ShowProc;
-//  TaskCl.Tasks[1]:=newtask;
+  Backup.OnProgress:=@ShowProc;
+//  Backup.Tasks[1]:=newtask;
 
-//  TaskCl.logfile:=logfile;
-//  TaskCl.loglimit:=loglimit;
+//  Backup.logfile:=logfile;
+//  Backup.loglimit:=loglimit;
   FreeOnTerminate := True;
   inherited Create(False);
 end;
 destructor TTaskThread.Destroy;
 begin
-  TaskCl.Destroy;
+  Backup.Destroy;
   inherited Destroy;
 end;
 
@@ -243,32 +214,32 @@ begin
 
 //sp:=TTaskThread.ShowProc;
 //ShowProgress:=ShowProc;
-status:=Format(rsTaskIsRunning,[TaskCl.Tasks[1].Name]);
-//status:='Выполняется задача "'+TaskCl.Tasks[1].Name+'"';
+status:=Format(rsTaskIsRunning,[Backup.Tasks[1].Name]);
+//status:='Выполняется задача "'+Backup.Tasks[1].Name+'"';
 stfile:='';
 Synchronize(@UpdateSatus);
 stMemo:='';
 Synchronize(@UpdateMsgMemo);
 //MForm.MsgMemo.Lines.Clear;
-res:=TaskCl.RunTask(1,true);
+res:=Backup.RunTask(1,true);
 Synchronize(@SaveTaskCl);
-//nam:=MForm.TaskCl.Name;
-//res:=TaskCl.RunTask(1);
+//nam:=MForm.Backup.Name;
+//res:=Backup.RunTask(1);
 if res=trOk then
  begin
  // status:=Format(misc(
-  status:=Format(rsLogTaskEndOk,[TaskCl.Tasks[1].Name]);
- // status:='Задача "'+TaskCl.Tasks[1].Name+'" выполнена успешно';
+  status:=Format(rsLogTaskEndOk,[Backup.Tasks[1].Name]);
+ // status:='Задача "'+Backup.Tasks[1].Name+'" выполнена успешно';
  end;
 if res=trError then
  begin
-  status:=Format(rsLogTaskError,[TaskCl.Tasks[1].Name]);
- // status:='Задача "'+TaskCl.Tasks[1].Name+'" не выполнена';
+  status:=Format(rsLogTaskError,[Backup.Tasks[1].Name]);
+ // status:='Задача "'+Backup.Tasks[1].Name+'" не выполнена';
  end;
 if res=trFileError then
  begin
-  status:=Format(rsLogTaskEndErr,[TaskCl.Tasks[1].Name]);
-//  status:='Задача "'+TaskCl.Tasks[1].Name+'" выполнена с ошибками';
+  status:=Format(rsLogTaskEndErr,[Backup.Tasks[1].Name]);
+//  status:='Задача "'+Backup.Tasks[1].Name+'" выполнена с ошибками';
  end;
 
 //  RunTask(Task);
