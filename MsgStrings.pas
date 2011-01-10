@@ -85,6 +85,8 @@ resourcestring
  rsLogArc7Zip='Архивация 7zip %s в %s';
  rsNo7zip='7za.exe не найден, архивация невозможна';
  rsArc7Zip='Архивация 7zip';
+ rsArcOldCheckName='Хранить архивы не более';
+ rsZerkOldCheckName='Хранить удаленные файлы';
 implementation
 
 end.

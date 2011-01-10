@@ -25,9 +25,11 @@ const
 {$Endif}
 
 const
-  VersionAS   = '0.3.2'; // Версия программы
-  TempLogName = 'log.txt';
-// Имя временного лог файла (отправляемого по почте)
+  VersionAS   = '0.3.4'; // Версия программы
+  TempLogName = 'log.txt'; // Имя временного лог файла (отправляемого по почте)
+
+const
+   DeletedFilesF='deleted$.xml'; // Файл для хранения сведений об удаленных файлах
 
 const
   MaxTasks = 100; // Макс количество заданий
@@ -37,8 +39,9 @@ const
 
 const         // Константы результата выполнения задачи
   trOk    = 0; // Все ок
-  trError = 1; // Ошибка запуска задания (недоступен каталог)
-  trFileError = 2; // Ошибка копирования файла в задании
+  trFileError = 10; // Ошибка копирования файла в задании
+  trError = 20; // Ошибка запуска задания (недоступен каталог)
+
 
 type
   TMailAlert = (None = 0, OnlyError = 1, Enabled = 2);
@@ -104,6 +107,7 @@ type    // Парметры расписания
 type  //параметры архива
   TArh = record
     Name:      string;  // имя архива
+    DelAfterArh:boolean; // Удалять архивы после упаковки (только Rar)
     DelOldArh: boolean; //Удалять старые архивы
     DaysOld:   integer; // старше дней
     MonthsOld: integer; // страше месяцев
@@ -153,7 +157,32 @@ type  // Запись для параметров одного копирова�
     SourceFilt: TSourceFilt;
     // условия фильтрации файлов и папок источника
   end;
+       //--------------------------------------------------------------
+// Класс хранения сведений об удаленных файлах
+// Массив: Имя файла, дата удаления из источника
+type
+ TDeletedFiles=class
+   constructor Create(RootDirName:string);
+   destructor Destroy;
+   Count:integer; // Кол-во файлов
+   DirName:string; // Каталог, где все происходит
+   function GetIndex(FileName:string):integer;
+   function GetName(Index:integer):string;
+   function GetDate(Index:integer):TDateTime;
+   function Add(FileName:string):integer;
+   procedure Delete(Index:integer);
+   procedure SaveToFile;
 
+ private
+   procedure LoadFromFile;
+   NameList:TStringList; // Список имен файлов
+   DateList:TStringList; // Список дат файлов
+  // Delimiter:string; // Разделитель целой и дробной части в float
+//   DateArray:array[0..100] of TDateTime; // если файлов не больше 100, используем этот массив
+ end;
+
+
+  //--------------------------------------------------------------
 type
   TTaskCl = class
     Tasks: array[1..MaxTasks] of TTask; //Массив заданий
@@ -220,8 +249,8 @@ type
   private
     //procedure CheckFileSize(FileNam:string);
     procedure WriteFileStr(filenam, str: string);
-    function DelDirs(dir: string): boolean;
-    function DelFile(namef: string): boolean;
+    function DelDirs(dir: string): integer;
+    function DelFile(namef: string): integer;
     function ForceDir(DirName: string): boolean;
     function SyncFiles(sorfile, destfile: string; NTFSCopy: boolean; recurse: boolean): boolean;
     // Выполнение внешней программы (платформо независимая)
@@ -256,10 +285,22 @@ type
     //  function TrimFilename(const AFilename: string): string;
     function CopyDirs(dir, syncdir: string; NumTask: integer; Recurse: boolean;
       countsize: boolean): integer;
+
+    function CopyDir(NumTask:integer):integer;
+    function SynDir(NumTask:integer):integer;
+    function ZerkDir(NumTask:integer):integer;
+
+
+    function SimpleCopyDirs(SorDir, DestDir: string; NumTask: integer; Recurse: boolean;NTFSCopy:boolean): integer;
+    function DelOldFiles(SorDir, DestDir: string; NumTask: integer; Recurse: boolean): integer;
+
+//    function MaxTaskResult(Res1,Res2:integer):integer;
+
     TotalSize:  int64; // Общий размер файлов при копировании
     TempSorPath, TempDestPath: string;
     // Временное хранение источника и приемника для перобразования %disk%
     LastStdOut: TStringList;
+ //   DelFiles:TDeletedFiles;
     // Вывод последнего запущенного процесса
   public
 
@@ -304,6 +345,11 @@ type
 
   end;
 
+
+
+
+
+
 {
 type Tprob=record
  // begin
@@ -313,6 +359,198 @@ type Tprob=record
 implementation
 
 uses msgstrings, SendMailUnit;
+
+// Функции класса TDeletedFiles
+ //=====================================================
+ // Конструктор
+constructor TDeletedFiles.Create(RootDirName:string);
+//var
+begin
+  inherited Create;
+  Count  := 0;
+  NameList := TStringList.Create;
+  DateList := TStringList.Create;
+  DirName:=RootDirName;
+  LoadFromFile;
+end;
+
+ // Деструктор
+destructor TDeletedFiles.Destroy;
+begin
+NameList.Destroy;
+DateList.Destroy;
+inherited Destroy;
+end;
+
+// Возвращает индекс файла по его имени
+// Если файла нет возвращается -1
+function TDeletedFiles.GetIndex(FileName:string):integer;
+begin
+Result:=NameList.IndexOf(FileName);
+end;
+// Возвращает имя файла по индексу
+function TDeletedFiles.GetName(Index:integer):string;
+begin
+if Count>Index then
+    Result:=NameList[Index]
+   else
+     Result:='';
+end;
+// Возвращает дату файла по индексу
+function TDeletedFiles.GetDate(Index:integer):TDateTime;
+var
+ DateFormat:TFormatSettings;
+begin
+if Count>Index then
+    begin
+
+//     GetLocaleFormatSettings(0,DateFormat);
+     DateFormat.DateSeparator:='.';
+     DateFormat.DecimalSeparator:='.';
+//     DateFormat.LongDateFormat:='dd.MM.yyyy';
+//     DateFormat.ShortDateFormat:='dd.MM.yyyy';
+//     Result:=StrToDateTime(DateList[Index],DateFormat);
+     Result:=StrToFloat(DateList[Index],DateFormat)
+     end
+
+
+   else
+     Result:=0;
+end;
+// Добавление данных о файле
+function TDeletedFiles.Add(FileName:string):integer;
+var
+ strDate:string;
+ DateFormat:TFormatSettings;
+begin
+Result:=-1;
+if GetIndex(FileName)>-1 then exit;
+NameList.Add(FileName);
+DateFormat.DateSeparator:='.';
+DateFormat.DecimalSeparator:='.';
+strDate:= FloatToStr(Now,DateFormat);
+DateList.Add(strDate);
+Count:=Count+1;
+Result:=Count;
+end;
+// Удаление данных о файле
+procedure TDeletedFiles.Delete(Index:integer);
+begin
+NameList.Delete(Index);
+DateList.Delete(Index);
+Dec(Count);
+end;
+// Запись в файл
+procedure TDeletedFiles.SaveToFile;
+var
+  i, j: integer;
+  xmldoc: TXMLConfig;
+  sec,SaveFileName: string;
+//  Attr:integer;
+begin
+SaveFileName:=DirName+slash+DeletedFilesF;
+if Count>0 then
+  begin
+//  if FileExists(SaveFileName) then // Сбрасываем атрибут скрытый
+//    begin
+//    FileSetAttr(SaveFileName, 0);
+//    end;
+  if Not DirectoryExists(DirName) then exit;
+  xmldoc := TXMLConfig.Create(nil);
+  xmldoc.StartEmpty := True;
+  xmldoc.Filename := SaveFileName; //'probcfg.xml';
+  xmldoc.RootName := 'AutoSave';
+  // Версия программы
+//  xmldoc.SetValue('version/value', versionas);
+  // количество заданий
+  xmldoc.SetValue('deleted/count/value', Count);
+  for i := 0 to Count-1 do
+  begin
+    // Имя секции с заданием
+    sec := 'Deleted/File' + IntToStr(i) + '/';
+
+    xmldoc.SetValue(sec + 'name/value', NameList[i]); // Имя файла
+    xmldoc.SetValue(sec + 'txtdate/value', DateList[i]); // Текстовая дата файла
+   // if i<100 then
+   //    xmldoc.SetValue(sec + 'date/value', DateArray[i]); // Нормальная дата файла
+
+  end;
+  xmldoc.Flush;
+  xmldoc.Destroy;
+ // Attr:=faHidden;
+  FileSetAttr(SaveFileName, faHidden);
+
+
+ end
+  else
+    begin
+    if FileExists(SaveFileName) then
+          begin
+            // Удаляем файл
+          try
+            SysUtils.DeleteFile(SaveFileName);
+          except
+          end;
+         end;
+
+    end;
+
+end;
+// Чтение из файла
+procedure TDeletedFiles.LoadFromFile;
+var
+  i, j, cntdir: integer;
+  xmldoc:  TXMLConfig;
+  sec,SaveFileName:     string;
+  strDate: string;
+begin
+  SaveFileName:=DirName+slash+DeletedFilesF;
+     NameList.Clear;
+    DateList.Clear;
+    Count:=0;
+  if not FileExists(SaveFileName) then
+    begin
+    exit;
+    end;
+  FileSetAttr(SaveFileName, 0);
+  xmldoc := TXMLConfig.Create(nil);
+  //xmldoc := TXMLConfig.Create(SaveFileName);
+
+  xmldoc.StartEmpty := False; //false;
+  xmldoc.RootName   := 'AutoSave';
+  xmldoc. flush;
+  xmldoc.Filename := SaveFileName;
+
+  // количество заданий
+  Count := xmldoc.GetValue('deleted/count/value', 0);
+  if Count = 0 then exit;
+
+  for i := 0 to Count-1 do
+  begin
+    sec := 'Deleted/File' + IntToStr(i) + '/';
+    NameList.Add(xmldoc.GetValue(sec + 'name/value', ''));
+    DateList.Add(xmldoc.GetValue(sec + 'txtdate/value', ''));
+ //   if i<100 then DateArray[i]:= xmldoc.GetValue(sec + 'date/value', '');
+  end;
+  xmldoc.Destroy;
+end;
+
+
+// конец функций класса TDeletedFiles
+//==============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
  //=====================================================
  // Конструктор
 constructor TTaskCl.Create;
@@ -320,6 +558,7 @@ begin
   inherited Create;
   Count  := 0;
   LastStdOut := TStringList.Create;
+ // DelFiles:=TDeletedFiles.Create;
   ReadIni;
   CL:=LoadLangIni(LangFile);
 end;
@@ -328,6 +567,7 @@ end;
 destructor TTaskCl.Destroy;
 begin
 LastStdOut.Destroy;
+//DelFiles.Destroy;
 inherited Destroy;
 end;
 //==============================================================
@@ -596,6 +836,7 @@ begin
   //Tasks[count].Rasp.AtStart:=false;
   //Tasks[count].Rasp.AtTime:=false;
   Tasks[Count].Arh.DelOldArh := False;
+  Tasks[Count].Arh.DelAfterArh := False;
   Tasks[Count].Arh.DaysOld := 7;
   Tasks[Count].Arh.MonthsOld := 12;
   Tasks[Count].Arh.YearsOld := 5;
@@ -953,58 +1194,61 @@ begin
     end;
   end;
 
-  SorPath:=ReplDate(Tasks[num].SorPath);
-  SorPath:=Utf8toansi(SorPath);
-  DestPath:=ReplDate(Tasks[num].DestPath);
-  DestPath:=Utf8toansi(DestPath);
+//  SorPath:=ReplDate(Tasks[num].SorPath);
+//  SorPath:=Utf8toansi(SorPath);
+//  DestPath:=ReplDate(Tasks[num].DestPath);
+//  DestPath:=Utf8toansi(DestPath);
 
   if Tasks[num].Action = ttCopy then // Копирование
   begin
-    str := Format(misc(rsLogCopy, 'rsLogCopy'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
-    LogMessage(str);
+//    str := Format(misc(rsLogCopy, 'rsLogCopy'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+//    LogMessage(str);
 
-    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
-    //Result:=SyncDirs(Tasks[num].SorPath,Tasks[num].DestPath,0,Tasks[num].NTFSPerm,false);
-  //  Tasks[num].LastResult := Result;
-  //  Tasks[num].LastRunDate := Now;
+//    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
+    Result := CopyDir(num);
+
   end;
   if Tasks[num].Action = ttSync then // Синхронизирование
   begin
-    str := Format(misc(rsLogSync, 'rsLogSync'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
-    LogMessage(str);
-    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
-  //  Tasks[num].LastResult := Result;
-  //  Tasks[num].LastRunDate := Now;
+
+//    str := Format(misc(rsLogSync, 'rsLogSync'), [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+//    LogMessage(str);
+
+//    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
+
+   Result := SynDir(num);
+
   end;
   if Tasks[num].Action = ttZerk then // Зеркалирование
   begin
-    str := Format(misc(rsLogMirror, 'rsLogMirror'),
-      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
-    LogMessage(str);
-    Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
-  //  Tasks[num].LastResult := Result;
-  //  Tasks[num].LastRunDate := Now;
+//    str := Format(misc(rsLogMirror, 'rsLogMirror'),
+//      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+//    LogMessage(str);
+
+    //Result := CopyDirs(SorPath, DestPath, num, False, Countsize);
+    Result := ZerkDir(num);
+
   end;
   if Tasks[num].Action = ttArhRar then // Архивирование Rar
   begin
-    str := Format(misc(rsLogArcRar, 'rsLogArcRar'),
-      [ReplDate(Tasks[num].SorPath),ReplDate( Tasks[num].DestPath)]);
-    LogMessage(str);
+//    str := Format(misc(rsLogArcRar, 'rsLogArcRar'),
+//      [ReplDate(Tasks[num].SorPath),ReplDate( Tasks[num].DestPath)]);
+//    LogMessage(str);
     Result := ArhRarDir(num);
  //   Tasks[num].LastResult := Result;
  //   Tasks[num].LastRunDate := Now;
   end;
   if Tasks[num].Action = ttArhZip then // Архивирование Zip
   begin
-    str := Format(misc(rsLogArcZip, 'rsLogArcZip'),
-      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
-    LogMessage(str);
+//    str := Format(misc(rsLogArcZip, 'rsLogArcZip'),
+//      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+//    LogMessage(str);
     Result := Arh7ZipDir(num);
   end;
   if Tasks[num].Action = ttArh7zip then // Архивирование 7zip
   begin
-    str := Format(misc(rsLogArc7Zip, 'rsLogArc7Zip'),
-      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
+//    str := Format(misc(rsLogArc7Zip, 'rsLogArc7Zip'),
+//      [ReplDate(Tasks[num].SorPath), ReplDate(Tasks[num].DestPath)]);
     LogMessage(str);
     Result := Arh7zipDir(num);
   //  Tasks[num].LastResult := Result;
@@ -1314,24 +1558,24 @@ var
   //  sr: TSearchRec;
   //  FileAttrs: Integer;
 begin
-  //SorPath:=ReplaceNameDisk(Tasks[numtask].SorPath);
-  //DestPath:=ReplaceNameDisk(Tasks[numtask].DestPath);
-  //if Not Tasks[NumTask].SourceFilt.Recurse then exit; // подкаталоги не обрабатывать
-  if not Tasks[NumTask].SourceFilt.FiltSubDir and not
-    Tasks[NumTask].SourceFilt.FiltFiles then
-    // нет исключений
+  res:=' ';
+    // -df удалить файлы после упаковки
+  if Tasks[NumTask].Arh.DelAfterArh then
+    begin
+    res:=res+' -df '
+    end;
+
+// Нет фильтрации источника и приемника
+  if (not Tasks[NumTask].SourceFilt.FiltSubDir) and (not Tasks[NumTask].SourceFilt.FiltFiles) then
   begin
-    if Tasks[NumTask].SourceFilt.Recurse then
-      Result := ' -r' // рекурсивно
-    else
-      Result := ''; // не рекурсивно
-    exit;
+         if Tasks[NumTask].SourceFilt.Recurse then
+             res :=res+ ' -r ';
+         Result:=res;
+         exit;
   end;
   FileList := TStringList.Create;
   if Tasks[NumTask].SourceFilt.Recurse then
-    res := ' -r '
-  else
-    res := '';
+    res := res+' -r';
   // исключение файлов
   if Tasks[NumTask].SourceFilt.FiltFiles then
   begin
@@ -1352,8 +1596,6 @@ begin
   end;
   //tmpfile:=ExtractFileDir(ParamStr(0))+'\tmp.txt';
   FileList.SaveToFile(tmpfile);
-  //res:=res+' -r ';
-  //res:=res+' -r –x\@"'+tmpfile+'" ';
   Res    := res + ' ';
   Result := res;
   FileList.Free;
@@ -1472,6 +1714,9 @@ var
   ExitCode:    integer;
   // tmpstr:TStrings;
 begin
+     str := Format(misc(rsLogArcRar, 'rsLogArcRar'),[ReplDate(Tasks[NumTask].SorPath),ReplDate( Tasks[NumTask].DestPath)]);
+    LogMessage(str);
+
   SorPath:=ReplDate(Tasks[numtask].SorPath);
   SorPath := utf8toansi(SorPath);
   //DestPath:=utf8toansi(Tasks[numtask].DestPath);
@@ -1575,6 +1820,15 @@ var
   ExitCode:    integer;
   // tmpstr:TStrings;
 begin
+    if Tasks[NumTask].Action=ttArhZip then
+        str := Format(misc(rsLogArcZip, 'rsLogArcZip'),[ReplDate(Tasks[NumTask].SorPath), ReplDate(Tasks[NumTask].DestPath)])
+      else
+        str := Format(misc(rsLogArc7Zip, 'rsLogArc7Zip'),[ReplDate(Tasks[NumTask].SorPath), ReplDate(Tasks[NumTask].DestPath)]);
+
+    LogMessage(str);
+
+
+
   SorPath:=ReplDate(Tasks[numtask].SorPath);
   SorPath := utf8toansi(SorPath);
   arhname:=GetArhName(NumTask);
@@ -1921,12 +2175,13 @@ end;
 
  //==============================================================
  // Удаление файла с записью в лог
-function TTaskCl.DelFile(namef: string): boolean;
+function TTaskCl.DelFile(namef: string): integer;
 var
   str:   string;
   Attrs: integer;
   res:   boolean;
 begin
+Result:=trOk;
   // Если есть атрибут только для чтения, то его убираем
   Attrs := FileGetAttr(namef);
   if Attrs and faReadOnly <> 0 then
@@ -1941,7 +2196,7 @@ begin
   except
     On E: Exception do
     begin
-      Result := False;
+      Result := trFileError;
       str    := ansitoutf8(E.Message);
       str    := Format(misc(rsLogDelFileErr, 'rsLogDelFileErr'), [ansitoutf8(namef), str]);
       LogMessage(str);
@@ -1950,13 +2205,13 @@ begin
 
   if res then
   begin
-    Result := True;
+//    Result := True;
     str    := Format(misc(rsLogDelFile, 'rsLogDelFile'), [ansitoutf8(namef)]);
     LogMessage(str);
   end
   else
   begin
-    Result := False;
+    Result := trFileError;
     str    := ansitoutf8(SysErrorMessage(GetLastError));
     str    := Format(misc(rsLogDelFileErr, 'rsLogDelFileErr'), [ansitoutf8(namef), str]);
     LogMessage(str);
@@ -2175,12 +2430,13 @@ var
   //MailAlert:integer;
   xmldoc: TXMLConfig;
   sec: string;
+  FrmSet:TFormatSettings;
 begin
 
   if filenam = '' then
     filenam := profile;
   profile   := filenam;
-
+  FrmSet.DecimalSeparator:='.';
   //filenam:=FullFileNam(filenam);
 
   xmldoc := TXMLConfig.Create(nil);
@@ -2195,6 +2451,7 @@ begin
   for i := 1 to Count do
   begin
     // Имя секции с заданием
+
     sec := 'tasks/task' + IntToStr(i) + '/';
 
     xmldoc.SetValue(sec + 'name/value', Tasks[i].Name);
@@ -2208,6 +2465,7 @@ begin
     xmldoc.SetValue(sec + 'Arh/DaysOld/value', Tasks[i].Arh.DaysOld);
     xmldoc.SetValue(sec + 'Arh/MonthsOld/value', Tasks[i].Arh.MonthsOld);
     xmldoc.SetValue(sec + 'Arh/YearsOld/value', Tasks[i].Arh.YearsOld);
+    xmldoc.SetValue(sec + 'Arh/DelAfterArh/value', Tasks[i].Arh.DelAfterArh);
    {
      TmpStr.Add(BoolToStr(Tasks[i].Rasp.Manual));
      TmpStr.Add(BoolToStr(Tasks[i].Rasp.AtTime));
@@ -2233,7 +2491,8 @@ begin
 
     // Результат последнего выполнения задачи
     xmldoc.SetValue(sec + 'LastResult/value', Tasks[i].LastResult);
-    xmldoc.SetValue(sec + 'LastRunDate/value', DateTimeToStr(Tasks[i].LastRunDate));
+//    xmldoc.SetValue(sec + 'LastRunDate/value',  DateTimeToStr(Tasks[i].LastRunDate));
+    xmldoc.SetValue(sec + 'LastRunDate/value', FloatToStr(Tasks[i].LastRunDate,FrmSet));
     // Параметры фильтрации каталогов и файлов источника
     xmldoc.SetValue(sec + 'SourceFilt/Recurse/value', Tasks[i].SourceFilt.Recurse);
     xmldoc.SetValue(sec + 'SourceFilt/FiltSubDir/value', Tasks[i].SourceFilt.FiltSubDir);
@@ -2271,12 +2530,13 @@ var
   xmldoc:  TXMLConfig;
   sec:     string;
   strDate: string;
+  FrmSet:TFormatSettings;
 begin
   if filenam = '' then
     filenam := profile;
   //filenam:=FullFileNam(filenam);
 
-
+  FrmSet.DecimalSeparator:='.';
 
 
   //filenam:='probcfg.xml';
@@ -2342,8 +2602,7 @@ begin
     Tasks[i].Arh.DaysOld   := xmldoc.GetValue(sec + 'Arh/DaysOld/value', 0);
     Tasks[i].Arh.MonthsOld := xmldoc.GetValue(sec + 'Arh/MonthsOld/value', 0);
     Tasks[i].Arh.YearsOld  := xmldoc.GetValue(sec + 'Arh/YearsOld/value', 0);
-
-
+    Tasks[i].Arh.DelAfterArh:=xmldoc.GetValue(sec + 'Arh/DelAfterArh/value', False);
 
     // Чтение параметров запуска внешних программ
     Tasks[i].ExtProgs.BeforeStart :=
@@ -2367,7 +2626,9 @@ begin
     Tasks[i].LastResult := xmldoc.GetValue(sec + 'LastResult/value', 0);
     //StrToInt(TmpStr[strcount+19]);
     strDate := xmldoc.GetValue(sec + 'LastRunDate/value', '0');
-    Tasks[i].LastRunDate := StrToDateTime(strDate);
+//    Tasks[i].LastRunDate := StrToDateTime(strDate);
+    Tasks[i].LastRunDate :=StrToFloat(strDate,FrmSet);
+
     // xmldoc.GetValue(sec+'LastRunDate/value',0);//StrToDateTime(TmpStr[strcount+20]);
 
     // Чтение параметров фильтрации источника
@@ -2670,7 +2931,7 @@ begin
     if (Attrs and faReadOnly <> 0) or (Attrs and faSysFile <> 0) or (Attrs and faHidden <> 0) then
       begin
       try
-        FileSetAttr(destfile, Attrs - faReadOnly-faSysFile-faHidden);
+        FileSetAttr(destfile, 0);
         AttrChange:=true;
       except
       end;
@@ -2737,7 +2998,11 @@ begin
           end;
           //      FileSetDate(T.Handle, FileGetDate(S.Handle));
           FileSetDate(destfile, FileAge(sorfile));
-          if AttrChange then FileSetAttr(destfile, Attrs); // Возвращаем атрибуты на место
+          if AttrChange then
+             begin
+             Attrs := FileGetAttr(sorfile);
+             FileSetAttr(destfile, Attrs); // Возвращаем атрибуты на место, берем из источника
+             end;
         finally
           T.Free;
         end;
@@ -2906,7 +3171,7 @@ begin
 end;
  //============================================================
  // Удаление директории dir со всем ее содержимым
-function TTaskCl.DelDirs(dir: string): boolean;
+function TTaskCl.DelDirs(dir: string):integer;
 var
   sr:  TSearchRec;
   FileAttrs: integer;
@@ -2930,6 +3195,7 @@ begin
   end;
   }
   // потом директории
+  Result:=trOk;
   FileAttrs := faDirectory + faReadOnly + faHidden + faSysFile + faArchive;
   if FindFirst(PathCombine(dir, '*'), FileAttrs, sr) = 0 then
   begin
@@ -2938,12 +3204,12 @@ begin
       begin
         if not SameText(sr.Name, '.') and not SameText(sr.Name, '..') then
         begin
-          DelDirs(PathCombine(dir, sr.Name));
+          Result:=Max(Result,DelDirs(PathCombine(dir, sr.Name)));
         end;
       end
       else // Это файл
        begin
-        DelFile(PathCombine(dir, sr.Name));
+        Result:=Max(Result,DelFile(PathCombine(dir, sr.Name)));
        end;
     until FindNext(sr) <> 0;
     FindClose(sr);
@@ -2957,7 +3223,7 @@ begin
       str := ansitoutf8(E.Message);
       str := Format(misc(rsLogDelDirErr, 'rsLogDelDirErr'), [ansitoutf8(dir), str]);
       LogMessage(str);
-      Result := False;
+      Result := trFileError;
     end;
   end;
 
@@ -2965,14 +3231,14 @@ begin
   begin
     str := Format(misc(rsLogDelDir, 'rsLogDelDir'), [ansitoutf8(dir)]);
     LogMessage(str);
-    Result := True;
+//    Result := True;
   end
   else
   begin
     str := ansitoutf8(SysErrorMessage(GetLastError));
     str := Format(misc(rsLogDelDirErr, 'rsLogDelDirErr'), [ansitoutf8(dir), str]);
     LogMessage(str);
-    Result := False;
+    Result := trFileError;
   end;
 end;
 
@@ -3085,6 +3351,7 @@ end;
  //           false - первый вызов
 // CountSize - Подсчитывать ли общий размер файлов для копирования
 //Возвращает true при успехе или false при ошибках
+// IsStoreDel- зеркалирование с сохранением удаленных файлов
 function TTaskCl.CopyDirs(dir, syncdir: string; NumTask: integer;
   Recurse: boolean; CountSize: boolean): integer;
 var
@@ -3093,6 +3360,8 @@ var
   filesync, filesor: string;
   NTFSCopy: boolean;
   TypeSync: integer;
+ // DelFiles:TDeletedFiles;
+ // IsStoreDel:boolean; // Зеркалирование, да еще и сохранением удаленных файлов
   //  sordata,destdata:integer; // даты файлов источ и приемника
   //  res:boolean;
 begin
@@ -3136,6 +3405,14 @@ begin
     //ForceDir(syncdir);
     CopyNTFSPerm(dir, syncdir);
   end;
+  // Если зеркалирование загружаем список удаленных файлов
+
+//  if IsStoreDel then
+//   begin
+//   DelFiles:=TDeletedFiles.Create;
+//   DelFiles.DirName:=syncdir;
+//   DelFiles.LoadFromFile;
+//   end;
 
 //  FileAttrs := faReadOnly + faHidden + faSysFile + faArchive + faAnyFile;
   FileAttrs := faDirectory + faReadOnly + faHidden + faSysFile + faArchive+faAnyFile;
@@ -3159,8 +3436,8 @@ begin
      else   // Это файл
       begin
 
-        if CheckFileMask(sr.Name, NumTask) then
-          // Проверка файла на маску
+        if (CheckFileMask(sr.Name, NumTask)) AND (Not SameText(sr.Name,DeletedFilesF)) then
+          // Проверка файла на маску и что это не файл с данными удаленных файлов
         begin
           filesync := PathCombine(syncdir, sr.Name); // Имя файла приемника
           filesor  := PathCombine(dir, sr.Name); // Имя файла источника
@@ -3280,6 +3557,347 @@ begin
  }
   OnProgress(nil, EndOfBatch, '', 0);
 end;
+//=================================================================
+// Задание копирования директории
+function TTaskCl.CopyDir(NumTask:integer):integer;
+var
+  str:string;
+  SorPath,DestPath:string;
+begin
+
+  str := Format(misc(rsLogCopy, 'rsLogCopy'), [ReplDate(Tasks[numTask].SorPath), ReplDate(Tasks[numTask].DestPath)]);
+  LogMessage(str);
+
+  SorPath:=ReplDate(Tasks[numTask].SorPath);
+  SorPath:=Utf8toansi(SorPath);
+  DestPath:=ReplDate(Tasks[numTask].DestPath);
+  DestPath:=Utf8toansi(DestPath);
+
+ NTSetPrivilege('SeSecurityPrivilege', True);
+    if not CheckDirs(NumTask) then // Проверка существования каталогов приемника и источника из задания
+      begin
+      Result:=trError;
+      exit;
+      end;
+   if not InCmdMode then  // Если запуск не через командную строку  то считаем общее кол-во файлов
+    begin
+      GetSizeDir(SorPath, DestPath, NumTask, False);
+      OnProgress(nil, TotalSize2Process, '', TotalSize); // Вызов события для обработки потоком
+    end;
+Result:=SimpleCopyDirs(SorPath,DestPath,NumTask,false,Tasks[NumTask].NTFSPerm);
+OnProgress(nil, EndOfBatch, '', 0);
+end;
+//=================================================================
+// Задание синхронизации директории
+function TTaskCl.SynDir(NumTask:integer):integer;
+var
+  EC1,EC2:integer;
+  str:string;
+  SorPath,DestPath:string;
+begin
+    str := Format(misc(rsLogSync, 'rsLogSync'), [ReplDate(Tasks[NumTask].SorPath), ReplDate(Tasks[NumTask].DestPath)]);
+    LogMessage(str);
+
+   SorPath:=ReplDate(Tasks[numTask].SorPath);
+  SorPath:=Utf8toansi(SorPath);
+  DestPath:=ReplDate(Tasks[numTask].DestPath);
+  DestPath:=Utf8toansi(DestPath);
+
+
+ NTSetPrivilege('SeSecurityPrivilege', True);
+    if not CheckDirs(NumTask) then // Проверка существования каталогов приемника и источника из задания
+      begin
+      Result:=trError;
+      exit;
+      end;
+   if not InCmdMode then  // Если запуск не через командную строку  то считаем общее кол-во файлов
+    begin
+      GetSizeDir(SorPath, DestPath, NumTask, False);
+      OnProgress(nil, TotalSize2Process, '', TotalSize); // Вызов события для обработки потоком
+    end;
+// SorDir => DestDir
+EC1:=SimpleCopyDirs(SorPath,DestPath,NumTask,false,Tasks[NumTask].NTFSPerm);
+// DestDir => SorDir
+EC2:=SimpleCopyDirs(DestPath,SorPath,NumTask,false,false);
+Result:=Max(EC1,EC2);
+OnProgress(nil, EndOfBatch, '', 0);
+end;
+
+
+
+
+//=================================================================
+// Задание зеркалирования директории
+function TTaskCl.ZerkDir(NumTask:integer):integer;
+var
+ ret:integer;
+ str:string;
+ SorPath,DestPath:string;
+begin
+   str := Format(misc(rsLogMirror, 'rsLogMirror'),[ReplDate(Tasks[NumTask].SorPath), ReplDate(Tasks[NumTask].DestPath)]);
+    LogMessage(str);
+
+  SorPath:=ReplDate(Tasks[numTask].SorPath);
+  SorPath:=Utf8toansi(SorPath);
+  DestPath:=ReplDate(Tasks[numTask].DestPath);
+  DestPath:=Utf8toansi(DestPath);
+
+
+ NTSetPrivilege('SeSecurityPrivilege', True);
+    if not CheckDirs(NumTask) then // Проверка существования каталогов приемника и источника из задания
+      begin
+      Result:=trError;
+      exit;
+      end;
+   if not InCmdMode then  // Если запуск не через командную строку  то считаем общее кол-во файлов
+    begin
+      GetSizeDir(SorPath, DestPath, NumTask, False);
+      OnProgress(nil, TotalSize2Process, '', TotalSize); // Вызов события для обработки потоком
+    end;
+Result:=SimpleCopyDirs(SorPath,DestPath,NumTask,false,Tasks[NumTask].NTFSPerm);
+// Удаляем лишние файлы
+ret:=DelOldFiles(SorPath, DestPath, NumTask,false);
+Result:=Max(Result,ret);
+OnProgress(nil, EndOfBatch, '', 0);
+end;
+//=================================================================
+//
+// Удаляет из директории DestDir файлы отсутствующие в SorDir
+// DestDir - Приемник
+ // NumTask - номер задачи в массиве заданий
+ // Recurse - true - рекурсивный вызов
+ //           false - первый вызов
+//Возвращает Код ошибки
+
+function TTaskCl.DelOldFiles(SorDir, DestDir: string; NumTask: integer; Recurse: boolean): integer;
+var
+  sr: TSearchRec;
+  FileAttrs: integer;
+  filesync, filesor: string;
+//  EmptyDir:boolean;
+  DelFiles:TDeletedFiles;
+  i:integer;
+  beforedate:TDateTime;
+  IsSubDir:boolean;
+
+begin
+Result:=trOk;
+  FileAttrs := faReadOnly + faHidden + faSysFile + faArchive + faAnyFile + faDirectory;
+//EmptyDir:=true;
+IsSubDir:=false; // Есть подкаталоги
+//IsFile:=false; // Есть файлы
+
+    if FindFirst(PathCombine(DestDir, '*'), FileAttrs, sr) = 0 then
+    begin
+      DelFiles:=TDeletedFiles.Create(DestDir);
+      repeat
+        begin
+          filesync := PathCombine(SorDir, sr.Name); // Имя файла источника
+          filesor  := PathCombine(DestDir, sr.Name);
+//          EmptyDir:=false;
+          if ((sr.Attr and faDirectory) <> 0) then  // это директория
+          begin
+             if not (SameText(sr.Name, '.')) and not (SameText(sr.Name, '..')) then
+                begin
+                  IsSubDir:=true;
+                  if (CheckSubDir(filesync, NumTask)) then
+                     begin
+                       if Not Tasks[NumTask].Arh.DelOldArh then // не задано хранение удаленных файлов
+                           begin
+                              if not directoryexists(filesync) then // директория приемника не существует
+                                 begin
+                                 Result:=Max(Result,DelDirs(filesor));
+                                 end
+                               else
+                                 Result:=Max(Result,DelOldFiles(filesync,filesor,NumTask,true));
+                            end
+                              else
+                                 Result:=Max(Result,DelOldFiles(filesync,filesor,NumTask,true));
+
+                      end;
+
+                end;
+           end
+          else // это файл
+          begin
+            if CheckFileMask(sr.Name, NumTask) AND (Not SameText(sr.Name,DeletedFilesF)) then
+            begin
+              if Not Tasks[NumTask].Arh.DelOldArh then // не задано хранение удаленных файлов
+                 begin
+                  if not FileExists(filesync) then // файл источник не существует
+                     begin
+                     Result:=Max(Result,DelFile(filesor));
+                     end;
+                 end
+                else  // Задано хранение удаленных файлов
+                  begin
+                   if not FileExists(filesync) then // файл источник не существует
+                     begin
+                         DelFiles.Add(sr.Name); // Добавляем файл в список
+                     end;
+                  end;
+            end;
+          end;
+        end;
+      until FindNext(sr) <> 0;
+      FindClose(sr);
+
+      // Проходим по всем файлам в xml, удаляем устаревшие
+      if Tasks[NumTask].Arh.DelOldArh then
+          begin
+          beforedate := IncDay(Now, -Tasks[NumTask].Arh.DaysOld);
+          i:=0;
+          while i<DelFiles.Count do
+          begin
+            filesor:=PathCombine(DestDir,DelFiles.GetName(i));
+            filesync:=PathCombine(SorDir,DelFiles.GetName(i));
+
+            if (FileExists(filesync)) or (Not FileExists(filesor)) then DelFiles.Delete(i) // в источнике есть такой файл, или в приемнике нет такого файла
+              else
+              if CompareDateTime(DelFiles.GetDate(i), beforedate) = -1 then
+                  begin
+                  Result:=Max(Result,DelFile(filesor));
+                  DelFiles.Delete(i);
+                  //Dec(i);
+                  end
+                else
+                  Inc(i);
+          end;
+              {
+
+          for i:=0 to DelFiles.Count-1 do
+             begin
+             if CompareDateTime(DelFiles.GetDate(i), beforedate) = -1 then
+                  begin
+                  DelFile(PathCombine(DestDir,DelFiles.GetName(i)));
+                  DelFiles.Delete(i);
+                  //Dec(i);
+                  end;
+             end;
+             }
+          // Если каталог пуст, удаляем
+          if Recurse AND (Not IsSubDir) AND (not (directoryexists(SorDir))) And (DelFiles.Count=0) then // директория приемника не существует и все файлы удалены, подкаталогов нет
+               begin
+               Result:=Max(Result,DelDirs(DestDir));
+               end
+          end;
+  DelFiles.SaveToFile;
+  DelFiles.Destroy;
+  end;
+
+end;
+
+//=================================================================
+//   SorDir => DestDir
+// копирует директорию SorDir в DestDir
+// DestDir - Приемник
+ // NumTask - номер задачи в массиве заданий
+ // Recurse - true - рекурсивный вызов
+ //           false - первый вызов
+ // NTFSCopy - Копировать права NTFS
+//Возвращает Код ошибки
+
+function TTaskCl.SimpleCopyDirs(SorDir, DestDir: string; NumTask: integer; Recurse: boolean;NTFSCopy:boolean): integer;
+var
+  sr: TSearchRec;
+  FileAttrs: integer;
+  filesync, filesor: string;
+  SubSorDir,SubDestDir:string;
+ // NTFSCopy: boolean;
+//  TypeSync: integer;
+ // DelFiles:TDeletedFiles;
+ // IsStoreDel:boolean; // Зеркалирование, да еще и сохранением удаленных файлов
+  //  sordata,destdata:integer; // даты файлов источ и приемника
+  //  res:boolean;
+begin
+  Result := trOk;
+  //res:=true;
+  // trOk=0; // Все ок
+  //  trError=1; // Ошибка запуска задания (недоступен каталог)
+  //  trFileError=2; // Ошибка копирования файла в задании
+  if recurse and not Tasks[NumTask].SourceFilt.Recurse then exit; // подкаталоги не обрабатывать
+//  NTFSCopy := Tasks[NumTask].NTFSPerm;
+   {
+  if not Recurse then
+  begin
+    NTSetPrivilege('SeSecurityPrivilege', True);
+    if not CheckDirs(NumTask) then // Проверка существования каталогов приемника и источника из задания
+      begin
+      Result:=trError;
+      exit;
+
+      end;
+  end;
+  }
+  if (recurse) and (NTFSCopy) then     // вызов рекурсивный - копируются права на директорию
+  begin
+    CopyNTFSPerm(SorDir, DestDir);
+  end;
+  FileAttrs := faDirectory + faReadOnly + faHidden + faSysFile + faArchive+faAnyFile;
+  // Проходим по файлам и директориям
+  if FindFirst(PathCombine(SorDir, '*'), FileAttrs, sr) = 0 then
+  begin
+    repeat
+      begin
+
+     if (sr.Attr and faDirectory) <> 0 then // Это директория
+      begin
+        if not SameText(sr.Name, '.') and not SameText(sr.Name, '..') then
+        begin
+          SubSorDir := PathCombine(SorDir, sr.Name);
+          SubDestDir  := PathCombine(DestDir, sr.Name);
+          if CheckSubDir(SubSorDir, NumTask) then
+            if SimpleCopyDirs(SubSorDir, SubDestDir, NumTask, True,NTFSCopy) = trFileError then
+              Result := trFileError;
+        end;
+      end
+     else   // Это файл
+      begin
+
+        if (CheckFileMask(sr.Name, NumTask)) AND (Not SameText(sr.Name,DeletedFilesF)) then
+          // Проверка файла на маску и что это не файл с данными удаленных файлов
+        begin
+          filesync := PathCombine(DestDir, sr.Name); // Имя файла приемника
+          filesor  := PathCombine(SorDir, sr.Name); // Имя файла источника
+          if FileExists(filesync) then
+                // файл в каталоге приемнике уже есть
+          begin // Тогда сверяются даты
+                // sordata:=sr.Time;
+                // destData:=FileAge(filesync);
+                //if CompareFileDate(sordata,destdata) then
+            if CompareFileDate(filesor, filesync) then
+            begin
+              OnProgress(nil, NewFile, sr.Name, sr.Size);
+              // Вызов события для обработки потоком
+              if not SyncFiles(filesor, filesync, NTFSCopy, recurse) then
+                Result := trFileError; // синхронизация файлов
+              OnProgress(nil, ProgressUpdate, '', sr.Size);
+              // Вызов события для обработки потоком
+            end;
+
+          end
+          else // файл приемник не существует
+          begin
+            OnProgress(nil, NewFile, sr.Name, sr.Size);
+            if not SyncFiles(filesor, filesync, NTFSCopy, recurse) then
+              Result := trFileError; // синхронизация файлов
+            OnProgress(nil, ProgressUpdate, '', sr.Size);
+          end;
+        end;// if checkfilemask
+       end;
+      end;
+    until FindNext(sr) <> 0;
+    FindClose(sr);
+  end;
+
+//  OnProgress(nil, EndOfBatch, '', 0);
+end;
+
+
+
+
+
+
  //======================================================================
  // Создание каталога
 function TTaskCl.ForceDir(DirName: string): boolean;

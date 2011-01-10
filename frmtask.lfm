@@ -1,12 +1,12 @@
 object FormTask: TFormTask
   Left = 397
-  Height = 538
+  Height = 530
   Top = 99
-  Width = 392
+  Width = 390
   ActiveControl = EditName
   Caption = 'Параметры задания'
-  ClientHeight = 538
-  ClientWidth = 392
+  ClientHeight = 530
+  ClientWidth = 390
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
@@ -381,9 +381,9 @@ object FormTask: TFormTask
     end
   end
   object BtnOK: TBitBtn
-    Left = 208
+    Left = 216
     Height = 30
-    Top = 495
+    Top = 488
     Width = 75
     Caption = 'ОК'
     Glyph.Data = {
@@ -419,9 +419,9 @@ object FormTask: TFormTask
     TabOrder = 6
   end
   object BtnCancel: TBitBtn
-    Left = 304
+    Left = 309
     Height = 30
-    Top = 495
+    Top = 488
     Width = 75
     Caption = 'Отмена'
     Glyph.Data = {
@@ -574,12 +574,12 @@ object FormTask: TFormTask
     end
   end
   object ArhBox: TGroupBox
-    Left = 179
-    Height = 172
+    Left = 184
+    Height = 192
     Top = 280
     Width = 200
     Caption = 'Параметры архивации'
-    ClientHeight = 154
+    ClientHeight = 174
     ClientWidth = 196
     Enabled = False
     TabOrder = 9
@@ -611,7 +611,7 @@ object FormTask: TFormTask
     object ArhDelBox: TGroupBox
       Left = 6
       Height = 101
-      Top = 49
+      Top = 64
       Width = 168
       ClientHeight = 83
       ClientWidth = 164
@@ -695,6 +695,14 @@ object FormTask: TFormTask
         TabOrder = 3
       end
     end
+    object chkDelAfterArh: TCheckBox
+      Left = 6
+      Height = 17
+      Top = 47
+      Width = 188
+      Caption = 'Удалять файлы после архивации'
+      TabOrder = 2
+    end
   end
   object GroupBox9: TGroupBox
     Left = 8
@@ -738,6 +746,49 @@ object FormTask: TFormTask
       Width = 76
       Caption = 'Раз в сутки'
       TabOrder = 0
+    end
+  end
+  object ZerkDelBox: TGroupBox
+    Left = 184
+    Height = 51
+    Top = 280
+    Width = 169
+    Caption = 'ZerkDelBox'
+    ClientHeight = 33
+    ClientWidth = 165
+    TabOrder = 12
+    object Label12: TLabel
+      Left = 13
+      Height = 14
+      Top = 8
+      Width = 52
+      Caption = 'В течение'
+      ParentColor = False
+    end
+    object Label13: TLabel
+      Left = 138
+      Height = 14
+      Top = 8
+      Width = 26
+      Caption = 'дней'
+      ParentColor = False
+    end
+    object DelZerkCheck: TCheckBox
+      Left = 4
+      Height = 17
+      Top = -18
+      Width = 157
+      Caption = 'Хранить удаленные файлы'
+      OnChange = DelZerkCheckChange
+      TabOrder = 0
+    end
+    object EditZerkOld: TSpinEdit
+      Left = 79
+      Height = 21
+      Top = 4
+      Width = 52
+      MaxValue = 500
+      TabOrder = 1
     end
   end
 end

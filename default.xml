@@ -1,24 +1,25 @@
 <?xml version="1.0"?>
 <AutoSave>
-  <version value="0.3.2"/>
+  <version value="0.3.4"/>
   <tasks>
-    <count value="7"/>
+    <count value="1"/>
     <task1>
       <name value="test"/>
-      <SorPath value="D:\temp\0"/>
-      <DestPath value="D:\temp\1"/>
-      <Action value="2"/>
-      <Enabled value="False"/>
+      <SorPath value="D:\TEMP\0"/>
+      <DestPath value="D:\TEMP\1"/>
+      <Action value="1"/>
+      <Enabled value="True"/>
       <Arh>
-        <Name value=""/>
+        <Name value="arh%YYMMDD%"/>
         <DelOldArh value="False"/>
-        <DaysOld value="0"/>
-        <MonthsOld value="0"/>
-        <YearsOld value="0"/>
+        <DaysOld value="7"/>
+        <MonthsOld value="12"/>
+        <YearsOld value="5"/>
+        <DelAfterArh value="False"/>
       </Arh>
       <ExtProgs>
         <BeforeStart value="False"/>
-        <BeforeName value="D:\РњРѕРё РґРѕРєСѓРјРµРЅС‚С‹\Lazarus\AutoSave\0.bat"/>
+        <BeforeName value=""/>
         <AfterStart value="False"/>
         <AfterName value=""/>
       </ExtProgs>
@@ -27,8 +28,8 @@
       <Rasp>
         <OnceForDay value="False"/>
       </Rasp>
-      <LastResult value="2"/>
-      <LastRunDate value="14.02.2010 12:06:57"/>
+      <LastResult value="0"/>
+      <LastRunDate value="40480.4074745602"/>
       <SourceFilt>
         <Recurse value="True"/>
         <FiltSubDir value="False"/>
@@ -40,228 +41,5 @@
         <FileMask value="*.tmp;*.bak"/>
       </SourceFilt>
     </task1>
-    <task2>
-      <name value="РўРµСЃС‚ СЂР°Р· РІ СЃСѓС‚РєРё"/>
-      <SorPath value="D:\temp\0\С„С‹РІР°"/>
-      <DestPath value="D:\temp\1\С„С‹РІР°"/>
-      <Action value="1"/>
-      <Enabled value="False"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="True"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="10.01.2010 17:25:50"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="0"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.1"/>
-      </SourceFilt>
-    </task2>
-    <task3>
-      <name value="С‹РІР°"/>
-      <SorPath value="D:\temp\0\С„С‹РІР°"/>
-      <DestPath value="D:\temp\1\С„С‹РІР°"/>
-      <Action value="5"/>
-      <Enabled value="False"/>
-      <Arh>
-        <Name value="С„С‹РІР°%YYMMDD%"/>
-        <DelOldArh value="True"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="2"/>
-      <LastRunDate value="30.01.2010 21:38:42"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="0"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task3>
-    <task4>
-      <name value="7zip test"/>
-      <SorPath value="D:\temp\0"/>
-      <DestPath value="D:\temp\%yymmdd%"/>
-      <Action value="6"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="08.03.2010 18:27:41"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="1"/>
-          <path1 value="1"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="1"/>
-        <FileMask value="*.txt;*.bak"/>
-      </SourceFilt>
-    </task4>
-    <task5>
-      <name value="Zip test"/>
-      <SorPath value="d:\temp\0"/>
-      <DestPath value="d:\temp\1"/>
-      <Action value="4"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="True"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="6"/>
-        <YearsOld value="0"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="20.05.2010 08:47:52"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="0"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task5>
-    <task6>
-      <name value="Rar test"/>
-      <SorPath value="d:\temp\0"/>
-      <DestPath value="d:\temp\1"/>
-      <Action value="5"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="06.03.2010 16:57:25"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="0"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task6>
-    <task7>
-      <name value="РљРѕРїРёСЏ Rar test"/>
-      <SorPath value="d:\temp\0"/>
-      <DestPath value="d:\temp\1"/>
-      <Action value="5"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="7"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-      </Arh>
-      <ExtProgs>
-        <BeforeStart value="False"/>
-        <BeforeName value=""/>
-        <AfterStart value="False"/>
-        <AfterName value=""/>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="30.12.1899"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs>
-          <count value="0"/>
-        </SubDirs>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task7>
   </tasks>
 </AutoSave>

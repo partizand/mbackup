@@ -602,7 +602,7 @@ var
  k:integer;
 // s,p:string;
  estr:boolean; // Есть параметр /r
- ParamQ2:boolean;
+// ParamQ2:boolean;
  IsProfile:boolean;
 begin
 TaskCl.Clear;

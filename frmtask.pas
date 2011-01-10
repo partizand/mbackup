@@ -32,6 +32,12 @@ type
     BeforeCheck: TCheckBox;
     AfterCheck: TCheckBox;
     cbAlert: TComboBox;
+    chkDelAfterArh: TCheckBox;
+    DelZerkCheck: TCheckBox;
+    Label12: TLabel;
+    Label13: TLabel;
+    EditZerkOld: TSpinEdit;
+    ZerkDelBox: TGroupBox;
     OnceDayCheck: TCheckBox;
     DelArhCheck: TCheckBox;
     EditArhNam: TEdit;
@@ -91,6 +97,7 @@ type
     procedure BtnOKClick(Sender: TObject);
     procedure CBoxActChange(Sender: TObject);
     procedure DelArhCheckChange(Sender: TObject);
+    procedure DelZerkCheckChange(Sender: TObject);
 //    procedure EditNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState      );
     procedure EvMinCheckChange(Sender: TObject);
     procedure FillForm;
@@ -135,11 +142,20 @@ CBoxAct.ItemIndex:=-1;
 
 CBoxAct.ItemIndex:=MForm.TaskCl.Tasks[numTask].Action-1;
 // Блок про архивацию
-EditArhNam.Text:=MForm.TaskCl.Tasks[numTask].Arh.Name;
-DelArhCheck.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelOldArh;
-EditDaysOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.DaysOld);
-EditMonthsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.MonthsOld);
-EditYearsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.YearsOld);
+if MForm.TaskCl.Tasks[numTask].Action=ttZerk then
+  begin
+  DelZerkCheck.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelOldArh;
+  EditZerkOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.DaysOld);
+  end
+ else
+ begin
+  EditArhNam.Text:=MForm.TaskCl.Tasks[numTask].Arh.Name;
+  DelArhCheck.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelOldArh;
+  chkDelAfterArh.Checked:=MForm.TaskCl.Tasks[numTask].Arh.DelAfterArh;
+  EditDaysOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.DaysOld);
+  EditMonthsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.MonthsOld);
+  EditYearsOld.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Arh.YearsOld);
+ end;
 // Уведомления
 cbAlert.ItemIndex:=MForm.TaskCl.Tasks[numTask].MailAlert;
 
@@ -271,7 +287,7 @@ if (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
 MForm.TaskCl.Tasks[numTask].Name:=EditName.Text;
 MForm.TaskCl.Tasks[numTask].SorPath:=EditSor.Text;
 MForm.TaskCl.Tasks[numTask].DestPath:=EditDest.Text;
-MForm.TaskCl.Tasks[numTask].Arh.Name:=EditArhNam.Text;
+
 MForm.TaskCl.Tasks[numTask].Action:=CBoxAct.ItemIndex+1;
 // Уведомления
 MForm.TaskCl.Tasks[numTask].MailAlert:=cbAlert.ItemIndex;
@@ -288,14 +304,22 @@ MForm.TaskCl.Tasks[numTask].Rasp.OnceForDay:=OnceDayCheck.Checked;
 
 //MForm.TaskCl.Tasks[numTask].Rasp.Minutes:=EditMin.Value;
 
-
-MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelArhCheck.Checked;
-
-MForm.TaskCl.Tasks[numTask].Arh.DaysOld:=EditDaysOld.Value;
-
-
-MForm.TaskCl.Tasks[numTask].Arh.MonthsOld:=EditMonthsOld.Value;
-MForm.TaskCl.Tasks[numTask].Arh.YearsOld:=EditYearsOld.Value;
+// Архивация
+if (CBoxAct.ItemIndex=ttArhZip-1) or (CBoxAct.ItemIndex=ttArh7Zip-1) or (CBoxAct.ItemIndex=ttArhRar-1) then
+  begin
+  MForm.TaskCl.Tasks[numTask].Arh.Name:=EditArhNam.Text;
+  MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelArhCheck.Checked;
+  MForm.TaskCl.Tasks[numTask].Arh.DaysOld:=EditDaysOld.Value;
+  MForm.TaskCl.Tasks[numTask].Arh.MonthsOld:=EditMonthsOld.Value;
+  MForm.TaskCl.Tasks[numTask].Arh.YearsOld:=EditYearsOld.Value;
+  MForm.TaskCl.Tasks[numTask].Arh.DelAfterArh:=chkDelAfterArh.Checked;
+  end;
+// Зеркалирование
+if (CBoxAct.ItemIndex=ttZerk-1) then
+  begin
+  MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelZerkCheck.Checked;
+  MForm.TaskCl.Tasks[numTask].Arh.DaysOld:=EditZerkOld.Value;
+  end;
 MForm.TaskCl.Tasks[numTask].Enabled:=EnabledCheck.Checked;
 // Внешние программы
 MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeStart:=BeforeCheck.Checked;
@@ -321,6 +345,11 @@ begin
 end;
 
 procedure TFormTask.DelArhCheckChange(Sender: TObject);
+begin
+  FillChecks;
+end;
+
+procedure TFormTask.DelZerkCheckChange(Sender: TObject);
 begin
   FillChecks;
 end;
@@ -408,8 +437,15 @@ if StartCheck.Checked then
     EvMinCheck.Checked:=false;
     TimeCheck.Checked:=false;
   end;
+   ZerkDelBox.Enabled:=false;
+   DelZerkCheck.Enabled:=false;
+   ArhBox.Enabled:=false;
+   ArhBox.Visible:=false;
+   ZerkDelBox.Visible:=false;
+// EditArhNam.Enabled:=true;
+ ArhDelBox.Enabled:=false;
 
-if CBoxAct.ItemIndex<3 then
+if (CBoxAct.ItemIndex=ttCopy-1) OR (CBoxAct.ItemIndex=ttSync-1) then // Копирование, синхронизация
   begin
    ArhBox.Enabled:=false;
    ArhDelBox.Enabled:=false;
@@ -417,31 +453,34 @@ if CBoxAct.ItemIndex<3 then
    NTFSCheck.Enabled:=true;
  //  RepeatBox.Enabled:=true;
  //   EvMinCheck.Enabled:=true;
-  end
- else
+  end;
+if (CBoxAct.ItemIndex=ttZerk-1) then // Зеркалирование
+  begin
+   ZerkDelBox.Visible:=true;
+   //ArhBox.Enabled:=false;
+   //ArhDelBox.Enabled:=false;
+   //EditArhNam.Enabled:=false;
+   NTFSCheck.Enabled:=true;
+
+   ZerkDelBox.Enabled:=true;
+   DelZerkCheck.Enabled:=true;
+   if DelZerkCheck.Checked then
+      EditZerkOld.Enabled:=true
+     else
+      EditZerkOld.Enabled:=false;
+
+  end;
+if (CBoxAct.ItemIndex>2) then // архивация
  begin
+ ArhBox.Visible:=true;
  ArhBox.Enabled:=true;
  EditArhNam.Enabled:=true;
  ArhDelBox.Enabled:=true;
- if CBoxAct.ItemIndex=ttArhZip-1 then
-     begin
-      Label10.Caption:='.zip';
-      NTFSCheck.Checked:=false;
-      NTFSCheck.Enabled:=false;
-      end;
- if CBoxAct.ItemIndex=ttArh7Zip-1 then
-     begin
-      Label10.Caption:='.7z';
-      NTFSCheck.Checked:=false;
-      NTFSCheck.Enabled:=false;
-      end;
-  if CBoxAct.ItemIndex=ttArhRar-1 then
-     begin
-     Label10.Caption:='.rar';
-     NTFSCheck.Enabled:=true;
-     end;
- end;
-if DelArhCheck.Checked then
+// EditMonthsOld.Enabled:=true;
+// EditYearsOld.Enabled:=true;
+// DelArhCheck.Caption:=misc(rsArcOldCheckName, 'rsArcOldCheckName');
+
+ if DelArhCheck.Checked then
   begin
    EditDaysOld.Enabled:=true;
    EditMonthsOld.Enabled:=true;
@@ -453,6 +492,30 @@ if DelArhCheck.Checked then
    EditMonthsOld.Enabled:=false;
    EditYearsOld.Enabled:=false;
   end;
+
+ if CBoxAct.ItemIndex=ttArhZip-1 then
+     begin
+      Label10.Caption:='.zip';
+      NTFSCheck.Checked:=false;
+      NTFSCheck.Enabled:=false;
+      chkDelAfterArh.Enabled:=false;
+      end;
+ if CBoxAct.ItemIndex=ttArh7Zip-1 then
+     begin
+      Label10.Caption:='.7z';
+      NTFSCheck.Checked:=false;
+      NTFSCheck.Enabled:=false;
+      chkDelAfterArh.Enabled:=false;
+      end;
+  if CBoxAct.ItemIndex=ttArhRar-1 then
+     begin
+     Label10.Caption:='.rar';
+     NTFSCheck.Enabled:=true;
+     chkDelAfterArh.Enabled:=true;
+     end;
+
+ end;
+
 
 // расписание
 {
