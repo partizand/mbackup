@@ -52,23 +52,23 @@ object FormSet: TFormSet
     TabOrder = 0
     object Label1: TLabel
       Left = 9
-      Height = 16
+      Height = 26
       Top = 43
-      Width = 28
+      Width = 42
       Caption = 'Limit'
       ParentColor = False
     end
     object Label2: TLabel
       Left = 74
-      Height = 16
+      Height = 26
       Top = 64
-      Width = 15
+      Width = 23
       Caption = 'Kb'
       ParentColor = False
     end
     object EditLogNam: TEdit
       Left = 9
-      Height = 23
+      Height = 33
       Top = 7
       Width = 153
       OnKeyDown = EditLogNamKeyDown
@@ -77,7 +77,7 @@ object FormSet: TFormSet
     end
     object EditLim: TSpinEdit
       Left = 9
-      Height = 23
+      Height = 33
       Top = 60
       Width = 61
       MaxValue = 100000
@@ -142,24 +142,24 @@ object FormSet: TFormSet
       TabOrder = 0
       object RadioLastProf: TRadioButton
         Left = 10
-        Height = 19
+        Height = 29
         Top = 5
-        Width = 84
+        Width = 132
         Caption = 'Last opened'
         OnChange = RadioLastProfChange
         TabOrder = 0
       end
       object RadioThisProf: TRadioButton
         Left = 10
-        Height = 19
+        Height = 29
         Top = 30
-        Width = 20
+        Width = 30
         OnChange = RadioThisProfChange
         TabOrder = 1
       end
       object EditDefProf: TFileNameEdit
         Left = 26
-        Height = 23
+        Height = 33
         Top = 27
         Width = 92
         DialogOptions = []
@@ -182,24 +182,24 @@ object FormSet: TFormSet
       TabOrder = 1
       object Label3: TLabel
         Left = 9
-        Height = 16
+        Height = 26
         Top = 2
-        Width = 52
+        Width = 82
         Caption = 'File name'
         ParentColor = False
       end
       object Label4: TLabel
         Left = 9
-        Height = 16
+        Height = 26
         Top = 45
-        Width = 78
+        Width = 120
         Caption = 'Имя профиля'
         ParentColor = False
         Visible = False
       end
       object EditCurProf: TFileNameEdit
         Left = 8
-        Height = 23
+        Height = 33
         Top = 19
         Width = 102
         DialogOptions = []
@@ -213,7 +213,7 @@ object FormSet: TFormSet
       end
       object EditProfNam: TEdit
         Left = 9
-        Height = 23
+        Height = 33
         Top = 64
         Width = 122
         TabOrder = 1
@@ -233,10 +233,10 @@ object FormSet: TFormSet
     TabOrder = 2
     object BoxLang: TComboBox
       Left = 7
-      Height = 23
+      Height = 33
       Top = 8
       Width = 100
-      ItemHeight = 15
+      ItemHeight = 25
       TabOrder = 0
       Text = 'BoxLang'
     end
@@ -328,71 +328,71 @@ object FormSet: TFormSet
     TabOrder = 5
     object Label5: TLabel
       Left = 6
-      Height = 16
+      Height = 26
       Top = 11
-      Width = 66
+      Width = 105
       Caption = 'SMTP server'
       ParentColor = False
     end
     object Label6: TLabel
       Left = 8
-      Height = 16
+      Height = 26
       Top = 39
-      Width = 23
+      Width = 36
       Caption = 'Port'
       ParentColor = False
     end
     object Label7: TLabel
       Left = 6
-      Height = 16
+      Height = 26
       Top = 65
-      Width = 53
+      Width = 83
       Caption = 'Mail from'
       ParentColor = False
     end
     object Label8: TLabel
       Left = 6
-      Height = 16
+      Height = 26
       Top = 91
-      Width = 38
+      Width = 60
       Caption = 'Mail to'
       ParentColor = False
     end
     object Label9: TLabel
       Left = 7
-      Height = 16
+      Height = 26
       Top = 117
-      Width = 24
+      Width = 39
       Caption = 'User'
       ParentColor = False
     end
     object Label10: TLabel
       Left = 8
-      Height = 16
+      Height = 26
       Top = 143
-      Width = 51
+      Width = 81
       Caption = 'Password'
       ParentColor = False
     end
     object Label11: TLabel
       Left = 8
-      Height = 16
+      Height = 26
       Top = 169
-      Width = 40
+      Width = 63
       Caption = 'Subject'
       ParentColor = False
     end
     object Label12: TLabel
       Left = 8
-      Height = 16
+      Height = 26
       Top = 196
-      Width = 23
+      Width = 36
       Caption = 'Text'
       ParentColor = False
     end
     object EditServ: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 4
       Width = 135
       TabOrder = 0
@@ -400,7 +400,7 @@ object FormSet: TFormSet
     end
     object EditMailFrom: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 57
       Width = 135
       TabOrder = 1
@@ -408,7 +408,7 @@ object FormSet: TFormSet
     end
     object EditMailTo: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 84
       Width = 135
       TabOrder = 2
@@ -416,7 +416,7 @@ object FormSet: TFormSet
     end
     object EditPort: TSpinEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 32
       Width = 69
       MaxValue = 100000
@@ -435,7 +435,7 @@ object FormSet: TFormSet
     end
     object EditUser: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 110
       Width = 135
       TabOrder = 5
@@ -443,7 +443,7 @@ object FormSet: TFormSet
     end
     object EditPass: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 136
       Width = 135
       EchoMode = emPassword
@@ -453,7 +453,7 @@ object FormSet: TFormSet
     end
     object EditSubj: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 162
       Width = 135
       TabOrder = 7
@@ -461,7 +461,7 @@ object FormSet: TFormSet
     end
     object EditBody: TEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 189
       Width = 135
       TabOrder = 8
@@ -504,7 +504,7 @@ object FormSet: TFormSet
     TabOrder = 7
     object EditArhTmpDir: TDirectoryEdit
       Left = 8
-      Height = 23
+      Height = 33
       Top = 2
       Width = 238
       ShowHidden = False

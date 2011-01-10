@@ -92,6 +92,13 @@ resourcestring
  rsNone='None';
  rsOnlyError='Only when an error';
  rsAlways='Always';
+ rsSmtpLoginErr='SMTP Login error: %s';
+ rsSmtpMailFromErr='SMTP MailFrom error: %s';
+ rsSmtpMailToErr='SMTP MailTo error: %s';
+ rsSmtpMailDataErr='SMTP MailData error: %s';
+ rsSmtpLogoutErr='SMTP Logout error: %s';
+ rsSmtpStartTLSErr='SMTP Start TLS error: %s';
+ //rsTest='This is test';
 implementation
 
 end.

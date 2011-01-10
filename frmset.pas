@@ -230,7 +230,7 @@ begin
 
 
 
-   if MForm.TaskCl.SendMail('mBackup test','mBackup test letter','',MsgErr) then
+   if MForm.TaskCl.SendMailS('mBackup test','mBackup test letter','',MsgErr) then
        begin
        ShowMessage(rsAlertTestOk);
        end

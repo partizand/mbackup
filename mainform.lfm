@@ -1,12 +1,12 @@
 object MForm: TMForm
-  Left = 254
+  Left = 480
   Height = 294
-  Top = 141
+  Top = 236
   Width = 723
   ActiveControl = ListTask
   Align = alTop
   Caption = 'AutoSave'
-  ClientHeight = 274
+  ClientHeight = 266
   ClientWidth = 723
   Icon.Data = {
     FE0200000000010001002020100000000000E802000016000000280000002000
@@ -71,7 +71,7 @@ object MForm: TMForm
       ImageIndex = 3
     end
     object ToolButton1: TToolButton
-      Left = 507
+      Left = 520
       Top = 2
       Width = 5
       Caption = 'ToolButton1'
@@ -121,7 +121,7 @@ object MForm: TMForm
       ImageIndex = 7
     end
     object ButHelp: TToolButton
-      Left = 512
+      Left = 525
       Top = 2
       Action = ActHelp
       ImageIndex = 8
@@ -129,13 +129,13 @@ object MForm: TMForm
   end
   object ListTask: TListView
     Left = 0
-    Height = 143
+    Height = 135
     Top = 41
     Width = 723
     Align = alClient
     Columns = <    
       item
-        Caption = 'Name'
+        Caption = 'Task name'
         Width = 118
       end    
       item
@@ -168,7 +168,7 @@ object MForm: TMForm
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 251
+    Top = 243
     Width = 723
     Panels = <    
       item
@@ -185,7 +185,7 @@ object MForm: TMForm
   object MsgMemo: TMemo
     Left = 0
     Height = 63
-    Top = 188
+    Top = 180
     Width = 723
     Align = alBottom
     Lines.Strings = (
@@ -200,7 +200,7 @@ object MForm: TMForm
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 184
+    Top = 176
     Width = 723
     Align = alBottom
     AutoSnap = False

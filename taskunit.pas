@@ -11,10 +11,11 @@ unit TaskUnit;
 interface
 
 uses Windows, SysUtils, DateUtils, Classes, StrUtils, masks, Process,//fileutil,
-  {iniLangC,} XMLCfg,{ inifiles,}setunit,gettext,translations,unitfunc,idsmtp,idmessage,{idAttachment,}
-  idAttachmentFile;
-
-
+  {iniLangC,} XMLCfg,{ inifiles,}gettext,translations,
+  setunit,unitfunc,delfiles, // Мои модули
+ { idAttachmentFile,idsmtp,idmessage,}{idAttachment,} {,IdExplicitTLSClientServerBase,IdSSLOpenSSL,idiohandler} // Indy10
+  smtpsend,mimemess,mimepart,synachar,ssl_openssl{, blcksock} //synapse
+  ;
 //uses FileCtrl;
 
 {
@@ -28,11 +29,10 @@ const
 {$Endif}
  }
 const
-  VersionAS   = '0.4.0'; // Версия программы
+  VersionAS   = '0.4.1'; // Версия программы
   TempLogName = 'log.txt'; // Имя временного лог файла (отправляемого по почте)
 
-const
-   DeletedFilesF='deleted$.xml'; // Файл для хранения сведений об удаленных файлах
+
 
 const
   MaxTasks = 100; // Макс количество заданий
@@ -161,28 +161,7 @@ type  // Запись для параметров одного копирова�
     // условия фильтрации файлов и папок источника
   end;
        //--------------------------------------------------------------
-// Класс хранения сведений об удаленных файлах
-// Массив: Имя файла, дата удаления из источника
-type
- TDeletedFiles=class
-   constructor Create(RootDirName:string);
-   destructor Destroy;
-   Count:integer; // Кол-во файлов
-   DirName:string; // Каталог, где все происходит
-   function GetIndex(FileName:string):integer;
-   function GetName(Index:integer):string;
-   function GetDate(Index:integer):TDateTime;
-   function Add(FileName:string):integer;
-   procedure Delete(Index:integer);
-   procedure SaveToFile;
 
- private
-   procedure LoadFromFile;
-   NameList:TStringList; // Список имен файлов
-   DateList:TStringList; // Список дат файлов
-  // Delimiter:string; // Разделитель целой и дробной части в float
-//   DateArray:array[0..100] of TDateTime; // если файлов не больше 100, используем этот массив
- end;
 
 
   //--------------------------------------------------------------
@@ -219,8 +198,9 @@ type
     function ArhRarDir(NumTask: integer): integer;
     //function ArhZipDir(numtask: integer): integer;
     function Arh7zipDir(NumTask: integer): integer;
-    function SendMail(Subj:string;Body:string;FileName:string;var MsgError:string):boolean;
+  //  function SendMail(Subj:string;Body:string;FileName:string;var MsgError:string):boolean; //Indy10
 
+    function SendMailS(Subj:string;Body:string;FileName:string;var MsgError:string):boolean; //Synapse
 
 
     //  procedure DelOldArhs(dir,arhname:string;olddays,oldMonths,OldYears:integer);
@@ -296,6 +276,7 @@ type
     function SynDir(NumTask:integer):integer;
     function ZerkDir(NumTask:integer):integer;
 
+    procedure LInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
 
     function SimpleCopyDirs(SorDir, DestDir: string; NumTask: integer; Recurse: boolean;NTFSCopy:boolean): integer;
     function DelOldFiles(SorDir, DestDir: string; NumTask: integer; Recurse: boolean): integer;
@@ -367,197 +348,6 @@ type Tprob=record
 implementation
 
 uses msgstrings{, SendMailUnit}{,potranslator};
-
-// Функции класса TDeletedFiles
- //=====================================================
- // Конструктор
-constructor TDeletedFiles.Create(RootDirName:string);
-//var
-begin
-  inherited Create;
-  Count  := 0;
-  NameList := TStringList.Create;
-  DateList := TStringList.Create;
-  DirName:=RootDirName;
-  LoadFromFile;
-end;
-
- // Деструктор
-destructor TDeletedFiles.Destroy;
-begin
-NameList.Destroy;
-DateList.Destroy;
-inherited Destroy;
-end;
-
-// Возвращает индекс файла по его имени
-// Если файла нет возвращается -1
-function TDeletedFiles.GetIndex(FileName:string):integer;
-begin
-Result:=NameList.IndexOf(FileName);
-end;
-// Возвращает имя файла по индексу
-function TDeletedFiles.GetName(Index:integer):string;
-begin
-if Count>Index then
-    Result:=NameList[Index]
-   else
-     Result:='';
-end;
-// Возвращает дату файла по индексу
-function TDeletedFiles.GetDate(Index:integer):TDateTime;
-var
- DateFormat:TFormatSettings;
-begin
-if Count>Index then
-    begin
-
-//     GetLocaleFormatSettings(0,DateFormat);
-     DateFormat.DateSeparator:='.';
-     DateFormat.DecimalSeparator:='.';
-//     DateFormat.LongDateFormat:='dd.MM.yyyy';
-//     DateFormat.ShortDateFormat:='dd.MM.yyyy';
-//     Result:=StrToDateTime(DateList[Index],DateFormat);
-     Result:=StrToFloat(DateList[Index],DateFormat)
-     end
-
-
-   else
-     Result:=0;
-end;
-// Добавление данных о файле
-function TDeletedFiles.Add(FileName:string):integer;
-var
- strDate:string;
- DateFormat:TFormatSettings;
-begin
-Result:=-1;
-if GetIndex(FileName)>-1 then exit;
-NameList.Add(FileName);
-DateFormat.DateSeparator:='.';
-DateFormat.DecimalSeparator:='.';
-strDate:= FloatToStr(Now,DateFormat);
-DateList.Add(strDate);
-Count:=Count+1;
-Result:=Count;
-end;
-// Удаление данных о файле
-procedure TDeletedFiles.Delete(Index:integer);
-begin
-NameList.Delete(Index);
-DateList.Delete(Index);
-Dec(Count);
-end;
-// Запись в файл
-procedure TDeletedFiles.SaveToFile;
-var
-  i: integer;
-  xmldoc: TXMLConfig;
-  sec,SaveFileName: string;
-//  Attr:integer;
-begin
-SaveFileName:=DirName+DirectorySeparator+DeletedFilesF;
-if Count>0 then
-  begin
-//  if FileExists(SaveFileName) then // Сбрасываем атрибут скрытый
-//    begin
-//    FileSetAttr(SaveFileName, 0);
-//    end;
-  if Not DirectoryExists(DirName) then exit;
-  xmldoc := TXMLConfig.Create(nil);
-  xmldoc.StartEmpty := True;
-  xmldoc.Filename := SaveFileName; //'probcfg.xml';
-  xmldoc.RootName := 'mBackup';
-  // Версия программы
-//  xmldoc.SetValue('version/value', versionas);
-  // количество заданий
-  xmldoc.SetValue('deleted/count/value', Count);
-  for i := 0 to Count-1 do
-  begin
-    // Имя секции с заданием
-    sec := 'Deleted/File' + IntToStr(i) + '/';
-
-    xmldoc.SetValue(sec + 'name/value', NameList[i]); // Имя файла
-    xmldoc.SetValue(sec + 'txtdate/value', DateList[i]); // Текстовая дата файла
-   // if i<100 then
-   //    xmldoc.SetValue(sec + 'date/value', DateArray[i]); // Нормальная дата файла
-
-  end;
-  xmldoc.Flush;
-  xmldoc.Destroy;
- // Attr:=faHidden;
-  FileSetAttr(SaveFileName, faHidden);
-
-
- end
-  else
-    begin
-    if FileExists(SaveFileName) then
-          begin
-            // Удаляем файл
-          try
-            SysUtils.DeleteFile(SaveFileName);
-          except
-          end;
-         end;
-
-    end;
-
-end;
-// Чтение из файла
-procedure TDeletedFiles.LoadFromFile;
-var
-  i: integer;
-  xmldoc:  TXMLConfig;
-  sec,SaveFileName:     string;
-  //strDate: string;
-begin
-  SaveFileName:=DirName+DirectorySeparator+DeletedFilesF;
-     NameList.Clear;
-    DateList.Clear;
-    Count:=0;
-  if not FileExists(SaveFileName) then
-    begin
-    exit;
-    end;
-  FileSetAttr(SaveFileName, 0);
-  xmldoc := TXMLConfig.Create(nil);
-  //xmldoc := TXMLConfig.Create(SaveFileName);
-
-  xmldoc.StartEmpty := False; //false;
-  xmldoc.RootName   := 'mBackup';
-  xmldoc. flush;
-  xmldoc.Filename := SaveFileName;
-
-  // количество заданий
-  Count := xmldoc.GetValue('deleted/count/value', 0);
-  if Count = 0 then exit;
-
-  for i := 0 to Count-1 do
-  begin
-    sec := 'Deleted/File' + IntToStr(i) + '/';
-    NameList.Add(xmldoc.GetValue(sec + 'name/value', ''));
-    DateList.Add(xmldoc.GetValue(sec + 'txtdate/value', ''));
- //   if i<100 then DateArray[i]:= xmldoc.GetValue(sec + 'date/value', '');
-  end;
-  xmldoc.Destroy;
-end;
-
-
-// конец функций класса TDeletedFiles
-//==============================================================
-
-
-
-
-
-
-
-
-
-
-
-
 
  //=====================================================
  // Конструктор
@@ -729,7 +519,7 @@ begin
     begin
       AlertMes := rsAlertRunMes;
    //   SendMail := TSendMail.Create;
-     SendMail(rsAlertRunSubj,AlertMes, '',MsgErr);
+     SendMailS(rsAlertRunSubj,AlertMes, '',MsgErr);
 //      SendMail.Send(Settings.smtpserv, Settings.smtpport, Settings.mailfrom, Settings.email, rsAlertRunSubj, AlertMes, '');
 //      SendMail.Destroy;
       //    TaskCl.SendMail(misc(rsAlertRunSubj,'rsAlertRunSubj'),AlertMes);
@@ -1321,7 +1111,8 @@ begin
     body:=ReplaceParam(Settings.Body,num);
     subj:=ReplaceParam(Settings.Subj,num);
     str := FullFileNam(TempLogName); // Прикладываемый файл
-    if Not SendMail(subj,body,str,MsgErr) then LogMessage(MsgErr);
+   // str := TempLogName; // Прикладываемый файл
+    if Not SendMailS(subj,body,str,MsgErr) then LogMessage(MsgErr);
  //   SendMail.Send(Settings.smtpserv, Settings.smtpport, Settings.mailfrom, Settings.email, subj, AlertMes, str);
     //send mail
 
@@ -1329,8 +1120,118 @@ begin
 
 
 end;
+procedure TTaskCl.LInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
+begin
+ VHeaderEncoding:='B';
+// VCharSet:='utf-8';
+VCharSet:='utf-16';
+// VCharSet:='windows-1251';
+
+end;
 //=========================================================
-// Отправка почты
+// Отправка почты Synapse
+// subj - тема письма
+// Body - текст письма
+// FileName - имя прикладываемого файла (Если не пусто)
+// MsgError - ошибка, если возникла
+// Возвращает true если все хорошо
+function TTaskCl.SendMailS(Subj:string;Body:string;FileName:string;var MsgError:string):boolean;
+var
+   Msg : TMimeMess; //собщение
+   MIMEPart : TMimePart; //части сообщения (на будущее)
+   SmtpSnd:TSmtpSend;
+   BodyList:TStringList;
+   str:string;
+begin
+Result:=true;
+Msg := TMimeMess.Create; //создаем новое сообщение
+BodyList := TStringList.Create;
+  try
+// Добавляем заголовки
+   try
+    Msg.Header.CharsetCode := synachar.UTF_8;
+    Msg.Header.Subject := Subj;//тема сообщения
+    Msg.Header.From := Settings.mailfrom; //имя и адрес отправителя
+    Msg.Header.ToList.Add(Settings.email); //имя и адрес получателя
+// создаем корневой элемент
+    MIMEPart := Msg.AddPartMultipart('alternate', nil);
+    BodyList.Text:=Body;
+//    Msg.AddPartText(BodyList, MIMEPart);
+    Msg.AddPartTextEx(BodyList, MIMEPart, UTF_8, false, ME_7BIT);
+    str:=utf8toansi(FullFileNam(FileName));
+    if (FileName<>'') and (FileExists(str)) then
+          Msg.AddPartBinaryFromFile(str,MIMEPart);
+//          Msg.AddPartBinaryFromFile('mbackup.ini',MIMEPart);
+
+// Кодируем и отправляем
+    Msg.EncodeMessage;
+
+ // Отправка классом
+    SmtpSnd:=TSmtpSend.Create;
+    SmtpSnd.TargetHost:=Settings.smtpserv;
+    SmtpSnd.TargetPort:=IntToStr(Settings.smtpport);
+    SmtpSnd.UserName:=Settings.smtpuser;
+    SmtpSnd.Password:=Settings.smtppass;
+    SmtpSnd.AutoTLS:=true;
+    if Not SmtpSnd.Login then
+      begin
+      Result:=false;
+      MsgError:=format(rsSmtpLoginErr,[SmtpSnd.EnhCodeString]);
+      exit;
+      end;
+  {  if not smtpSnd.StartTLS then
+     begin
+      Result:=false;
+      MsgError:=format(rsSmtpStartTLSErr,[SmtpSnd.EnhCodeString]);
+      exit;
+     end;
+     }
+    if not smtpSnd.MailFrom(Settings.mailfrom, Length(Settings.mailfrom)) then
+     begin
+      Result:=false;
+      MsgError:=format(rsSmtpMailFromErr,[SmtpSnd.EnhCodeString]);
+      exit;
+     end;
+    if not smtpSnd.MailTo(Settings.email) then
+           begin
+      Result:=false;
+      MsgError:=format(rsSmtpMailToErr,[SmtpSnd.EnhCodeString]);
+      exit;
+      end;
+    if not smtpSnd.MailData(Msg.Lines) then
+     begin
+      Result:=false;
+      MsgError:=format(rsSmtpMailDataErr,[SmtpSnd.EnhCodeString]);
+      exit;
+     end;
+    if not smtpSnd.Logout() then
+      begin
+      Result:=false;
+      MsgError:=format(rsSmtpLogoutErr,[SmtpSnd.EnhCodeString]);
+      exit;
+     end;
+// Конец отправки классом
+
+
+
+//    Result:=smtpsend.SendToRaw(Settings.mailfrom,Settings.email,Settings.smtpserv+':'+IntToStr(Settings.smtpport), Msg.Lines,Settings.smtpuser,Settings.smtppass);
+   except on E:Exception do
+      begin
+      MsgError:=format(rsAlertTestErr,[E.Message]);
+//      LogMessage(MsgError);
+      Result:=false;
+      end;
+   end;
+ finally
+   Msg.Free;
+   BodyList.Free;
+ end;
+
+
+end;
+  {
+//=========================================================
+// Отправка почты Indy10
 // subj - тема письма
 // Body - текст письма
 // FileName - имя прикладываемого файла (Если не пусто)
@@ -1353,11 +1254,66 @@ begin
     idSmtp.Port:= Settings.smtpport;
     if Settings.smtpuser<>'' then idSmtp.AuthType:=satDefault
       else idSmtp.AuthType:=satNone;
+{
+
+    type
+  TIdUseTLS = (
+    utNoTLSSupport,
+    utUseImplicitTLS, // ssl iohandler req, allways tls
+    utUseRequireTLS, // ssl iohandler req, user command only accepted when in tls
+    utUseExplicitTLS // < user can choose to use tls
+    );
+
+ }
+    {
+     // Пример
+     idSmtp := TIdSMTP.Create(nil);
+  try
+    idSmtp.IOHandler := nil;
+    idSmtp.ManagedIOHandler := true;
+
+    // try to use SSL
+    try
+      TIdSSLContext.Create.Free;
+      idSmtp.IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(idSmtp);
+      if (smtpSettings.port = 465) then
+        idSmtp.UseTLS := utUseImplicitTLS
+      else
+        idSmtp.UseTLS := utUseExplicitTLS;
+    except
+      idSmtp.IOHandler.Free;
+      idSmtp.IOHandler := nil;
+    end;
+
+    if (idSmtp.IOHandler = nil) then
+    begin
+      idSmtp.IOHandler := TIdIOHandler.MakeDefaultIOHandler(idSmtp);
+      idSmtp.UseTLS := utNoTLSSupport;
+    end;
+
+    // send message, etc
+
+  finally
+    idSmtp.Free;
+  end;
+
+    }
+
+
+
+
+    //idSmtp.UseTLS:=utUseImplicitTLS;
+
     idSmtp.Username:=Settings.smtpuser;
     idSmtp.Password:=Settings.smtppass;
     idSmtp.ConnectTimeout:=30000;
     idMsg:=TIdMessage.Create;
+    idMsg.CharSet:='UTF-8';
+    //idMsg.ContentTransferEncoding:='base64';
+    idMsg.OnInitializeISO:=@LInitializeISO;
    idMsg.Subject:=subj;
+   //idMsg.Subject:=utf8toansi('Тест');
+   //idMsg.Subject:='Тест';
    idMsg.Body.Add(Body);
    idMsg.From.Address:=Settings.mailfrom;
    idMsg.Recipients.EMailAddresses:=Settings.email;
@@ -1396,11 +1352,12 @@ begin
     if idSmtp.Connected then idSmtp.Disconnect;
   //  idAttach.Destroy;
  //   idAttachFile.Destroy;
-    if IsAtt then idAttachFile.Destroy;
-    idMsg.Destroy;
-    idSmtp.Destroy;
+    if IsAtt then idAttachFile.Free;
+    idMsg.Free;
+    idSmtp.Free;
   end;
 end;
+}
 //=========================================================
 // Заменяет все спец параметры в строке, типа %Status%
 // Перечень команд:

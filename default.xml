@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <AutoSave>
-  <version value="0.4.0"/>
+  <version value="0.4.1"/>
   <tasks>
     <count value="2"/>
     <task1>
@@ -29,7 +29,7 @@
         <OnceForDay value="False"/>
       </Rasp>
       <LastResult value="0"/>
-      <LastRunDate value="40499.7396973148"/>
+      <LastRunDate value="40510.5556932639"/>
       <SourceFilt>
         <Recurse value="True"/>
         <FiltSubDir value="False"/>
@@ -42,7 +42,7 @@
       </SourceFilt>
     </task1>
     <task2>
-      <name value="Copy of  test"/>
+      <name value="РџСЂРѕР±Р°  test"/>
       <SorPath value="D:\temp\0\СЂСѓСЃ"/>
       <DestPath value="d:\temp\1\СЂСѓСЃ"/>
       <Action value="1"/>
@@ -67,7 +67,7 @@
         <OnceForDay value="False"/>
       </Rasp>
       <LastResult value="0"/>
-      <LastRunDate value="40499.7397136111"/>
+      <LastRunDate value="40510.6344161227"/>
       <SourceFilt>
         <Recurse value="True"/>
         <FiltSubDir value="False"/>

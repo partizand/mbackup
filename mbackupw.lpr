@@ -9,8 +9,8 @@ uses
  Interfaces, // this includes the LCL widgetset
   Forms, LResources
   { add your units here }, mainform, taskunit, taskthread, frmtask, frmset,
-  UnitAbout, SendMailUnit, lnetbase, PoTranslator, setunit, unitfunc,
-  msgstrings;
+  UnitAbout, PoTranslator, setunit, unitfunc,
+  msgstrings, delfiles;
 
 {$R mbackupw.res}
 

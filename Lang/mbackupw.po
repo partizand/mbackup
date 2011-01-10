@@ -294,6 +294,30 @@ msgstr ""
 msgid "Select action"
 msgstr ""
 
+#: msgstrings.rssmtploginerr
+msgid "SMTP Login error: %s"
+msgstr ""
+
+#: msgstrings.rssmtplogouterr
+msgid "SMTP Logout error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmaildataerr
+msgid "SMTP MailData error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmailfromerr
+msgid "SMTP MailFrom error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmailtoerr
+msgid "SMTP MailTo error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpstarttlserr
+msgid "SMTP Start TLS error: %s"
+msgstr ""
+
 #: msgstrings.rssync
 msgid "Synchronization"
 msgstr ""

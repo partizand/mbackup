@@ -136,7 +136,7 @@ msgstr "[Ошибка] Архиватор вернул ошибку. Недос�
 
 #: msgstrings.rslogarcrar
 msgid "Archiving Rar %s to %s"
-msgstr ""
+msgstr "Архивация Rar %s в %s"
 
 #: msgstrings.rslogarcwarn
 msgid "[Warning] Archiver return warning. Archive name: %s"
@@ -293,6 +293,30 @@ msgstr "Удалить задание %s?"
 #: msgstrings.rsselectaction
 msgid "Select action"
 msgstr "Выберите действие"
+
+#: msgstrings.rssmtploginerr
+msgid "SMTP Login error: %s"
+msgstr ""
+
+#: msgstrings.rssmtplogouterr
+msgid "SMTP Logout error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmaildataerr
+msgid "SMTP MailData error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmailfromerr
+msgid "SMTP MailFrom error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpmailtoerr
+msgid "SMTP MailTo error: %s"
+msgstr ""
+
+#: msgstrings.rssmtpstarttlserr
+msgid "SMTP Start TLS error: %s"
+msgstr ""
 
 #: msgstrings.rssync
 msgid "Synchronization"

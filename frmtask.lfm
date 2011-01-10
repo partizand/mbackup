@@ -1,7 +1,7 @@
 object FormTask: TFormTask
-  Left = 724
+  Left = 931
   Height = 530
-  Top = 127
+  Top = 124
   Width = 390
   ActiveControl = EditName
   Caption = 'Task settings'
@@ -143,7 +143,7 @@ object FormTask: TFormTask
     TabOrder = 0
     object EditName: TEdit
       Left = 4
-      Height = 23
+      Height = 33
       Top = 0
       Width = 242
       TabOrder = 0
@@ -152,9 +152,9 @@ object FormTask: TFormTask
   end
   object EnabledCheck: TCheckBox
     Left = 315
-    Height = 19
+    Height = 29
     Top = 31
-    Width = 62
+    Width = 98
     Caption = 'Enabled'
     TabOrder = 1
   end
@@ -169,7 +169,7 @@ object FormTask: TFormTask
     TabOrder = 2
     object EditSor: TDirectoryEdit
       Left = 9
-      Height = 23
+      Height = 33
       Top = 8
       Width = 213
       ShowHidden = False
@@ -179,9 +179,9 @@ object FormTask: TFormTask
     end
     object RecurseCheck: TCheckBox
       Left = 258
-      Height = 19
+      Height = 29
       Top = 11
-      Width = 117
+      Width = 185
       Caption = 'Include subfolders'
       TabOrder = 1
     end
@@ -195,9 +195,9 @@ object FormTask: TFormTask
       TabOrder = 2
       object FiltDirCheck: TCheckBox
         Left = 3
-        Height = 19
+        Height = 29
         Top = -16
-        Width = 99
+        Width = 158
         Caption = 'Exclude folders'
         OnChange = FiltDirCheckChange
         TabOrder = 0
@@ -241,19 +241,19 @@ object FormTask: TFormTask
       TabOrder = 3
       object FiltFilesCheck: TCheckBox
         Left = 7
-        Height = 19
+        Height = 29
         Top = -16
-        Width = 84
+        Width = 133
         Caption = 'Process files'
         OnChange = FiltFilesCheckChange
         TabOrder = 0
       end
       object CBoxFileMode: TComboBox
         Left = 8
-        Height = 23
+        Height = 33
         Top = 4
         Width = 130
-        ItemHeight = 15
+        ItemHeight = 25
         Items.Strings = (
           'Exclude'
           'Once these'
@@ -262,7 +262,7 @@ object FormTask: TFormTask
       end
       object EditFileMask: TEdit
         Left = 8
-        Height = 23
+        Height = 33
         Top = 39
         Width = 130
         TabOrder = 2
@@ -281,20 +281,20 @@ object FormTask: TFormTask
     TabOrder = 3
     object CBoxAct: TComboBox
       Left = 1
-      Height = 23
+      Height = 33
       Top = 2
       Width = 161
       AutoDropDown = True
-      ItemHeight = 15
+      ItemHeight = 25
       OnChange = CBoxActChange
       Style = csDropDownList
       TabOrder = 0
     end
     object NTFSCheck: TCheckBox
       Left = 1
-      Height = 19
+      Height = 29
       Top = 31
-      Width = 145
+      Width = 226
       Caption = 'Copy NTFS permissions'
       TabOrder = 1
     end
@@ -310,7 +310,7 @@ object FormTask: TFormTask
     TabOrder = 4
     object EditDest: TDirectoryEdit
       Left = 3
-      Height = 23
+      Height = 33
       Top = 5
       Width = 165
       ShowHidden = False
@@ -330,25 +330,25 @@ object FormTask: TFormTask
     TabOrder = 5
     object BeforeCheck: TCheckBox
       Left = 10
-      Height = 19
+      Height = 29
       Top = -1
-      Width = 78
+      Width = 123
       Caption = 'Run before'
       OnChange = BeforeCheckChange
       TabOrder = 0
     end
     object AfterCheck: TCheckBox
       Left = 10
-      Height = 19
+      Height = 29
       Top = 43
-      Width = 68
+      Width = 107
       Caption = 'Run after'
       OnChange = AfterCheckChange
       TabOrder = 1
     end
     object BeforeName: TFileNameEdit
       Left = 9
-      Height = 23
+      Height = 33
       Top = 15
       Width = 129
       DialogOptions = []
@@ -361,7 +361,7 @@ object FormTask: TFormTask
     end
     object AfterName: TFileNameEdit
       Left = 8
-      Height = 23
+      Height = 33
       Top = 60
       Width = 132
       DialogOptions = []
@@ -461,9 +461,9 @@ object FormTask: TFormTask
     Visible = False
     object Label1: TLabel
       Left = 121
-      Height = 16
+      Height = 26
       Top = -1
-      Width = 36
+      Width = 56
       Caption = 'Время'
       ParentColor = False
     end
@@ -523,32 +523,32 @@ object FormTask: TFormTask
       TabOrder = 1
       object Label2: TLabel
         Left = 5
-        Height = 16
+        Height = 26
         Top = 11
-        Width = 44
+        Width = 69
         Caption = 'Каждые'
         ParentColor = False
       end
       object Label3: TLabel
         Left = 107
-        Height = 16
+        Height = 26
         Top = 11
-        Width = 54
+        Width = 82
         Caption = 'Минут(ы)'
         ParentColor = False
       end
       object EvMinCheck: TCheckBox
         Left = 4
-        Height = 19
+        Height = 29
         Top = -16
-        Width = 117
+        Width = 184
         Caption = 'Повторять запуск'
         OnChange = EvMinCheckChange
         TabOrder = 0
       end
       object EditMin: TSpinEdit
         Left = 52
-        Height = 23
+        Height = 33
         Top = 6
         Width = 50
         MaxValue = 1440
@@ -557,7 +557,7 @@ object FormTask: TFormTask
     end
     object EditTime: TMaskEdit
       Left = 121
-      Height = 23
+      Height = 33
       Top = 20
       Width = 37
       TabOrder = 2
@@ -578,23 +578,23 @@ object FormTask: TFormTask
     OnClick = ArhBoxClick
     object Label4: TLabel
       Left = 12
-      Height = 16
+      Height = 26
       Top = 3
-      Width = 74
+      Width = 116
       Caption = 'Archive name'
       ParentColor = False
     end
     object Label10: TLabel
       Left = 158
-      Height = 16
+      Height = 26
       Top = 24
-      Width = 19
+      Width = 30
       Caption = '.zip'
       ParentColor = False
     end
     object EditArhNam: TEdit
       Left = 6
-      Height = 23
+      Height = 33
       Top = 21
       Width = 144
       TabOrder = 0
@@ -610,78 +610,78 @@ object FormTask: TFormTask
       TabOrder = 1
       object Label5: TLabel
         Left = 6
-        Height = 16
+        Height = 26
         Top = 14
-        Width = 27
+        Width = 43
         Caption = 'Daily'
         ParentColor = False
       end
       object Label6: TLabel
         Left = 6
-        Height = 16
+        Height = 26
         Top = 38
-        Width = 46
+        Width = 71
         Caption = 'Monthly'
         ParentColor = False
       end
       object Label7: TLabel
         Left = 6
-        Height = 16
+        Height = 26
         Top = 60
-        Width = 33
+        Width = 53
         Caption = 'Yearly'
         ParentColor = False
       end
       object Label8: TLabel
         Left = 134
-        Height = 16
+        Height = 26
         Top = 14
-        Width = 25
+        Width = 39
         Caption = 'days'
         ParentColor = False
       end
       object Label9: TLabel
         Left = 134
-        Height = 16
+        Height = 26
         Top = 38
-        Width = 26
+        Width = 39
         Caption = 'mon'
         ParentColor = False
       end
       object Label11: TLabel
         Left = 133
-        Height = 16
+        Height = 26
         Top = 60
-        Width = 28
+        Width = 45
         Caption = 'years'
         ParentColor = False
       end
       object DelArhCheck: TCheckBox
         Left = 6
-        Height = 19
+        Height = 29
         Top = -17
-        Width = 93
+        Width = 148
         Caption = 'Store archives'
         OnChange = DelArhCheckChange
         TabOrder = 0
       end
       object EditDaysOld: TSpinEdit
         Left = 78
-        Height = 23
+        Height = 33
         Top = 5
         Width = 50
         TabOrder = 1
       end
       object EditMonthsOld: TSpinEdit
         Left = 78
-        Height = 23
+        Height = 33
         Top = 29
         Width = 50
         TabOrder = 2
       end
       object EditYearsOld: TSpinEdit
         Left = 78
-        Height = 23
+        Height = 33
         Top = 53
         Width = 50
         TabOrder = 3
@@ -689,9 +689,9 @@ object FormTask: TFormTask
     end
     object chkDelAfterArh: TCheckBox
       Left = 6
-      Height = 19
+      Height = 29
       Top = 47
-      Width = 156
+      Width = 250
       Caption = 'Delete files after archiving'
       TabOrder = 2
     end
@@ -708,11 +708,11 @@ object FormTask: TFormTask
     OnClick = GroupBox9Click
     object cbAlert: TComboBox
       Left = 9
-      Height = 23
+      Height = 33
       Top = 8
       Width = 124
       AutoDropDown = True
-      ItemHeight = 15
+      ItemHeight = 25
       Items.Strings = (
         'None'
         'Only when an error'
@@ -733,9 +733,9 @@ object FormTask: TFormTask
     TabOrder = 11
     object OnceDayCheck: TCheckBox
       Left = 16
-      Height = 19
+      Height = 29
       Top = 8
-      Width = 79
+      Width = 124
       Caption = 'Once a day'
       TabOrder = 0
     end
@@ -750,32 +750,32 @@ object FormTask: TFormTask
     TabOrder = 12
     object Label12: TLabel
       Left = 12
-      Height = 16
+      Height = 26
       Top = 8
-      Width = 18
+      Width = 28
       Caption = 'For'
       ParentColor = False
     end
     object Label13: TLabel
       Left = 138
-      Height = 16
+      Height = 26
       Top = 8
-      Width = 25
+      Width = 39
       Caption = 'days'
       ParentColor = False
     end
     object DelZerkCheck: TCheckBox
       Left = 6
-      Height = 19
+      Height = 29
       Top = -16
-      Width = 113
+      Width = 181
       Caption = 'Store deleted files'
       OnChange = DelZerkCheckChange
       TabOrder = 0
     end
     object EditZerkOld: TSpinEdit
       Left = 79
-      Height = 23
+      Height = 33
       Top = 4
       Width = 52
       MaxValue = 500

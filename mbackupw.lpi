@@ -9,7 +9,7 @@
       <Title Value="mbackupw"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="6"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -30,20 +30,17 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="1">
       <Item1>
-        <PackageName Value="lnetbase"/>
-      </Item1>
-      <Item2>
         <PackageName Value="LCL"/>
-      </Item2>
+      </Item1>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="23">
       <Unit0>
         <Filename Value="mbackupw.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mbackupw"/>
-        <CursorPos X="13" Y="13"/>
+        <CursorPos X="23" Y="13"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="332"/>
@@ -65,13 +62,14 @@
         <Filename Value="taskunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TaskUnit"/>
-        <CursorPos X="23" Y="31"/>
-        <TopLine Value="1"/>
+        <CursorPos X="28" Y="537"/>
+        <TopLine Value="503"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="332"/>
-        <Bookmarks Count="2">
-          <Item0 X="20" Y="1315" ID="0"/>
-          <Item1 X="3" Y="1859" ID="1"/>
+        <Bookmarks Count="3">
+          <Item0 X="17" Y="1252" ID="0"/>
+          <Item1 X="3" Y="1816" ID="1"/>
+          <Item2 X="5" Y="1106" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -100,7 +98,7 @@
         <UnitName Value="FrmTask"/>
         <CursorPos X="27" Y="619"/>
         <TopLine Value="602"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="325"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -110,8 +108,8 @@
         <ComponentName Value="FormSet"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmset"/>
-        <CursorPos X="13" Y="171"/>
-        <TopLine Value="139"/>
+        <CursorPos X="29" Y="233"/>
+        <TopLine Value="223"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="322"/>
         <Loaded Value="True"/>
@@ -124,30 +122,27 @@
         <UnitName Value="UnitAbout"/>
         <CursorPos X="1" Y="63"/>
         <TopLine Value="36"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="317"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="msgstrings.pas"/>
+        <Filename Value="MsgStrings.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="msgstrings"/>
-        <CursorPos X="2" Y="94"/>
-        <TopLine Value="60"/>
+        <CursorPos X="2" Y="100"/>
+        <TopLine Value="65"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="156"/>
+        <UsageCount Value="164"/>
         <Loaded Value="True"/>
         <BuildFileIfActive Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="sendmailunit.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="SendMailUnit"/>
-        <CursorPos X="10" Y="100"/>
-        <TopLine Value="63"/>
-        <EditorIndex Value="10"/>
+        <CursorPos X="21" Y="13"/>
+        <TopLine Value="1"/>
         <UsageCount Value="283"/>
-        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="C:\lazarus\lcl\include\application.inc"/>
@@ -175,7 +170,7 @@
         <CursorPos X="1" Y="81"/>
         <TopLine Value="60"/>
         <EditorIndex Value="9"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="59"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -207,7 +202,7 @@
         <CursorPos X="1" Y="93"/>
         <TopLine Value="68"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="54"/>
         <Loaded Value="True"/>
       </Unit17>
       <Unit18>
@@ -217,7 +212,7 @@
         <CursorPos X="30" Y="48"/>
         <TopLine Value="15"/>
         <EditorIndex Value="8"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit18>
       <Unit19>
@@ -225,132 +220,150 @@
         <UnitName Value="IdSMTP"/>
         <CursorPos X="60" Y="207"/>
         <TopLine Value="188"/>
-        <EditorIndex Value="7"/>
         <UsageCount Value="18"/>
-        <Loaded Value="True"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="delfiles.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="delfiles"/>
+        <CursorPos X="85" Y="11"/>
+        <TopLine Value="11"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="28"/>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\lazarus\fpc\2.2.4\source\packages\indy\src\IdAttachmentFile.pas"/>
+        <UnitName Value="IdAttachmentFile"/>
+        <CursorPos X="6" Y="157"/>
+        <TopLine Value="120"/>
+        <UsageCount Value="11"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\lazarus\Synapse\source\lib\mimemess.pas"/>
+        <UnitName Value="mimemess"/>
+        <CursorPos X="51" Y="727"/>
+        <TopLine Value="696"/>
+        <UsageCount Value="10"/>
+      </Unit22>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="1385" Column="26" TopLine="1377"/>
+        <Filename Value="delfiles.pas"/>
+        <Caret Line="213" Column="68" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="269" Column="25" TopLine="244"/>
+        <Filename Value="delfiles.pas"/>
+        <Caret Line="8" Column="27" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1431" Column="13" TopLine="1413"/>
+        <Caret Line="1147" Column="10" TopLine="1125"/>
       </Position3>
       <Position4>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1322" Column="1" TopLine="1304"/>
+        <Caret Line="1147" Column="10" TopLine="1125"/>
       </Position4>
       <Position5>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1151" Column="17" TopLine="1139"/>
+        <Caret Line="1156" Column="44" TopLine="1128"/>
       </Position5>
       <Position6>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1321" Column="41" TopLine="1301"/>
+        <Caret Line="1165" Column="36" TopLine="1137"/>
       </Position6>
       <Position7>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1435" Column="20" TopLine="1412"/>
+        <Caret Line="1222" Column="7" TopLine="1192"/>
       </Position7>
       <Position8>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1509" Column="52" TopLine="1501"/>
+        <Caret Line="1204" Column="20" TopLine="1185"/>
       </Position8>
       <Position9>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1423" Column="85" TopLine="1403"/>
+        <Caret Line="1205" Column="31" TopLine="1186"/>
       </Position9>
       <Position10>
-        <Filename Value="frmset.pas"/>
-        <Caret Line="233" Column="3" TopLine="210"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="15" Column="57" TopLine="1"/>
       </Position10>
       <Position11>
-        <Filename Value="frmset.pas"/>
-        <Caret Line="234" Column="3" TopLine="210"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1208" Column="28" TopLine="1187"/>
       </Position11>
       <Position12>
-        <Filename Value="frmset.pas"/>
-        <Caret Line="235" Column="3" TopLine="210"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1147" Column="24" TopLine="1137"/>
       </Position12>
       <Position13>
-        <Filename Value="frmset.pas"/>
-        <Caret Line="236" Column="3" TopLine="210"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="16" Column="20" TopLine="1"/>
       </Position13>
       <Position14>
-        <Filename Value="frmtask.pas"/>
-        <Caret Line="253" Column="11" TopLine="179"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1146" Column="33" TopLine="1133"/>
       </Position14>
       <Position15>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="2006" Column="27" TopLine="1998"/>
+        <Caret Line="1184" Column="17" TopLine="1166"/>
       </Position15>
       <Position16>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="1758" Column="18" TopLine="1737"/>
+        <Caret Line="16" Column="38" TopLine="1"/>
       </Position16>
       <Position17>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="101" Column="28" TopLine="82"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1168" Column="34" TopLine="1131"/>
       </Position17>
       <Position18>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="380" Column="7" TopLine="363"/>
+        <Filename Value="frmset.pas"/>
+        <Caret Line="171" Column="13" TopLine="139"/>
       </Position18>
       <Position19>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="100" Column="21" TopLine="81"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1163" Column="104" TopLine="1133"/>
       </Position19>
       <Position20>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="618" Column="15" TopLine="606"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1171" Column="5" TopLine="1144"/>
       </Position20>
       <Position21>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="630" Column="20" TopLine="606"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1164" Column="1" TopLine="1145"/>
       </Position21>
       <Position22>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="103" Column="33" TopLine="76"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1185" Column="41" TopLine="1185"/>
       </Position22>
       <Position23>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="380" Column="7" TopLine="363"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1151" Column="26" TopLine="1137"/>
       </Position23>
       <Position24>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="627" Column="11" TopLine="597"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1160" Column="1" TopLine="1141"/>
       </Position24>
       <Position25>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="630" Column="21" TopLine="612"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1158" Column="41" TopLine="1136"/>
       </Position25>
       <Position26>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="283" Column="15" TopLine="269"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1160" Column="1" TopLine="1141"/>
       </Position26>
       <Position27>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="284" Column="15" TopLine="269"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1161" Column="1" TopLine="1142"/>
       </Position27>
       <Position28>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="285" Column="15" TopLine="269"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="16" Column="70" TopLine="1"/>
       </Position28>
       <Position29>
-        <Filename Value="msgstrings.pas"/>
-        <Caret Line="8" Column="24" TopLine="4"/>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1232" Column="4" TopLine="1222"/>
       </Position29>
-      <Position30>
-        <Filename Value="msgstrings.pas"/>
-        <Caret Line="7" Column="20" TopLine="1"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -358,6 +371,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)\"/>
+      <OtherUnitFiles Value="C:\lazarus\Synapse\source\lib\"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

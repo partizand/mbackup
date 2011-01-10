@@ -151,7 +151,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="include\"/>
-      <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\"/>
+      <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\;C:\lazarus\Synapse\source\lib\"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
