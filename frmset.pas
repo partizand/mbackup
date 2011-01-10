@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Spin, Buttons, ExtCtrls, EditBtn,IniFiles,IniLang,msgStrings,windows,taskunit;
+  Spin, Buttons, ExtCtrls, EditBtn, MaskEdit, IniFiles, IniLang, msgStrings,
+  windows, taskunit;
 
 type
 
@@ -16,11 +17,16 @@ type
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    butTestSmtp: TButton;
+    CheckSysCopyFunc: TCheckBox;
+    CheckGroup2: TCheckGroup;
     CheckTray: TCheckBox;
     CheckStartMin: TCheckBox;
     CheckAutoRun: TCheckBox;
     CheckGroup1: TCheckGroup;
     BoxLang: TComboBox;
+    EditUser: TEdit;
+    EditPass: TEdit;
     EditServ: TEdit;
     EditMailFrom: TEdit;
     EditMailTo: TEdit;
@@ -36,6 +42,7 @@ type
     GroupBox6: TGroupBox;
     Label1: TLabel;
     EditLim: TSpinEdit;
+    Label10: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -43,11 +50,13 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     RadioLastProf: TRadioButton;
     RadioThisProf: TRadioButton;
     EditPort: TSpinEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure butTestSmtpClick(Sender: TObject);
     procedure EditLogNamKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
 //    procedure EditLogNamKeyPress(Sender: TObject; var Key: char);
@@ -74,9 +83,9 @@ var
   FormSet: TFormSet;
 
 implementation
-uses mainform;
+uses mainform,sendmailunit;
 //========================================================
-// Заполнение формы данными
+// Р—Р°РїРѕР»РЅРµРЅРёРµ С„РѕСЂРјС‹ РґР°РЅРЅС‹РјРё
 procedure TformSet.FillForm;
 //========================================================
 begin
@@ -97,12 +106,13 @@ if MForm.TaskCl.LoadLastProf then
   EditDefProf.Text:=MForm.TaskCl.DefaultProf;
   EditDefProf.Enabled:=false;
    end;
+CheckSysCopyFunc.Checked:=MForm.TaskCl.SysCopyFunc;
 EditCurProf.Text:=MForm.TaskCl.profile;
 EditDefProf.Enabled:=NOT RadioLastProf.Checked;
 //BtnDefProf.Enabled:=NOT RadioLastProf.Checked;
 CheckStartMin.Enabled:=CheckTray.Checked;
 //EditProfNam.Text:=MForm.TaskCl.ProfName;
-// почтовые уведомления
+// РїРѕС‡С‚РѕРІС‹Рµ СѓРІРµРґРѕРјР»РµРЅРёСЏ
 {
 case MForm.TaskCl.alerttype of
 alertNone: rAlertNone.Checked:=true;
@@ -113,8 +123,8 @@ end;
 EditMailTo.Text:=MForm.TaskCl.email;
 EditServ.Text:=MForm.TaskCl.smtpserv;
 Editport.Value:=MForm.TaskCl.smtpport;
-//Edituser.Text:=MForm.TaskCl.smtpuser;
-//Editpass.Text:=MForm.TaskCl.smtppass;
+Edituser.Text:=MForm.TaskCl.smtpuser;
+Editpass.Text:=MForm.TaskCl.smtppass;
 Editmailfrom.Text:=MForm.TaskCl.mailfrom;
 
 if not CheckStartMin.Enabled then CheckStartMin.Checked:=false;
@@ -139,11 +149,12 @@ MForm.AutoOnlyClose:=CheckAutoRun.Checked;
 MForm.TaskCl.LoadLastProf:=RadioLastProf.Checked;
 //if not MForm.TaskCl.LoadLastProf then
 MForm.TaskCl.DefaultProf:=MForm.TaskCl.ShortFileNam(EditDefProf.Text);
+MForm.TaskCl.SysCopyFunc:=CheckSysCopyFunc.Checked;
 
 //MForm.TaskCl.ProfName:=EditProfNam.Text;
 //MForm.Caption:='AutoSave '+MForm.TaskCl.ProfName;
 
-// чтение уведомлений
+// С‡С‚РµРЅРёРµ СѓРІРµРґРѕРјР»РµРЅРёР№
 {
 if rAlertNone.Checked then MForm.TaskCl.alerttype:=alertNone;
 if rAlertErr.Checked then MForm.TaskCl.alerttype:=alertErr;
@@ -152,13 +163,13 @@ if rAlertAlways.Checked then MForm.TaskCl.alerttype:=alertAlways;
 MForm.TaskCl.email:=EditMailTo.Text;
 MForm.TaskCl.smtpserv:=EditServ.Text;
 MForm.TaskCl.smtpport:=Editport.Value;
-//MForm.TaskCl.smtpuser:=EditUser.Text;
-//MForm.TaskCl.smtppass:=EditPass.Text;
+MForm.TaskCl.smtpuser:=EditUser.Text;
+MForm.TaskCl.smtppass:=EditPass.Text;
 MForm.TaskCl.mailfrom:=EditMailfrom.Text;
 
 MForm.TaskCl.LangFile:=LangFileList.Strings[BoxLang.ItemIndex];
 
-// Перевод
+// РџРµСЂРµРІРѕРґ
 CL:=LoadLangIni(MForm.TaskCl.LangFile);
 if CL<>nil then
    begin
@@ -169,14 +180,39 @@ if CL<>nil then
 //MForm.TaskCl.SaveToFile('');
 ModalResult:=mrOk;
 end;
+//РџСЂРѕРІРµСЂРєР° РѕС‚РїСЂР°РІРєРё РїРѕС‡С‚С‹
+procedure TFormSet.butTestSmtpClick(Sender: TObject);
+var
+  SendMail:TSendMail;
+  suc:boolean;
+  str:string;
+begin
+  SendMail:=TSendMAil.Create;
+  SendMail.aName:=EditUser.Text;
+  SendMail.aPass:=EditPass.Text;
+  suc:=SendMail.Send(EditServ.Text,EditPort.Value,EditMailFrom.Text,EditMailTo.Text,'AutoSave test','This is test letter','');
+  if suc then
+  begin // РЈСЃРїРµС€РЅРѕ
+  str:=misc(rsAlertTestOk,'rsAlertTestOk');
+  ShowMessage(str);
+  end
+  else
+  begin // РќРµ СѓСЃРїРµС€РЅРѕ
+   str:=Format(misc(rsAlertTestErr,'rsAlertTestErr'),[SendMail.LastError]);
+   ShowMessage(str);
+  end;
+  SendMail.Destroy;
+end;
 
 procedure TFormSet.EditLogNamKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
   var
 TC: array[1..3] of TComponent;
 begin
-if (Key=VK_F5) then fillcustomini;
-
+if (Key=VK_F5) then
+   begin
+   fillcustomini;
+   end;
 end;
 
 
@@ -194,7 +230,7 @@ if OpenDialog1.Execute then
   begin
   profil:=MForm.TaskCl.profile;
   MForm.TaskCl.LoadFromFile(OpenDialog1.FileName);
-  MForm.TaskCl.profile:=profil; // сохранение имени старого профиля
+  MForm.TaskCl.profile:=profil; // СЃРѕС…СЂР°РЅРµРЅРёРµ РёРјРµРЅРё СЃС‚Р°СЂРѕРіРѕ РїСЂРѕС„РёР»СЏ
   MForm.FillListTask(-1);
   end;
 end;
@@ -203,7 +239,7 @@ end;
        {
 procedure TFormSet.BtnProfNewClick(Sender: TObject);
 var
- filenam:string; // имя файла
+ filenam:string; // РёРјСЏ С„Р°Р№Р»Р°
 begin
 if SaveDialog1.Execute then
   begin
@@ -238,7 +274,7 @@ end;
          {
 procedure TFormSet.BtnProfSaveClick(Sender: TObject);
 var
- filen:string; // имя файла
+ filen:string; // РёРјСЏ С„Р°Р№Р»Р°
 begin
 If SaveDialog1.Execute then
    begin
@@ -260,7 +296,7 @@ end;
 
 
 //========================================================
-// Поиск языков
+// РџРѕРёСЃРє СЏР·С‹РєРѕРІ
 procedure TFormSet.FillLangs;
 //========================================================
 var
@@ -273,11 +309,11 @@ rep:=extractFileDir(application.exeName)+'\';
 LangNameList:=TStringList.create;
 LangFileList:=TStringList.Create;
 BoxLang.Items.Clear;
- // поиск всех файлов lng
+ // РїРѕРёСЃРє РІСЃРµС… С„Р°Р№Р»РѕРІ lng
 LangNameList.Add('Russian');
 BoxLang.Items.Add('Russian');
 LangFileList.Add('russian.lng');
-BoxLang.ItemIndex:=0; // По умолчанию русский
+BoxLang.ItemIndex:=0; // РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЂСѓСЃСЃРєРёР№
 if findFirst(rep+'*.lng',faAnyFile,sr)=0 then
    repeat
    CL2:=LoadLangIni(sr.Name);

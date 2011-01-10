@@ -40,10 +40,10 @@ MForm.ActSet.Caption=Settings
 MForm.ActDel.Caption=Delete
 MForm.ActDown.Caption=Down
 MForm.ActAbout.Caption=About
-MForm.ActNewProfile.Caption=Создать профиль
-MForm.ActOpenProfile.Caption=Открыть профиль
-MForm.ActAddProfile.Caption=Добавить в профиль
-MForm.ActSaveProf.Caption=Сохранить как
+MForm.ActNewProfile.Caption= 
+MForm.ActOpenProfile.Caption= 
+MForm.ActAddProfile.Caption=  
+MForm.ActSaveProf.Caption= 
 MForm.ActHelp.Caption=
 
 [FormSet]
@@ -68,8 +68,12 @@ FormSet.Label5.Caption=SMTP server
 FormSet.Label6.Caption=Port
 FormSet.Label7.Caption=Mail from
 FormSet.Label8.Caption=Mail To
+FormSet.Label9.Caption=User
+FormSet.Label10.Caption=Password
+FormSet.butTestSmtp.Caption=Test
 
-
+FormSet.CheckGroup2.Caption=Other
+FormSet.CheckSysCopyFunc.Caption=Use system copy function
 
 [FormTask]
 FormTask.Caption=Task settings
@@ -87,6 +91,8 @@ FormTask.GroupBox5.Caption=Action
 FormTask.CBoxAct.Items[0]=Copy
 FormTask.CBoxAct.Items[1]=Mirror
 FormTask.CBoxAct.Items[2]=Sync
+FormTask.CBoxAct.Items[3]=Arh ZIP
+FormTask.CBoxAct.Items[4]=Arh RAR
 FormTask.GroupBox6.Caption=Destination
 FormTask.GroupBox7.Caption=External programs
 FormTask.BeforeCheck.Caption=Run before
@@ -108,6 +114,9 @@ FormTask.GroupBox9.Caption=Alert email
 FormTask.cbAlert.Items[0]=None
 FormTask.cbAlert.Items[1]=Errors
 FormTask.cbAlert.Items[2]=Always
+
+FormTask.GroupBox10.Caption=Other
+FormTask.OnceDayCheck.Caption=Once in day
 
 
 [FormAbout]
@@ -136,8 +145,8 @@ rsEnabled=Enabled
 rsYes=Yes
 rsNo=No
 rsOk=Ok
-rsTaskError= Run error
-rsTaskEndError=Task finished with errors
+rsTaskError=Error
+rsTaskEndError=Warning
 rsAlertRunMes=Program runed
 rsAlertRunSubj=Autosave alert
 rsQuestDeleteTask=Delete task %s?
@@ -152,7 +161,9 @@ rsNoArcName=Select arc name
 rsLogRunTask=Task runned
 rsAlert=Task alert
 rsLogExtProgRun=Running external program
-rsLogExtProgEnd=External program finished
+
+rsLogExtProgEnd=External program finished. Exit code %s
+
 rsLogExtProgErr=[Error] External program %s error
 rsLogCopy=Copy %s to %s
 rsLogSync=Sync %s to %s
@@ -167,7 +178,7 @@ rsAlertSubjOk=AutoSave Ok Alert
 rsAlertSubjErr=AutoSave error alert
 rsLogDirNotFound=[Error] Dir %s not found
 rsLogDirCreated=[Warning] Dir %s was created
-rsLogNoZipDll=[Error] Library DelZip179.dll not found
+rsLogNoZipDll=[Error] Zip not worked yet
 rsLogArcCreated=Arc %s was created
 rsLogArcErr=Arc create error %s
 rsCopyPerfix=Copy of
@@ -178,3 +189,14 @@ rsLogFileCopied=File copied: %s
 rsLogfileCopiedErr=[Error] File not copied %s
 rsLogDelDir=Dir %s deleted
 rsTaskIsRunning=Task %s is running
+
+
+rsAlertSubjWarn=AutoSave WARNING alert
+rsAlertTestOk=Email sucssefully sended
+rsAlertTestErr=Eror send email: %s
+
+rsLogFileDateErr=[Error] Can't read file date %s
+rsLogFileDateErrEx=[Error] Can't read files date %s, %s. %s
+rsLogArcErr=[Error] RAR finished with error (Exit code %s). Arh: %s
+rsLogArcWarn=[Warning] RAR finished with warning. Arh: %s
+rsLogExtProgErrEx=[Error] External program %s throw exception %s

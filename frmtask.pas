@@ -31,12 +31,14 @@ type
     BeforeCheck: TCheckBox;
     AfterCheck: TCheckBox;
     cbAlert: TComboBox;
+    OnceDayCheck: TCheckBox;
     DelArhCheck: TCheckBox;
     EditArhNam: TEdit;
     EvMinCheck: TCheckBox;
     EditDest: TDirectoryEdit;
     BeforeName: TFileNameEdit;
     AfterName: TFileNameEdit;
+    GroupBox10: TGroupBox;
     GroupBox6: TGroupBox;
     GroupBox7: TGroupBox;
     GroupBox8: TGroupBox;
@@ -92,6 +94,7 @@ type
     procedure EvMinCheckChange(Sender: TObject);
     procedure FillForm;
     procedure FillChecks;
+    procedure GroupBox9Click(Sender: TObject);
     function  ReadTaskForm:Boolean;
     procedure FiltDirCheckChange(Sender: TObject);
     procedure FiltFilesCheckChange(Sender: TObject);
@@ -142,15 +145,16 @@ cbAlert.ItemIndex:=MForm.TaskCl.Tasks[numTask].MailAlert;
 
 // расписание
 
-DateTimeToString(ETime,'HH:MM',MForm.TaskCl.Tasks[numTask].Rasp.Time);
-EditTime.Text:=ETime;
+OnceDayCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.OnceForDay;
+//DateTimeToString(ETime,'HH:MM',MForm.TaskCl.Tasks[numTask].Rasp.Time);
+//EditTime.Text:=ETime;
 
-ManualCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.Manual;
-TimeCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtTime;
-StartCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtStart;
+//ManualCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.Manual;
+//TimeCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtTime;
+//StartCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.AtStart;
 
-EvMinCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes;
-EditMin.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Rasp.Minutes);
+//EvMinCheck.Checked:=MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes;
+//EditMin.Text:=IntToStr(MForm.TaskCl.Tasks[numTask].Rasp.Minutes);
 
 // Запуск внешних программ
 BeforeCheck.Checked:=MForm.TaskCl.Tasks[numTask].ExtProgs.BeforeStart;
@@ -194,8 +198,8 @@ Result:=false;
 MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath:=EditSor.Text;
 MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath:=EditDest.Text;
 MForm.TaskCl.ReplaceNameDisk(MForm.TaskCl.count+1,true);
-SorDir:=MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath;
-DestDir:=MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath;
+SorDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath);
+DestDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath);
 if SorDir='' then
  begin
  ShowMessage(misc(rsEnterSource,'rsEnterSource'));
@@ -208,13 +212,13 @@ if DestDir='' then
  end;
 if (Not DirectoryExists(SorDir)) then // Не задан источник
  begin
- str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[SorDir]);
+ str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[EditSor.Text]);
  ShowMessage(str);
  exit;
  end;
 if (Not DirectoryExists(DestDir)) then // Не задан приемник
  begin
- str:=Format(misc(rsDirNotExsistCreate,'rsDirNotExsistCreate'),[DestDir]);
+ str:=Format(misc(rsDirNotExsistCreate,'rsDirNotExsistCreate'),[EditDest.Text]);
  if MessageDlg(str, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     begin
      if ForceDirectories(DestDir) then
@@ -265,17 +269,19 @@ MForm.TaskCl.Tasks[numTask].Arh.Name:=EditArhNam.Text;
 MForm.TaskCl.Tasks[numTask].Action:=CBoxAct.ItemIndex+1;
 // Уведомления
 MForm.TaskCl.Tasks[numTask].MailAlert:=cbAlert.ItemIndex;
-MForm.TaskCl.Tasks[numTask].Rasp.Time:=StrToTime(EditTime.Text);
-MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
-MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeMilliSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
+//MForm.TaskCl.Tasks[numTask].Rasp.Time:=StrToTime(EditTime.Text);
+//MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
+//MForm.TaskCl.Tasks[numTask].Rasp.Time:=RecodeMilliSecond(MForm.TaskCl.Tasks[numTask].Rasp.Time,0);
+// Расписание
+MForm.TaskCl.Tasks[numTask].Rasp.OnceForDay:=OnceDayCheck.Checked;
+//MForm.TaskCl.Tasks[numTask].Rasp.Manual:=ManualCheck.Checked;
+//MForm.TaskCl.Tasks[numTask].Rasp.AtStart:=StartCheck.Checked;
+//MForm.TaskCl.Tasks[numTask].Rasp.AtTime:=TimeCheck.Checked;
 
-MForm.TaskCl.Tasks[numTask].Rasp.Manual:=ManualCheck.Checked;
-MForm.TaskCl.Tasks[numTask].Rasp.AtStart:=StartCheck.Checked;
-MForm.TaskCl.Tasks[numTask].Rasp.AtTime:=TimeCheck.Checked;
+//MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes:=EvMinCheck.Checked;
 
-MForm.TaskCl.Tasks[numTask].Rasp.EvMinutes:=EvMinCheck.Checked;
+//MForm.TaskCl.Tasks[numTask].Rasp.Minutes:=EditMin.Value;
 
-MForm.TaskCl.Tasks[numTask].Rasp.Minutes:=EditMin.Value;
 
 MForm.TaskCl.Tasks[numTask].Arh.DelOldArh:=DelArhCheck.Checked;
 
@@ -494,6 +500,11 @@ if FiltFilesCheck.Checked then
 
   NTFSCheck.Enabled:=true;
 //  SpeedButton1.Enabled:=true;
+
+end;
+
+procedure TFormTask.GroupBox9Click(Sender: TObject);
+begin
 
 end;
 

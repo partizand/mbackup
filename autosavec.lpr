@@ -39,14 +39,15 @@ var
   k:integer;
   IsProfile:boolean; // Запускается профиль
 begin
-TaskCl.ReadIni;
-CL:=LoadLangIni(TaskCl.LangFile);
+//TaskCl.ReadIni;
+//CL:=LoadLangIni(TaskCl.LangFile);
 estr:=TaskCl.ReadArgv(IsProfile);
 
 PrintStartInfo;
 //AConsole.UsageInfo;
 if estr  then // автозапуск заданий
     begin
+    TaskCl.InCmdMode:=true;
         for k:=1 to TaskCl.Count do
            begin
            // Задание включено                      (и на запуск при запуске)
@@ -88,6 +89,7 @@ end;
 
 destructor TASCons.Destroy;
 begin
+  TaskCl.Destroy;
   inherited Destroy;
 end;
 

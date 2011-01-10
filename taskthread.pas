@@ -34,6 +34,7 @@ type
   procedure ShowProc(Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: Int64);
   //  constructor Create(newtask:TTask;logfile:string);
   constructor Create(numTask:integer);
+  destructor Destroy;override;
   end;
 
 implementation
@@ -157,7 +158,7 @@ End;
 procedure TTaskThread.UpdateSatus;
 begin
  MForm.StatusBar.Panels[0].Text:=status;
- MForm.StatusBar.Panels[1].Text:=stfile;
+ MForm.StatusBar.Panels[1].Text:=ansitoutf8(stfile);
 end;
 // Обновление ProgressBar
 {procedure TTaskThread.UpdateProgress;
@@ -168,8 +169,8 @@ end;
 // Обновление TotalGauge
 procedure TTaskThread.UpdateTotalGauge;
 begin
-// MForm.TotGauge.MaxValue:=1000;
-// MForm.TotGauge.Progress:=ProgressGauge;
+ MForm.TotGauge.Max:=1000;
+ MForm.TotGauge.Position:=ProgressGauge;
  MForm.TotGauge.Visible:=TotGaugeVis;
 end;
 
@@ -226,8 +227,11 @@ begin
   FreeOnTerminate := True;
   inherited Create(False);
 end;
-
-
+destructor TTaskThread.Destroy;
+begin
+  TaskCl.Destroy;
+  inherited Destroy;
+end;
 
 procedure TTaskThread.Execute;
 //type ShowProgress

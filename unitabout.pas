@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons,inilang;
+  Buttons,inilang,shellapi,Windows;
 
 type
 
@@ -20,6 +20,8 @@ type
     Label4: TLabel;
     Label5: TLabel;
     procedure FormCreate(Sender: TObject);
+    procedure Label4Click(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
 
 
   private
@@ -47,6 +49,19 @@ if CL<>nil then
    end;
 // Версия программы
 Label1.Caption:='AutoSave ver '+MForm.TaskCl.GetVer;
+end;
+
+procedure TFormAbout.Label4Click(Sender: TObject);
+begin
+ShellExecute(Handle,'open','mailto:atsave@narod.ru',nil,nil,SW_Normal);
+end;
+
+procedure TFormAbout.Label5Click(Sender: TObject);
+begin
+  // Ссылка на сайт
+//OpenURL('sdf');
+ShellExecute(Handle,'open','http://atsave.narod.ru',nil,nil,SW_Normal);
+//  SysUtils.ExecuteProcess('/full/path/to/binary',['arg1','arg2']);
 end;
 
 

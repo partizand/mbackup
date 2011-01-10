@@ -127,6 +127,9 @@ var
  val,comp,nomComp,s:string;
 begin
  ini:=TIniFile.create(extractFileDir(application.exeName)+'\'+CUS);
+ // создаем формы
+
+
  {First search the properties that will be translated}
  for i := 0 to application.ComponentCount - 1 do begin
    fiche:=application.Components[i];

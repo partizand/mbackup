@@ -1,13 +1,14 @@
 object FormAbout: TFormAbout
-  Left = 385
+  Left = 309
   Height = 120
-  Top = 216
+  Top = 163
   Width = 332
   ActiveControl = BitBtn1
   Caption = 'О программе AutoSave'
   ClientHeight = 120
   ClientWidth = 332
   OnCreate = FormCreate
+  Position = poMainFormCenter
   LCLVersion = '0.9.28.2'
   object Label1: TLabel
     Left = 26
@@ -36,20 +37,29 @@ object FormAbout: TFormAbout
     ParentColor = False
   end
   object Label4: TLabel
+    Cursor = crHandPoint
     Left = 26
     Height = 14
     Top = 96
     Width = 86
     Caption = 'atsave@narod.ru'
+    Font.Color = clBlue
     ParentColor = False
+    ParentFont = False
+    OnClick = Label4Click
   end
   object Label5: TLabel
+    Cursor = crHandPoint
     Left = 26
     Height = 14
     Top = 72
-    Width = 80
-    Caption = 'atsave.narod.ru'
+    Width = 112
+    Caption = 'http://atsave.narod.ru'
+    Font.Color = clBlue
+    Font.Style = [fsUnderline]
     ParentColor = False
+    ParentFont = False
+    OnClick = Label5Click
   end
   object BitBtn1: TBitBtn
     Left = 232

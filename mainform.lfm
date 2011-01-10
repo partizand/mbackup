@@ -1,9 +1,10 @@
 object MForm: TMForm
-  Left = 248
+  Left = 352
   Height = 294
-  Top = 253
+  Top = 249
   Width = 723
   ActiveControl = ListTask
+  Align = alTop
   Caption = 'AutoSave'
   ClientHeight = 274
   ClientWidth = 723
@@ -129,10 +130,10 @@ object MForm: TMForm
   end
   object ListTask: TListView
     Left = 0
-    Height = 148
+    Height = 143
     Top = 41
     Width = 723
-    Align = alTop
+    Align = alClient
     Columns = <    
       item
         Caption = 'Имя'
@@ -158,6 +159,7 @@ object MForm: TMForm
         Caption = 'Прошлый запуск'
         Width = 140
       end>
+    HideSelection = False
     ReadOnly = True
     RowSelect = True
     TabOrder = 1
@@ -183,10 +185,10 @@ object MForm: TMForm
   end
   object MsgMemo: TMemo
     Left = 0
-    Height = 57
-    Top = 194
+    Height = 63
+    Top = 188
     Width = 723
-    Align = alClient
+    Align = alBottom
     Lines.Strings = (
       ''
     )
@@ -198,12 +200,13 @@ object MForm: TMForm
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
-    Height = 5
-    Top = 189
+    Height = 4
+    Top = 184
     Width = 723
-    Align = alTop
+    Align = alBottom
+    AutoSnap = False
     OnCanResize = Splitter1CanResize
-    ResizeAnchor = akTop
+    ResizeAnchor = akBottom
   end
   object MainMenu1: TMainMenu
     left = 103

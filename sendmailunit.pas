@@ -39,7 +39,9 @@ type
     constructor Create;
     function Send(srv:string; port:word; mailfrom,mailto,subj,data,att:string):boolean; // Отправить почту
     FQuit: Boolean;  // helper for main loop
-
+    LastError:string; // Строка с ошибкой при подключении
+    aName:string; // Имя пользователя
+    aPass:string; // Пароль
   end;
 
 implementation
@@ -69,6 +71,7 @@ end;
 
 procedure TSendMail.OnError(const msg: string; aSocket: TLSocket);
 begin
+ LastError:=msg;
 //  Writeln(msg); // inform about error
   FErr:=true;
   FQuit := True;
@@ -92,6 +95,8 @@ begin
   FSMTP.OnConnect := @OnConnect;
   FSMTP.OnDisconnect := @OnDisconnect;
   FSMTP.OnError := @OnError;
+  LastError:='';
+
 end;
 
 {Отправка сообщения}
@@ -108,10 +113,15 @@ var
 begin
 //  port:=25;
   Result:=false;
+  LastError:='';
   FMimeStream:=TMimeStream.Create;
   FMimeStream.AddTextSection('');
   if FileExists(att) then FMimeStream.AddFileSection(att);
 //  Write('Connecting to ', Addr, ':', Port, '... ');
+if aName<>'' then // авторизация
+  begin
+  FSMTP.FeatureList.Add('AUTH LOGIN');
+  end;
    if FSMTP.Connect(srv, Port) then
     begin
     repeat  // try to connect
@@ -119,11 +129,22 @@ begin
 //    WriteLog('Ждем подключения...',true);
     FSMTP.CallAction;  // if inital connect went ok, wait for "acknowlidgment" or otherwise
     until  Fconn or FErr; // ЖДем или обшику или подключение
+    end
+    else
+    begin
+      exit;
     end;
+
     if FErr then exit; // ошибка подключения к серверу
    FSMTP.CallAction;
     FSMTP.Ehlo;
     FSMTP.CallAction;
+    if aName<>'' then // авторизация
+      begin
+        FSMTP.AuthLogin(aName, aPass);
+      end;
+     FSMTP.CallAction;
+     FSMTP.CallAction;
       //Subject := Ansitoutf8(Subj);
       Subject := Subj;
       //Subject := Utf8ToAnsi(Subj);

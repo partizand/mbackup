@@ -286,11 +286,15 @@ end;
 procedure TMForm.ActSetExecute(Sender: TObject);
 begin
   Application.CreateForm(TFormSet, FormSet); // создание формы
+  Application.CreateForm(TFormAbout, FormAbout); // создание формы
+  Application.CreateForm(TFormTask, FormTask);
 if FormSet.ShowModal=mrOk then
   begin
   TaskCl.SaveIni;
   end;
 FormSet.Destroy;
+FormAbout.Destroy;
+FormTask.Destroy;
 end;
 
 procedure TMForm.ActUpExecute(Sender: TObject);
@@ -323,6 +327,7 @@ begin
      TaskCl.SaveIni;
     end;
  TaskCl.SaveToFile('');
+ TaskCl.Destroy;
 end;
 
 procedure TMForm.FormCreate(Sender: TObject);
@@ -351,7 +356,7 @@ FormInitialWidth := MForm.Width;
 TaskCl:=TTaskCl.Create;
 TaskCount:=0;
 IsClosing:=false;
-TaskCl.ReadIni;
+//TaskCl.ReadIni;
 if StartMin then MForm.WindowState:=wsMinimized;
 
 ReadArgvW;
@@ -475,7 +480,7 @@ for i:=1 to TaskCl.Count do
   ListTask.Items.Item[i-1].SubItems.Add(strStatus);
   end;
 {
-if numTask<0 then ListTask.ItemIndex:=oldItem
+if numTask<0 then ListTask. ItemFocused item Selected.Index:=oldItem
   else
     ListTask.ItemIndex:=numTask-1;
  }
@@ -593,6 +598,7 @@ if estr {or (NOT AutoOnlyClose))} then // автозапуск заданий
            if TaskCl.Tasks[k].Enabled  then //and TaskCl.Tasks[k].Rasp.AtStart
               begin
               ParamRun:=true;
+              TaskCl.InCmdMode:=true;
               RunThTask(k);
               end;
            end;
@@ -738,6 +744,7 @@ numRun:=TaskCl.FindTaskSt(stWaiting);
 if numRun=-1 then // в очереди ничего нет
   begin
    TaskCount:=0;
+   TaskCl.InCmdMode:=false; // Сброс признака запуска из командной строки
    if TaskCl.ParamQ then // если указан параметр автозавершения
      begin
      IsClosing:=true;
