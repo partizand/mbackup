@@ -9,7 +9,7 @@
       <Title Value="mbackupw"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -64,7 +64,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="TaskUnit"/>
         <CursorPos X="38" Y="3027"/>
-        <TopLine Value="3031"/>
+        <TopLine Value="3027"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="332"/>
         <Bookmarks Count="4">
@@ -99,7 +99,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FrmTask"/>
         <CursorPos X="42" Y="809"/>
-        <TopLine Value="133"/>
+        <TopLine Value="772"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="325"/>
         <Loaded Value="True"/>
@@ -201,8 +201,8 @@
         <Filename Value="setunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="setunit"/>
-        <CursorPos X="99" Y="139"/>
-        <TopLine Value="124"/>
+        <CursorPos X="82" Y="138"/>
+        <TopLine Value="118"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="181"/>
         <Loaded Value="True"/>

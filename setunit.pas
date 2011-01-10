@@ -135,8 +135,8 @@ begin
   mailfrom := SaveIniFile.ReadString('alerts', 'mailfrom', 'from@mail');
   subj := SaveIniFile.ReadString('alerts', 'subj', 'mBackup %ComputerName% %Status% %Name%');
   SubjAlert := SaveIniFile.ReadString('alerts', 'SubjAlert', 'mBackup on %ComputerName% %ProgStatus%');
-  Body:=SaveIniFile.ReadString('alerts', 'body', 'Task %Name% is %Status%');
-  BodyAlert:=SaveIniFile.ReadString('alerts', 'BodyAlert', 'mBackup on %ComputerName% %ProgStatus%');
+  Body:=SaveIniFile.ReadString('alerts', 'body', '%ProfileName% on %ComputerName% Task %Name% is %Status%');
+  BodyAlert:=SaveIniFile.ReadString('alerts', 'BodyAlert', 'mBackup %ProfileName% on %ComputerName% %ProgStatus%');
   //TrayIcon.MinimizeToTray:=IsClosing;
   //TrayIcon.IconVisible:=IsClosing;
   //IsClosing:=Not (IsClosing);

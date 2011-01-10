@@ -2,15 +2,15 @@
 <AutoSave>
   <version value="0.5.1"/>
   <tasks>
-    <count value="5"/>
+    <count value="1"/>
     <task1>
-      <name value="РљРѕРїРёСЏ test"/>
+      <name value="MyDocs"/>
       <SrcFSParam>
-        <RootDir value="d:\temp\0"/>
+        <RootDir value="D:\РњРѕРё РґРѕРєСѓРјРµРЅС‚С‹"/>
         <FSType value="1"/>
         <FtpServParam>
           <Host value=""/>
-          <Port value=""/>
+          <Port value="21"/>
           <InintialDir value=""/>
           <UserName value=""/>
           <Password value=""/>
@@ -19,307 +19,19 @@
         </FtpServParam>
       </SrcFSParam>
       <DstFSParam>
-        <RootDir value="D:\temp\1"/>
-        <FSType value="1"/>
-        <FtpServParam>
-          <Host value="localhost"/>
-          <Port value="21"/>
-          <InintialDir value="/1"/>
-          <UserName value="root"/>
-          <Password value="PN/MM8+/mhZmKRA="/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="True"/>
-        </FtpServParam>
-      </DstFSParam>
-      <Action value="6"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="test-not-solid"/>
-        <DelOldArh value="True"/>
-        <DaysOld value="2"/>
-        <MonthsOld value="1"/>
-        <YearsOld value="1"/>
-        <DelAfterArh value="False"/>
-        <EncryptEnabled value="False"/>
-        <Password value="X7P4RxQ="/>
-        <LevelCompress value="5"/>
-        <ArhOpenFiles value="False"/>
-        <Solid value="False"/>
-        <AddOptions value=""/>
-      </Arh>
-      <ExtProgs>
-        <ExtBefore>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="10"/>
-        </ExtBefore>
-        <ExtAfter>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="1"/>
-        </ExtAfter>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="2"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="40551.9045242014"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="True"/>
-        <SubDirs value="opera;opera2"/>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task1>
-    <task2>
-      <name value="РєРѕРїРёСЂРѕРІР°РЅРёРµ  test"/>
-      <SrcFSParam>
-        <RootDir value="D:\temp\0"/>
+        <RootDir value="Q:\РњРѕРё РґРѕРєСѓРјРµРЅС‚С‹"/>
         <FSType value="1"/>
         <FtpServParam>
           <Host value=""/>
-          <Port value=""/>
+          <Port value="21"/>
           <InintialDir value=""/>
           <UserName value=""/>
           <Password value=""/>
           <PassiveMode value="False"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </SrcFSParam>
-      <DstFSParam>
-        <RootDir value="D:\temp\1"/>
-        <FSType value="2"/>
-        <FtpServParam>
-          <Host value="localhost"/>
-          <Port value="21"/>
-          <InintialDir value="/1"/>
-          <UserName value="root"/>
-          <Password value="PN/MM8+/mhZmKRA="/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="True"/>
-        </FtpServParam>
-      </DstFSParam>
-      <Action value="2"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="0"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-        <DelAfterArh value="False"/>
-        <EncryptEnabled value="False"/>
-        <Password value=""/>
-        <LevelCompress value="5"/>
-        <ArhOpenFiles value="False"/>
-        <Solid value="True"/>
-        <AddOptions value=""/>
-      </Arh>
-      <ExtProgs>
-        <ExtBefore>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="-1"/>
-        </ExtBefore>
-        <ExtAfter>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="-1"/>
-        </ExtAfter>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="20"/>
-      <LastRunDate value="40550.515769537"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs value=""/>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task2>
-    <task3>
-      <name value="РќР° ftp  test"/>
-      <SrcFSParam>
-        <RootDir value="D:\temp\1"/>
-        <FSType value="1"/>
-        <FtpServParam>
-          <Host value=""/>
-          <Port value=""/>
-          <InintialDir value=""/>
-          <UserName value=""/>
-          <Password value=""/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </SrcFSParam>
-      <DstFSParam>
-        <RootDir value=""/>
-        <FSType value="2"/>
-        <FtpServParam>
-          <Host value="localhost"/>
-          <Port value="21"/>
-          <InintialDir value="/1"/>
-          <UserName value="root"/>
-          <Password value="PN/MM8+/mhZmKRA="/>
-          <PassiveMode value="True"/>
           <AutoTLS value="False"/>
         </FtpServParam>
       </DstFSParam>
       <Action value="2"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="5"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-        <DelAfterArh value="False"/>
-        <EncryptEnabled value="False"/>
-        <Password value=""/>
-        <LevelCompress value="5"/>
-        <ArhOpenFiles value="False"/>
-        <Solid value="True"/>
-        <AddOptions value=""/>
-      </Arh>
-      <ExtProgs>
-        <ExtBefore>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="-1"/>
-        </ExtBefore>
-        <ExtAfter>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="-1"/>
-        </ExtAfter>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="40544.7189993056"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs value=""/>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task3>
-    <task4>
-      <name value="test"/>
-      <SrcFSParam>
-        <RootDir value="D:\temp\0\СЂСѓСЃ"/>
-        <FSType value="1"/>
-        <FtpServParam>
-          <Host value=""/>
-          <Port value=""/>
-          <InintialDir value=""/>
-          <UserName value=""/>
-          <Password value=""/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </SrcFSParam>
-      <DstFSParam>
-        <RootDir value="D:\temp\1"/>
-        <FSType value="1"/>
-        <FtpServParam>
-          <Host value=""/>
-          <Port value=""/>
-          <InintialDir value=""/>
-          <UserName value=""/>
-          <Password value=""/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </DstFSParam>
-      <Action value="1"/>
-      <Enabled value="True"/>
-      <Arh>
-        <Name value="arh2%YYMMDD%"/>
-        <DelOldArh value="False"/>
-        <DaysOld value="0"/>
-        <MonthsOld value="12"/>
-        <YearsOld value="5"/>
-        <DelAfterArh value="False"/>
-        <EncryptEnabled value="False"/>
-        <Password value=""/>
-        <LevelCompress value="5"/>
-        <ArhOpenFiles value="False"/>
-        <Solid value="True"/>
-        <AddOptions value=""/>
-      </Arh>
-      <ExtProgs>
-        <ExtBefore>
-          <Enabled value="True"/>
-          <Cmd value="1.bat"/>
-          <Condition value="-1"/>
-        </ExtBefore>
-        <ExtAfter>
-          <Enabled value="False"/>
-          <Cmd value=""/>
-          <Condition value="-1"/>
-        </ExtAfter>
-      </ExtProgs>
-      <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
-      <Rasp>
-        <OnceForDay value="False"/>
-      </Rasp>
-      <LastResult value="0"/>
-      <LastRunDate value="40545.5801883681"/>
-      <SourceFilt>
-        <Recurse value="True"/>
-        <FiltSubDir value="False"/>
-        <SubDirs value=""/>
-        <FiltFiles value="False"/>
-        <ModeFiltFiles value="0"/>
-        <FileMask value="*.tmp;*.bak"/>
-      </SourceFilt>
-    </task4>
-    <task5>
-      <name value="ftp test"/>
-      <SrcFSParam>
-        <RootDir value=""/>
-        <FSType value="2"/>
-        <FtpServParam>
-          <Host value="localhost"/>
-          <Port value="21"/>
-          <InintialDir value="/1"/>
-          <UserName value="root"/>
-          <Password value="PN/MM8+/mhZmKRA="/>
-          <PassiveMode value="True"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </SrcFSParam>
-      <DstFSParam>
-        <RootDir value="D:\temp\1"/>
-        <FSType value="1"/>
-        <FtpServParam>
-          <Host value=""/>
-          <Port value=""/>
-          <InintialDir value=""/>
-          <UserName value=""/>
-          <Password value=""/>
-          <PassiveMode value="False"/>
-          <AutoTLS value="False"/>
-        </FtpServParam>
-      </DstFSParam>
-      <Action value="1"/>
       <Enabled value="True"/>
       <Arh>
         <Name value="arh%YYMMDD%"/>
@@ -332,7 +44,7 @@
         <Password value=""/>
         <LevelCompress value="5"/>
         <ArhOpenFiles value="False"/>
-        <Solid value="True"/>
+        <Solid value="False"/>
         <AddOptions value=""/>
       </Arh>
       <ExtProgs>
@@ -350,18 +62,18 @@
       <NTFSPerm value="False"/>
       <MailAlert value="0"/>
       <Rasp>
-        <OnceForDay value="False"/>
+        <OnceForDay value="True"/>
       </Rasp>
-      <LastResult value="20"/>
-      <LastRunDate value="40537.7734399306"/>
+      <LastResult value="0"/>
+      <LastRunDate value="40551.7253436227"/>
       <SourceFilt>
         <Recurse value="True"/>
-        <FiltSubDir value="True"/>
+        <FiltSubDir value="False"/>
         <SubDirs value=""/>
         <FiltFiles value="False"/>
         <ModeFiltFiles value="0"/>
         <FileMask value="*.tmp;*.bak"/>
       </SourceFilt>
-    </task5>
+    </task1>
   </tasks>
 </AutoSave>

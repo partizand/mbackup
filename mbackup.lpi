@@ -26,7 +26,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="copy -source d:\temp\1 -dest ftp://root:Rjnjdfcbz12@localhost/1 -recurse"/>
+        <CommandLineParams Value="-r"/>
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
@@ -40,10 +40,10 @@
         <Filename Value="mbackup.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mbackup"/>
-        <CursorPos X="57" Y="57"/>
-        <TopLine Value="27"/>
+        <CursorPos X="27" Y="62"/>
+        <TopLine Value="33"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -51,9 +51,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="TaskUnit"/>
         <CursorPos X="21" Y="658"/>
-        <TopLine Value="620"/>
+        <TopLine Value="767"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
         <Bookmarks Count="1">
           <Item0 X="22" Y="660" ID="1"/>
         </Bookmarks>
@@ -237,6 +237,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="mbackup.lpr"/>
+        <Line Value="44"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="2">
       <Item1>
         <Name Value="ECodetoolError"/>
