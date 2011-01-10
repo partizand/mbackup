@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="7"/>
+    <General>
+      <MainUnit Value="0"/>
+      <TargetFileExt Value=".exe"/>
+      <Title Value="AutoSave"/>
+      <UseXPManifest Value="True"/>
+      <ActiveEditorIndexAtStart Value="3"/>
+    </General>
+    <VersionInfo>
+      <ProjectVersion Value=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="lnetbase"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="AutoSave.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="autosave"/>
+        <CursorPos X="1" Y="3"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="73"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mainform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="MainForm"/>
+        <CursorPos X="33" Y="583"/>
+        <TopLine Value="563"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="73"/>
+        <Bookmarks Count="2">
+          <Item0 X="26" Y="605" ID="0"/>
+          <Item1 X="25" Y="490" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="taskunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TaskUnit"/>
+        <CursorPos X="8" Y="839"/>
+        <TopLine Value="812"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="73"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="IniLang.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="IniLang"/>
+        <CursorPos X="26" Y="335"/>
+        <TopLine Value="309"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="70"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="taskthread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="taskthread"/>
+        <CursorPos X="34" Y="194"/>
+        <TopLine Value="175"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="69"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="frmtask.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTask"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FrmTask"/>
+        <CursorPos X="38" Y="270"/>
+        <TopLine Value="244"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="66"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="frmset.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSet"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="frmset"/>
+        <CursorPos X="11" Y="113"/>
+        <TopLine Value="90"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="63"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="unitabout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAbout"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UnitAbout"/>
+        <CursorPos X="1" Y="23"/>
+        <TopLine Value="4"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="58"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="MsgStrings.pas"/>
+        <UnitName Value="MsgStrings"/>
+        <CursorPos X="27" Y="51"/>
+        <TopLine Value="36"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="sendmailunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SendMailUnit"/>
+        <CursorPos X="7" Y="129"/>
+        <TopLine Value="104"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit9>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="frmset.pas"/>
+        <Caret Line="306" Column="7" TopLine="296"/>
+      </Position1>
+      <Position2>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1612" Column="93" TopLine="1582"/>
+      </Position2>
+      <Position3>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1501" Column="61" TopLine="1470"/>
+      </Position3>
+      <Position4>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1504" Column="54" TopLine="1479"/>
+      </Position4>
+      <Position5>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1502" Column="22" TopLine="1483"/>
+      </Position5>
+      <Position6>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="189" Column="19" TopLine="170"/>
+      </Position6>
+      <Position7>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1450" Column="4" TopLine="1435"/>
+      </Position7>
+      <Position8>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="1504" Column="8" TopLine="1485"/>
+      </Position8>
+      <Position9>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="338" Column="3" TopLine="338"/>
+      </Position9>
+      <Position10>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="339" Column="3" TopLine="338"/>
+      </Position10>
+      <Position11>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="141" Column="57" TopLine="116"/>
+      </Position11>
+      <Position12>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="342" Column="13" TopLine="340"/>
+      </Position12>
+      <Position13>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="834" Column="97" TopLine="812"/>
+      </Position13>
+      <Position14>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="217" Column="16" TopLine="199"/>
+      </Position14>
+      <Position15>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="743" Column="33" TopLine="724"/>
+      </Position15>
+      <Position16>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="834" Column="38" TopLine="801"/>
+      </Position16>
+      <Position17>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="223" Column="3" TopLine="202"/>
+      </Position17>
+      <Position18>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="828" Column="65" TopLine="809"/>
+      </Position18>
+      <Position19>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="22" Column="59" TopLine="18"/>
+      </Position19>
+      <Position20>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="194" Column="34" TopLine="175"/>
+      </Position20>
+      <Position21>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="118" Column="3" TopLine="93"/>
+      </Position21>
+      <Position22>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="64" Column="17" TopLine="40"/>
+      </Position22>
+      <Position23>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="60" Column="39" TopLine="40"/>
+      </Position23>
+      <Position24>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="65" Column="12" TopLine="40"/>
+      </Position24>
+      <Position25>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="72" Column="12" TopLine="40"/>
+      </Position25>
+      <Position26>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="79" Column="10" TopLine="60"/>
+      </Position26>
+      <Position27>
+        <Filename Value="sendmailunit.pas"/>
+        <Caret Line="118" Column="14" TopLine="99"/>
+      </Position27>
+      <Position28>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="829" Column="1" TopLine="818"/>
+      </Position28>
+      <Position29>
+        <Filename Value="taskunit.pas"/>
+        <Caret Line="849" Column="4" TopLine="813"/>
+      </Position29>
+      <Position30>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="95" Column="17" TopLine="76"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="8"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)\"/>
+      <UnitOutputDirectory Value="compile"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
