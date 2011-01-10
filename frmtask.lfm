@@ -1,10 +1,10 @@
 object FormTask: TFormTask
-  Left = 397
+  Left = 724
   Height = 530
-  Top = 99
+  Top = 127
   Width = 390
   ActiveControl = EditName
-  Caption = 'Параметры задания'
+  Caption = 'Task settings'
   ClientHeight = 530
   ClientWidth = 390
   OnCreate = FormCreate
@@ -137,13 +137,13 @@ object FormTask: TFormTask
     Height = 45
     Top = 11
     Width = 256
-    Caption = 'Имя задания'
+    Caption = 'Task name'
     ClientHeight = 27
     ClientWidth = 252
     TabOrder = 0
     object EditName: TEdit
       Left = 4
-      Height = 21
+      Height = 23
       Top = 0
       Width = 242
       TabOrder = 0
@@ -152,10 +152,10 @@ object FormTask: TFormTask
   end
   object EnabledCheck: TCheckBox
     Left = 315
-    Height = 17
+    Height = 19
     Top = 31
-    Width = 69
-    Caption = 'Включить'
+    Width = 62
+    Caption = 'Enabled'
     TabOrder = 1
   end
   object GroupBox2: TGroupBox
@@ -163,13 +163,13 @@ object FormTask: TFormTask
     Height = 160
     Top = 58
     Width = 376
-    Caption = 'Источник'
+    Caption = 'Source'
     ClientHeight = 142
     ClientWidth = 372
     TabOrder = 2
     object EditSor: TDirectoryEdit
       Left = 9
-      Height = 21
+      Height = 23
       Top = 8
       Width = 213
       ShowHidden = False
@@ -179,10 +179,10 @@ object FormTask: TFormTask
     end
     object RecurseCheck: TCheckBox
       Left = 258
-      Height = 17
+      Height = 19
       Top = 11
-      Width = 106
-      Caption = 'С подкаталогами'
+      Width = 117
+      Caption = 'Include subfolders'
       TabOrder = 1
     end
     object GroupBox3: TGroupBox
@@ -195,10 +195,10 @@ object FormTask: TFormTask
       TabOrder = 2
       object FiltDirCheck: TCheckBox
         Left = 3
-        Height = 17
+        Height = 19
         Top = -16
-        Width = 119
-        Caption = 'Исключая каталоги'
+        Width = 99
+        Caption = 'Exclude folders'
         OnChange = FiltDirCheckChange
         TabOrder = 0
       end
@@ -215,7 +215,7 @@ object FormTask: TFormTask
         Height = 25
         Top = 8
         Width = 78
-        Caption = 'Добавить'
+        Caption = 'Add'
         NumGlyphs = 0
         OnClick = BtnDirAddClick
         TabOrder = 2
@@ -225,7 +225,7 @@ object FormTask: TFormTask
         Height = 25
         Top = 47
         Width = 78
-        Caption = 'Удалить'
+        Caption = 'Delete'
         NumGlyphs = 0
         OnClick = BtnDirDelClick
         TabOrder = 3
@@ -241,28 +241,28 @@ object FormTask: TFormTask
       TabOrder = 3
       object FiltFilesCheck: TCheckBox
         Left = 7
-        Height = 17
+        Height = 19
         Top = -16
-        Width = 131
-        Caption = 'Обрабатывать файлы'
+        Width = 84
+        Caption = 'Process files'
         OnChange = FiltFilesCheckChange
         TabOrder = 0
       end
       object CBoxFileMode: TComboBox
         Left = 8
-        Height = 21
+        Height = 23
         Top = 4
         Width = 130
-        ItemHeight = 13
+        ItemHeight = 15
         Items.Strings = (
-          'Исключая'
-          'Только эти'
+          'Exclude'
+          'Once these'
         )
         TabOrder = 1
       end
       object EditFileMask: TEdit
         Left = 8
-        Height = 21
+        Height = 23
         Top = 39
         Width = 130
         TabOrder = 2
@@ -275,35 +275,27 @@ object FormTask: TFormTask
     Height = 74
     Top = 222
     Width = 168
-    Caption = 'Действие'
+    Caption = 'Action'
     ClientHeight = 56
     ClientWidth = 164
     TabOrder = 3
     object CBoxAct: TComboBox
       Left = 1
-      Height = 21
+      Height = 23
       Top = 2
       Width = 161
       AutoDropDown = True
-      ItemHeight = 13
-      Items.Strings = (
-        'Копирование'
-        'Зеркалирование'
-        'Синхронизация'
-        'Архивация ZIP'
-        'Архивация RAR'
-        'Архивация 7zip'
-      )
+      ItemHeight = 15
       OnChange = CBoxActChange
       Style = csDropDownList
       TabOrder = 0
     end
     object NTFSCheck: TCheckBox
       Left = 1
-      Height = 17
+      Height = 19
       Top = 31
-      Width = 140
-      Caption = 'Копировать права NTFS'
+      Width = 145
+      Caption = 'Copy NTFS permissions'
       TabOrder = 1
     end
   end
@@ -312,13 +304,13 @@ object FormTask: TFormTask
     Height = 53
     Top = 222
     Width = 205
-    Caption = 'Приемник'
+    Caption = 'Destination'
     ClientHeight = 35
     ClientWidth = 201
     TabOrder = 4
     object EditDest: TDirectoryEdit
       Left = 3
-      Height = 21
+      Height = 23
       Top = 5
       Width = 165
       ShowHidden = False
@@ -328,35 +320,35 @@ object FormTask: TFormTask
     end
   end
   object GroupBox7: TGroupBox
-    Left = 8
+    Left = 7
     Height = 104
     Top = 298
     Width = 169
-    Caption = 'Запуск внешних программ'
+    Caption = 'External programs'
     ClientHeight = 86
     ClientWidth = 165
     TabOrder = 5
     object BeforeCheck: TCheckBox
       Left = 10
-      Height = 17
+      Height = 19
       Top = -1
-      Width = 87
-      Caption = 'Запуск перед'
+      Width = 78
+      Caption = 'Run before'
       OnChange = BeforeCheckChange
       TabOrder = 0
     end
     object AfterCheck: TCheckBox
       Left = 10
-      Height = 17
+      Height = 19
       Top = 43
-      Width = 85
-      Caption = 'Запуск после'
+      Width = 68
+      Caption = 'Run after'
       OnChange = AfterCheckChange
       TabOrder = 1
     end
     object BeforeName: TFileNameEdit
       Left = 9
-      Height = 21
+      Height = 23
       Top = 15
       Width = 129
       DialogOptions = []
@@ -369,7 +361,7 @@ object FormTask: TFormTask
     end
     object AfterName: TFileNameEdit
       Left = 8
-      Height = 21
+      Height = 23
       Top = 60
       Width = 132
       DialogOptions = []
@@ -385,7 +377,7 @@ object FormTask: TFormTask
     Height = 30
     Top = 488
     Width = 75
-    Caption = 'ОК'
+    Caption = 'OK'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FF00FFFF00FF
@@ -423,7 +415,7 @@ object FormTask: TFormTask
     Height = 30
     Top = 488
     Width = 75
-    Caption = 'Отмена'
+    Caption = 'Cancel'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FF00FFFF00FF
@@ -469,9 +461,9 @@ object FormTask: TFormTask
     Visible = False
     object Label1: TLabel
       Left = 121
-      Height = 14
+      Height = 16
       Top = -1
-      Width = 31
+      Width = 36
       Caption = 'Время'
       ParentColor = False
     end
@@ -531,32 +523,32 @@ object FormTask: TFormTask
       TabOrder = 1
       object Label2: TLabel
         Left = 5
-        Height = 14
+        Height = 16
         Top = 11
-        Width = 43
+        Width = 44
         Caption = 'Каждые'
         ParentColor = False
       end
       object Label3: TLabel
         Left = 107
-        Height = 14
+        Height = 16
         Top = 11
-        Width = 49
+        Width = 54
         Caption = 'Минут(ы)'
         ParentColor = False
       end
       object EvMinCheck: TCheckBox
         Left = 4
-        Height = 17
+        Height = 19
         Top = -16
-        Width = 110
+        Width = 117
         Caption = 'Повторять запуск'
         OnChange = EvMinCheckChange
         TabOrder = 0
       end
       object EditMin: TSpinEdit
         Left = 52
-        Height = 21
+        Height = 23
         Top = 6
         Width = 50
         MaxValue = 1440
@@ -565,7 +557,7 @@ object FormTask: TFormTask
     end
     object EditTime: TMaskEdit
       Left = 121
-      Height = 21
+      Height = 23
       Top = 20
       Width = 37
       TabOrder = 2
@@ -578,7 +570,7 @@ object FormTask: TFormTask
     Height = 192
     Top = 280
     Width = 200
-    Caption = 'Параметры архивации'
+    Caption = 'Archive optinos'
     ClientHeight = 174
     ClientWidth = 196
     Enabled = False
@@ -586,23 +578,23 @@ object FormTask: TFormTask
     OnClick = ArhBoxClick
     object Label4: TLabel
       Left = 12
-      Height = 14
+      Height = 16
       Top = 3
-      Width = 59
-      Caption = 'Имя архива'
+      Width = 74
+      Caption = 'Archive name'
       ParentColor = False
     end
     object Label10: TLabel
       Left = 158
-      Height = 14
+      Height = 16
       Top = 24
-      Width = 18
+      Width = 19
       Caption = '.zip'
       ParentColor = False
     end
     object EditArhNam: TEdit
       Left = 6
-      Height = 21
+      Height = 23
       Top = 21
       Width = 144
       TabOrder = 0
@@ -618,78 +610,78 @@ object FormTask: TFormTask
       TabOrder = 1
       object Label5: TLabel
         Left = 6
-        Height = 14
+        Height = 16
         Top = 14
-        Width = 66
-        Caption = 'Ежедневные'
+        Width = 27
+        Caption = 'Daily'
         ParentColor = False
       end
       object Label6: TLabel
         Left = 6
-        Height = 14
+        Height = 16
         Top = 38
-        Width = 70
-        Caption = 'Ежемесячные'
+        Width = 46
+        Caption = 'Monthly'
         ParentColor = False
       end
       object Label7: TLabel
         Left = 6
-        Height = 14
+        Height = 16
         Top = 60
-        Width = 59
-        Caption = 'Ежегодные'
+        Width = 33
+        Caption = 'Yearly'
         ParentColor = False
       end
       object Label8: TLabel
         Left = 134
-        Height = 14
+        Height = 16
         Top = 14
-        Width = 26
-        Caption = 'дней'
+        Width = 25
+        Caption = 'days'
         ParentColor = False
       end
       object Label9: TLabel
         Left = 134
-        Height = 14
+        Height = 16
         Top = 38
-        Width = 18
-        Caption = 'мес'
+        Width = 26
+        Caption = 'mon'
         ParentColor = False
       end
       object Label11: TLabel
         Left = 133
-        Height = 14
-        Top = 62
-        Width = 19
-        Caption = 'лет'
+        Height = 16
+        Top = 60
+        Width = 28
+        Caption = 'years'
         ParentColor = False
       end
       object DelArhCheck: TCheckBox
         Left = 6
-        Height = 17
-        Top = -13
-        Width = 149
-        Caption = 'Хранить архивы не более'
+        Height = 19
+        Top = -17
+        Width = 93
+        Caption = 'Store archives'
         OnChange = DelArhCheckChange
         TabOrder = 0
       end
       object EditDaysOld: TSpinEdit
         Left = 78
-        Height = 21
+        Height = 23
         Top = 5
         Width = 50
         TabOrder = 1
       end
       object EditMonthsOld: TSpinEdit
         Left = 78
-        Height = 21
+        Height = 23
         Top = 29
         Width = 50
         TabOrder = 2
       end
       object EditYearsOld: TSpinEdit
         Left = 78
-        Height = 21
+        Height = 23
         Top = 53
         Width = 50
         TabOrder = 3
@@ -697,10 +689,10 @@ object FormTask: TFormTask
     end
     object chkDelAfterArh: TCheckBox
       Left = 6
-      Height = 17
+      Height = 19
       Top = 47
-      Width = 188
-      Caption = 'Удалять файлы после архивации'
+      Width = 156
+      Caption = 'Delete files after archiving'
       TabOrder = 2
     end
   end
@@ -709,22 +701,22 @@ object FormTask: TFormTask
     Height = 57
     Top = 409
     Width = 168
-    Caption = 'Уведомления email'
+    Caption = 'E-mail notifications'
     ClientHeight = 39
     ClientWidth = 164
     TabOrder = 10
     OnClick = GroupBox9Click
     object cbAlert: TComboBox
-      Left = 8
-      Height = 21
+      Left = 9
+      Height = 23
       Top = 8
       Width = 124
       AutoDropDown = True
-      ItemHeight = 13
+      ItemHeight = 15
       Items.Strings = (
-        'Нет'
-        'При ошибках'
-        'Всегда'
+        'None'
+        'Only when an error'
+        'Always'
       )
       Style = csDropDownList
       TabOrder = 0
@@ -735,16 +727,16 @@ object FormTask: TFormTask
     Height = 51
     Top = 474
     Width = 168
-    Caption = 'Прочее'
+    Caption = 'Other'
     ClientHeight = 33
     ClientWidth = 164
     TabOrder = 11
     object OnceDayCheck: TCheckBox
       Left = 16
-      Height = 17
+      Height = 19
       Top = 8
-      Width = 76
-      Caption = 'Раз в сутки'
+      Width = 79
+      Caption = 'Once a day'
       TabOrder = 0
     end
   end
@@ -753,38 +745,37 @@ object FormTask: TFormTask
     Height = 51
     Top = 280
     Width = 169
-    Caption = 'ZerkDelBox'
     ClientHeight = 33
     ClientWidth = 165
     TabOrder = 12
     object Label12: TLabel
-      Left = 13
-      Height = 14
+      Left = 12
+      Height = 16
       Top = 8
-      Width = 52
-      Caption = 'В течение'
+      Width = 18
+      Caption = 'For'
       ParentColor = False
     end
     object Label13: TLabel
       Left = 138
-      Height = 14
+      Height = 16
       Top = 8
-      Width = 26
-      Caption = 'дней'
+      Width = 25
+      Caption = 'days'
       ParentColor = False
     end
     object DelZerkCheck: TCheckBox
-      Left = 4
-      Height = 17
-      Top = -18
-      Width = 157
-      Caption = 'Хранить удаленные файлы'
+      Left = 6
+      Height = 19
+      Top = -16
+      Width = 113
+      Caption = 'Store deleted files'
       OnChange = DelZerkCheckChange
       TabOrder = 0
     end
     object EditZerkOld: TSpinEdit
       Left = 79
-      Height = 21
+      Height = 23
       Top = 4
       Width = 52
       MaxValue = 500

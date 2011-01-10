@@ -3,7 +3,7 @@ unit taskthread;
 interface
 
 uses
-  Classes,TaskUnit, Sysutils,iniLang;
+  Classes,TaskUnit, Sysutils{,iniLang};
 
  //Type TProgressEvent = Procedure( Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: int64 ) of object;
 
@@ -189,16 +189,16 @@ begin
   TaskCl.Count:=1;
   TaskCl.Tasks[1]:=MForm.TaskCl.Tasks[numt];
   TaskCl.Count:=1;
-  TaskCl.logfile:=MForm.TaskCl.logfile;
-  TaskCl.loglimit:=MForm.TaskCl.loglimit;
+  TaskCl.Settings.logfile:=MForm.TaskCl.Settings.logfile;
+  TaskCl.Settings.loglimit:=MForm.TaskCl.Settings.loglimit;
 
 //  TaskCl.alerttype:=MForm.TaskCl.alerttype;
-  TaskCl.smtpserv:=MForm.TaskCl.smtpserv;
-  TaskCl.smtpport:=MForm.TaskCl.smtpport;
-  TaskCl.smtpuser:=MForm.TaskCl.smtpuser;
-  TaskCl.smtppass:=MForm.TaskCl.smtppass;
-  TaskCl.email:=MForm.TaskCl.email;
-  TaskCl.mailfrom:=MForm.TaskCl.mailfrom;
+  TaskCl.Settings.smtpserv:=MForm.TaskCl.Settings.smtpserv;
+  TaskCl.Settings.smtpport:=MForm.TaskCl.Settings.smtpport;
+  TaskCl.Settings.smtpuser:=MForm.TaskCl.Settings.smtpuser;
+  TaskCl.Settings.smtppass:=MForm.TaskCl.Settings.smtppass;
+  TaskCl.Settings.email:=MForm.TaskCl.Settings.email;
+  TaskCl.Settings.mailfrom:=MForm.TaskCl.Settings.mailfrom;
   
 end;
 // Безопасная запись параметров Task
@@ -243,7 +243,7 @@ begin
 
 //sp:=TTaskThread.ShowProc;
 //ShowProgress:=ShowProc;
-status:=Format(misc(rsTaskIsRunning,'rsTaskIsRunning'),[TaskCl.Tasks[1].Name]);
+status:=Format(rsTaskIsRunning,[TaskCl.Tasks[1].Name]);
 //status:='Выполняется задача "'+TaskCl.Tasks[1].Name+'"';
 stfile:='';
 Synchronize(@UpdateSatus);
@@ -257,17 +257,17 @@ Synchronize(@SaveTaskCl);
 if res=trOk then
  begin
  // status:=Format(misc(
-  status:=Format(misc(rsLogTaskEndOk,'rsLogTaskEndOk'),[TaskCl.Tasks[1].Name]);
+  status:=Format(rsLogTaskEndOk,[TaskCl.Tasks[1].Name]);
  // status:='Задача "'+TaskCl.Tasks[1].Name+'" выполнена успешно';
  end;
 if res=trError then
  begin
-  status:=Format(misc(rsLogTaskError,'rsLogTaskError'),[TaskCl.Tasks[1].Name]);
+  status:=Format(rsLogTaskError,[TaskCl.Tasks[1].Name]);
  // status:='Задача "'+TaskCl.Tasks[1].Name+'" не выполнена';
  end;
 if res=trFileError then
  begin
-  status:=Format(misc(rsLogTaskEndErr,'rsLogTaskEndErr'),[TaskCl.Tasks[1].Name]);
+  status:=Format(rsLogTaskEndErr,[TaskCl.Tasks[1].Name]);
 //  status:='Задача "'+TaskCl.Tasks[1].Name+'" выполнена с ошибками';
  end;
 

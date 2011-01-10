@@ -1,12 +1,50 @@
 <?xml version="1.0"?>
 <AutoSave>
-  <version value="0.3.4"/>
+  <version value="0.4.0"/>
   <tasks>
-    <count value="1"/>
+    <count value="2"/>
     <task1>
       <name value="test"/>
-      <SorPath value="D:\TEMP\0"/>
-      <DestPath value="D:\TEMP\1"/>
+      <SorPath value="D:\temp\0\СЂСѓСЃ"/>
+      <DestPath value="d:\temp\1\СЂСѓСЃ"/>
+      <Action value="6"/>
+      <Enabled value="True"/>
+      <Arh>
+        <Name value="arh%YYMMDD%"/>
+        <DelOldArh value="False"/>
+        <DaysOld value="7"/>
+        <MonthsOld value="12"/>
+        <YearsOld value="5"/>
+        <DelAfterArh value="False"/>
+      </Arh>
+      <ExtProgs>
+        <BeforeStart value="False"/>
+        <BeforeName value=""/>
+        <AfterStart value="False"/>
+        <AfterName value=""/>
+      </ExtProgs>
+      <NTFSPerm value="False"/>
+      <MailAlert value="2"/>
+      <Rasp>
+        <OnceForDay value="False"/>
+      </Rasp>
+      <LastResult value="0"/>
+      <LastRunDate value="40499.7396973148"/>
+      <SourceFilt>
+        <Recurse value="True"/>
+        <FiltSubDir value="False"/>
+        <SubDirs>
+          <count value="0"/>
+        </SubDirs>
+        <FiltFiles value="False"/>
+        <ModeFiltFiles value="0"/>
+        <FileMask value="*.tmp;*.bak"/>
+      </SourceFilt>
+    </task1>
+    <task2>
+      <name value="Copy of  test"/>
+      <SorPath value="D:\temp\0\СЂСѓСЃ"/>
+      <DestPath value="d:\temp\1\СЂСѓСЃ"/>
       <Action value="1"/>
       <Enabled value="True"/>
       <Arh>
@@ -24,12 +62,12 @@
         <AfterName value=""/>
       </ExtProgs>
       <NTFSPerm value="False"/>
-      <MailAlert value="0"/>
+      <MailAlert value="2"/>
       <Rasp>
         <OnceForDay value="False"/>
       </Rasp>
       <LastResult value="0"/>
-      <LastRunDate value="40480.4074745602"/>
+      <LastRunDate value="40499.7397136111"/>
       <SourceFilt>
         <Recurse value="True"/>
         <FiltSubDir value="False"/>
@@ -40,6 +78,6 @@
         <ModeFiltFiles value="0"/>
         <FileMask value="*.tmp;*.bak"/>
       </SourceFilt>
-    </task1>
+    </task2>
   </tasks>
 </AutoSave>

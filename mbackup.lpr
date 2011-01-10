@@ -1,4 +1,4 @@
-program autosavec;
+program mbackup;
 
 {$mode objfpc}{$H+}
 
@@ -6,7 +6,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, CustApp,iniLangC,TaskUnit, lnetbase,Windows//,ShellApi
+  Classes, SysUtils, CustApp,{iniLangC,}TaskUnit,Windows//,ShellApi
   { you can add units after this };
 
 
@@ -119,7 +119,7 @@ end;
 // Вывод начальной информации при запуске программы
 procedure TASCons.PrintStartInfo;
 begin
-writeln('AutoSave ver '+versionAs);
+writeln('mBackup ver '+versionAs);
 writeln('Utility for copy/sync/arh directories');
 writeln('');
 end;
@@ -135,9 +135,9 @@ end;
 { Вывод справки }
 procedure TASCons.UsageInfo;
 begin
-writeln('Usage: autosavec -r [-p profile_name] [-log logfile] [-alert]');
+writeln('Usage: mbackup -r [-p profile_name] [-log logfile] [-alert]');
 writeln(' or');
-writeln('autosavec <command> -source source_path -dest dest_path [-recurse] [-log logfile] [-alert]');
+writeln('mbackup <command> -source source_path -dest dest_path [-recurse] [-log logfile] [-alert]');
 writeln('-r :Start enabled tasks in profile');
 writeln('-p profile_name: Profile to start, else takes from autosave.ini');
 writeln('<command>');
@@ -148,7 +148,7 @@ writeln('');
 writeln('-source source_path: Path to source');
 writeln('-dest dest_path: Path to destination');
 writeln('-recurse: Work with paths recurse');
-writeln('-log log_file :Logfile name, if not set then takes from autosave.ini settings');
+writeln('-log log_file :Logfile name, if not set then takes from mbackup.ini settings');
 writeln('-alert: Send email alert about start program');
 end;
 
@@ -158,7 +158,7 @@ var
   Application: TASCons;
 begin
   Application:=TASCons.Create(nil);
-  Application.Title:='AutoSaveC';
+  Application.Title:='mBackup';
   Application.Run;
   Application.Free;
 end.

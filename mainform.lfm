@@ -1,7 +1,7 @@
 object MForm: TMForm
-  Left = 439
+  Left = 254
   Height = 294
-  Top = 385
+  Top = 141
   Width = 723
   ActiveControl = ListTask
   Align = alTop
@@ -58,7 +58,6 @@ object MForm: TMForm
       Left = 1
       Top = 2
       Action = ActAdd
-      Caption = 'Добавить'
     end
     object ButEdit: TToolButton
       Left = 63
@@ -72,7 +71,7 @@ object MForm: TMForm
       ImageIndex = 3
     end
     object ToolButton1: TToolButton
-      Left = 514
+      Left = 507
       Top = 2
       Width = 5
       Caption = 'ToolButton1'
@@ -87,42 +86,42 @@ object MForm: TMForm
     object ButStop: TToolButton
       Left = 249
       Top = 2
-      Caption = 'Остановить'
+      Caption = 'Stop'
       ImageIndex = 4
       OnClick = ButStopClick
     end
     object ToolButton2: TToolButton
-      Left = 318
+      Left = 311
       Top = 2
       Width = 5
       Caption = 'ToolButton2'
       Style = tbsSeparator
     end
     object ButUp: TToolButton
-      Left = 323
+      Left = 316
       Top = 2
       Action = ActUp
     end
     object ButDown: TToolButton
-      Left = 385
+      Left = 378
       Top = 2
       Action = ActDown
     end
     object ToolButton3: TToolButton
-      Left = 447
+      Left = 440
       Top = 2
       Width = 5
       Caption = 'ToolButton3'
       Style = tbsSeparator
     end
     object ButSet: TToolButton
-      Left = 452
+      Left = 445
       Top = 2
       Action = ActSet
       ImageIndex = 7
     end
     object ButHelp: TToolButton
-      Left = 519
+      Left = 512
       Top = 2
       Action = ActHelp
       ImageIndex = 8
@@ -136,27 +135,27 @@ object MForm: TMForm
     Align = alClient
     Columns = <    
       item
-        Caption = 'Имя'
+        Caption = 'Name'
         Width = 118
       end    
       item
-        Caption = 'Источник'
+        Caption = 'Source'
         Width = 115
       end    
       item
-        Caption = 'Действие'
+        Caption = 'Action'
         Width = 115
       end    
       item
-        Caption = 'Приемник'
+        Caption = 'Destination'
         Width = 115
       end    
       item
-        Caption = 'Включено'
+        Caption = 'Enabled'
         Width = 115
       end    
       item
-        Caption = 'Прошлый запуск'
+        Caption = 'Last run'
         Width = 140
       end>
     HideSelection = False
@@ -212,7 +211,7 @@ object MForm: TMForm
     left = 103
     top = 62
     object MenuItem1: TMenuItem
-      Caption = 'Профиль'
+      Caption = 'Profile'
       object mnutAddprofile: TMenuItem
         Action = ActNewProfile
         OnClick = ActNewProfileExecute
@@ -227,11 +226,9 @@ object MForm: TMForm
       end
     end
     object MnuTask: TMenuItem
-      Caption = 'Задание'
+      Caption = 'Task'
       object MnuTAdd: TMenuItem
         Action = ActAdd
-        Caption = 'Добавить'
-        ShortCut = 16462
         OnClick = ActAddExecute
       end
       object MnuTEdit: TMenuItem
@@ -260,9 +257,16 @@ object MForm: TMForm
         Action = ActCopy
         OnClick = ActCopyExecute
       end
+      object MenuItem2: TMenuItem
+        Caption = '-'
+      end
+      object mnutRunAll: TMenuItem
+        Action = ActRunAll
+        OnClick = ActRunAllExecute
+      end
     end
     object mnutSetmain: TMenuItem
-      Caption = 'Настройки'
+      Caption = 'Settings'
       ImageIndex = 7
       OnClick = ActSetExecute
       object mnutSet: TMenuItem
@@ -272,7 +276,7 @@ object MForm: TMForm
       end
     end
     object mnutHelpMain: TMenuItem
-      Caption = 'Справка'
+      Caption = 'Help'
       object mnuHelp: TMenuItem
         Action = ActHelp
         OnClick = ActHelpExecute
@@ -287,68 +291,72 @@ object MForm: TMForm
     left = 240
     top = 128
     object ActAdd: TAction
-      Caption = 'ActAdd'
+      Caption = 'New'
       ImageIndex = 0
       OnExecute = ActAddExecute
     end
     object ActRun: TAction
-      Caption = 'Запустить'
+      Caption = 'Start'
       ImageIndex = 3
       OnExecute = ActRunExecute
     end
     object ActUp: TAction
-      Caption = 'Вверх'
+      Caption = 'Up'
       ImageIndex = 5
       OnExecute = ActUpExecute
     end
     object ActEdit: TAction
-      Caption = 'Свойства'
+      Caption = 'Edit'
       ImageIndex = 1
       OnExecute = ActEditExecute
     end
     object ActSet: TAction
-      Caption = 'Настройки'
+      Caption = 'Settings'
       ImageIndex = 1
       OnExecute = ActSetExecute
     end
     object ActDel: TAction
-      Caption = 'Удалить'
+      Caption = 'Delete'
       ImageIndex = 2
       OnExecute = ActDelExecute
     end
     object ActDown: TAction
-      Caption = 'Вниз'
+      Caption = 'Down'
       ImageIndex = 6
       OnExecute = ActDownExecute
     end
     object ActAbout: TAction
-      Caption = 'О программе'
+      Caption = 'About'
       OnExecute = ActAboutExecute
     end
     object ActNewProfile: TAction
-      Caption = 'Создать профиль'
+      Caption = 'New profile'
       OnExecute = ActNewProfileExecute
     end
     object ActOpenProfile: TAction
-      Caption = 'Открыть профиль'
+      Caption = 'Open profile'
       OnExecute = ActOpenProfileExecute
     end
     object ActAddProfile: TAction
-      Caption = 'Добавить в профиль'
+      Caption = 'Add to profile'
       OnExecute = ActAddProfileExecute
     end
     object ActSaveProf: TAction
-      Caption = 'Сохранить как'
+      Caption = 'Save as'
       OnExecute = ActSaveProfExecute
     end
     object ActHelp: TAction
-      Caption = 'Помощь'
+      Caption = 'Help'
       OnExecute = ActHelpExecute
       ShortCut = 112
     end
     object ActCopy: TAction
-      Caption = 'Копировать'
+      Caption = 'Copy'
       OnExecute = ActCopyExecute
+    end
+    object ActRunAll: TAction
+      Caption = 'Run all tasks'
+      OnExecute = ActRunAllExecute
     end
   end
   object ImageList1: TImageList

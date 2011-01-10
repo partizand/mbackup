@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  EditBtn, ExtCtrls, Buttons, MaskEdit, Spin,iniLang,msgStrings,
+  EditBtn, ExtCtrls, Buttons, MaskEdit, Spin,{iniLang,}msgStrings,
   DateUtils;
 
 
@@ -219,33 +219,33 @@ SorDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].SorPath);
 DestDir:=utf8toAnsi(MForm.TaskCl.Tasks[MForm.TaskCl.count+1].DestPath);
 if SorDir='' then
  begin
- ShowMessage(misc(rsEnterSource,'rsEnterSource'));
+ ShowMessage(rsEnterSource);
  exit;
  end;
 if DestDir='' then
  begin
- ShowMessage(misc(rsEnterDest,'rsEnterDest'));
+ ShowMessage(rsEnterDest);
  exit;
  end;
 
 if (Not DirectoryExists(SorDir)) and (Pos('%',SorDir)=0) then // Не задан источник
  begin
- str:=Format(misc(rsLogDirNotFound,'rsLogDirNotFound'),[EditSor.Text]);
+ str:=Format(rsLogDirNotFound,[EditSor.Text]);
  ShowMessage(str);
  exit;
  end;
 if (Not DirectoryExists(DestDir)) and (Pos('%',DestDir)=0) then // Не задан приемник
  begin
- str:=Format(misc(rsDirNotExsistCreate,'rsDirNotExsistCreate'),[EditDest.Text]);
+ str:=Format(rsDirNotExsistCreate,[EditDest.Text]);
  if MessageDlg(str, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     begin
      if ForceDirectories(DestDir) then
         begin
-        ShowMessage(misc(rsDirCreated,'rsDirCreated'));
+        ShowMessage(rsDirCreated);
         end
        else
          begin
-          ShowMessage(misc(rsErrCreateDir,'rsErrCreateDir'));
+          ShowMessage(rsErrCreateDir);
           exit;
          end;
     end
@@ -253,7 +253,7 @@ if (Not DirectoryExists(DestDir)) and (Pos('%',DestDir)=0) then // Не зада
  end;
 if CBoxAct.ItemIndex=-1 then // Не задано действие
  begin
- ShowMessage(misc(rsSelectAction,'rsSelectAction'));
+ ShowMessage(rsSelectAction);
  exit;
  end;
 
@@ -261,7 +261,7 @@ if (CBoxAct.ItemIndex=ttArhRar-1) or (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct
   begin
   if EditArhNam.Text='' then // Не задано имя архива
    begin
-   ShowMessage(misc(rsNoArcName,'rsNoArcName'));
+   ShowMessage(rsNoArcName);
    exit;
    end;
   end;
@@ -270,7 +270,7 @@ if CBoxAct.ItemIndex=ttArhRar-1 then
  begin
   if Not FileExists(ExtractFileDir(ParamStr(0))+'\rar.exe') then
    begin
-   ShowMessage(misc(rsNoRar,'rsNoRar'));
+   ShowMessage(rsNoRar);
    exit;
    end;
  end;
@@ -279,7 +279,7 @@ if (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
  begin
   if Not FileExists(ExtractFileDir(ParamStr(0))+'\7za.exe') then // Нет файла 7z.exe
    begin
-   ShowMessage(misc(rsNo7zip,'rsNo7zip'));
+   ShowMessage(rsNo7zip);
    exit;
    end;
  end;
@@ -366,7 +366,7 @@ var
 begin
 if EditSor.Text='' then
   begin
-   ShowMessage(misc(rsEnterSource,'rsEnterSource'));
+   ShowMessage(rsEnterSource);
    Exit;
   end;
 if SelectDirectory('',EditSor.Text,Dir) then
@@ -594,14 +594,44 @@ FillChecks;
 end;
 
 procedure TFormTask.FormCreate(Sender: TObject);
+{
 var
+
 TC: array[1..1] of TComponent;
+}
+
 begin
+CBoxAct.Clear;
+CBoxAct.Items.Add(rsCopyng);
+CBoxAct.Items.Add(rsMirror);
+CBoxAct.Items.Add(rsSync);
+CBoxAct.Items.Add(rsArcZip);
+CBoxAct.Items.Add(rsArcRar);
+CBoxAct.Items.Add(rsArc7Zip);
+
+CBoxFileMode.Clear;
+CBoxFileMode.Items.Add(rsExclude);
+CBoxFileMode.Items.Add(rsOnlyThese);
+
+cbAlert.Clear;
+cbAlert.Items.Add(rsNone);
+cbAlert.Items.Add(rsOnlyError);
+cbAlert.Items.Add(rsAlways);
+{
+Copying
+Mirroring
+Synchronization
+Archiving ZIP
+Archiving RAR
+Archiving 7zip
+}
+{
 if CL<>nil then
    begin
    TC[1]:=FormTask;
    fillProps(TC,CL);
    end;
+   }
 end;
 
 procedure TFormTask.FormShow(Sender: TObject);

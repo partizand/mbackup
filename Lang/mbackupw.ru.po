@@ -1,0 +1,817 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrey Kapustin\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: msgstrings.rsalert
+msgid "Task alert"
+msgstr ""
+
+#: msgstrings.rsalertautherr
+msgid "Cannot send mail. Did not authenticate"
+msgstr "Ошибка отправки почты. Ошибка авторизации."
+
+#: msgstrings.rsalertrunmes
+msgid "Program started"
+msgstr "Программа запущена"
+
+#: msgstrings.rsalertrunsubj
+msgid "mBackup alert"
+msgstr ""
+
+#: msgstrings.rsalerttesterr
+msgid "Cannot send mail: %s"
+msgstr "Ошибка отправки почты: %s"
+
+#: msgstrings.rsalerttestok
+msgid "Mail sucsessfuly sended"
+msgstr "Письмо успешно отправлено"
+
+#: msgstrings.rsalways
+msgid "Always"
+msgstr "Всегда"
+
+#: msgstrings.rsarc7zip
+msgid "Archiving 7zip"
+msgstr "Архивация 7zip"
+
+#: msgstrings.rsarcoldcheckname
+msgid "Store arhs"
+msgstr "Хранить архивы"
+
+#: msgstrings.rsarcrar
+msgid "Archiving Rar"
+msgstr "Архивация Rar"
+
+#: msgstrings.rsarczip
+msgid "Archiving Zip"
+msgstr "Архивация Zip"
+
+#: msgstrings.rsatstart
+msgid "At stratup"
+msgstr "При запуске"
+
+#: msgstrings.rscopyng
+msgid "Copying"
+msgstr "Копирование"
+
+#: msgstrings.rscopyperfix
+msgid "Copy of "
+msgstr "Копия"
+
+#: msgstrings.rsdircreated
+msgid "Directory created"
+msgstr "Каталог создан"
+
+#: msgstrings.rsdirnotexsistcreate
+msgid "Directory %s not exist. Create?"
+msgstr "Каталог %s не существует. Создать?"
+
+#: msgstrings.rsdisabled
+msgid "Disabled"
+msgstr "Отключена"
+
+#: msgstrings.rsenabled
+msgctxt "msgstrings.rsenabled"
+msgid "Enabled"
+msgstr "Разрешена"
+
+#: msgstrings.rsenterdest
+msgid "Enter destination"
+msgstr "Задайте приемник"
+
+#: msgstrings.rsenterlogfile
+msgid "Enter log file name"
+msgstr "Задайте файл журнала"
+
+#: msgstrings.rsentersource
+msgid "Enter source"
+msgstr "Задайте источник"
+
+#: msgstrings.rserrcreatedir
+msgid "Error creating directory"
+msgstr "Ошибка создания каталога"
+
+#: msgstrings.rsexclude
+msgid "Exclude"
+msgstr "Исключая"
+
+#: msgstrings.rsisrunning
+msgid "Running"
+msgstr "Выполняется"
+
+#: msgstrings.rsiswaiting
+msgid "Waiting"
+msgstr "Ожидает"
+
+#: msgstrings.rslog7zipnotfound
+msgid "[Error] 7z.exe is not found"
+msgstr "[Ошибка] 7z.exe не найден"
+
+#: msgstrings.rslogarc7zip
+msgid "Archiving 7zip %s to %s"
+msgstr "Архивация 7zip %s в %s"
+
+#: msgstrings.rslogarccreated
+msgid "Archive was created %s"
+msgstr "Архив создан %s"
+
+#: msgstrings.rslogarcerr
+msgid "[Error] Archiver return fatal error (Exit code %s). Archive name: %s"
+msgstr "[Ошибка] Архиватор вернул фатальную ошибку (Код выхода %s). Имя архива: %s"
+
+#: msgstrings.rslogarcerrcmd
+msgid "[Error] Archiver return error. Invalid arguments. Archive name: %s"
+msgstr "[Ошибка] Архиватор вернул ошибку. Неверные аргументы.Имя архива: %s"
+
+#: msgstrings.rslogarcerrmemory
+msgid "[Error] Archiver return error. Not enouth memory. Archive name: %s"
+msgstr "[Ошибка] Архиватор вернул ошибку. Недостаточно памяти. Имя архива: %s"
+
+#: msgstrings.rslogarcrar
+msgid "Archiving Rar %s to %s"
+msgstr ""
+
+#: msgstrings.rslogarcwarn
+msgid "[Warning] Archiver return warning. Archive name: %s"
+msgstr "[Предупреждение] Архиватор вернул предупреждение.Имя архива: %s"
+
+#: msgstrings.rslogarcwarnuserstop
+msgid "[Warning] Archiver return warning. Process terminated by user. Archive name: %s"
+msgstr "[Предупреждение] Архиватор вернул предупреждение. Процесс прерван пользователем. Имя архива: %s"
+
+#: msgstrings.rslogarczip
+msgid "Archiving zip %s to %s"
+msgstr "Архивация zip %s в %s"
+
+#: msgstrings.rslogcopy
+msgid "Copying %s to %s"
+msgstr "Копирование %s в %s"
+
+#: msgstrings.rslogdeldir
+msgid "Directory deleted %s"
+msgstr "Каталог удален %s"
+
+#: msgstrings.rslogdeldirerr
+msgid "[Error] Cannot delete directory %s. %s"
+msgstr "[Ошибка] Ошибка удаления каталога %s. %s"
+
+#: msgstrings.rslogdelfile
+msgid "File deleted %s"
+msgstr "Удален файл %s"
+
+#: msgstrings.rslogdelfileerr
+msgid "[Error] Cannot delete file %s. %s"
+msgstr "[Ошибка] Ошибка удаления файла %s. %s"
+
+#: msgstrings.rslogdircreated
+msgid "[Warning] Directory was created %s"
+msgstr "[Пердупреждение] Каталог создан %s"
+
+#: msgstrings.rslogdircreateerr
+msgid "[Error] Cannot create directory %s. %s"
+msgstr "[Ошбика] Не удалось создать каталог %s. %s"
+
+#: msgstrings.rslogdirnotfound
+msgid "[Error] Cannot find directory %s"
+msgstr "[Ошбика] Каталог %s не найден"
+
+#: msgstrings.rslogextprogend
+msgid "External program complete. Exit code %s"
+msgstr "Внешняя программа завершилась с кодом %s"
+
+#: msgstrings.rslogextprogerr
+msgid "[Error] Cannot start external program %s"
+msgstr "[Ошибка] Ошибка запуска внешней программы %s"
+
+#: msgstrings.rslogextprogerrex
+msgid "[Error] External program %s throw exception %s"
+msgstr "[Ошибка] Внешняя программа %s вызвала исключение %s"
+
+#: msgstrings.rslogextprogrun
+msgid "Start external program"
+msgstr "Запуск внешней программы"
+
+#: msgstrings.rslogfilecopied
+msgid "File copied: %s"
+msgstr "Скопирован файл: %s"
+
+#: msgstrings.rslogfilecopiederr
+msgid "[Error] Cannot copy file %s. %s"
+msgstr "[Ошибка] Ошибка копирования файла %s. %s"
+
+#: msgstrings.rslogfiledateerr
+msgid "[Warning] Cannot get file date %s"
+msgstr "[Предупреждение] Не могу прочитать дату файла %s"
+
+#: msgstrings.rslogfiledateerrex
+msgid "[Warning] Cannot get files date %s, %s. %s"
+msgstr "[Предупреждение] Не могу прочитать дату файлов %s, %s. %s"
+
+#: msgstrings.rslogmirror
+msgid "Mirroring %s to %s"
+msgstr "Зеркалирование %s в %s"
+
+#: msgstrings.rslograrnotfound
+msgid "[Error] Rar.exe is not found"
+msgstr "[Ошибка] Rar.exe не найден"
+
+#: msgstrings.rslogruntask
+msgid "Task started"
+msgstr "Задание запущено"
+
+#: msgstrings.rslogsync
+msgid "Sync %s to %s"
+msgstr "Синхронизация %s в %s"
+
+#: msgstrings.rslogtaskend
+msgid "Task ended"
+msgstr "Задание завершено"
+
+#: msgstrings.rslogtaskenderr
+msgid "Task %s ended with warnings"
+msgstr "Задание %s завершено с предупреждениями"
+
+#: msgstrings.rslogtaskendok
+msgid "Task %s sucsessfuly ended"
+msgstr "Задание %s успешно завершено"
+
+#: msgstrings.rslogtaskerror
+msgid "[Error] Task %s failed to start"
+msgstr "[Ошибка] Ошибка запуска задания %s"
+
+#: msgstrings.rsmanual
+msgid "Manual"
+msgstr "Вручную"
+
+#: msgstrings.rsmirror
+msgid "Mirroring"
+msgstr "Зеркалирование"
+
+#: msgstrings.rsno
+msgid "No"
+msgstr "Нет"
+
+#: msgstrings.rsno7zip
+msgid "7za.exe not found, cannot start arh"
+msgstr "7za.exe не найден, архивация невозможна"
+
+#: msgstrings.rsnoarcname
+msgid "Enter arh name"
+msgstr "Задайте имя архива"
+
+#: msgstrings.rsnone
+msgid "None"
+msgstr "Нет"
+
+#: msgstrings.rsnorar
+msgid "Rar.exe not found, archiving is not possible"
+msgstr "Rar.exe не найден, архивация невозможна"
+
+#: msgstrings.rsok
+msgid "Ok"
+msgstr "Ок"
+
+#: msgstrings.rsonlyerror
+msgid "Only when an error"
+msgstr "Только при ошибках"
+
+#: msgstrings.rsonlythese
+msgid "Only these"
+msgstr "Только эти"
+
+#: msgstrings.rsquestdeletetask
+msgid "Delete task %s?"
+msgstr "Удалить задание %s?"
+
+#: msgstrings.rsselectaction
+msgid "Select action"
+msgstr "Выберите действие"
+
+#: msgstrings.rssync
+msgid "Synchronization"
+msgstr "Синхронизация"
+
+#: msgstrings.rstaskenderror
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: msgstrings.rstaskerror
+msgid "Error"
+msgstr "Ошибка"
+
+#: msgstrings.rstaskisrunning
+msgid "Task is running %s"
+msgstr "Выполняется задание %s"
+
+#: msgstrings.rstaskneverrun
+msgid "Never"
+msgstr "Никогда"
+
+#: msgstrings.rsyes
+msgid "Yes"
+msgstr "Да"
+
+#: msgstrings.rszerkoldcheckname
+msgid "Keep deleted files"
+msgstr "Хранить удаленные файлы"
+
+#: TFORMABOUT.BITBTN1.CAPTION
+msgctxt "TFORMABOUT.BITBTN1.CAPTION"
+msgid "OK"
+msgstr "OK"
+
+#: TFORMABOUT.CAPTION
+#| msgid "О программе AutoSave"
+msgid "About mBackup"
+msgstr "О программе mBackup"
+
+#: TFORMABOUT.LABEL1.CAPTION
+msgid "Autosave ver 0.2 (beta)"
+msgstr ""
+
+#: TFORMABOUT.LABEL2.CAPTION
+msgid "Backup utility"
+msgstr "Утилита резервного копирования"
+
+#: TFORMABOUT.LABEL3.CAPTION
+msgid "Freeware"
+msgstr ""
+
+#: TFORMABOUT.LABEL4.CAPTION
+msgid "atsave@narod.ru"
+msgstr ""
+
+#: TFORMABOUT.LABEL5.CAPTION
+msgid "http://atsave.narod.ru"
+msgstr ""
+
+#: TFORMSET.BITBTN1.CAPTION
+msgid "Open"
+msgstr "Открыть"
+
+#: TFORMSET.BITBTN2.CAPTION
+msgctxt "TFORMSET.BITBTN2.CAPTION"
+msgid "OK"
+msgstr "OK"
+
+#: TFORMSET.BITBTN3.CAPTION
+msgctxt "TFORMSET.BITBTN3.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFORMSET.BOXLANG.TEXT
+msgid "BoxLang"
+msgstr ""
+
+#: TFORMSET.BUTTESTSMTP.CAPTION
+msgid "Test"
+msgstr "Тест"
+
+#: TFORMSET.CAPTION
+msgid "mBackup settings"
+msgstr "Настройки"
+
+#: TFORMSET.CHECKGROUP2.CAPTION
+msgctxt "TFORMSET.CHECKGROUP2.CAPTION"
+msgid "Common setings"
+msgstr "Общие настройки"
+
+#: TFORMSET.CHECKSYSCOPYFUNC.CAPTION
+msgid "Use system copy function"
+msgstr "Использовать системную функцию копирования"
+
+#: TFORMSET.EDITBODY.TEXT
+msgid "EditBody"
+msgstr ""
+
+#: TFORMSET.EDITLOGNAM.TEXT
+msgid "EditLogNam"
+msgstr ""
+
+#: TFORMSET.EDITMAILFROM.TEXT
+msgid "EditMailFrom"
+msgstr ""
+
+#: TFORMSET.EDITMAILTO.TEXT
+msgid "EditMailTo"
+msgstr ""
+
+#: TFORMSET.EDITPASS.TEXT
+msgid "EditPass"
+msgstr ""
+
+#: TFORMSET.EDITPROFNAM.TEXT
+msgid "EditProfNam"
+msgstr ""
+
+#: TFORMSET.EDITSERV.TEXT
+msgid "EditServ"
+msgstr ""
+
+#: TFORMSET.EDITSUBJ.TEXT
+msgid "EditSubj"
+msgstr ""
+
+#: TFORMSET.EDITUSER.TEXT
+msgid "EditUser"
+msgstr ""
+
+#: TFORMSET.GROUPBOX1.CAPTION
+#| msgid "Лог файл"
+msgid "Log file"
+msgstr "Файл журнала"
+
+#: TFORMSET.GROUPBOX2.CAPTION
+msgid "Profiles"
+msgstr "Профили"
+
+#: TFORMSET.GROUPBOX3.CAPTION
+msgid "On start open"
+msgstr "При запуске открывать"
+
+#: TFORMSET.GROUPBOX4.CAPTION
+msgid "Current profile"
+msgstr "Текущий профиль"
+
+#: TFORMSET.GROUPBOX5.CAPTION
+msgid "Language"
+msgstr "Язык"
+
+#: TFORMSET.GROUPBOX6.CAPTION
+#| msgid "E-mail alerts"
+msgctxt "TFORMSET.GROUPBOX6.CAPTION"
+msgid "E-mail notifications"
+msgstr "Уведомления e-mail"
+
+#: TFORMSET.GROUPBOX7.CAPTION
+msgid "Temporary directory for archiver"
+msgstr "Каталог для временных архивов"
+
+#: TFORMSET.LABEL1.CAPTION
+msgid "Limit"
+msgstr "Ограничение"
+
+#: TFORMSET.LABEL10.CAPTION
+#| msgid "Пароль"
+msgid "Password"
+msgstr "Пароль"
+
+#: TFORMSET.LABEL11.CAPTION
+msgid "Subject"
+msgstr "Тема"
+
+#: TFORMSET.LABEL12.CAPTION
+msgid "Text"
+msgstr "Текст"
+
+#: TFORMSET.LABEL2.CAPTION
+msgid "Kb"
+msgstr "Кб"
+
+#: TFORMSET.LABEL3.CAPTION
+msgid "File name"
+msgstr "Имя файла"
+
+#: TFORMSET.LABEL4.CAPTION
+msgid "Имя профиля"
+msgstr "Имя профиля"
+
+#: TFORMSET.LABEL5.CAPTION
+msgid "SMTP server"
+msgstr "SMTP сервер"
+
+#: TFORMSET.LABEL6.CAPTION
+msgid "Port"
+msgstr "Порт"
+
+#: TFORMSET.LABEL7.CAPTION
+#| msgid "Sender"
+msgid "Mail from"
+msgstr "Отправитель"
+
+#: TFORMSET.LABEL8.CAPTION
+msgid "Mail to"
+msgstr "Получатель"
+
+#: TFORMSET.LABEL9.CAPTION
+msgid "User"
+msgstr "Пользователь"
+
+#: TFORMSET.RADIOLASTPROF.CAPTION
+msgid "Last opened"
+msgstr "Последний открытый"
+
+#: TFORMTASK.AFTERCHECK.CAPTION
+msgid "Run after"
+msgstr "Запуск после"
+
+#: TFORMTASK.ARHBOX.CAPTION
+msgid "Archive optinos"
+msgstr "Параметры архивации"
+
+#: TFORMTASK.BEFORECHECK.CAPTION
+msgid "Run before"
+msgstr "Запуск перед"
+
+#: TFORMTASK.BTNCANCEL.CAPTION
+msgctxt "TFORMTASK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFORMTASK.BTNDIRADD.CAPTION
+msgctxt "TFORMTASK.BTNDIRADD.CAPTION"
+msgid "Add"
+msgstr "Добавить"
+
+#: TFORMTASK.BTNDIRDEL.CAPTION
+msgctxt "TFORMTASK.BTNDIRDEL.CAPTION"
+msgid "Delete"
+msgstr "Удалить"
+
+#: TFORMTASK.BTNOK.CAPTION
+msgctxt "TFORMTASK.BTNOK.CAPTION"
+msgid "OK"
+msgstr "OK"
+
+#: TFORMTASK.CAPTION
+msgid "Task settings"
+msgstr "Параметры задания"
+
+#: TFORMTASK.CHKDELAFTERARH.CAPTION
+msgid "Delete files after archiving"
+msgstr "Удалять файлы после архивации"
+
+#: TFORMTASK.DELARHCHECK.CAPTION
+msgid "Store archives"
+msgstr "Хранить архивы"
+
+#: TFORMTASK.DELZERKCHECK.CAPTION
+msgid "Store deleted files"
+msgstr "Хранить удаленные файлы"
+
+#: TFORMTASK.EDITARHNAM.TEXT
+msgid "EditArhNam"
+msgstr ""
+
+#: TFORMTASK.EDITFILEMASK.TEXT
+msgid "*.tmp;*.bak"
+msgstr ""
+
+#: TFORMTASK.EDITNAME.TEXT
+msgid "EditName"
+msgstr ""
+
+#: TFORMTASK.ENABLEDCHECK.CAPTION
+msgctxt "TFORMTASK.ENABLEDCHECK.CAPTION"
+msgid "Enabled"
+msgstr "Разрешена"
+
+#: TFORMTASK.EVMINCHECK.CAPTION
+msgid "Повторять запуск"
+msgstr ""
+
+#: TFORMTASK.FILTDIRCHECK.CAPTION
+#| msgid "Exclude dirs"
+msgid "Exclude folders"
+msgstr "Исключить каталоги"
+
+#: TFORMTASK.FILTFILESCHECK.CAPTION
+#| msgid "Filter files"
+msgid "Process files"
+msgstr "Обрабатывать файлы"
+
+#: TFORMTASK.GROUPBOX1.CAPTION
+msgid "Task name"
+msgstr "Имя задания"
+
+#: TFORMTASK.GROUPBOX10.CAPTION
+msgid "Other"
+msgstr "Другое"
+
+#: TFORMTASK.GROUPBOX2.CAPTION
+msgid "Source"
+msgstr "Источник"
+
+#: TFORMTASK.GROUPBOX5.CAPTION
+msgid "Action"
+msgstr "Действие"
+
+#: TFORMTASK.GROUPBOX6.CAPTION
+msgid "Destination"
+msgstr "Приемник"
+
+#: TFORMTASK.GROUPBOX7.CAPTION
+msgid "External programs"
+msgstr "Внешние программы"
+
+#: TFORMTASK.GROUPBOX8.CAPTION
+msgid "Расписание"
+msgstr ""
+
+#: TFORMTASK.GROUPBOX9.CAPTION
+msgctxt "TFORMTASK.GROUPBOX9.CAPTION"
+msgid "E-mail notifications"
+msgstr "Уведомления e-mail"
+
+#: TFORMTASK.LABEL1.CAPTION
+msgid "Время"
+msgstr ""
+
+#: TFORMTASK.LABEL10.CAPTION
+msgid ".zip"
+msgstr ""
+
+#: TFORMTASK.LABEL11.CAPTION
+msgid "years"
+msgstr "лет"
+
+#: TFORMTASK.LABEL12.CAPTION
+msgid "For"
+msgstr "В течение"
+
+#: TFORMTASK.LABEL13.CAPTION
+msgctxt "TFORMTASK.LABEL13.CAPTION"
+msgid "days"
+msgstr "дней"
+
+#: TFORMTASK.LABEL2.CAPTION
+msgid "Каждые"
+msgstr ""
+
+#: TFORMTASK.LABEL3.CAPTION
+msgid "Минут(ы)"
+msgstr ""
+
+#: TFORMTASK.LABEL4.CAPTION
+msgid "Archive name"
+msgstr "Имя архива"
+
+#: TFORMTASK.LABEL5.CAPTION
+msgid "Daily"
+msgstr "Ежедневные"
+
+#: TFORMTASK.LABEL6.CAPTION
+msgid "Monthly"
+msgstr "Ежемесячные"
+
+#: TFORMTASK.LABEL7.CAPTION
+msgid "Yearly"
+msgstr "Годовые"
+
+#: TFORMTASK.LABEL8.CAPTION
+msgctxt "TFORMTASK.LABEL8.CAPTION"
+msgid "days"
+msgstr "дней"
+
+#: TFORMTASK.LABEL9.CAPTION
+msgid "mon"
+msgstr "мес"
+
+#: TFORMTASK.MANUALCHECK.CAPTION
+msgid "Вручную"
+msgstr ""
+
+#: TFORMTASK.NTFSCHECK.CAPTION
+msgid "Copy NTFS permissions"
+msgstr "Копировать права NTFS"
+
+#: TFORMTASK.ONCEDAYCHECK.CAPTION
+msgid "Once a day"
+msgstr "Раз в день"
+
+#: TFORMTASK.RADIOGROUP1.CAPTION
+msgid "Запуск"
+msgstr ""
+
+#: TFORMTASK.RECURSECHECK.CAPTION
+msgid "Include subfolders"
+msgstr "С подкаталогами"
+
+#: TFORMTASK.STARTCHECK.CAPTION
+msgid "При запуске"
+msgstr ""
+
+#: TFORMTASK.TIMECHECK.CAPTION
+msgid "Заданное время"
+msgstr ""
+
+#: TMFORM.ACTABOUT.CAPTION
+msgid "About"
+msgstr "О программе"
+
+#: TMFORM.ACTADD.CAPTION
+msgid "New"
+msgstr "Добавить"
+
+#: TMFORM.ACTADDPROFILE.CAPTION
+msgid "Add to profile"
+msgstr "Добавить к профайлу"
+
+#: TMFORM.ACTCOPY.CAPTION
+msgid "Copy"
+msgstr "Копировать"
+
+#: TMFORM.ACTDEL.CAPTION
+msgctxt "TMFORM.ACTDEL.CAPTION"
+msgid "Delete"
+msgstr "Удалить"
+
+#: TMFORM.ACTDOWN.CAPTION
+msgid "Down"
+msgstr "Вниз"
+
+#: TMFORM.ACTEDIT.CAPTION
+msgid "Edit"
+msgstr "Правка"
+
+#: TMFORM.ACTHELP.CAPTION
+msgctxt "TMFORM.ACTHELP.CAPTION"
+msgid "Help"
+msgstr "Помощь"
+
+#: TMFORM.ACTNEWPROFILE.CAPTION
+msgid "New profile"
+msgstr "Создать"
+
+#: TMFORM.ACTOPENPROFILE.CAPTION
+msgid "Open profile"
+msgstr "Открыть"
+
+#: TMFORM.ACTRUN.CAPTION
+msgid "Start"
+msgstr "Старт"
+
+#: TMFORM.ACTRUNALL.CAPTION
+msgid "Run all tasks"
+msgstr "Запустить все задания"
+
+#: TMFORM.ACTSAVEPROF.CAPTION
+msgid "Save as"
+msgstr "Сохранить как"
+
+#: TMFORM.ACTSET.CAPTION
+msgctxt "TMFORM.ACTSET.CAPTION"
+msgid "Settings"
+msgstr "Настройки"
+
+#: TMFORM.ACTUP.CAPTION
+msgid "Up"
+msgstr "Вверх"
+
+#: TMFORM.BUTSTOP.CAPTION
+msgid "Stop"
+msgstr "Стоп"
+
+#: TMFORM.CAPTION
+msgid "AutoSave"
+msgstr ""
+
+#: TMFORM.LISTTASK.COLUMNS.CAPTION
+msgid "Last run"
+msgstr "Последний запуск"
+
+#: TMFORM.MENUITEM1.CAPTION
+msgid "Profile"
+msgstr "Профайл"
+
+#: TMFORM.MENUITEM2.CAPTION
+msgid "-"
+msgstr ""
+
+#: TMFORM.MNUTASK.CAPTION
+msgid "Task"
+msgstr "Задание"
+
+#: TMFORM.MNUTHELPMAIN.CAPTION
+msgctxt "TMFORM.MNUTHELPMAIN.CAPTION"
+msgid "Help"
+msgstr "Помощь"
+
+#: TMFORM.MNUTSETMAIN.CAPTION
+msgctxt "TMFORM.MNUTSETMAIN.CAPTION"
+msgid "Settings"
+msgstr "Настройки"
+
+#: TMFORM.TOOLBAR1.CAPTION
+msgid "ToolBar1"
+msgstr ""
+
+#: TMFORM.TOOLBUTTON1.CAPTION
+msgid "ToolButton1"
+msgstr ""
+
+#: TMFORM.TOOLBUTTON2.CAPTION
+msgid "ToolButton2"
+msgstr ""
+
+#: TMFORM.TOOLBUTTON3.CAPTION
+msgid "ToolButton3"
+msgstr ""
+

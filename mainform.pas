@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
-  ActnList, ComCtrls, StdCtrls, ExtCtrls,taskunit,{inifiles,}inilang,msgstrings,
+  ActnList, ComCtrls, StdCtrls, ExtCtrls,taskunit,unitfunc,{inifiles,inilang,}msgstrings,
   taskthread,windows;
 
 Type TOnTermEvent = Procedure( Sender: TObject) of object;
@@ -24,6 +24,7 @@ type
     ActAddProfile: TAction;
     ActHelp: TAction;
     ActCopy: TAction;
+    ActRunAll: TAction;
     ActSaveProf: TAction;
     ActOpenProfile: TAction;
     ActNewProfile: TAction;
@@ -35,6 +36,8 @@ type
     ListTask: TListView;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    mnutRunAll: TMenuItem;
     mnutCopy: TMenuItem;
     mnuSave: TMenuItem;
     mnuHelp: TMenuItem;
@@ -81,6 +84,7 @@ type
     procedure ActHelpExecute(Sender: TObject);
     procedure ActNewProfileExecute(Sender: TObject);
     procedure ActOpenProfileExecute(Sender: TObject);
+    procedure ActRunAllExecute(Sender: TObject);
     procedure ActRunExecute(Sender: TObject);
     procedure ActSaveProfExecute(Sender: TObject);
     procedure ActSetExecute(Sender: TObject);
@@ -102,7 +106,7 @@ type
     procedure RunThTask(numT:integer);
     procedure TaskDone(Sender: TObject);
     function ShowTaskForm(NumEdTask:integer):boolean;
-
+    function RunAllTasks:boolean;
   private
     { private declarations }
   public
@@ -163,9 +167,9 @@ var
 begin
 if OpenDialog1.Execute then
   begin
-  profil:=TaskCl.profile;
+  profil:=TaskCl.Settings.profile;
   TaskCl.LoadFromFile(OpenDialog1.FileName);
-  TaskCl.profile:=profil; // сохранение имени старого профил€
+  TaskCl.Settings.profile:=profil; // сохранение имени старого профил€
   FillListTask(-1);
   end;
 end;
@@ -198,7 +202,7 @@ ButDel.Down:=false;
 if ListTask.SelCount=0 then exit;
 num:=ListTask.Selected.Index+1;
 if num<1 then exit;
-str:=format(misc(rsQuestDeleteTask,'rsQuestDeleteTask'),[TaskCl.Tasks[num].Name]);
+str:=format(rsQuestDeleteTask,[TaskCl.Tasks[num].Name]);
 if MessageDlg(str,mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
   TaskCl.DelTask(num);
@@ -234,13 +238,16 @@ procedure TMForm.ActHelpExecute(Sender: TObject);
 var
  helpfile2:string;
 begin
+helpfile2:='help.'+TaskCl.Settings.Lang+'.htm';
+{
 if CL=nil then
    begin
    helpfile2:='Help-ru.htm';
    end
   else
   helpfile2:=CL.ReadString('Language','HelpFile','Help-ru.htm');
-ShellExecute(0,nil,PChar(ExtractFileDir(ParamStr(0))+'\'+helpfile2),nil,nil,SW_SHOWNORMAL);
+  }
+ShellExecute(0,nil,PChar(ExtractFileDir(ParamStr(0))+DirectorySeparator+helpfile2),nil,nil,SW_SHOWNORMAL);
 end;
 
 procedure TMForm.ActNewProfileExecute(Sender: TObject);
@@ -249,14 +256,14 @@ var
 begin
 if SaveDialog1.Execute then
   begin
-  filenam:=MForm.TaskCl.ShortFileNam(SaveDialog1.FileName);
+  filenam:=ShortFileNam(SaveDialog1.FileName);
   if ExtractFileExt(filenam)='' then filenam:=filenam+'.xml';
   TaskCl.Clear; //Count:=0;
   FillListTask(-1);
 //  TaskCl.ProfName:='';
   TaskCl.SaveToFile(filenam);
   TaskCl.LoadFromFile(filenam);
-  MForm.Caption:='AutoSave '+MForm.TaskCl.profile;
+  MForm.Caption:='AutoSave '+MForm.TaskCl.Settings.profile;
   end;
 end;
 
@@ -269,8 +276,13 @@ begin
 //  EditCurProf.Text:=MForm.TaskCl.profile;
 //  EditProfNam.Text:=MForm.TaskCl.ProfName;
   FillListTask(-1);
-  MForm.Caption:='AutoSave '+MForm.TaskCl.profile;
+  MForm.Caption:='mBackup '+MForm.TaskCl.Settings.profile;
   end;
+end;
+
+procedure TMForm.ActRunAllExecute(Sender: TObject);
+begin
+  RunAllTasks;
 end;
 
 procedure TMForm.ActRunExecute(Sender: TObject);
@@ -290,11 +302,11 @@ var
 begin
 If SaveDialog1.Execute then
    begin
-   filen:=TaskCl.ShortFileNam(SaveDialog1.FileName);
+   filen:=ShortFileNam(SaveDialog1.FileName);
    if ExtractFileExt(filen)='' then filen:=filen+'.xml';
    TaskCl.SaveToFile(filen);
    //EditCurProf.Text:=filen;
-   MForm.Caption:='AutoSave '+MForm.TaskCl.profile;
+   MForm.Caption:='mBackup '+MForm.TaskCl.Settings.profile;
    end;
 end;
 
@@ -305,7 +317,7 @@ begin
   Application.CreateForm(TFormTask, FormTask);
 if FormSet.ShowModal=mrOk then
   begin
-  TaskCl.SaveIni;
+  TaskCl.Settings.SaveIni;
   end;
 FormSet.Destroy;
 FormAbout.Destroy;
@@ -336,18 +348,18 @@ end;
 
 procedure TMForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  if TaskCl.LoadLastProf then
+  if TaskCl.Settings.LoadLastProf then
     begin
-     TaskCl.DefaultProf:=TaskCl.profile;
-     TaskCl.SaveIni;
+     TaskCl.Settings.DefaultProf:=TaskCl.Settings.profile;
+     TaskCl.Settings.SaveIni;
     end;
  TaskCl.SaveToFile('');
  TaskCl.Destroy;
 end;
 
 procedure TMForm.FormCreate(Sender: TObject);
-var
-TC: array[1..1] of TComponent;
+//var
+//TC: array[1..1] of TComponent;
 begin
 
 // —оздание прогресс бара
@@ -376,15 +388,19 @@ if StartMin then MForm.WindowState:=wsMinimized;
 
 ReadArgvW;
 
-MForm.Caption:='AutoSave '+TaskCl.Profile;
+MForm.Caption:='mBackup '+TaskCl.Settings.Profile;
 
+//TranslateUnitResourceStrings('msgstrings',(ExtractFileDir(ParamStr(0)))+DirectorySeparator+'Lang'+DirectorySeparator+'msgstrings.'+TaskCl.Settings.Lang+'.po');
+//Lang:='ru';
 // ѕеревод
+{
 CL:=LoadLangIni(TaskCl.LangFile);
 if CL<>nil then
    begin
    TC[1]:=MForm;
    fillProps(TC,CL);
    end;
+   }
 FillListTask(0);
 end;
 
@@ -395,10 +411,11 @@ end;
 
 procedure TMForm.MsgMemoKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-  var
-TC: array[1..3] of TComponent;
+//  var
+//TC: array[1..3] of TComponent;
 begin
 // создание всех форм
+{
 Application.CreateForm(TFormTask, FormTask); // создание формы
 Application.CreateForm(TFormSet, FormSet);
 Application.CreateForm(TFormAbout, FormAbout);
@@ -407,6 +424,7 @@ if (Key=VK_F5) then fillcustomini;
 FormTask.Destroy;
 FormSet.Destroy;
 FormAbout.Destroy;
+}
 end;
 
 
@@ -419,7 +437,7 @@ procedure TMForm.FillListTask(numTask:integer);
 //================================================
 var
  i:integer;
- olditem:integer;
+ //olditem:integer;
  strStatus,strstEnd:string;
  frmTime:string;
 begin
@@ -433,17 +451,17 @@ for i:=1 to TaskCl.Count do
      //ListTask.Items.Item[i-1].Checked:=true;
      ListTask.Items.Item[i-1].SubItems.Add(TaskCl.Tasks[i].SorPath);
      if TaskCl.Tasks[i].Action=ttCopy then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsCopyng,'rsCopyng'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsCopyng);
      if TaskCl.Tasks[i].Action=ttZerk then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsMirror,'rsMirror'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsMirror);
      if TaskCl.Tasks[i].Action=ttSync then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsSync,'rsSync'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsSync);
      if TaskCl.Tasks[i].Action=ttArhRar then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsArcRar,'rsArcRar'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsArcRar);
      if TaskCl.Tasks[i].Action=ttArhZip then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsArcZip,'rsArcZip'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsArcZip);
      if TaskCl.Tasks[i].Action=ttArh7Zip then
-      ListTask.Items.Item[i-1].SubItems.Add(misc(rsArc7Zip,'rsArc7Zip'));
+      ListTask.Items.Item[i-1].SubItems.Add(rsArc7Zip);
 
      ListTask.Items.Item[i-1].SubItems.Add(TaskCl.Tasks[i].DestPath);
      // ¬рем€ запуска/состо€ние
@@ -451,14 +469,14 @@ for i:=1 to TaskCl.Count do
      strstend:='';
      if TaskCl.Tasks[i].Status=stRunning then // задание выполн€етс€
         begin
-         strStatus:=misc(rsIsRunning,'rsIsRunning')+' (';
+         strStatus:=rsIsRunning+' (';
          strstend:=')';
         end;
      if TaskCl.Tasks[i].Status=stWaiting then // задание ожидает выполнени€
-         strStatus:=misc(rsIsWaiting,'rsIsWaiting')+ ' (';
+         strStatus:=rsIsWaiting+ ' (';
      if TaskCl.Tasks[i].Enabled then
        begin
-       ListTask.Items.Item[i-1].SubItems.Add(strStatus+misc(rsYes,'rsYes')+strstend);
+       ListTask.Items.Item[i-1].SubItems.Add(strStatus+rsYes+strstend);
 {
         if TaskCl.Tasks[i].Rasp.Manual then
           begin
@@ -478,18 +496,18 @@ for i:=1 to TaskCl.Count do
 
       else
        begin
-       ListTask.Items.Item[i-1].SubItems.Add(strStatus+misc(rsNo,'rsNo')+strstend);
+       ListTask.Items.Item[i-1].SubItems.Add(strStatus+rsNo+strstend);
        end;
   // —осто€ние последнего запуска
   if TaskCl.Tasks[i].LastRunDate=0 then // еще ни разу не запускалась
     begin
-     strStatus:=misc(rsTaskNeverRun,'rsTaskNeverRun');
+     strStatus:=rsTaskNeverRun;
     end
    else
     begin
-    if TaskCl.Tasks[i].LastResult=trOk then strStatus:=misc(rsOk,'rsOk');
-    if TaskCl.Tasks[i].LastResult=trError then strStatus:=misc(rsTaskError,'rsTaskError');
-    if TaskCl.Tasks[i].LastResult=trFileError then strStatus:=misc(rsTaskEndError,'rsTaskEndError');
+    if TaskCl.Tasks[i].LastResult=trOk then strStatus:=rsOk;
+    if TaskCl.Tasks[i].LastResult=trError then strStatus:=rsTaskError;
+    if TaskCl.Tasks[i].LastResult=trFileError then strStatus:=rsTaskEndError;
      DateTimeToString(frmTime,'DD.MM.YY HH:MM',TaskCl.Tasks[i].LastRunDate);
      strStatus:=strStatus+' '+frmTime;
     end;
@@ -611,8 +629,12 @@ estr:=TaskCl.ReadArgv(IsProfile);
 // ≈сли есть параметр -r запуск заданий
 if estr {or (NOT AutoOnlyClose))} then // автозапуск заданий
     begin
-//    if (not (AutoOnlyClose)) Or (SameText(ParamStr(1),'close')) then
+      if RunAllTasks then
         begin
+        ParamRun:=true;
+        TaskCl.InCmdMode:=true;
+        end;
+{
         for k:=1 to TaskCl.Count do
            begin
            // «адание включено                      (и на запуск при запуске)
@@ -623,8 +645,25 @@ if estr {or (NOT AutoOnlyClose))} then // автозапуск заданий
               RunThTask(k);
               end;
            end;
-         end;
+ }
     end; // end if r
+end;
+//=======================================================
+// «апуск всех разрешенных заданий, возвращает true если хоть одно задание запущено
+function TMForm.RunAllTasks:boolean;
+var
+  k:integer;
+begin
+Result:=false;
+  for k:=1 to TaskCl.Count do
+           begin
+           // «адание включено                      (и на запуск при запуске)
+           if TaskCl.Tasks[k].Enabled  then //and TaskCl.Tasks[k].Rasp.AtStart
+              begin
+              RunThTask(k);
+              Result:=true;
+              end;
+           end;
 end;
 
 {//=======================================================

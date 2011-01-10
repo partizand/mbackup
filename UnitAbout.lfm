@@ -1,10 +1,10 @@
 object FormAbout: TFormAbout
-  Left = 309
+  Left = 289
   Height = 120
-  Top = 163
+  Top = 273
   Width = 332
   ActiveControl = BitBtn1
-  Caption = 'О программе AutoSave'
+  Caption = 'About mBackup'
   ClientHeight = 120
   ClientWidth = 332
   OnCreate = FormCreate
@@ -12,9 +12,9 @@ object FormAbout: TFormAbout
   LCLVersion = '0.9.28.2'
   object Label1: TLabel
     Left = 26
-    Height = 14
+    Height = 16
     Top = 13
-    Width = 136
+    Width = 131
     Caption = 'Autosave ver 0.2 (beta)'
     Font.Style = [fsBold]
     ParentColor = False
@@ -22,26 +22,26 @@ object FormAbout: TFormAbout
   end
   object Label2: TLabel
     Left = 26
-    Height = 14
+    Height = 16
     Top = 32
-    Width = 188
-    Caption = 'Резервное копирование информации'
+    Width = 73
+    Caption = 'Backup utility'
     ParentColor = False
   end
   object Label3: TLabel
     Left = 26
-    Height = 14
+    Height = 16
     Top = 50
-    Width = 47
+    Width = 48
     Caption = 'Freeware'
     ParentColor = False
   end
   object Label4: TLabel
     Cursor = crHandPoint
     Left = 26
-    Height = 14
+    Height = 16
     Top = 96
-    Width = 86
+    Width = 90
     Caption = 'atsave@narod.ru'
     Font.Color = clBlue
     ParentColor = False
@@ -51,9 +51,9 @@ object FormAbout: TFormAbout
   object Label5: TLabel
     Cursor = crHandPoint
     Left = 26
-    Height = 14
+    Height = 16
     Top = 72
-    Width = 112
+    Width = 117
     Caption = 'http://atsave.narod.ru'
     Font.Color = clBlue
     Font.Style = [fsUnderline]

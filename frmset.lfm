@@ -1,12 +1,12 @@
 object FormSet: TFormSet
-  Left = 554
-  Height = 411
-  Top = 129
-  Width = 373
+  Left = 687
+  Height = 566
+  Top = 183
+  Width = 386
   ActiveControl = EditLogNam
-  Caption = 'Настройки программы'
-  ClientHeight = 411
-  ClientWidth = 373
+  Caption = 'mBackup settings'
+  ClientHeight = 566
+  ClientWidth = 386
   Icon.Data = {
     7E03000000000100010010100000010018006803000016000000280000001000
     0000200000000100180000000000000300006400000064000000000000000000
@@ -46,29 +46,29 @@ object FormSet: TFormSet
     Height = 108
     Top = 4
     Width = 172
-    Caption = 'Лог файл'
+    Caption = 'Log file'
     ClientHeight = 90
     ClientWidth = 168
     TabOrder = 0
     object Label1: TLabel
       Left = 9
-      Height = 14
+      Height = 16
       Top = 43
-      Width = 68
-      Caption = 'Ограничение'
+      Width = 28
+      Caption = 'Limit'
       ParentColor = False
     end
     object Label2: TLabel
       Left = 74
-      Height = 14
+      Height = 16
       Top = 64
-      Width = 14
-      Caption = 'Кб'
+      Width = 15
+      Caption = 'Kb'
       ParentColor = False
     end
     object EditLogNam: TEdit
       Left = 9
-      Height = 21
+      Height = 23
       Top = 7
       Width = 153
       OnKeyDown = EditLogNamKeyDown
@@ -77,7 +77,7 @@ object FormSet: TFormSet
     end
     object EditLim: TSpinEdit
       Left = 9
-      Height = 21
+      Height = 23
       Top = 60
       Width = 61
       MaxValue = 100000
@@ -88,7 +88,7 @@ object FormSet: TFormSet
       Height = 30
       Top = 53
       Width = 75
-      Caption = 'Открыть'
+      Caption = 'Open'
       Glyph.Data = {
         36030000424D3803000000000000360000002800000010000000100000000100
         18000000000002030000120B0000120B00000000000000000000FFFFFFFFFFFF
@@ -122,92 +122,44 @@ object FormSet: TFormSet
       TabOrder = 2
     end
   end
-  object CheckGroup1: TCheckGroup
-    Left = 8
-    Height = 100
-    Top = 392
-    Width = 164
-    AutoFill = True
-    Caption = 'Общие настройки'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.TopBottomSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.EnlargeVertical = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsScaleChilds
-    ChildSizing.ShrinkVertical = crsScaleChilds
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 1
-    Enabled = False
-    TabOrder = 1
-    Visible = False
-    object CheckTray: TCheckBox
-      Left = 6
-      Height = 24
-      Top = 6
-      Width = 148
-      Caption = 'Сворачивать в трей'
-      Enabled = False
-      TabOrder = 0
-      Visible = False
-    end
-    object CheckStartMin: TCheckBox
-      Left = 6
-      Height = 24
-      Top = 30
-      Width = 148
-      Caption = 'Запускать свернутым'
-      Enabled = False
-      TabOrder = 1
-      Visible = False
-    end
-    object CheckAutoRun: TCheckBox
-      Left = 6
-      Height = 22
-      Top = 54
-      Width = 148
-      Caption = 'Автозапуск только с "/r"'
-      TabOrder = 2
-      Visible = False
-    end
-  end
   object GroupBox2: TGroupBox
     Left = 185
     Height = 180
     Top = 4
     Width = 175
-    Caption = 'Профили'
+    Caption = 'Profiles'
     ClientHeight = 162
     ClientWidth = 171
-    TabOrder = 2
+    TabOrder = 1
     object GroupBox3: TGroupBox
       Left = 2
       Height = 73
       Top = 3
       Width = 162
-      Caption = 'При запуске открывать'
+      Caption = 'On start open'
       ClientHeight = 55
       ClientWidth = 158
       TabOrder = 0
       object RadioLastProf: TRadioButton
         Left = 10
-        Height = 17
+        Height = 19
         Top = 5
-        Width = 128
-        Caption = 'Последний открытый'
+        Width = 84
+        Caption = 'Last opened'
         OnChange = RadioLastProfChange
         TabOrder = 0
       end
       object RadioThisProf: TRadioButton
         Left = 10
-        Height = 17
+        Height = 19
         Top = 30
-        Width = 18
+        Width = 20
         OnChange = RadioThisProfChange
         TabOrder = 1
       end
       object EditDefProf: TFileNameEdit
         Left = 26
-        Height = 21
+        Height = 23
         Top = 27
         Width = 92
         DialogOptions = []
@@ -224,30 +176,30 @@ object FormSet: TFormSet
       Height = 74
       Top = 82
       Width = 162
-      Caption = 'Текущий профиль'
+      Caption = 'Current profile'
       ClientHeight = 56
       ClientWidth = 158
       TabOrder = 1
       object Label3: TLabel
         Left = 9
-        Height = 14
+        Height = 16
         Top = 2
-        Width = 55
-        Caption = 'Имя файла'
+        Width = 52
+        Caption = 'File name'
         ParentColor = False
       end
       object Label4: TLabel
         Left = 9
-        Height = 14
+        Height = 16
         Top = 45
-        Width = 67
+        Width = 78
         Caption = 'Имя профиля'
         ParentColor = False
         Visible = False
       end
       object EditCurProf: TFileNameEdit
         Left = 8
-        Height = 21
+        Height = 23
         Top = 19
         Width = 102
         DialogOptions = []
@@ -261,7 +213,7 @@ object FormSet: TFormSet
       end
       object EditProfNam: TEdit
         Left = 9
-        Height = 21
+        Height = 23
         Top = 64
         Width = 122
         TabOrder = 1
@@ -275,26 +227,26 @@ object FormSet: TFormSet
     Height = 59
     Top = 120
     Width = 123
-    Caption = 'Язык'
+    Caption = 'Language'
     ClientHeight = 41
     ClientWidth = 119
-    TabOrder = 3
+    TabOrder = 2
     object BoxLang: TComboBox
       Left = 7
-      Height = 21
+      Height = 23
       Top = 8
       Width = 100
-      ItemHeight = 13
+      ItemHeight = 15
       TabOrder = 0
       Text = 'BoxLang'
     end
   end
   object BitBtn2: TBitBtn
-    Left = 285
+    Left = 296
     Height = 30
-    Top = 328
+    Top = 488
     Width = 75
-    Caption = 'ОК'
+    Caption = 'OK'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FF00FFFF00FF
@@ -325,14 +277,14 @@ object FormSet: TFormSet
     }
     NumGlyphs = 0
     OnClick = BitBtn2Click
-    TabOrder = 4
+    TabOrder = 3
   end
   object BitBtn3: TBitBtn
-    Left = 285
+    Left = 296
     Height = 30
-    Top = 368
+    Top = 528
     Width = 75
-    Caption = 'Отмена'
+    Caption = 'Cancel'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FF00FFFF00FF
@@ -363,70 +315,84 @@ object FormSet: TFormSet
     }
     ModalResult = 2
     NumGlyphs = 0
-    TabOrder = 5
+    TabOrder = 4
   end
   object GroupBox6: TGroupBox
     Left = 7
-    Height = 160
-    Top = 240
+    Height = 264
+    Top = 294
     Width = 224
-    Caption = 'Уведомления email'
-    ClientHeight = 142
+    Caption = 'E-mail notifications'
+    ClientHeight = 246
     ClientWidth = 220
-    TabOrder = 6
+    TabOrder = 5
     object Label5: TLabel
       Left = 6
-      Height = 14
+      Height = 16
       Top = 11
-      Width = 65
-      Caption = 'SMTP сервер'
+      Width = 66
+      Caption = 'SMTP server'
       ParentColor = False
     end
     object Label6: TLabel
       Left = 8
-      Height = 14
+      Height = 16
       Top = 39
-      Width = 26
-      Caption = 'Порт'
+      Width = 23
+      Caption = 'Port'
       ParentColor = False
     end
     object Label7: TLabel
       Left = 6
-      Height = 14
+      Height = 16
       Top = 65
-      Width = 69
-      Caption = 'Отправитель'
+      Width = 53
+      Caption = 'Mail from'
       ParentColor = False
     end
     object Label8: TLabel
       Left = 6
-      Height = 14
-      Top = 95
-      Width = 62
-      Caption = 'Получатель'
+      Height = 16
+      Top = 91
+      Width = 38
+      Caption = 'Mail to'
       ParentColor = False
     end
     object Label9: TLabel
-      Left = -2
-      Height = 14
-      Top = 139
-      Width = 73
-      Caption = 'Пользователь'
+      Left = 7
+      Height = 16
+      Top = 117
+      Width = 24
+      Caption = 'User'
       ParentColor = False
-      Visible = False
     end
     object Label10: TLabel
-      Left = 0
-      Height = 14
-      Top = 160
-      Width = 38
-      Caption = 'Пароль'
+      Left = 8
+      Height = 16
+      Top = 143
+      Width = 51
+      Caption = 'Password'
       ParentColor = False
-      Visible = False
+    end
+    object Label11: TLabel
+      Left = 8
+      Height = 16
+      Top = 169
+      Width = 40
+      Caption = 'Subject'
+      ParentColor = False
+    end
+    object Label12: TLabel
+      Left = 8
+      Height = 16
+      Top = 196
+      Width = 23
+      Caption = 'Text'
+      ParentColor = False
     end
     object EditServ: TEdit
       Left = 79
-      Height = 21
+      Height = 23
       Top = 4
       Width = 135
       TabOrder = 0
@@ -434,23 +400,23 @@ object FormSet: TFormSet
     end
     object EditMailFrom: TEdit
       Left = 79
-      Height = 21
-      Top = 58
+      Height = 23
+      Top = 57
       Width = 135
       TabOrder = 1
       Text = 'EditMailFrom'
     end
     object EditMailTo: TEdit
       Left = 79
-      Height = 21
-      Top = 88
+      Height = 23
+      Top = 84
       Width = 135
       TabOrder = 2
       Text = 'EditMailTo'
     end
     object EditPort: TSpinEdit
       Left = 79
-      Height = 21
+      Height = 23
       Top = 32
       Width = 69
       MaxValue = 100000
@@ -461,40 +427,54 @@ object FormSet: TFormSet
     object butTestSmtp: TButton
       Left = 139
       Height = 25
-      Top = 112
+      Top = 216
       Width = 75
-      Caption = 'Тест'
+      Caption = 'Test'
       OnClick = butTestSmtpClick
       TabOrder = 4
     end
     object EditUser: TEdit
-      Left = 82
-      Height = 21
-      Top = 139
-      Width = 133
+      Left = 79
+      Height = 23
+      Top = 110
+      Width = 135
       TabOrder = 5
       Text = 'EditUser'
-      Visible = False
     end
     object EditPass: TEdit
-      Left = 74
-      Height = 21
-      Top = 160
-      Width = 133
+      Left = 79
+      Height = 23
+      Top = 136
+      Width = 135
       EchoMode = emPassword
       PasswordChar = '*'
       TabOrder = 6
       Text = 'EditPass'
-      Visible = False
+    end
+    object EditSubj: TEdit
+      Left = 79
+      Height = 23
+      Top = 162
+      Width = 135
+      TabOrder = 7
+      Text = 'EditSubj'
+    end
+    object EditBody: TEdit
+      Left = 79
+      Height = 23
+      Top = 189
+      Width = 135
+      TabOrder = 8
+      Text = 'EditBody'
     end
   end
   object CheckGroup2: TCheckGroup
     Left = 7
-    Height = 49
-    Top = 184
+    Height = 48
+    Top = 240
     Width = 281
     AutoFill = True
-    Caption = 'Общие настройки'
+    Caption = 'Common setings'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
@@ -503,13 +483,33 @@ object FormSet: TFormSet
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    TabOrder = 7
+    TabOrder = 6
     object CheckSysCopyFunc: TCheckBox
       Left = 6
-      Height = 19
+      Height = 18
       Top = 6
       Width = 265
-      Caption = 'Использовать системную функцию копирования'
+      Caption = 'Use system copy function'
+      TabOrder = 0
+    end
+  end
+  object GroupBox7: TGroupBox
+    Left = 7
+    Height = 50
+    Top = 184
+    Width = 281
+    Caption = 'Temporary directory for archiver'
+    ClientHeight = 32
+    ClientWidth = 277
+    TabOrder = 7
+    object EditArhTmpDir: TDirectoryEdit
+      Left = 8
+      Height = 23
+      Top = 2
+      Width = 238
+      ShowHidden = False
+      ButtonWidth = 23
+      NumGlyphs = 0
       TabOrder = 0
     end
   end

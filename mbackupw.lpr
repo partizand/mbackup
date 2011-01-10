@@ -1,4 +1,4 @@
-program AutoSave;
+program mbackupw;
 
 {$mode objfpc}{$H+}
 
@@ -8,16 +8,16 @@ uses
 //  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
   Forms, LResources
-  { add your units here }, mainform, taskunit, inilang, taskthread, frmtask,
-  frmset, UnitAbout, SendMailUnit, lnetbase;
+  { add your units here }, mainform, taskunit, taskthread, frmtask, frmset,
+  UnitAbout, SendMailUnit, lnetbase, PoTranslator, setunit, unitfunc,
+  msgstrings;
 
-{$R AutoSave.res}
+{$R mbackupw.res}
 
-{$IFDEF WINDOWS}{$R AutoSave.rc}{$ENDIF}
+{$IFDEF WINDOWS}{$R mbackupw.rc}{$ENDIF}
 
 begin
-  {$I AutoSave.lrs}
-  Application.Title:='AutoSave';
+  {$I mbackupw.lrs}
   Application.Initialize;
   Application.CreateForm(TMForm, MForm);
 //  Application.CreateForm(TFormSet, FormSet);
