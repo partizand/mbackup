@@ -3908,21 +3908,8 @@ begin
 
   xmldoc.StartEmpty := False; //false;
   xmldoc.RootName   := 'AutoSave';
-  xmldoc.flush;
   xmldoc.Filename := utf8toansi(filenam);
-//  ver:=xmldoc.GetValue('version/value', '');
-{
- try
- xmldoc.Filename:=filenam;
- finally
-  end;
-  }
-  //xmldoc.Flush;
-
-
-  //xmldoc.Filename:='probcfg.xml';
-
-//  Clear;
+  xmldoc.flush;
   // количество заданий
   cnt := xmldoc.GetValue('tasks/count/value', 0);
   if cnt = 0 then
@@ -3933,10 +3920,7 @@ begin
   //count:=cnt;
   Settings.Profile := ShortFileNam(filenam);
 
-  //TmpStr.LoadFromFile(filenam);
-  //ProfName:='';
-  //strcount:=1;
-//  Clear;
+
 
   SetLength(Tasks,cnt);
 //  Count:=cnt
