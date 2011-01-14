@@ -51,7 +51,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="TaskUnit"/>
         <CursorPos X="21" Y="658"/>
-        <TopLine Value="767"/>
+        <TopLine Value="658"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="22"/>
         <Bookmarks Count="1">
@@ -225,6 +225,7 @@
     <SearchPaths>
       <IncludeFiles Value="include\"/>
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\;C:\lazarus\Synapse\source\lib\"/>
+      <UnitOutputDirectory Value="compile"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -237,12 +238,6 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Source Value="mbackup.lpr"/>
-        <Line Value="44"/>
-      </Item1>
-    </BreakPoints>
     <Exceptions Count="2">
       <Item1>
         <Name Value="ECodetoolError"/>

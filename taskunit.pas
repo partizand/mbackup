@@ -19,7 +19,7 @@ uses Windows, SysUtils, DateUtils, Classes, StrUtils, masks, Process,//fileutil,
 //uses FileCtrl;
 
 const
-  VersionAS   = '0.5.1'; // Версия программы
+  VersionAS   = '0.5.2'; // Версия программы
   TempLogName = 'log.txt'; // Имя временного лог файла (отправляемого по почте)
   LastVerLnk   = 'http://atsave.narod.ru/autosave/update.html'; // Страничка с номером последней версии
   LastBinLnk   = 'http://atsave.narod.ru/autosave/mbackup.zip'; // Дистрибутив

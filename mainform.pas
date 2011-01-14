@@ -196,8 +196,8 @@ var
 begin
 ButDel.Down:=false;
 if ListTask.SelCount=0 then exit;
-num:=ListTask.Selected.Index+1;
-if num<1 then exit;
+num:=ListTask.Selected.Index;
+if num<0 then exit;
 str:=format(rsQuestDeleteTask,[Backup.Tasks[num].Name]);
 if MessageDlg(str,mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin

@@ -17,14 +17,6 @@ msgstr ""
 msgid "Cannot send mail. Did not authenticate"
 msgstr "Ошибка отправки почты. Ошибка авторизации."
 
-#: msgstrings.rsalertrunmes
-msgid "Program started"
-msgstr "Программа запущена"
-
-#: msgstrings.rsalertrunsubj
-msgid "mBackup alert"
-msgstr ""
-
 #: msgstrings.rsalerttesterr
 msgid "Cannot send mail: %s"
 msgstr "Ошибка отправки почты: %s"
@@ -83,6 +75,10 @@ msgstr "Каталог %s не существует. Создать?"
 msgid "Disabled"
 msgstr "Отключена"
 
+#: msgstrings.rsemail
+msgid "E-Mail"
+msgstr ""
+
 #: msgstrings.rsenabled
 msgctxt "msgstrings.rsenabled"
 msgid "Enabled"
@@ -107,6 +103,18 @@ msgstr "Ошибка создания каталога"
 #: msgstrings.rsexclude
 msgid "Exclude"
 msgstr "Исключая"
+
+#: msgstrings.rsfast
+msgid "Fast"
+msgstr ""
+
+#: msgstrings.rsfastest
+msgid "Fastest"
+msgstr ""
+
+#: msgstrings.rsfinished
+msgid "finished"
+msgstr ""
 
 #: msgstrings.rsftpchangedirerror
 msgid "[Error] Cannot change working directory on ftp: %s. %s"
@@ -316,6 +324,10 @@ msgstr "[Предупреждение] Не могу прочитать дату
 msgid "[Warning] Cannot get files date %s, %s. %s"
 msgstr "[Предупреждение] Не могу прочитать дату файлов %s, %s. %s"
 
+#: msgstrings.rslogging
+msgid "Logging"
+msgstr ""
+
 #: msgstrings.rslogmirror
 msgid "Mirroring %s to %s"
 msgstr "Зеркалирование %s в %s"
@@ -352,6 +364,10 @@ msgstr "[Ошибка] Ошибка запуска задания %s"
 msgid "Manual"
 msgstr "Вручную"
 
+#: msgstrings.rsmaximum
+msgid "Maximum"
+msgstr ""
+
 #: msgstrings.rsmirror
 msgid "Mirroring"
 msgstr "Зеркалирование"
@@ -376,6 +392,10 @@ msgstr "Нет"
 msgid "Rar.exe not found, archiving is not possible"
 msgstr "Rar.exe не найден, архивация невозможна"
 
+#: msgstrings.rsnormal
+msgid "Normal"
+msgstr ""
+
 #: msgstrings.rsok
 msgid "Ok"
 msgstr "Ок"
@@ -387,6 +407,11 @@ msgstr "Только при ошибках"
 #: msgstrings.rsonlythese
 msgid "Only these"
 msgstr "Только эти"
+
+#: msgstrings.rsother
+msgctxt "msgstrings.rsother"
+msgid "Other"
+msgstr "Другое"
 
 #: msgstrings.rsquestdeletetask
 msgid "Delete task %s?"
@@ -417,12 +442,18 @@ msgid "SMTP MailFrom error: %s"
 msgstr "SMTP ошибка авторизации отправителя: %s"
 
 #: msgstrings.rssmtpmailtoerr
-msgid "SMTP MailTo error: %s"
+#, fuzzy
+#| msgid "SMTP MailTo error: %s"
+msgid "SMTP MailTo error: %s. %s"
 msgstr "SMTP ошибка в адресе получателя: %s"
 
 #: msgstrings.rssmtpstarttlserr
 msgid "SMTP Start TLS error: %s"
 msgstr "SMTP ошибка инициализации TLS: %s"
+
+#: msgstrings.rsstarted
+msgid "started"
+msgstr ""
 
 #: msgstrings.rssync
 msgid "Synchronization"
@@ -458,15 +489,14 @@ msgstr "Действие"
 msgid "Archiving"
 msgstr "Архивация"
 
-#: msgstrings.rstasksettingsnode4
-msgctxt "msgstrings.rstasksettingsnode4"
-msgid "Other"
-msgstr "Другое"
-
 #: msgstrings.rstest
 msgctxt "msgstrings.rstest"
 msgid "Test"
 msgstr "Тест"
+
+#: msgstrings.rsultra
+msgid "Ultra"
+msgstr ""
 
 #: msgstrings.rsyes
 msgid "Yes"

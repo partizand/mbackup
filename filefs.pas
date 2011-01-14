@@ -5,7 +5,7 @@ unit filefs;
 interface
 
 uses
-  Classes, SysUtils,customfs,fileutil,msgstrings;
+  Classes, SysUtils,customfs,fileutil,msgstrings,Windows;
 
 // Объект файловая система
 
@@ -112,29 +112,6 @@ if SysUtils.DirectoryExists(RootDir) then
           end;
      end;
 end;
-
-//---------------------------------------------------------
-// Копирование файла из другой FS
-// FileName - короткое имя файла в текущей директории, совпадает у обоих FS
-{
-function TFileFS.CopyFile(CustomFS:TCustomFS;FileName:string):boolean;
-var
-  SorFullFileName,DestFullFileName:string;
-begin
-DestFullFileName:=WorkingDir+DirectorySeparator+FileName;
-//SorFullFileName:=CustomFS.WorkingDir+DirectorySeparator+FileName;
-SorFullFileName:=CustomFS.PathCombine(CustomFS.WorkingDir,FileName);
-Result:=false;
-if CustomFS is TFileFS then // Просто скопировать файл
-   begin
-   Result:=SimpleCopyFile(SorFullFileName,DestFullFileName);
-   end;
-if CustomFS is TFTPFS then // Нужно получить файл с ftp
-   begin
-   Result:=(CustomFS as TFTPFS).GetFile(FileName,DestFullFileName);
-   end;
-end;
-}
 //---------------------------------------------------------
 // Простое копирование файла
 function TFileFS.CopyFileFS(SourFile,DestFile:string):boolean;
@@ -171,8 +148,8 @@ begin
   end;
 // Копирование системной функцией копирования
 try
-//      res :=CopyFile(PChar(sorfile), PChar(destfile), False);
-      res := FileUtil.CopyFile(ansitoutf8(SourFile),ansitoutf8(DestFile),true);
+      res :=CopyFile(PChar(SourFile), PChar(SourFile), False);
+//      res := FileUtil.CopyFile(ansitoutf8(SourFile),ansitoutf8(SourFile),true);
     except
       On E: Exception do
       begin

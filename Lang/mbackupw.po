@@ -17,14 +17,6 @@ msgstr ""
 msgid "Cannot send mail. Did not authenticate"
 msgstr ""
 
-#: msgstrings.rsalertrunmes
-msgid "Program started"
-msgstr ""
-
-#: msgstrings.rsalertrunsubj
-msgid "mBackup alert"
-msgstr ""
-
 #: msgstrings.rsalerttesterr
 msgid "Cannot send mail: %s"
 msgstr ""
@@ -83,6 +75,10 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
+#: msgstrings.rsemail
+msgid "E-Mail"
+msgstr ""
+
 #: msgstrings.rsenabled
 msgctxt "msgstrings.rsenabled"
 msgid "Enabled"
@@ -106,6 +102,18 @@ msgstr ""
 
 #: msgstrings.rsexclude
 msgid "Exclude"
+msgstr ""
+
+#: msgstrings.rsfast
+msgid "Fast"
+msgstr ""
+
+#: msgstrings.rsfastest
+msgid "Fastest"
+msgstr ""
+
+#: msgstrings.rsfinished
+msgid "finished"
 msgstr ""
 
 #: msgstrings.rsftpchangedirerror
@@ -316,6 +324,10 @@ msgstr ""
 msgid "[Warning] Cannot get files date %s, %s. %s"
 msgstr ""
 
+#: msgstrings.rslogging
+msgid "Logging"
+msgstr ""
+
 #: msgstrings.rslogmirror
 msgid "Mirroring %s to %s"
 msgstr ""
@@ -352,6 +364,10 @@ msgstr ""
 msgid "Manual"
 msgstr ""
 
+#: msgstrings.rsmaximum
+msgid "Maximum"
+msgstr ""
+
 #: msgstrings.rsmirror
 msgid "Mirroring"
 msgstr ""
@@ -376,6 +392,10 @@ msgstr ""
 msgid "Rar.exe not found, archiving is not possible"
 msgstr ""
 
+#: msgstrings.rsnormal
+msgid "Normal"
+msgstr ""
+
 #: msgstrings.rsok
 msgid "Ok"
 msgstr ""
@@ -386,6 +406,11 @@ msgstr ""
 
 #: msgstrings.rsonlythese
 msgid "Only these"
+msgstr ""
+
+#: msgstrings.rsother
+msgctxt "msgstrings.rsother"
+msgid "Other"
 msgstr ""
 
 #: msgstrings.rsquestdeletetask
@@ -417,11 +442,15 @@ msgid "SMTP MailFrom error: %s"
 msgstr ""
 
 #: msgstrings.rssmtpmailtoerr
-msgid "SMTP MailTo error: %s"
+msgid "SMTP MailTo error: %s. %s"
 msgstr ""
 
 #: msgstrings.rssmtpstarttlserr
 msgid "SMTP Start TLS error: %s"
+msgstr ""
+
+#: msgstrings.rsstarted
+msgid "started"
 msgstr ""
 
 #: msgstrings.rssync
@@ -457,14 +486,13 @@ msgstr ""
 msgid "Archiving"
 msgstr ""
 
-#: msgstrings.rstasksettingsnode4
-msgctxt "msgstrings.rstasksettingsnode4"
-msgid "Other"
-msgstr ""
-
 #: msgstrings.rstest
 msgctxt "msgstrings.rstest"
 msgid "Test"
+msgstr ""
+
+#: msgstrings.rsultra
+msgid "Ultra"
 msgstr ""
 
 #: msgstrings.rsyes

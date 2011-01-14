@@ -1,7 +1,9 @@
+{ Это - файл ресурсов, автоматически созданный lazarus }
+
 LazarusResources.Add('TMForm','FORMDATA',[
   'TPF0'#6'TMForm'#5'MForm'#4'Left'#3#205#1#6'Height'#3#129#1#3'Top'#3'8'#1#5'W'
   +'idth'#3#12#3#13'ActiveControl'#7#8'ListTask'#5'Align'#7#5'alTop'#7'Caption'
-  +#6#8'AutoSave'#12'ClientHeight'#3'e'#1#11'ClientWidth'#3#12#3#9'Icon.Data'#10
+  +#6#8'AutoSave'#12'ClientHeight'#3'm'#1#11'ClientWidth'#3#12#3#9'Icon.Data'#10
   +#2#3#0#0#254#2#0#0#0#0#1#0#1#0'  '#16#0#0#0#0#0#232#2#0#0#22#0#0#0'('#0#0#0
   +' '#0#0#0'@'#0#0#0#1#0#4#0#0#0#0#0#128#2#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0
   +#0#0#0#0#0#0#128#0#0#128#0#0#0#128#128#0#128#0#0#0#128#0#128#0#128#128#0#0
@@ -37,53 +39,53 @@ LazarusResources.Add('TMForm','FORMDATA',[
   +'r'#2#0#0#11'TToolButton'#6'ButAdd'#4'Left'#2#1#3'Top'#2#2#6'Action'#7#6'Act'
   +'Add'#0#0#11'TToolButton'#7'ButEdit'#4'Left'#2'?'#3'Top'#2#2#6'Action'#7#7'A'
   +'ctEdit'#0#0#11'TToolButton'#6'ButDel'#4'Left'#3#187#0#3'Top'#2#2#6'Action'#7
-  +#6'ActDel'#10'ImageIndex'#2#3#0#0#11'TToolButton'#11'ToolButton1'#4'Left'#3#8
-  +#2#3'Top'#2#2#5'Width'#2#5#7'Caption'#6#11'ToolButton1'#5'Style'#7#12'tbsSep'
-  +'arator'#0#0#11'TToolButton'#8'ButStart'#4'Left'#2'}'#3'Top'#2#2#6'Action'#7
-  +#6'ActRun'#10'ImageIndex'#2#2#0#0#11'TToolButton'#7'ButStop'#4'Left'#3#249#0
-  +#3'Top'#2#2#7'Caption'#6#4'Stop'#10'ImageIndex'#2#4#7'OnClick'#7#12'ButStopC'
-  +'lick'#0#0#11'TToolButton'#11'ToolButton2'#4'Left'#3'7'#1#3'Top'#2#2#5'Width'
-  +#2#5#7'Caption'#6#11'ToolButton2'#5'Style'#7#12'tbsSeparator'#0#0#11'TToolBu'
-  +'tton'#5'ButUp'#4'Left'#3'<'#1#3'Top'#2#2#6'Action'#7#5'ActUp'#0#0#11'TToolB'
-  +'utton'#7'ButDown'#4'Left'#3'z'#1#3'Top'#2#2#6'Action'#7#7'ActDown'#0#0#11'T'
-  +'ToolButton'#11'ToolButton3'#4'Left'#3#184#1#3'Top'#2#2#5'Width'#2#5#7'Capti'
-  +'on'#6#11'ToolButton3'#5'Style'#7#12'tbsSeparator'#0#0#11'TToolButton'#6'But'
-  +'Set'#4'Left'#3#189#1#3'Top'#2#2#6'Action'#7#6'ActSet'#10'ImageIndex'#2#7#0#0
-  +#11'TToolButton'#7'ButHelp'#4'Left'#3#13#2#3'Top'#2#2#6'Action'#7#7'ActHelp'
-  +#8'AutoSize'#9#10'ImageIndex'#2#8#0#0#0#9'TListView'#8'ListTask'#4'Left'#2#0
-  +#6'Height'#3#202#0#3'Top'#2')'#5'Width'#3#12#3#5'Align'#7#8'alClient'#7'Colu'
-  +'mns'#14#1#7'Caption'#6#9'Task name'#5'Width'#2'v'#0#1#7'Caption'#6#6'Source'
-  +#5'Width'#2's'#0#1#7'Caption'#6#6'Action'#5'Width'#2's'#0#1#7'Caption'#6#11
-  +'Destination'#5'Width'#2's'#0#1#7'Caption'#6#7'Enabled'#5'Width'#2's'#0#1#7
-  +'Caption'#6#8'Last run'#5'Width'#3#140#0#0#0#13'HideSelection'#8#10'ParentFo'
-  +'nt'#8#8'ReadOnly'#9#9'RowSelect'#9#8'TabOrder'#2#1#9'ViewStyle'#7#8'vsRepor'
-  +'t'#10'OnDblClick'#7#14'ActEditExecute'#0#0#10'TStatusBar'#9'StatusBar'#24'A'
-  +'nchorSideBottom.Control'#7#5'Owner'#21'AnchorSideBottom.Side'#7#9'asrBottom'
-  +#4'Left'#2#0#6'Height'#2#23#3'Top'#3'N'#1#5'Width'#3#12#3#7'Anchors'#11#8'ak'
-  +'Bottom'#0#6'Panels'#14#1#5'Width'#3','#1#0#1#5'Width'#3#200#0#0#1#5'Width'#2
-  +'2'#0#0#11'SimplePanel'#8#0#0#5'TMemo'#7'MsgMemo'#24'AnchorSideBottom.Contro'
-  +'l'#7#9'StatusBar'#4'Left'#2#0#6'Height'#2'W'#3'Top'#3#247#0#5'Width'#3#12#3
-  ,#5'Align'#7#8'alBottom'#7'Anchors'#11#7'akRight'#8'akBottom'#0#13'Lines.Stri'
-  +'ngs'#1#6#0#0#9'OnKeyDown'#7#14'MsgMemoKeyDown'#8'ReadOnly'#9#10'ScrollBars'
-  +#7#14'ssAutoVertical'#8'TabOrder'#2#2#0#0#9'TSplitter'#9'Splitter1'#6'Cursor'
-  +#7#8'crVSplit'#4'Left'#2#0#6'Height'#2#4#3'Top'#3#243#0#5'Width'#3#12#3#5'Al'
-  +'ign'#7#8'alBottom'#8'AutoSnap'#8#12'ResizeAnchor'#7#8'akBottom'#0#0#9'TMain'
-  +'Menu'#9'MainMenu1'#4'left'#2'g'#3'top'#2'>'#0#9'TMenuItem'#9'MenuItem1'#7'C'
-  +'aption'#6#7'Profile'#0#9'TMenuItem'#14'mnutAddprofile'#6'Action'#7#13'ActNe'
-  +'wProfile'#7'OnClick'#7#20'ActNewProfileExecute'#0#0#9'TMenuItem'#15'mnuTOpe'
-  +'nProfile'#6'Action'#7#14'ActOpenProfile'#7'OnClick'#7#21'ActOpenProfileExec'
-  +'ute'#0#0#9'TMenuItem'#7'mnuSave'#6'Action'#7#11'ActSaveProf'#7'OnClick'#7#18
-  +'ActSaveProfExecute'#0#0#0#9'TMenuItem'#7'MnuTask'#7'Caption'#6#4'Task'#0#9
-  +'TMenuItem'#7'MnuTAdd'#6'Action'#7#6'ActAdd'#7'OnClick'#7#13'ActAddExecute'#0
-  +#0#9'TMenuItem'#8'MnuTEdit'#6'Action'#7#7'ActEdit'#8'ShortCut'#4#13#128#0#0#7
-  +'OnClick'#7#14'ActEditExecute'#0#0#9'TMenuItem'#7'mnutrun'#6'Action'#7#6'Act'
-  +'Run'#7'OnClick'#7#13'ActRunExecute'#0#0#9'TMenuItem'#7'mnutdel'#6'Action'#7
-  +#6'ActDel'#7'OnClick'#7#13'ActDelExecute'#0#0#9'TMenuItem'#6'mnutUp'#6'Actio'
-  +'n'#7#5'ActUp'#8'ShortCut'#3'& '#7'OnClick'#7#12'ActUpExecute'#0#0#9'TMenuIt'
-  +'em'#8'mnutDown'#6'Action'#7#7'ActDown'#7'OnClick'#7#14'ActDownExecute'#0#0#9
-  +'TMenuItem'#8'mnutCopy'#6'Action'#7#7'ActCopy'#7'OnClick'#7#14'ActCopyExecut'
-  +'e'#0#0#9'TMenuItem'#9'MenuItem2'#7'Caption'#6#1'-'#0#0#9'TMenuItem'#10'mnut'
-  +'RunAll'#6'Action'#7#9'ActRunAll'#7'OnClick'#7#16'ActRunAllExecute'#0#0#0#9
+  +#6'ActDel'#10'ImageIndex'#2#3#0#0#11'TToolButton'#11'ToolButton1'#4'Left'#3
+  +#251#1#3'Top'#2#2#5'Width'#2#5#7'Caption'#6#11'ToolButton1'#5'Style'#7#12'tb'
+  +'sSeparator'#0#0#11'TToolButton'#8'ButStart'#4'Left'#2'}'#3'Top'#2#2#6'Actio'
+  +'n'#7#6'ActRun'#10'ImageIndex'#2#2#0#0#11'TToolButton'#7'ButStop'#4'Left'#3
+  +#249#0#3'Top'#2#2#7'Caption'#6#4'Stop'#10'ImageIndex'#2#4#7'OnClick'#7#12'Bu'
+  +'tStopClick'#0#0#11'TToolButton'#11'ToolButton2'#4'Left'#3'7'#1#3'Top'#2#2#5
+  +'Width'#2#5#7'Caption'#6#11'ToolButton2'#5'Style'#7#12'tbsSeparator'#0#0#11
+  +'TToolButton'#5'ButUp'#4'Left'#3'<'#1#3'Top'#2#2#6'Action'#7#5'ActUp'#0#0#11
+  +'TToolButton'#7'ButDown'#4'Left'#3'z'#1#3'Top'#2#2#6'Action'#7#7'ActDown'#0#0
+  +#11'TToolButton'#11'ToolButton3'#4'Left'#3#184#1#3'Top'#2#2#5'Width'#2#5#7'C'
+  +'aption'#6#11'ToolButton3'#5'Style'#7#12'tbsSeparator'#0#0#11'TToolButton'#6
+  +'ButSet'#4'Left'#3#189#1#3'Top'#2#2#6'Action'#7#6'ActSet'#10'ImageIndex'#2#7
+  +#0#0#11'TToolButton'#7'ButHelp'#4'Left'#3#0#2#3'Top'#2#2#6'Action'#7#7'ActHe'
+  +'lp'#8'AutoSize'#9#10'ImageIndex'#2#8#0#0#0#9'TListView'#8'ListTask'#4'Left'
+  +#2#0#6'Height'#3#210#0#3'Top'#2')'#5'Width'#3#12#3#5'Align'#7#8'alClient'#7
+  +'Columns'#14#1#7'Caption'#6#9'Task name'#5'Width'#2'v'#0#1#7'Caption'#6#6'So'
+  +'urce'#5'Width'#2's'#0#1#7'Caption'#6#6'Action'#5'Width'#2's'#0#1#7'Caption'
+  +#6#11'Destination'#5'Width'#2's'#0#1#7'Caption'#6#7'Enabled'#5'Width'#2's'#0
+  +#1#7'Caption'#6#8'Last run'#5'Width'#3#140#0#0#0#13'HideSelection'#8#10'Pare'
+  +'ntFont'#8#8'ReadOnly'#9#9'RowSelect'#9#8'TabOrder'#2#1#9'ViewStyle'#7#8'vsR'
+  +'eport'#10'OnDblClick'#7#14'ActEditExecute'#0#0#10'TStatusBar'#9'StatusBar'
+  +#24'AnchorSideBottom.Control'#7#5'Owner'#21'AnchorSideBottom.Side'#7#9'asrBo'
+  +'ttom'#4'Left'#2#0#6'Height'#2#23#3'Top'#3'V'#1#5'Width'#3#12#3#7'Anchors'#11
+  +#8'akBottom'#0#6'Panels'#14#1#5'Width'#3','#1#0#1#5'Width'#3#200#0#0#1#5'Wid'
+  +'th'#2'2'#0#0#11'SimplePanel'#8#0#0#5'TMemo'#7'MsgMemo'#24'AnchorSideBottom.'
+  +'Control'#7#9'StatusBar'#4'Left'#2#0#6'Height'#2'W'#3'Top'#3#255#0#5'Width'#3
+  ,#12#3#5'Align'#7#8'alBottom'#7'Anchors'#11#7'akRight'#8'akBottom'#0#13'Lines'
+  +'.Strings'#1#6#0#0#9'OnKeyDown'#7#14'MsgMemoKeyDown'#8'ReadOnly'#9#10'Scroll'
+  +'Bars'#7#14'ssAutoVertical'#8'TabOrder'#2#2#0#0#9'TSplitter'#9'Splitter1'#6
+  +'Cursor'#7#8'crVSplit'#4'Left'#2#0#6'Height'#2#4#3'Top'#3#251#0#5'Width'#3#12
+  +#3#5'Align'#7#8'alBottom'#8'AutoSnap'#8#12'ResizeAnchor'#7#8'akBottom'#0#0#9
+  +'TMainMenu'#9'MainMenu1'#4'left'#2'g'#3'top'#2'>'#0#9'TMenuItem'#9'MenuItem1'
+  +#7'Caption'#6#7'Profile'#0#9'TMenuItem'#14'mnutAddprofile'#6'Action'#7#13'Ac'
+  +'tNewProfile'#7'OnClick'#7#20'ActNewProfileExecute'#0#0#9'TMenuItem'#15'mnuT'
+  +'OpenProfile'#6'Action'#7#14'ActOpenProfile'#7'OnClick'#7#21'ActOpenProfileE'
+  +'xecute'#0#0#9'TMenuItem'#7'mnuSave'#6'Action'#7#11'ActSaveProf'#7'OnClick'#7
+  +#18'ActSaveProfExecute'#0#0#0#9'TMenuItem'#7'MnuTask'#7'Caption'#6#4'Task'#0
+  +#9'TMenuItem'#7'MnuTAdd'#6'Action'#7#6'ActAdd'#7'OnClick'#7#13'ActAddExecute'
+  +#0#0#9'TMenuItem'#8'MnuTEdit'#6'Action'#7#7'ActEdit'#8'ShortCut'#4#13#128#0#0
+  +#7'OnClick'#7#14'ActEditExecute'#0#0#9'TMenuItem'#7'mnutrun'#6'Action'#7#6'A'
+  +'ctRun'#7'OnClick'#7#13'ActRunExecute'#0#0#9'TMenuItem'#7'mnutdel'#6'Action'
+  +#7#6'ActDel'#7'OnClick'#7#13'ActDelExecute'#0#0#9'TMenuItem'#6'mnutUp'#6'Act'
+  +'ion'#7#5'ActUp'#8'ShortCut'#3'& '#7'OnClick'#7#12'ActUpExecute'#0#0#9'TMenu'
+  +'Item'#8'mnutDown'#6'Action'#7#7'ActDown'#7'OnClick'#7#14'ActDownExecute'#0#0
+  +#9'TMenuItem'#8'mnutCopy'#6'Action'#7#7'ActCopy'#7'OnClick'#7#14'ActCopyExec'
+  +'ute'#0#0#9'TMenuItem'#9'MenuItem2'#7'Caption'#6#1'-'#0#0#9'TMenuItem'#10'mn'
+  +'utRunAll'#6'Action'#7#9'ActRunAll'#7'OnClick'#7#16'ActRunAllExecute'#0#0#0#9
   +'TMenuItem'#11'mnutSetmain'#7'Caption'#6#8'Settings'#10'ImageIndex'#2#7#7'On'
   +'Click'#7#13'ActSetExecute'#0#9'TMenuItem'#7'mnutSet'#6'Action'#7#6'ActSet'#8
   +'ShortCut'#2'q'#7'OnClick'#7#13'ActSetExecute'#0#0#0#9'TMenuItem'#12'mnutHel'
