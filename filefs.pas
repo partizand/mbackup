@@ -148,8 +148,8 @@ begin
   end;
 // Копирование системной функцией копирования
 try
-      res :=CopyFile(PChar(SourFile), PChar(SourFile), False);
-//      res := FileUtil.CopyFile(ansitoutf8(SourFile),ansitoutf8(SourFile),true);
+      res :=CopyFile(PChar(SourFile), PChar(DestFile), False);
+//      res := FileUtil.CopyFile(ansitoutf8(SourFile),ansitoutf8(DestFile),true);
     except
       On E: Exception do
       begin
