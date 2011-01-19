@@ -4745,7 +4745,7 @@ begin
     CreateFS(Tasks[NumTask].SrcFSParam,CustFS);
     SubDirs:=TStringList.Create;
     SubDirs.Delimiter:=';';
-    SubDirs.DelimitedText:=Tasks[NumTask].SourceFilt.SubDirs;
+    SubDirs.DelimitedText:=utf8toSys(Tasks[NumTask].SourceFilt.SubDirs);
     // Проверка на совпадение файла с маской
     for i := 0 to SubDirs.Count - 1 do
     begin
