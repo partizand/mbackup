@@ -4708,7 +4708,7 @@ begin
   begin
     FileMask:=TStringList.Create;
     FileMask.Delimiter:=';';
-    FileMask.DelimitedText:=Tasks[NumTask].SourceFilt.FileMask;
+    FileMask.DelimitedText:=utf8toSys(Tasks[NumTask].SourceFilt.FileMask);
     Match := False;
     // Проверка на совпадение файла с маской
     for i := 0 to FileMask.Count - 1 do
