@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Andrey Kapustin\n"
+"Last-Translator: Andrey Kapustin <atsave@narod.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -106,15 +106,15 @@ msgstr "Исключая"
 
 #: msgstrings.rsfast
 msgid "Fast"
-msgstr ""
+msgstr "Быстрый"
 
 #: msgstrings.rsfastest
 msgid "Fastest"
-msgstr ""
+msgstr "Быстрейший"
 
 #: msgstrings.rsfinished
 msgid "finished"
-msgstr ""
+msgstr "завершена"
 
 #: msgstrings.rsftpchangedirerror
 msgid "[Error] Cannot change working directory on ftp: %s. %s"
@@ -326,7 +326,7 @@ msgstr "[Предупреждение] Не могу прочитать дату
 
 #: msgstrings.rslogging
 msgid "Logging"
-msgstr ""
+msgstr "Журналирование"
 
 #: msgstrings.rslogmirror
 msgid "Mirroring %s to %s"
@@ -366,7 +366,7 @@ msgstr "Вручную"
 
 #: msgstrings.rsmaximum
 msgid "Maximum"
-msgstr ""
+msgstr "Максимум"
 
 #: msgstrings.rsmirror
 msgid "Mirroring"
@@ -394,7 +394,7 @@ msgstr "Rar.exe не найден, архивация невозможна"
 
 #: msgstrings.rsnormal
 msgid "Normal"
-msgstr ""
+msgstr "Нормальный"
 
 #: msgstrings.rsok
 msgid "Ok"
@@ -442,10 +442,9 @@ msgid "SMTP MailFrom error: %s"
 msgstr "SMTP ошибка авторизации отправителя: %s"
 
 #: msgstrings.rssmtpmailtoerr
-#, fuzzy
 #| msgid "SMTP MailTo error: %s"
 msgid "SMTP MailTo error: %s. %s"
-msgstr "SMTP ошибка в адресе получателя: %s"
+msgstr "SMTP ошибка в адресе получателя: %s. %s"
 
 #: msgstrings.rssmtpstarttlserr
 msgid "SMTP Start TLS error: %s"
@@ -453,7 +452,7 @@ msgstr "SMTP ошибка инициализации TLS: %s"
 
 #: msgstrings.rsstarted
 msgid "started"
-msgstr ""
+msgstr "запущена"
 
 #: msgstrings.rssync
 msgid "Synchronization"
@@ -496,7 +495,7 @@ msgstr "Тест"
 
 #: msgstrings.rsultra
 msgid "Ultra"
-msgstr ""
+msgstr "Ультра"
 
 #: msgstrings.rsyes
 msgid "Yes"
@@ -575,6 +574,10 @@ msgstr "Журналирование FTP"
 msgid "EditBody"
 msgstr ""
 
+#: TFORMSET.EDITBODYALERT.TEXT
+msgid "EditBodyAlert"
+msgstr ""
+
 #: TFORMSET.EDITLOGFTPNAM.TEXT
 msgid "EditLogFTPNam"
 msgstr ""
@@ -605,6 +608,10 @@ msgstr ""
 
 #: TFORMSET.EDITSUBJ.TEXT
 msgid "EditSubj"
+msgstr ""
+
+#: TFORMSET.EDITSUBJALERT.TEXT
+msgid "EditSubjAlert"
 msgstr ""
 
 #: TFORMSET.EDITUSER.TEXT
@@ -650,6 +657,10 @@ msgstr "Имя файла"
 #: TFORMSET.LABEL4.CAPTION
 msgid "Имя профиля"
 msgstr "Имя профиля"
+
+#: TFORMSET.LABELBODYALERT.CAPTION
+msgid "Alert text"
+msgstr "Текст уведомл."
 
 #: TFORMSET.LABELKB.CAPTION
 msgctxt "TFORMSET.LABELKB.CAPTION"
@@ -701,6 +712,10 @@ msgctxt "TFORMSET.LABELSUBJ.CAPTION"
 msgid "Subject"
 msgstr "Тема"
 
+#: TFORMSET.LABELSUBJALERT.CAPTION
+msgid "Alert subject"
+msgstr "Тема уведомл."
+
 #: TFORMSET.LABELTEXT.CAPTION
 msgctxt "TFORMSET.LABELTEXT.CAPTION"
 msgid "Text"
@@ -715,13 +730,26 @@ msgstr "Пользователь"
 msgid "Last opened"
 msgstr "Последний открытый"
 
+#: TFORMSET.TABLOG.CAPTION
+msgid "TabLog"
+msgstr ""
+
+#: TFORMSET.TABMAIL.CAPTION
+msgid "TabMail"
+msgstr ""
+
+#: TFORMSET.TABOTHER.CAPTION
+msgid "TabOther"
+msgstr ""
+
 #: TFORMTASK.AFTERCHECK.CAPTION
 msgid "Run after"
 msgstr "Запуск после"
 
 #: TFORMTASK.ARHBOX.CAPTION
-msgid "Archive optinos"
-msgstr "Параметры архивации"
+#| msgid "Archive optinos"
+msgid "Archive name"
+msgstr "Имя архива"
 
 #: TFORMTASK.ARHDELBOX.CAPTION
 msgid "Archives rotate"
@@ -755,9 +783,22 @@ msgctxt "TFORMTASK.CBCONDBEFORE.TEXT"
 msgid "Always"
 msgstr "Всегда"
 
+#: TFORMTASK.CHKARHOPENFILES.CAPTION
+msgid "Compress files open for writing"
+msgstr "Обрабатывать открытые для записи файлы"
+
 #: TFORMTASK.CHKDELAFTERARH.CAPTION
-msgid "Delete files after archiving"
-msgstr "Удалять файлы после архивации"
+#| msgid "Delete files after archiving"
+msgid "Delete files after archiving (rar only)"
+msgstr "Удалять файлы после архивации (только rar)"
+
+#: TFORMTASK.CHKENCRYPT.CAPTION
+msgid "Set password"
+msgstr "Установить пароль"
+
+#: TFORMTASK.CHKSOLID.CAPTION
+msgid "Solid archive"
+msgstr "Непрерывный архив"
 
 #: TFORMTASK.DELARHCHECK.CAPTION
 msgctxt "TFORMTASK.DELARHCHECK.CAPTION"
@@ -768,8 +809,16 @@ msgstr "Хранить архивы"
 msgid "Store deleted files"
 msgstr "Хранить удаленные файлы"
 
+#: TFORMTASK.EDITADDOPT.TEXT
+msgid "EditAddOpt"
+msgstr ""
+
 #: TFORMTASK.EDITARHNAM.TEXT
 msgid "EditArhNam"
+msgstr ""
+
+#: TFORMTASK.EDITARHPASS.TEXT
+msgid "EditArhPass"
 msgstr ""
 
 #: TFORMTASK.EDITFILEMASK.TEXT
@@ -801,10 +850,22 @@ msgctxt "TFORMTASK.GROUPACTION.CAPTION"
 msgid "Action"
 msgstr "Действие"
 
+#: TFORMTASK.GROUPADDOPTIONS.CAPTION
+msgid "Options"
+msgstr "Опции"
+
+#: TFORMTASK.GROUPCOMPRESS.CAPTION
+msgid "Level compress"
+msgstr "Метод сжатия"
+
 #: TFORMTASK.GROUPDEST.CAPTION
 msgctxt "TFORMTASK.GROUPDEST.CAPTION"
 msgid "Destination"
 msgstr "Приемник"
+
+#: TFORMTASK.GROUPENCRYPT.CAPTION
+msgid "Encrypt archive"
+msgstr "Шифровать архив"
 
 #: TFORMTASK.GROUPEXCLUDEFOLD.CAPTION
 msgid "Excluded folders"
@@ -845,10 +906,9 @@ msgctxt "TFORMTASK.GROUPTASKNAME.CAPTION"
 msgid "Task name"
 msgstr "Имя задания"
 
-#: TFORMTASK.LABELARHNAME.CAPTION
-msgctxt "TFORMTASK.LABELARHNAME.CAPTION"
-msgid "Archive name"
-msgstr "Имя архива"
+#: TFORMTASK.LABELADDOPT.CAPTION
+msgid "Additional switches"
+msgstr "Доп. ключи"
 
 #: TFORMTASK.LABELDAILY.CAPTION
 msgctxt "TFORMTASK.LABELDAILY.CAPTION"

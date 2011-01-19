@@ -571,6 +571,10 @@ msgstr ""
 msgid "EditBody"
 msgstr ""
 
+#: TFORMSET.EDITBODYALERT.TEXT
+msgid "EditBodyAlert"
+msgstr ""
+
 #: TFORMSET.EDITLOGFTPNAM.TEXT
 msgid "EditLogFTPNam"
 msgstr ""
@@ -601,6 +605,10 @@ msgstr ""
 
 #: TFORMSET.EDITSUBJ.TEXT
 msgid "EditSubj"
+msgstr ""
+
+#: TFORMSET.EDITSUBJALERT.TEXT
+msgid "EditSubjAlert"
 msgstr ""
 
 #: TFORMSET.EDITUSER.TEXT
@@ -645,6 +653,10 @@ msgstr ""
 
 #: TFORMSET.LABEL4.CAPTION
 msgid "Имя профиля"
+msgstr ""
+
+#: TFORMSET.LABELBODYALERT.CAPTION
+msgid "Alert text"
 msgstr ""
 
 #: TFORMSET.LABELKB.CAPTION
@@ -697,6 +709,10 @@ msgctxt "TFORMSET.LABELSUBJ.CAPTION"
 msgid "Subject"
 msgstr ""
 
+#: TFORMSET.LABELSUBJALERT.CAPTION
+msgid "Alert subject"
+msgstr ""
+
 #: TFORMSET.LABELTEXT.CAPTION
 msgctxt "TFORMSET.LABELTEXT.CAPTION"
 msgid "Text"
@@ -711,12 +727,24 @@ msgstr ""
 msgid "Last opened"
 msgstr ""
 
+#: TFORMSET.TABLOG.CAPTION
+msgid "TabLog"
+msgstr ""
+
+#: TFORMSET.TABMAIL.CAPTION
+msgid "TabMail"
+msgstr ""
+
+#: TFORMSET.TABOTHER.CAPTION
+msgid "TabOther"
+msgstr ""
+
 #: TFORMTASK.AFTERCHECK.CAPTION
 msgid "Run after"
 msgstr ""
 
 #: TFORMTASK.ARHBOX.CAPTION
-msgid "Archive optinos"
+msgid "Archive name"
 msgstr ""
 
 #: TFORMTASK.ARHDELBOX.CAPTION
@@ -751,8 +779,20 @@ msgctxt "TFORMTASK.CBCONDBEFORE.TEXT"
 msgid "Always"
 msgstr ""
 
+#: TFORMTASK.CHKARHOPENFILES.CAPTION
+msgid "Compress files open for writing"
+msgstr ""
+
 #: TFORMTASK.CHKDELAFTERARH.CAPTION
-msgid "Delete files after archiving"
+msgid "Delete files after archiving (rar only)"
+msgstr ""
+
+#: TFORMTASK.CHKENCRYPT.CAPTION
+msgid "Set password"
+msgstr ""
+
+#: TFORMTASK.CHKSOLID.CAPTION
+msgid "Solid archive"
 msgstr ""
 
 #: TFORMTASK.DELARHCHECK.CAPTION
@@ -764,8 +804,16 @@ msgstr ""
 msgid "Store deleted files"
 msgstr ""
 
+#: TFORMTASK.EDITADDOPT.TEXT
+msgid "EditAddOpt"
+msgstr ""
+
 #: TFORMTASK.EDITARHNAM.TEXT
 msgid "EditArhNam"
+msgstr ""
+
+#: TFORMTASK.EDITARHPASS.TEXT
+msgid "EditArhPass"
 msgstr ""
 
 #: TFORMTASK.EDITFILEMASK.TEXT
@@ -795,9 +843,21 @@ msgctxt "TFORMTASK.GROUPACTION.CAPTION"
 msgid "Action"
 msgstr ""
 
+#: TFORMTASK.GROUPADDOPTIONS.CAPTION
+msgid "Options"
+msgstr ""
+
+#: TFORMTASK.GROUPCOMPRESS.CAPTION
+msgid "Level compress"
+msgstr ""
+
 #: TFORMTASK.GROUPDEST.CAPTION
 msgctxt "TFORMTASK.GROUPDEST.CAPTION"
 msgid "Destination"
+msgstr ""
+
+#: TFORMTASK.GROUPENCRYPT.CAPTION
+msgid "Encrypt archive"
 msgstr ""
 
 #: TFORMTASK.GROUPEXCLUDEFOLD.CAPTION
@@ -839,9 +899,8 @@ msgctxt "TFORMTASK.GROUPTASKNAME.CAPTION"
 msgid "Task name"
 msgstr ""
 
-#: TFORMTASK.LABELARHNAME.CAPTION
-msgctxt "TFORMTASK.LABELARHNAME.CAPTION"
-msgid "Archive name"
+#: TFORMTASK.LABELADDOPT.CAPTION
+msgid "Additional switches"
 msgstr ""
 
 #: TFORMTASK.LABELDAILY.CAPTION

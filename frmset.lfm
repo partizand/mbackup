@@ -1,7 +1,7 @@
 object FormSet: TFormSet
-  Left = 494
+  Left = 407
   Height = 456
-  Top = 269
+  Top = 189
   Width = 729
   Caption = 'mBackup settings'
   ClientHeight = 456
@@ -56,8 +56,10 @@ object FormSet: TFormSet
     Width = 152
     Align = alLeft
     DefaultItemHeight = 17
+    ReadOnly = True
     TabOrder = 1
     OnSelectionChanged = tvSettingsSelectionChanged
+    Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
     Items.Data = {
       F9FFFFFF020003000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
       000000060000004C6F6767696EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000
