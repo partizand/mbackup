@@ -482,7 +482,8 @@ if CBoxAct.ItemIndex=ttArhRar-1 then
 if (CBoxAct.ItemIndex=ttArh7zip-1) or (CBoxAct.ItemIndex=ttArhZip-1) then
  begin
   str:=TBackup.GetFullExePath('7za.exe');
-//  if Not FileExists(ExtractFileDir(ParamStr(0))+'\7za.exe') then // Нет файла 7z.exe
+  if str=''then str:=TBackup.GetFullExePath('7z.exe');
+
   if str=''then // Нет файла 7z.exe
    begin
    ShowMessage(rsNo7zip);

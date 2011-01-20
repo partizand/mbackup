@@ -2883,7 +2883,8 @@ if not (SrcFS is TFileFS) then
 
   //cmdexe  := ExtractFileDir(ParamStr(0)) + DirectorySeparator + '7za.exe';
   cmdexe  := GetFullExePath('7za.exe');
-//  if not FileExists(cmdexe) then
+  if cmdexe='' then cmdexe:= GetFullExePath('7z.exe');
+
   if cmdexe='' then
   begin
     LogMessage(rsLog7zipNotFound);

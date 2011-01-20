@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Andrey Kapustin <atsave@narod.ru>\n"
+"Last-Translator: Andrey Kapustin\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -221,8 +221,9 @@ msgid "Waiting"
 msgstr "Ожидает"
 
 #: msgstrings.rslog7zipnotfound
-msgid "[Error] 7z.exe is not found"
-msgstr "[Ошибка] 7z.exe не найден"
+#| msgid "[Error] 7z.exe is not found"
+msgid "[Error] 7za.exe/7z.exe is not found"
+msgstr "[Ошибка] 7za.exe/7z.exe не найден"
 
 #: msgstrings.rslogarc7zip
 msgid "Archiving 7zip %s to %s"
@@ -377,8 +378,9 @@ msgid "No"
 msgstr "Нет"
 
 #: msgstrings.rsno7zip
-msgid "7za.exe not found, cannot start arh"
-msgstr "7za.exe не найден, архивация невозможна"
+#| msgid "7za.exe not found, cannot start arh"
+msgid "7za.exe/7z.exe not found, cannot start arh"
+msgstr "7za.exe/7z.exe не найден, архивация невозможна"
 
 #: msgstrings.rsnoarcname
 msgid "Enter arh name"

@@ -221,7 +221,7 @@ msgid "Waiting"
 msgstr ""
 
 #: msgstrings.rslog7zipnotfound
-msgid "[Error] 7z.exe is not found"
+msgid "[Error] 7za.exe/7z.exe is not found"
 msgstr ""
 
 #: msgstrings.rslogarc7zip
@@ -377,7 +377,7 @@ msgid "No"
 msgstr ""
 
 #: msgstrings.rsno7zip
-msgid "7za.exe not found, cannot start arh"
+msgid "7za.exe/7z.exe not found, cannot start arh"
 msgstr ""
 
 #: msgstrings.rsnoarcname

@@ -82,12 +82,12 @@ resourcestring
  rsAlertTestErr='Cannot send mail: %s';
  rsLogFileDateErr='[Warning] Cannot get file date %s';
  rsLogFileDateErrEx='[Warning] Cannot get files date %s, %s. %s';
- rsLog7zipNotFound='[Error] 7z.exe is not found';
+ rsLog7zipNotFound='[Error] 7za.exe/7z.exe is not found';
  rsLogArcErrCmd='[Error] Archiver return error. Invalid arguments. Archive name: %s';
  rsLogArcErrMemory='[Error] Archiver return error. Not enouth memory. Archive name: %s';
  rsLogArcWarnUserStop='[Warning] Archiver return warning. Process terminated by user. Archive name: %s';
  rsLogArc7Zip='Archiving 7zip %s to %s';
- rsNo7zip='7za.exe not found, cannot start arh';
+ rsNo7zip='7za.exe/7z.exe not found, cannot start arh';
  rsArc7Zip='Archiving 7zip';
  rsArcOldCheckName='Store arhs';
  rsZerkOldCheckName='Keep deleted files';
