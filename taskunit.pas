@@ -2729,15 +2729,31 @@ begin
          //  exit;
          end;
   end;
+
+// Приводим в порядок FS
+SrcFS.ChangeWorkingDir(arhDir);
+DstFS.ChangeWorkingDir(DstFS.RootDir);
+        if (DstFS is TFTPFS) then // приемник Ftp,
+             begin
+             if Not (DstFS as TFTPFS).Connected then  //отвалился пока архивировали
+                 begin
+                 if Not (DstFS as TFTPFS).Connect then // И обратно не цепляется
+                     begin
+                     Result:=trError;
+                     LogMessage(rsFTPLostConnect);
+                     exit;
+                     end;
+                 end;
+             end;
+// Конец приведения в порядок
+
    if (TmpExist) and ((ExitCode=0) or (ExitCode=1)) then // Копируем архив
         begin
-        SrcFS.ChangeWorkingDir(ExtractFileDir(arhDir));
-        DstFS.ChangeWorkingDir(DstFS.RootDir);
         if SimpleCopyFileFS(SrcFS,DstFS,ArhFileName) then
             DelFileFS(ArhFileName,SrcFS);
         end;
 
- DelOldArhsFS(numtask,DstFS);
+if Result<=trFileError then DelOldArhsFS(numtask,DstFS);
 end;
  //==========================================================
 // Создание файла исключений, генерация командной строки для архивации rar
@@ -2964,11 +2980,9 @@ if not (SrcFS is TFileFS) then
         end;
 
        end;
-
-  if (TmpExist) and ((ExitCode=0) or (ExitCode=1)) and (Result<=trFileError) then // Копируем архив
-        begin
-        SrcFS.ChangeWorkingDir(arhDir);
-        DstFS.ChangeWorkingDir(DstFS.RootDir);
+// Приводим в порядок FS
+SrcFS.ChangeWorkingDir(arhDir);
+DstFS.ChangeWorkingDir(DstFS.RootDir);
         if (DstFS is TFTPFS) then // приемник Ftp,
              begin
              if Not (DstFS as TFTPFS).Connected then  //отвалился пока архивировали
@@ -2981,11 +2995,20 @@ if not (SrcFS is TFileFS) then
                      end;
                  end;
              end;
+// Конец приведения в порядок
+
+  if (TmpExist) and ((ExitCode=0) or (ExitCode=1)) and (Result<=trFileError) then // Копируем архив
+        begin
+
         if SimpleCopyFileFS(SrcFS,DstFS,ArhFileName) then
             DelFileFS(ArhFileName,SrcFS);
         end;
 // Удаление старых архивов
-if Result<=trFileError then DelOldArhsFS(numtask,DstFS);
+if Result<=trFileError then
+        begin
+
+        DelOldArhsFS(numtask,DstFS);
+        end;
 end;
 //==========================================================
 // Создание командной строки для архивации 7zip  (без 7z.exe)
@@ -3140,12 +3163,13 @@ var
   //  filesync:String;
   //sordata: TDateTime; // даты файлов источ и приемника
   ArhList:array of TArhList;
-
+  test:string;
 begin
   if not Tasks[numtask].Arh.DelOldArh then  exit; // Если не задано удаление архивов выход из функции
 //  dir := CustomFS.RootDir;// Tasks[numtask]. DestPath + DirectorySeparator;
   // каталог приемник где ищутся архивы
   //exten:=Tasks[numtask].Arh.Name;
+  test:=CustomFS.WorkingDir;
   exten:=ReplDateToMask(Tasks[numtask].Arh.Name); // Заменяем %% на *
   if Tasks[numtask].Action = ttArhZip then exten := exten+'.zip';
   if Tasks[numtask].Action = ttArh7Zip then exten :=exten+'.7z';
@@ -3162,6 +3186,7 @@ begin
       begin
       repeat
         begin
+        test:=sr.sr.Name;
         if MatchesMask(sr.sr.Name, exten) then  Inc(Col); //:=Col+1;
         end;
       until CustomFS.FindNextFS(sr) <> 0;
