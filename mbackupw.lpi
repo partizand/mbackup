@@ -9,7 +9,7 @@
       <Title Value="mbackupw"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -53,7 +53,7 @@
         <ComponentName Value="MForm"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainForm"/>
-        <CursorPos X="9" Y="200"/>
+        <CursorPos X="9" Y="201"/>
         <TopLine Value="195"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="332"/>
@@ -359,7 +359,7 @@
         <UsageCount Value="10"/>
       </Unit36>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="taskunit.pas"/>
         <Caret Line="3159" Column="1" TopLine="3140"/>
@@ -378,108 +378,104 @@
       </Position4>
       <Position5>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="2857" Column="5" TopLine="2961"/>
+        <Caret Line="2988" Column="1" TopLine="2969"/>
       </Position5>
       <Position6>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="2988" Column="1" TopLine="2969"/>
+        <Caret Line="3149" Column="28" TopLine="3137"/>
       </Position6>
       <Position7>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3149" Column="28" TopLine="3137"/>
+        <Caret Line="2988" Column="1" TopLine="2969"/>
       </Position7>
       <Position8>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="2988" Column="1" TopLine="2969"/>
+        <Caret Line="3144" Column="1" TopLine="3125"/>
       </Position8>
       <Position9>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3144" Column="1" TopLine="3125"/>
+        <Caret Line="3145" Column="1" TopLine="3126"/>
       </Position9>
       <Position10>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3145" Column="1" TopLine="3126"/>
+        <Caret Line="3149" Column="1" TopLine="3130"/>
       </Position10>
       <Position11>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3149" Column="1" TopLine="3130"/>
+        <Caret Line="3150" Column="1" TopLine="3131"/>
       </Position11>
       <Position12>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3150" Column="1" TopLine="3131"/>
+        <Caret Line="3010" Column="1" TopLine="2991"/>
       </Position12>
       <Position13>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="2756" Column="28" TopLine="2984"/>
+        <Caret Line="3167" Column="1" TopLine="3148"/>
       </Position13>
       <Position14>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3010" Column="1" TopLine="2991"/>
+        <Caret Line="3168" Column="1" TopLine="3149"/>
       </Position14>
       <Position15>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3167" Column="1" TopLine="3148"/>
+        <Caret Line="3172" Column="1" TopLine="3153"/>
       </Position15>
       <Position16>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3168" Column="1" TopLine="3149"/>
+        <Caret Line="3173" Column="1" TopLine="3154"/>
       </Position16>
       <Position17>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3172" Column="1" TopLine="3153"/>
+        <Caret Line="3174" Column="1" TopLine="3155"/>
       </Position17>
       <Position18>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3173" Column="1" TopLine="3154"/>
+        <Caret Line="3175" Column="1" TopLine="3156"/>
       </Position18>
       <Position19>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3174" Column="1" TopLine="3155"/>
+        <Caret Line="3176" Column="1" TopLine="3157"/>
       </Position19>
       <Position20>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3175" Column="1" TopLine="3156"/>
+        <Caret Line="3177" Column="1" TopLine="3158"/>
       </Position20>
       <Position21>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3176" Column="1" TopLine="3157"/>
+        <Caret Line="3178" Column="1" TopLine="3159"/>
       </Position21>
       <Position22>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3177" Column="1" TopLine="3158"/>
+        <Caret Line="3179" Column="1" TopLine="3160"/>
       </Position22>
       <Position23>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3178" Column="1" TopLine="3159"/>
+        <Caret Line="3183" Column="1" TopLine="3164"/>
       </Position23>
       <Position24>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3179" Column="1" TopLine="3160"/>
+        <Caret Line="3184" Column="1" TopLine="3165"/>
       </Position24>
       <Position25>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3183" Column="1" TopLine="3164"/>
+        <Caret Line="3185" Column="1" TopLine="3166"/>
       </Position25>
       <Position26>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3184" Column="1" TopLine="3165"/>
+        <Caret Line="3189" Column="1" TopLine="3170"/>
       </Position26>
       <Position27>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3185" Column="1" TopLine="3166"/>
+        <Caret Line="3190" Column="1" TopLine="3171"/>
       </Position27>
       <Position28>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3189" Column="1" TopLine="3170"/>
+        <Caret Line="3192" Column="1" TopLine="3149"/>
       </Position28>
       <Position29>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="3190" Column="1" TopLine="3171"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="200" Column="9" TopLine="195"/>
       </Position29>
-      <Position30>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="3192" Column="1" TopLine="3149"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

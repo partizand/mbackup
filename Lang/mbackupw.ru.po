@@ -1162,3 +1162,7 @@ msgstr ""
 msgid "ToolButton3"
 msgstr ""
 
+#: TMFORM.TOOLBUTTON4.CAPTION
+msgid "ToolButton4"
+msgstr ""
+

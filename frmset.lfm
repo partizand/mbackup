@@ -2,10 +2,10 @@ object FormSet: TFormSet
   Left = 407
   Height = 456
   Top = 189
-  Width = 729
+  Width = 638
   Caption = 'mBackup settings'
   ClientHeight = 456
-  ClientWidth = 729
+  ClientWidth = 638
   Icon.Data = {
     7E03000000000100010010100000010018006803000016000000280000001000
     0000200000000100180000000000000300006400000064000000000000000000
@@ -45,7 +45,7 @@ object FormSet: TFormSet
     Left = 6
     Height = 34
     Top = 416
-    Width = 717
+    Width = 626
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel]
   end
@@ -57,6 +57,7 @@ object FormSet: TFormSet
     Align = alLeft
     DefaultItemHeight = 17
     ReadOnly = True
+    ScrollBars = ssAutoBoth
     TabOrder = 1
     OnSelectionChanged = tvSettingsSelectionChanged
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
@@ -71,15 +72,15 @@ object FormSet: TFormSet
     Left = 157
     Height = 410
     Top = 0
-    Width = 572
-    ActivePage = TabOther
+    Width = 481
+    ActivePage = TabMail
     Align = alClient
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 2
     object TabLog: TTabSheet
       Caption = 'TabLog'
       ClientHeight = 382
-      ClientWidth = 564
+      ClientWidth = 515
       TabVisible = False
       object GroupLog: TGroupBox
         AnchorSideLeft.Control = TabLog
@@ -302,7 +303,7 @@ object FormSet: TFormSet
     object TabMail: TTabSheet
       Caption = 'TabMail'
       ClientHeight = 382
-      ClientWidth = 564
+      ClientWidth = 473
       TabVisible = False
       object GroupEmail: TGroupBox
         AnchorSideLeft.Control = TabMail
@@ -312,7 +313,7 @@ object FormSet: TFormSet
         Left = 6
         Height = 354
         Top = 6
-        Width = 552
+        Width = 461
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
         BorderSpacing.Left = 6
@@ -320,7 +321,7 @@ object FormSet: TFormSet
         BorderSpacing.Right = 6
         Caption = 'E-mail notifications'
         ClientHeight = 336
-        ClientWidth = 548
+        ClientWidth = 457
         TabOrder = 0
         object LabelSmtpSrv: TLabel
           AnchorSideLeft.Control = GroupEmail
@@ -471,7 +472,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 15
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 40
           BorderSpacing.Right = 6
@@ -487,7 +488,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 73
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -503,7 +504,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 102
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -531,7 +532,7 @@ object FormSet: TFormSet
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = GroupEmail
           AnchorSideBottom.Side = asrBottom
-          Left = 494
+          Left = 403
           Height = 25
           Top = 305
           Width = 48
@@ -553,7 +554,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 131
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -569,7 +570,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 160
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -586,7 +587,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 189
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -602,7 +603,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 218
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -618,7 +619,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 247
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -634,7 +635,7 @@ object FormSet: TFormSet
           Left = 112
           Height = 23
           Top = 276
-          Width = 430
+          Width = 339
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -646,7 +647,7 @@ object FormSet: TFormSet
     object TabOther: TTabSheet
       Caption = 'TabOther'
       ClientHeight = 382
-      ClientWidth = 564
+      ClientWidth = 515
       TabVisible = False
       object GroupLang: TGroupBox
         AnchorSideLeft.Control = TabOther

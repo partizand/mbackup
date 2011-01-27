@@ -74,6 +74,7 @@ type
     ToolButton3: TToolButton;
     ButSet: TToolButton;
     ButHelp: TToolButton;
+    ToolButton4: TToolButton;
     procedure ActAboutExecute(Sender: TObject);
     procedure ActAddExecute(Sender: TObject);
     procedure ActAddProfileExecute(Sender: TObject);

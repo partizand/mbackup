@@ -67,67 +67,73 @@ object MForm: TMForm
       Action = ActEdit
     end
     object ButDel: TToolButton
-      Left = 187
+      Left = 125
       Top = 2
       Action = ActDel
       ImageIndex = 3
     end
     object ToolButton1: TToolButton
-      Left = 507
+      Left = 512
       Top = 2
       Width = 5
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
     object ButStart: TToolButton
-      Left = 125
+      Left = 192
       Top = 2
       Action = ActRun
       ImageIndex = 2
     end
     object ButStop: TToolButton
-      Left = 249
+      Left = 254
       Top = 2
       Caption = 'Stop'
       ImageIndex = 4
       OnClick = ButStopClick
     end
     object ToolButton2: TToolButton
-      Left = 311
+      Left = 316
       Top = 2
       Width = 5
       Caption = 'ToolButton2'
       Style = tbsSeparator
     end
     object ButUp: TToolButton
-      Left = 316
+      Left = 321
       Top = 2
       Action = ActUp
     end
     object ButDown: TToolButton
-      Left = 378
+      Left = 383
       Top = 2
       Action = ActDown
     end
     object ToolButton3: TToolButton
-      Left = 440
+      Left = 445
       Top = 2
       Width = 5
       Caption = 'ToolButton3'
       Style = tbsSeparator
     end
     object ButSet: TToolButton
-      Left = 445
+      Left = 450
       Top = 2
       Action = ActSet
       ImageIndex = 7
     end
     object ButHelp: TToolButton
-      Left = 512
+      Left = 517
       Top = 2
       Action = ActHelp
-      AutoSize = True
       ImageIndex = 8
+    end
+    object ToolButton4: TToolButton
+      Left = 187
+      Top = 2
+      Width = 5
+      Caption = 'ToolButton4'
+      Style = tbsSeparator
     end
   end
   object ListTask: TListView
