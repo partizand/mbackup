@@ -147,7 +147,7 @@ if Count>0 then
   xmldoc := TXMLConfig.Create(nil);
   xmldoc.StartEmpty := True;
   xmldoc.Filename :=SaveFileName; //'probcfg.xml';
-  xmldoc.RootName := 'autosave';
+  xmldoc.RootName := 'AutoSave';
   // Версия программы
 //  xmldoc.SetValue('version/value', versionas);
   // количество заданий
@@ -210,7 +210,7 @@ begin
   //xmldoc := TXMLConfig.Create(SaveFileName);
 
   xmldoc.StartEmpty := False; //false;
-  xmldoc.RootName   := 'autosave';
+  xmldoc.RootName   := 'AutoSave';
   xmldoc. flush;
   xmldoc.Filename := SaveFileName;
 
