@@ -555,9 +555,10 @@ msgctxt "TFORMSET.BUTTESTSMTP.CAPTION"
 msgid "Test"
 msgstr "Тест"
 
-#: TFORMSET.CAPTION
-msgid "mBackup settings"
-msgstr "Настройки"
+#: TFORMSET.CANCELBUTTON.CAPTION
+msgctxt "TFORMSET.CANCELBUTTON.CAPTION"
+msgid "Отмена"
+msgstr ""
 
 #: TFORMSET.CHECKGROUP2.CAPTION
 msgctxt "TFORMSET.CHECKGROUP2.CAPTION"
@@ -571,6 +572,11 @@ msgstr "Использовать системную функцию копиро�
 #: TFORMSET.CHKFTPLOGENABLED.CAPTION
 msgid "Enable FTP log"
 msgstr "Журналирование FTP"
+
+#: TFORMSET.CLOSEBUTTON.CAPTION
+msgctxt "TFORMSET.CLOSEBUTTON.CAPTION"
+msgid "&Закрыть"
+msgstr ""
 
 #: TFORMSET.EDITBODY.TEXT
 msgid "EditBody"
@@ -620,6 +626,11 @@ msgstr ""
 msgid "EditUser"
 msgstr ""
 
+#: TFORMSET.FORMSET.CAPTION
+msgctxt "TFORMSET.FORMSET.CAPTION"
+msgid "mBackup settings"
+msgstr "Настройки"
+
 #: TFORMSET.GROUPBOX4.CAPTION
 msgid "Current profile"
 msgstr "Текущий профиль"
@@ -651,6 +662,11 @@ msgstr "Профиль при запуске"
 msgctxt "TFORMSET.GROUPTEMPARH.CAPTION"
 msgid "Temporary directory for archiver"
 msgstr "Каталог для временных архивов"
+
+#: TFORMSET.HELPBUTTON.CAPTION
+msgctxt "TFORMSET.HELPBUTTON.CAPTION"
+msgid "&Справка"
+msgstr ""
 
 #: TFORMSET.LABEL3.CAPTION
 msgid "File name"
@@ -728,6 +744,11 @@ msgctxt "TFORMSET.LABELUSER.CAPTION"
 msgid "User"
 msgstr "Пользователь"
 
+#: TFORMSET.OKBUTTON.CAPTION
+msgctxt "TFORMSET.OKBUTTON.CAPTION"
+msgid "&ОК"
+msgstr ""
+
 #: TFORMSET.RADIOLASTPROF.CAPTION
 msgid "Last opened"
 msgstr "Последний открытый"
@@ -771,9 +792,10 @@ msgctxt "TFORMTASK.BTNDIRDEL.CAPTION"
 msgid "Delete"
 msgstr "Удалить"
 
-#: TFORMTASK.CAPTION
-msgid "Task settings"
-msgstr "Параметры задания"
+#: TFORMTASK.CANCELBUTTON.CAPTION
+msgctxt "TFORMTASK.CANCELBUTTON.CAPTION"
+msgid "Отмена"
+msgstr ""
 
 #: TFORMTASK.CBCONDAFTER.TEXT
 msgctxt "TFORMTASK.CBCONDAFTER.TEXT"
@@ -801,6 +823,11 @@ msgstr "Установить пароль"
 #: TFORMTASK.CHKSOLID.CAPTION
 msgid "Solid archive"
 msgstr "Непрерывный архив"
+
+#: TFORMTASK.CLOSEBUTTON.CAPTION
+msgctxt "TFORMTASK.CLOSEBUTTON.CAPTION"
+msgid "&Закрыть"
+msgstr ""
 
 #: TFORMTASK.DELARHCHECK.CAPTION
 msgctxt "TFORMTASK.DELARHCHECK.CAPTION"
@@ -846,6 +873,11 @@ msgstr "Исключить каталоги"
 msgctxt "TFORMTASK.FILTFILESCHECK.CAPTION"
 msgid "Process files"
 msgstr "Обрабатывать файлы"
+
+#: TFORMTASK.FORMTASK.CAPTION
+msgctxt "TFORMTASK.FORMTASK.CAPTION"
+msgid "Task settings"
+msgstr "Параметры задания"
 
 #: TFORMTASK.GROUPACTION.CAPTION
 msgctxt "TFORMTASK.GROUPACTION.CAPTION"
@@ -908,6 +940,11 @@ msgctxt "TFORMTASK.GROUPTASKNAME.CAPTION"
 msgid "Task name"
 msgstr "Имя задания"
 
+#: TFORMTASK.HELPBUTTON.CAPTION
+msgctxt "TFORMTASK.HELPBUTTON.CAPTION"
+msgid "&Справка"
+msgstr ""
+
 #: TFORMTASK.LABELADDOPT.CAPTION
 msgid "Additional switches"
 msgstr "Доп. ключи"
@@ -960,6 +997,11 @@ msgstr "Годовые"
 #: TFORMTASK.NTFSCHECK.CAPTION
 msgid "Copy NTFS permissions"
 msgstr "Копировать права NTFS"
+
+#: TFORMTASK.OKBUTTON.CAPTION
+msgctxt "TFORMTASK.OKBUTTON.CAPTION"
+msgid "&ОК"
+msgstr ""
 
 #: TFORMTASK.ONCEDAYCHECK.CAPTION
 msgid "Once a day"

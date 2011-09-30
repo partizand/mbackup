@@ -17,7 +17,8 @@ type
   public
    constructor Create;
    destructor Destroy; override;
-    logfile:  string; // Имя лог файла короткое
+  public
+   logfile:  string; // Имя лог файла короткое
     loglimit: integer; // ограничение лог файла в килобайтах
     Lang: string; // Имя языкового файла
     // Лог фтп

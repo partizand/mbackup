@@ -15,8 +15,10 @@ uses
 type
  TDeletedFiles=class
    //constructor Create(RootDirName:string);
+ public
    constructor Create(CustomFS:TCustomFS);
    destructor Destroy; override;
+  public
    Count:integer; // Кол-во файлов
 //   DirName:string; // Каталог, где все происходит
    function GetIndex(FileName:string):integer;
@@ -28,6 +30,7 @@ type
 
  private
    procedure LoadFromFile(CustomFS:TCustomFS);
+ private
    NameList:TStringList; // Список имен файлов
    DateList:TStringList; // Список дат файлов
    CustFS:TCustomFS; // FS

@@ -550,8 +550,9 @@ msgctxt "TFORMSET.BUTTESTSMTP.CAPTION"
 msgid "Test"
 msgstr ""
 
-#: TFORMSET.CAPTION
-msgid "mBackup settings"
+#: TFORMSET.CANCELBUTTON.CAPTION
+msgctxt "TFORMSET.CANCELBUTTON.CAPTION"
+msgid "Отмена"
 msgstr ""
 
 #: TFORMSET.CHECKGROUP2.CAPTION
@@ -565,6 +566,11 @@ msgstr ""
 
 #: TFORMSET.CHKFTPLOGENABLED.CAPTION
 msgid "Enable FTP log"
+msgstr ""
+
+#: TFORMSET.CLOSEBUTTON.CAPTION
+msgctxt "TFORMSET.CLOSEBUTTON.CAPTION"
+msgid "&Закрыть"
 msgstr ""
 
 #: TFORMSET.EDITBODY.TEXT
@@ -615,6 +621,11 @@ msgstr ""
 msgid "EditUser"
 msgstr ""
 
+#: TFORMSET.FORMSET.CAPTION
+msgctxt "TFORMSET.FORMSET.CAPTION"
+msgid "mBackup settings"
+msgstr ""
+
 #: TFORMSET.GROUPBOX4.CAPTION
 msgid "Current profile"
 msgstr ""
@@ -645,6 +656,11 @@ msgstr ""
 #: TFORMSET.GROUPTEMPARH.CAPTION
 msgctxt "TFORMSET.GROUPTEMPARH.CAPTION"
 msgid "Temporary directory for archiver"
+msgstr ""
+
+#: TFORMSET.HELPBUTTON.CAPTION
+msgctxt "TFORMSET.HELPBUTTON.CAPTION"
+msgid "&Справка"
 msgstr ""
 
 #: TFORMSET.LABEL3.CAPTION
@@ -723,6 +739,11 @@ msgctxt "TFORMSET.LABELUSER.CAPTION"
 msgid "User"
 msgstr ""
 
+#: TFORMSET.OKBUTTON.CAPTION
+msgctxt "TFORMSET.OKBUTTON.CAPTION"
+msgid "&ОК"
+msgstr ""
+
 #: TFORMSET.RADIOLASTPROF.CAPTION
 msgid "Last opened"
 msgstr ""
@@ -765,8 +786,9 @@ msgctxt "TFORMTASK.BTNDIRDEL.CAPTION"
 msgid "Delete"
 msgstr ""
 
-#: TFORMTASK.CAPTION
-msgid "Task settings"
+#: TFORMTASK.CANCELBUTTON.CAPTION
+msgctxt "TFORMTASK.CANCELBUTTON.CAPTION"
+msgid "Отмена"
 msgstr ""
 
 #: TFORMTASK.CBCONDAFTER.TEXT
@@ -793,6 +815,11 @@ msgstr ""
 
 #: TFORMTASK.CHKSOLID.CAPTION
 msgid "Solid archive"
+msgstr ""
+
+#: TFORMTASK.CLOSEBUTTON.CAPTION
+msgctxt "TFORMTASK.CLOSEBUTTON.CAPTION"
+msgid "&Закрыть"
 msgstr ""
 
 #: TFORMTASK.DELARHCHECK.CAPTION
@@ -836,6 +863,11 @@ msgstr ""
 #: TFORMTASK.FILTFILESCHECK.CAPTION
 msgctxt "TFORMTASK.FILTFILESCHECK.CAPTION"
 msgid "Process files"
+msgstr ""
+
+#: TFORMTASK.FORMTASK.CAPTION
+msgctxt "TFORMTASK.FORMTASK.CAPTION"
+msgid "Task settings"
 msgstr ""
 
 #: TFORMTASK.GROUPACTION.CAPTION
@@ -899,6 +931,11 @@ msgctxt "TFORMTASK.GROUPTASKNAME.CAPTION"
 msgid "Task name"
 msgstr ""
 
+#: TFORMTASK.HELPBUTTON.CAPTION
+msgctxt "TFORMTASK.HELPBUTTON.CAPTION"
+msgid "&Справка"
+msgstr ""
+
 #: TFORMTASK.LABELADDOPT.CAPTION
 msgid "Additional switches"
 msgstr ""
@@ -950,6 +987,11 @@ msgstr ""
 
 #: TFORMTASK.NTFSCHECK.CAPTION
 msgid "Copy NTFS permissions"
+msgstr ""
+
+#: TFORMTASK.OKBUTTON.CAPTION
+msgctxt "TFORMTASK.OKBUTTON.CAPTION"
+msgid "&ОК"
 msgstr ""
 
 #: TFORMTASK.ONCEDAYCHECK.CAPTION

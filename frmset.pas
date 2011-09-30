@@ -100,6 +100,7 @@ type
     procedure FillForm;
     function ReadForm:boolean;
     procedure FillChecks;
+   Public
     Settings:TSettings; // Настройки
   end; 
 

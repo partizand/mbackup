@@ -68,11 +68,13 @@ type
      procedure SetDelFileName(DelFileName:string); override;
      procedure RemoveDelFileName(DelFileName:string);  override;
      // Логирование
+    public
      LogFtp:TLog;
     private
      function FindNextFTP(var F: TSearchRecFS):integer;
      function GetFileIndex(const FileName: string):integer; // Индекс файла в FtpList по имени
      procedure MonitorConn (Sender: TObject; Reason: THookSocketReason; const Value: String); // Отслеживание состояния соединения
+    private
      WorkingDirExists:boolean; // Текущая директория существует на ftp
     // function GetSrvName:string; // Возвращает имя сервера, без корневого каталога
   end;

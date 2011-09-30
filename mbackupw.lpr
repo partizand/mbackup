@@ -7,17 +7,17 @@ uses
 //  cthreads,
 //  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
-  Forms, LResources
-  { add your units here }, mainform,PoTranslator, taskunit{, taskthread, frmtask, frmset,}
+  Forms, mainform,PoTranslator, taskunit{, taskthread, frmtask, frmset,}
   {UnitAbout, , setunit, unitfunc}
   {msgstrings, delfiles, customfs, filefs, ftpfs, logunit}{, frmftp};
 
-{$R mbackupw.res}
+//{$R mbackupw.res}
 
 {$IFDEF WINDOWS}{$R mbackupw.rc}{$ENDIF}
 
+//{$R *.res}
+
 begin
-  {$I mbackupw.lrs}
   Application.Initialize;
   Application.CreateForm(TMForm, MForm);
 //  Application.CreateForm(TFormSet, FormSet);

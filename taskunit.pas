@@ -381,7 +381,7 @@ type
 //    function ZerkDir(NumTask:integer):integer;
 //    procedure LInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
 //    function SimpleCopyDirs(SorDir, DestDir: string; NumTask: integer; Recurse: boolean;NTFSCopy:boolean): integer;
-
+   Private
 
     TotalSize:  int64; // Общий размер файлов при копировании
 //    TempSorPath, TempDestPath: string;

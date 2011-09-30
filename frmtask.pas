@@ -143,6 +143,7 @@ type
     procedure FillDest;
     function ConvertCBtoCond(index:integer):integer; // Преобразовывает выбранный индекс в условие для выполнения внешней проги
     function ConvertCondtoCB(cond:integer):integer; // Перобразование наоборот
+   Private
     PassArhChanged:boolean;
   public
     { public declarations }
@@ -151,6 +152,7 @@ type
     function  ReadTaskForm:Boolean;
     function ShowFTPform(Indx:integer):boolean; // Показать форму с фтп параметрами
 //    numTask:integer; // Номер добавляемого/редактируемого задания
+   public
     Task:TTask; // Редактируемое задание
   end; 
 

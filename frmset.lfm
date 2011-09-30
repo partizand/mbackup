@@ -40,12 +40,22 @@ object FormSet: TFormSet
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '0.9.28.2'
+  LCLVersion = '0.9.30'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34
     Top = 416
     Width = 626
+    OKButton.Name = 'OKButton'
+    OKButton.Caption = '&ОК'
+    HelpButton.Name = 'HelpButton'
+    HelpButton.Caption = '&Справка'
+    HelpButton.Enabled = False
+    CloseButton.Name = 'CloseButton'
+    CloseButton.Caption = '&Закрыть'
+    CloseButton.Enabled = False
+    CancelButton.Name = 'CancelButton'
+    CancelButton.Caption = 'Отмена'
     TabOrder = 0
     ShowButtons = [pbOK, pbCancel]
   end
@@ -720,6 +730,7 @@ object FormSet: TFormSet
           BorderSpacing.Left = 6
           BorderSpacing.Top = 15
           BorderSpacing.Bottom = 6
+          MaxLength = 0
           TabOrder = 0
         end
       end
@@ -789,6 +800,7 @@ object FormSet: TFormSet
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           BorderSpacing.Bottom = 6
+          MaxLength = 0
           TabOrder = 2
         end
       end
@@ -856,6 +868,7 @@ object FormSet: TFormSet
           ButtonWidth = 23
           NumGlyphs = 1
           Enabled = False
+          MaxLength = 0
           ReadOnly = True
           TabOrder = 0
         end
