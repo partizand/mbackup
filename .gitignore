@@ -1,0 +1,9 @@
+# Файлы игнорируемые git
+*.mo
+*.bak
+*.rst
+*.manifest
+/pub
+/ver
+/pics
+/compile

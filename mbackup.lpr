@@ -6,7 +6,8 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, CustApp,{iniLangC,}TaskUnit,Windows,MsgStrings//,ShellApi
+  Classes, SysUtils, CustApp, TaskUnit, Windows, MsgStrings,
+filterprop//,ShellApi
   { you can add units after this };
 
 

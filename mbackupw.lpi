@@ -49,7 +49,6 @@
         <Filename Value="mbackupw.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mbackupw"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
@@ -75,16 +74,17 @@
         <Filename Value="taskunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TaskUnit"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="371"/>
-        <CursorPos X="11" Y="384"/>
+        <TopLine Value="376"/>
+        <CursorPos X="1" Y="392"/>
         <UsageCount Value="332"/>
         <Bookmarks Count="4">
-          <Item0 X="10" Y="1351" ID="0"/>
-          <Item1 X="17" Y="5040" ID="1"/>
-          <Item2 X="17" Y="2822" ID="2"/>
-          <Item3 X="9" Y="577" ID="3"/>
+          <Item0 X="10" Y="1296" ID="0"/>
+          <Item1 X="17" Y="4985" ID="1"/>
+          <Item2 X="17" Y="2767" ID="2"/>
+          <Item3 X="9" Y="522" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -114,8 +114,8 @@
         <UnitName Value="FrmTask"/>
         <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="137"/>
-        <CursorPos X="10" Y="155"/>
+        <TopLine Value="646"/>
+        <CursorPos X="1" Y="650"/>
         <UsageCount Value="325"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -393,123 +393,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3174" Column="1" TopLine="3155"/>
+        <Caret Line="3175" Column="1" TopLine="3156"/>
       </Position1>
       <Position2>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3175" Column="1" TopLine="3156"/>
+        <Caret Line="3176" Column="1" TopLine="3157"/>
       </Position2>
       <Position3>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3176" Column="1" TopLine="3157"/>
+        <Caret Line="3177" Column="1" TopLine="3158"/>
       </Position3>
       <Position4>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3177" Column="1" TopLine="3158"/>
+        <Caret Line="3178" Column="1" TopLine="3159"/>
       </Position4>
       <Position5>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3178" Column="1" TopLine="3159"/>
+        <Caret Line="3179" Column="1" TopLine="3160"/>
       </Position5>
       <Position6>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3179" Column="1" TopLine="3160"/>
+        <Caret Line="3183" Column="1" TopLine="3164"/>
       </Position6>
       <Position7>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3183" Column="1" TopLine="3164"/>
+        <Caret Line="3184" Column="1" TopLine="3165"/>
       </Position7>
       <Position8>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3184" Column="1" TopLine="3165"/>
+        <Caret Line="3185" Column="1" TopLine="3166"/>
       </Position8>
       <Position9>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3185" Column="1" TopLine="3166"/>
+        <Caret Line="3189" Column="1" TopLine="3170"/>
       </Position9>
       <Position10>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3189" Column="1" TopLine="3170"/>
+        <Caret Line="3190" Column="1" TopLine="3171"/>
       </Position10>
       <Position11>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="3190" Column="1" TopLine="3171"/>
+        <Caret Line="3192" Column="1" TopLine="3149"/>
       </Position11>
       <Position12>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="3192" Column="1" TopLine="3149"/>
-      </Position12>
-      <Position13>
         <Filename Value="mainform.pas"/>
         <Caret Line="200" Column="9" TopLine="195"/>
+      </Position12>
+      <Position13>
+        <Filename Value="setunit.pas"/>
+        <Caret Line="138" Column="82" TopLine="118"/>
       </Position13>
       <Position14>
         <Filename Value="setunit.pas"/>
-        <Caret Line="138" Column="82" TopLine="118"/>
+        <Caret Line="20" Column="11" TopLine="2"/>
       </Position14>
       <Position15>
-        <Filename Value="setunit.pas"/>
-        <Caret Line="20" Column="11" TopLine="2"/>
+        <Filename Value="delfiles.pas"/>
+        <Caret Line="150" Column="31" TopLine="136"/>
       </Position15>
       <Position16>
         <Filename Value="delfiles.pas"/>
-        <Caret Line="150" Column="31" TopLine="136"/>
+        <Caret Line="18" Column="8" TopLine="2"/>
       </Position16>
       <Position17>
-        <Filename Value="delfiles.pas"/>
-        <Caret Line="18" Column="8" TopLine="2"/>
+        <Filename Value="ftpfs.pas"/>
+        <Caret Line="162" Column="1" TopLine="156"/>
       </Position17>
       <Position18>
         <Filename Value="ftpfs.pas"/>
-        <Caret Line="162" Column="1" TopLine="156"/>
+        <Caret Line="71" Column="11" TopLine="44"/>
       </Position18>
       <Position19>
-        <Filename Value="ftpfs.pas"/>
-        <Caret Line="71" Column="11" TopLine="44"/>
-      </Position19>
-      <Position20>
         <Filename Value="taskunit.pas"/>
         <Caret Line="3010" Column="1" TopLine="115"/>
+      </Position19>
+      <Position20>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="487" Column="13" TopLine="463"/>
       </Position20>
       <Position21>
         <Filename Value="frmtask.pas"/>
-        <Caret Line="487" Column="13" TopLine="463"/>
+        <Caret Line="146" Column="11" TopLine="128"/>
       </Position21>
       <Position22>
-        <Filename Value="frmtask.pas"/>
-        <Caret Line="146" Column="11" TopLine="128"/>
-      </Position22>
-      <Position23>
         <Filename Value="frmset.pas"/>
         <Caret Line="247" Column="39" TopLine="211"/>
+      </Position22>
+      <Position23>
+        <Filename Value="mbackupw.lpr"/>
+        <Caret Line="11" Column="60" TopLine="1"/>
       </Position23>
       <Position24>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="11" Column="60" TopLine="1"/>
+        <Caret Line="26" Column="1" TopLine="1"/>
       </Position24>
       <Position25>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="26" Column="1" TopLine="1"/>
+        <Caret Line="23" Column="7" TopLine="1"/>
       </Position25>
       <Position26>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="23" Column="7" TopLine="1"/>
+        <Caret Line="26" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="26" Column="1" TopLine="1"/>
+        <Caret Line="7" Column="7" TopLine="1"/>
       </Position27>
       <Position28>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="7" Column="7" TopLine="1"/>
+        <Caret Line="15" Column="1" TopLine="1"/>
       </Position28>
       <Position29>
         <Filename Value="mbackupw.lpr"/>
-        <Caret Line="15" Column="1" TopLine="1"/>
+        <Caret Line="14" Column="1" TopLine="1"/>
       </Position29>
       <Position30>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="14" Column="1" TopLine="1"/>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="155" Column="10" TopLine="137"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>

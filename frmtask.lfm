@@ -16,9 +16,9 @@ object FormTask: TFormTask
     Height = 541
     Top = 0
     Width = 453
-    ActivePage = tabOther
+    ActivePage = tabSource
     Align = alClient
-    TabIndex = 3
+    TabIndex = 1
     TabOrder = 0
     object tabMain: TTabSheet
       Caption = 'tabMain'
@@ -215,8 +215,8 @@ object FormTask: TFormTask
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = GroupDest
         Left = 6
-        Height = 253
-        Top = 94
+        Height = 233
+        Top = 114
         Width = 433
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoSize = True
@@ -225,7 +225,7 @@ object FormTask: TFormTask
         BorderSpacing.Right = 6
         BorderSpacing.Bottom = 6
         Caption = 'Source filtering'
-        ClientHeight = 235
+        ClientHeight = 215
         ClientWidth = 429
         TabOrder = 0
         object RecurseCheck: TCheckBox
@@ -248,9 +248,9 @@ object FormTask: TFormTask
           AnchorSideBottom.Control = GroupSourceFilt
           AnchorSideBottom.Side = asrBottom
           Left = 6
-          Height = 194
+          Height = 174
           Top = 35
-          Width = 241
+          Width = 247
           Anchors = [akTop, akLeft, akRight, akBottom]
           AutoSize = True
           BorderSpacing.Left = 6
@@ -258,8 +258,8 @@ object FormTask: TFormTask
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
           Caption = 'Excluded folders'
-          ClientHeight = 176
-          ClientWidth = 237
+          ClientHeight = 156
+          ClientWidth = 243
           TabOrder = 1
           object SubDirBox: TListBox
             AnchorSideLeft.Control = GroupExcludeFold
@@ -270,9 +270,9 @@ object FormTask: TFormTask
             AnchorSideBottom.Control = GroupExcludeFold
             AnchorSideBottom.Side = asrBottom
             Left = 6
-            Height = 75
+            Height = 55
             Top = 95
-            Width = 225
+            Width = 231
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
@@ -286,7 +286,7 @@ object FormTask: TFormTask
             AnchorSideTop.Control = EditExcDir
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = BtnDirDel
-            Left = 94
+            Left = 100
             Height = 25
             Top = 64
             Width = 48
@@ -305,7 +305,7 @@ object FormTask: TFormTask
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = GroupExcludeFold
             AnchorSideRight.Side = asrBottom
-            Left = 148
+            Left = 154
             Height = 25
             Top = 64
             Width = 59
@@ -327,7 +327,7 @@ object FormTask: TFormTask
             Left = 6
             Height = 23
             Top = 35
-            Width = 201
+            Width = 207
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
@@ -382,7 +382,7 @@ object FormTask: TFormTask
             Left = 6
             Height = 19
             Top = 10
-            Width = 225
+            Width = 231
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 10
@@ -398,17 +398,17 @@ object FormTask: TFormTask
           AnchorSideTop.Control = GroupExcludeFold
           AnchorSideRight.Control = GroupSourceFilt
           AnchorSideRight.Side = asrBottom
-          Left = 253
+          Left = 259
           Height = 111
           Top = 35
-          Width = 170
+          Width = 164
           Anchors = [akTop, akRight]
           AutoSize = True
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
           Caption = 'Process files'
           ClientHeight = 93
-          ClientWidth = 166
+          ClientWidth = 160
           TabOrder = 2
           object CBoxFileMode: TComboBox
             AnchorSideLeft.Control = GroupProcFiles
@@ -438,7 +438,7 @@ object FormTask: TFormTask
             Left = 6
             Height = 23
             Top = 64
-            Width = 154
+            Width = 148
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
@@ -455,7 +455,7 @@ object FormTask: TFormTask
             Left = 6
             Height = 19
             Top = 10
-            Width = 154
+            Width = 148
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 10
@@ -514,7 +514,7 @@ object FormTask: TFormTask
         AnchorSideRight.Control = tabSource
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 82
+        Height = 102
         Top = 6
         Width = 433
         Anchors = [akTop, akLeft, akRight]
@@ -524,7 +524,7 @@ object FormTask: TFormTask
         BorderSpacing.Right = 6
         BorderSpacing.InnerBorder = 10
         Caption = 'Source'
-        ClientHeight = 64
+        ClientHeight = 84
         ClientWidth = 429
         ParentBidiMode = False
         TabOrder = 2
@@ -578,7 +578,7 @@ object FormTask: TFormTask
           AnchorSideBottom.Control = groupSource
           AnchorSideBottom.Side = asrBottom
           Left = 65
-          Height = 23
+          Height = 43
           Top = 35
           Width = 280
           Anchors = [akTop, akLeft, akBottom]

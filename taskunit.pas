@@ -19,7 +19,7 @@ uses Windows, SysUtils, DateUtils, Classes, StrUtils, masks, Process,//fileutil,
 //uses FileCtrl;
 
 const
-  VersionAS   = '0.5.2'; // Версия программы
+  VersionAS   = '0.5.3'; // Версия программы
   TempLogName = 'log.txt'; // Имя временного лог файла (отправляемого по почте)
   LastVerLnk   = 'http://atsave.narod.ru/autosave/update.html'; // Страничка с номером последней версии
   LastBinLnk   = 'http://atsave.narod.ru/autosave/mbackup.zip'; // Дистрибутив
@@ -358,33 +358,11 @@ type
     function DelOldFilesFS(SorDir, DestDir: string;var SrcFS:TCustomFS;var DstFS:TCustomFS; NumTask: integer; Recurse: boolean): integer;
     function ClearDelFiles(NumTask:integer;SrcFS,DstFS:TCustomFS;DelFiles:TDeletedFiles):integer;
 
-//    function SyncFiles(sorfile, destfile: string; NTFSCopy: boolean; recurse: boolean): boolean;
-    //    function GetArhName(numtask: integer;ArhFileName:string): string;
-//    function GetArhName(numtask: integer;ArhFileName:string;IgnoreTmpDir:boolean;var TmpExist:boolean): string;
-//    procedure DelOldArhs(NumTask: integer);
-    //  function CompareFileDate (aDate,bDate:integer):boolean;
-//    function CompareFileDate(aFileName, bFileName: string): boolean;
-     //   function MinInMonth(ArhList:TArhList;FindDate:TDateTime):integer;
-//    function MinInYear(ArhList:TArhList;FindDate:TDateTime):integer;
-    //    function HexStrToInt(Str: string; Pos: integer): integer;
-//    function CheckDirs(NumTask: integer): boolean;
-        // Выполнение внешней программы (Win)
-  //  function WinExec(const FileName, Param: string; const Wait: boolean;const WinState: word): boolean;
-//    function PathCombine(Path1: string; Path2: string): string;
-//    function DelOldFiles(SorDir, DestDir: string; NumTask: integer; Recurse: boolean): integer;
-//    function MaxTaskResult(Res1,Res2:integer):integer;
-    //  function FileInFilenameMasks(const Filename, Masks: string): boolean;
-    //  function TrimFilename(const AFilename: string): string;
-//    function CopyDirs(dir, syncdir: string; NumTask: integer; Recurse: boolean; countsize: boolean): integer;
-//    function CopyDir(NumTask:integer):integer;
-//    function SynDir(NumTask:integer):integer;
-//    function ZerkDir(NumTask:integer):integer;
-//    procedure LInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
-//    function SimpleCopyDirs(SorDir, DestDir: string; NumTask: integer; Recurse: boolean;NTFSCopy:boolean): integer;
+
    Private
 
     TotalSize:  int64; // Общий размер файлов при копировании
-//    TempSorPath, TempDestPath: string;
+
     // Временное хранение источника и приемника для перобразования %disk%
     LastStdOut: TStringList;
  //   DelFiles:TDeletedFiles;
@@ -400,35 +378,7 @@ type
     AlertStart:boolean; // -as в командной строке
     AlertFinish:boolean; // -af в командной строке
     Count:    integer; //Количество заданий
-     {
-    SysCopyFunc: boolean;
-    // Использовать системную функцию копирования
-    //---
 
-    //----
-    // Настройки из ini файла
-    logfile:  string; // Имя лог файла короткое
-    loglimit: integer; // ограничение лог файла в килобайтах
-    LangFile: string; // Имя языкового файла
-
-    LoadLastProf: boolean; // загружать последний профиль
-    DefaultProf: string;
-    // профиль по умолчанию при запуске программы
-    profile:  string; // имя файла текущего профайла
-    // Настройки уведомлений по почте
-    email:    string;
-    // почтовый ящик на который отсылаются уведомления
-    //  alerttype:integer; // Тип уведомлений (нет, ошибки, всегда, см константы)
-    smtpserv: string;  // Адрес smtp сервера
-    smtpport: integer; // порт сервера
-    smtpuser: string;  // Пользователь сервера
-    smtppass: string;  // Пароль
-    mailfrom: string; // Почт адрес от имени которого высылаются уведомления
-    }
-    //------
-
-    //  ProfPath:String; // Текущее имя файла профайла
-    //  ProfName:String; // Наименование профайла
 
 
 
@@ -439,12 +389,7 @@ type
 
 
 
-{
-type Tprob=record
- // begin
-  Name:string;
-  end;
- }
+
 implementation
 
 uses msgstrings{, SendMailUnit}{,potranslator};
