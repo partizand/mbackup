@@ -166,7 +166,6 @@ var
   Application: TASCons;
 begin
   Application:=TASCons.Create(nil);
-  Application.Title:='mBackup';
   Application.Run;
   Application.Free;
 end.

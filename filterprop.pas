@@ -29,6 +29,11 @@ uses
 //type
 //  TFilterEntry = (Directory = 1, FileName = 2, MaskName = 3);
 
+// Тип фильтра
+type
+  TFilterType = (ftInclude = 1, ftExclude = 2); // Включение, исключение
+
+
 // Параметры фильтрации
 
 {
@@ -38,7 +43,9 @@ uses
 type
    TFiltProp=class
    public
+     constructor TFiltProp;
      procedure Clear; // Очистить
+     function IsEmpty:boolean; // Фильтр пуст
      procedure AddDir(DirName:string); // Добавить каталог, относительно источника
      procedure RemoveDir(DirName:string);
      procedure RemoveDir(Index:integer);
@@ -58,6 +65,9 @@ type
    private
      procedure RemoveByIndex(List:TStringList;Index:integer); // Удалить по индексу
      procedure RemoveByName(List:TStringList;EntryName:string); // Удалить по имени
+   private
+     _isEmpty:boolean; // Кэшированное значение IsEmpty
+     _isChanged:boolean; // Фильтр менялся, Если false то кэшированное значение верно
    end;
 
 

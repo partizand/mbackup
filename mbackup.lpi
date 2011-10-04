@@ -42,12 +42,11 @@
         <Filename Value="mbackup.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mbackup"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="13"/>
         <CursorPos X="10" Y="31"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -59,7 +58,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3733"/>
         <CursorPos X="47" Y="3902"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Bookmarks Count="1">
           <Item0 X="22" Y="660" ID="1"/>
         </Bookmarks>
@@ -106,11 +105,12 @@
         <Filename Value="filterprop.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="filterprop"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="39"/>
-        <CursorPos X="62" Y="60"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="31"/>
+        <CursorPos X="73" Y="34"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -269,6 +269,9 @@
       </SyntaxOptions>
     </Parsing>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
