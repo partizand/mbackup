@@ -49,6 +49,7 @@ type
      procedure RemoveMask(MaskName:string);
      procedure RemoveMask(Index:integer);
      procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
+     procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
    public
 
      Dirs:TStringList;
@@ -56,7 +57,7 @@ type
      Masks:TStringList;
    private
      procedure RemoveByIndex(List:TStringList;Index:integer); // Удалить по индексу
-     procedure RemoveByName(List:TStringList;EntryName:integer); // Удалить по имени
+     procedure RemoveByName(List:TStringList;EntryName:string); // Удалить по имени
    end;
 
 
@@ -66,10 +67,69 @@ type
 implementation
 
 //------------------------------------------------------------------------------
+// Записать в файл
+procedure TFiltProp.SaveToFile(XMLConf:TXMLConfig;Section:string);
+var
+  i:integer;
+  sec,str:string;
+begin
+  // Запись каталогов
+  XMLConf.SetValue(Section + 'Dirs/count/value',Dirs.Count);
+  for i:=0 to Dirs.Count-1 do
+  begin
+   sec := Section + 'Dirs/Dir'+ IntToStr(i+1) + '/';
+   XMLConf.SetValue(sec + 'value',Dirs[i]);
+  end;
+  // Запись файлов
+  XMLConf.SetValue(Section + 'Files/count/value',Files.Count);
+  for i:=0 to Files.Count-1 do
+  begin
+   sec := Section + 'Files/Dir'+ IntToStr(i+1) + '/';
+   XMLConf.SetValue(sec + 'value',Files[i]);
+  end;
+  // Запись масок
+  XMLConf.SetValue(Section + 'Masks/count/value',Masks.Count);
+  for i:=0 to Masks.Count-1 do
+  begin
+   sec := Section + 'Masks'+ IntToStr(i+1) + '/';
+   XMLConf.SetValue(sec + 'value',Masks[i]);
+  end;
+
+end;
+
+//------------------------------------------------------------------------------
+// Прочитать из файла
 procedure TFiltProp.LoadFromFile(XMLConf:TXMLConfig;Section:string);
+var
+  i,cnt:integer;
+  sec,str:string;
 begin
   Clear;
-  Tasks[i].SrcFSParam.RootDir:=XMLConf.GetValue(Section + 'SrcFSParam/RootDir/value','');
+  // Чтение каталогов
+  cnt:=XMLConf.GetValue(Section + 'Dirs/count/value',0);
+  for i:=0 to cnt-1 do
+  begin
+   sec := Section + 'Dirs/Dir'+ IntToStr(i+1) + '/';
+   str:=XMLConf.GetValue(sec + 'value','');
+   AddDir(str);
+  end;
+  // Чтение файлов
+  cnt:=XMLConf.GetValue(Section + 'Files/count/value',0);
+  for i:=0 to cnt-1 do
+  begin
+   sec := Section + 'Files/File'+ IntToStr(i+1) + '/';
+   str:=XMLConf.GetValue(sec + 'value','');
+   AddFile(str);
+  end;
+  // Чтение масок
+  cnt:=XMLConf.GetValue(Section + 'Masks/count/value',0);
+  for i:=0 to cnt-1 do
+  begin
+   sec := Section + 'Masks/Mask'+ IntToStr(i+1) + '/';
+   str:=XMLConf.GetValue(sec + 'value','');
+   AddMask(str);
+  end;
+
 end;
 
 //------------------------------------------------------------------------------
@@ -86,6 +146,7 @@ procedure TFiltProp.AddDir(DirName:string);
 var
  strtmp:string;
 begin
+  if DirName='' then exit;
   strtmp:=TCustomFS.ToUnixSep(DirName);
   Dirs.Add(strtmp);
 end;
@@ -95,6 +156,7 @@ procedure TFiltProp.AddFile(FileName:string);
 var
  strtmp:string;
 begin
+  if FileName='' then exit;
   strtmp:=TCustomFS.ToUnixSep(FileName);
   Files.Add(strtmp);
 end;
@@ -102,6 +164,7 @@ end;
 // Добавить маску
 procedure TFiltProp.AddMask(MaskName:string);
 begin
+  if MaskName='' then exit;
   Masks.Add(MaskName);
 end;
 //------------------------------------------------------------------------------
@@ -142,7 +205,7 @@ RemoveByIndex(Masks,Index);
 end;
 //------------------------------------------------------------------------------
 // Удалить по имени
-procedure TFiltProp.RemoveByName(List:TStringList;EntryName:integer);
+procedure TFiltProp.RemoveByName(List:TStringList;EntryName:string);
 var
  strtmp:string;
  Index:integer;

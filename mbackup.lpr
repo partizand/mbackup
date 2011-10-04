@@ -28,6 +28,7 @@ type
     // Событие
     procedure OnProgress(Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: Int64);
     //--------------- переменные
+   public
     Backup:TBackup;
   end;
 

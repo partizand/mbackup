@@ -46,7 +46,7 @@ type
     function GetName:string; virtual; abstract; // Возвращает имя ФС для отображения в логе
     function PathCombine(const Path1: string;const Path2: string): string; // Объединение двух путей
     class function ToUnixSep(const Path:string):string; // Меняет все слэши на прямые \ -> /
-    function ToWinSep(const Path:string):string; // Меняет все слэши на обратные / -> \
+    class function ToWinSep(const Path:string):string; // Меняет все слэши на обратные / -> \
     class function PathCombineEx(const Path1: string;const Path2: string;const Delimiter:string): string; // Объединение двух путей c указанием разделителя
     // Сменить текущую директорию
     function ChangeWorkingDir(const Directory: string): Boolean; virtual; abstract;
