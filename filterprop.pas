@@ -30,8 +30,8 @@ uses
 //  TFilterEntry = (Directory = 1, FileName = 2, MaskName = 3);
 
 // Тип фильтра
-type
-  TFilterType = (ftInclude = 1, ftExclude = 2); // Включение, исключение
+//type
+//  TFilterType = (ftInclude = 1, ftExclude = 2); // Включение, исключение
 
 
 // Параметры фильтрации
@@ -43,12 +43,15 @@ type
 type
    TFiltProp=class
    public
-     constructor TFiltProp(FilterType:TFilterType;RootDir:string);
-     function IsDirInRange(DirName:string):boolean; // Попадает ли каталог в фильтр
-     function IsFileInRange(FileName:string):boolean; // Попадает ли файл в фильтр
+     constructor Create(RootDir:string);
+     destructor Destroy; override;
+     // Попадает ли каталог в фильтр, имя каталога в Ansi кодировке
+     function IsDirInRange(DirName:string):boolean;
+     // Попадает ли файл в фильтр, имя файла в Ansi кодировке
+     function IsFileInRange(FileName:string):boolean;
      procedure Clear; // Очистить
      function IsEmpty:boolean; // Фильтр пуст
-     function GetType:TFilterType; // Возвращает тип фильтра
+     //function GetType:TFilterType; // Возвращает тип фильтра
      procedure AddDir(DirName:string); // Добавить каталог, относительно источника
      procedure RemoveDir(DirName:string);
      procedure RemoveDir(Index:integer);
@@ -79,7 +82,7 @@ type
      _RootDir:string; // Корневой каталог для фильтра
      _isEmpty:boolean; // Кэшированное значение IsEmpty
      _isChanged:boolean; // Фильтр менялся, Если false то кэшированное значение верно
-     _FilterType:TFilterType; // Тип фильтра
+     //_FilterType:TFilterType; // Тип фильтра
    end;
 
 
@@ -148,19 +151,32 @@ for i:=1 to Dirs.Count do
 end;
 
 //------------------------------------------------------------------------------
-constructor TFiltProp.TFiltProp(FilterType:TFilterType;RootDir:string);
+constructor TFiltProp.Create(RootDir:string);
 begin
-_isEmpty:=true;
+  inherited Create;
+  _isEmpty:=true;
 _isChanged:=false;
-_FilterType:=FilterType;
+//_FilterType:=FilterType;
 _RootDir:=TCustomFS.ToUnixSep(RootDir);
+Dirs:=TStringList.Create;
+Files:=TStringList.Create;
+Masks:=TStringList.Create;
 end;
 //------------------------------------------------------------------------------
+destructor TFiltProp.Destroy;
+begin
+Dirs.Free;
+Files.Free;
+Masks.Free;
+inherited Destroy;
+end;
+//------------------------------------------------------------------------------
+{
 function TFiltProp.GetType:TFilterType; // Возвращает тип фильтра
 begin
 Result:=_FilterType;
 end;
-
+ }
 //------------------------------------------------------------------------------
 // Фильтр пуст
 function TFiltProp.IsEmpty:boolean;
