@@ -23,7 +23,7 @@ unit filterprop;
 interface
 
 uses
-  Classes, SysUtils,XMLCfg,CustomFS;
+  Classes, SysUtils,XMLCfg,CustomFS,FileUtil,masks;
 
 
 //type
@@ -45,6 +45,7 @@ type
    public
      constructor TFiltProp(FilterType:TFilterType;RootDir:string);
      function IsDirInRange(DirName:string):boolean; // Попадает ли каталог в фильтр
+     function IsFileInRange(FileName:string):boolean; // Попадает ли файл в фильтр
      procedure Clear; // Очистить
      function IsEmpty:boolean; // Фильтр пуст
      function GetType:TFilterType; // Возвращает тип фильтра
@@ -87,18 +88,62 @@ type
 
 implementation
 //------------------------------------------------------------------------------
+// Попадает ли файл в фильтр
+// Имя файла полное
+function TFiltProp.IsFileInRange(FileName:string):boolean;
+var
+ i:integer;
+ fullPath,uFileName:string;
+begin
+Result:=false;
+if IsEmpty then exit;
+// Перебираем все файлы, ищем совпадения
+uFileName:=TCustomFS.ToUnixSep(FileName);
+for i:=1 to Files.Count do
+ begin
+ fullPath:=TCustomFS.PathCombineEx(_RootDir,Files[i],'/');
+ fullPath:=Utf8ToSys(fullPath);
+ if  SameFileName(fullPath,uFileName) then
+     begin
+     Result:=true;
+     exit;
+     end;
+ end;
+// Перебираем все маски, ищем совпадения
+uFileName:=ExtractFileName(FileName); // Только имя файла
+for i:=1 to Masks.Count do
+ begin
+ if  MatchesMask(uFileName, Masks[i]) then
+     begin
+     Result:=true;
+     exit;
+     end;
+ end;
+
+
+end;
+
+//------------------------------------------------------------------------------
 // Попадает ли каталог в фильтр
-function IsDirInRange(DirName:string):boolean;
+function TFiltProp.IsDirInRange(DirName:string):boolean;
 var
  i:integer;
  fullPath,uDirName:string;
 begin
+Result:=false;
+if IsEmpty then exit;
 // Перебираем все каталоги, ищем совпадения
 uDirName:=TCustomFS.ToUnixSep(DirName);
+//uDirName:=Utf8ToSys(uDirName);
 for i:=1 to Dirs.Count do
  begin
- fullPath:=TCustomFS.PathCombine(_RootDir,Dirs[i]);
- Same;
+ fullPath:=TCustomFS.PathCombineEx(_RootDir,Dirs[i],'/');
+ fullPath:=Utf8ToSys(fullPath);
+ if  SameFileName(fullPath,uDirName) then
+     begin
+     Result:=true;
+     exit;
+     end;
  end;
 end;
 

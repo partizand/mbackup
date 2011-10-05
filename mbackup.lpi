@@ -46,7 +46,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="13"/>
         <CursorPos X="10" Y="31"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -56,9 +56,9 @@
         <UnitName Value="TaskUnit"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4369"/>
-        <CursorPos X="3" Y="4382"/>
-        <UsageCount Value="31"/>
+        <TopLine Value="1"/>
+        <CursorPos X="60" Y="13"/>
+        <UsageCount Value="32"/>
         <Bookmarks Count="1">
           <Item0 X="22" Y="660" ID="1"/>
         </Bookmarks>
@@ -108,9 +108,9 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="82"/>
-        <CursorPos X="6" Y="101"/>
-        <UsageCount Value="28"/>
+        <TopLine Value="22"/>
+        <CursorPos X="51" Y="26"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -119,7 +119,7 @@
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="32"/>
-        <CursorPos X="11" Y="49"/>
+        <CursorPos X="5" Y="47"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit8>
@@ -135,123 +135,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="782" Column="17" TopLine="766"/>
+        <Caret Line="784" Column="1" TopLine="765"/>
       </Position1>
       <Position2>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="780" Column="1" TopLine="761"/>
+        <Caret Line="785" Column="1" TopLine="766"/>
       </Position2>
       <Position3>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="783" Column="1" TopLine="764"/>
+        <Caret Line="787" Column="1" TopLine="768"/>
       </Position3>
       <Position4>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="784" Column="1" TopLine="765"/>
+        <Caret Line="788" Column="1" TopLine="769"/>
       </Position4>
       <Position5>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="785" Column="1" TopLine="766"/>
+        <Caret Line="790" Column="1" TopLine="771"/>
       </Position5>
       <Position6>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="787" Column="1" TopLine="768"/>
+        <Caret Line="792" Column="1" TopLine="773"/>
       </Position6>
       <Position7>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="788" Column="1" TopLine="769"/>
+        <Caret Line="793" Column="1" TopLine="774"/>
       </Position7>
       <Position8>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="790" Column="1" TopLine="771"/>
+        <Caret Line="794" Column="1" TopLine="775"/>
       </Position8>
       <Position9>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="792" Column="1" TopLine="773"/>
+        <Caret Line="795" Column="1" TopLine="776"/>
       </Position9>
       <Position10>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="793" Column="1" TopLine="774"/>
+        <Caret Line="797" Column="1" TopLine="778"/>
       </Position10>
       <Position11>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="794" Column="1" TopLine="775"/>
+        <Caret Line="801" Column="1" TopLine="782"/>
       </Position11>
       <Position12>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="795" Column="1" TopLine="776"/>
+        <Caret Line="802" Column="1" TopLine="783"/>
       </Position12>
       <Position13>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="797" Column="1" TopLine="778"/>
+        <Caret Line="803" Column="1" TopLine="784"/>
       </Position13>
       <Position14>
         <Filename Value="taskunit.pas"/>
-        <Caret Line="801" Column="1" TopLine="782"/>
+        <Caret Line="1463" Column="26" TopLine="1449"/>
       </Position14>
       <Position15>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="802" Column="1" TopLine="783"/>
-      </Position15>
-      <Position16>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="803" Column="1" TopLine="784"/>
-      </Position16>
-      <Position17>
-        <Filename Value="taskunit.pas"/>
-        <Caret Line="1463" Column="26" TopLine="1449"/>
-      </Position17>
-      <Position18>
         <Filename Value="customfs.pas"/>
         <Caret Line="81" Column="8" TopLine="68"/>
-      </Position18>
-      <Position19>
+      </Position15>
+      <Position16>
         <Filename Value="customfs.pas"/>
         <Caret Line="48" Column="11" TopLine="39"/>
-      </Position19>
-      <Position20>
+      </Position16>
+      <Position17>
         <Filename Value="customfs.pas"/>
         <Caret Line="88" Column="36" TopLine="68"/>
+      </Position17>
+      <Position18>
+        <Filename Value="filterprop.pas"/>
+        <Caret Line="95" Column="41" TopLine="63"/>
+      </Position18>
+      <Position19>
+        <Filename Value="filterprop.pas"/>
+        <Caret Line="167" Column="15" TopLine="146"/>
+      </Position19>
+      <Position20>
+        <Filename Value="mbackup.lpr"/>
+        <Caret Line="54" Column="14" TopLine="38"/>
       </Position20>
       <Position21>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="95" Column="41" TopLine="63"/>
+        <Caret Line="64" Column="8" TopLine="57"/>
       </Position21>
       <Position22>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="167" Column="15" TopLine="146"/>
+        <Caret Line="74" Column="24" TopLine="52"/>
       </Position22>
       <Position23>
-        <Filename Value="mbackup.lpr"/>
-        <Caret Line="54" Column="14" TopLine="38"/>
+        <Filename Value="filterprop.pas"/>
+        <Caret Line="104" Column="6" TopLine="86"/>
       </Position23>
       <Position24>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="64" Column="8" TopLine="57"/>
+        <Caret Line="106" Column="21" TopLine="89"/>
       </Position24>
       <Position25>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="69" Column="6" TopLine="76"/>
+        <Caret Line="109" Column="20" TopLine="92"/>
       </Position25>
       <Position26>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="74" Column="24" TopLine="52"/>
+        <Caret Line="84" Column="81" TopLine="61"/>
       </Position26>
       <Position27>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="104" Column="6" TopLine="86"/>
+        <Caret Line="105" Column="32" TopLine="93"/>
       </Position27>
       <Position28>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="106" Column="21" TopLine="89"/>
+        <Caret Line="93" Column="20" TopLine="81"/>
       </Position28>
       <Position29>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="109" Column="20" TopLine="92"/>
+        <Caret Line="105" Column="55" TopLine="95"/>
       </Position29>
       <Position30>
         <Filename Value="filterprop.pas"/>
-        <Caret Line="84" Column="81" TopLine="61"/>
+        <Caret Line="26" Column="45" TopLine="88"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
