@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils, CustApp, TaskUnit, Windows, MsgStrings,
-filterprop, filter//,ShellApi
+filterprop, filter, tasklist//,ShellApi
   { you can add units after this };
 
 
