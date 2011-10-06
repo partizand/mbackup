@@ -1,4 +1,4 @@
-unit TaskUnit;
+unit backup;
 
 {
 // Модуль содержащий класс TTaskCl.
@@ -12,7 +12,7 @@ interface
 
 uses Windows, SysUtils, DateUtils, Classes, StrUtils, masks, Process,//fileutil,
   {iniLangC,} XMLCfg,{ inifiles,}gettext,translations,fileutil,
-  setunit,unitfunc,delfiles,customfs,filefs,ftpfs,tasklist, // Мои модули
+  setunit,unitfunc,delfiles,customfs,filefs,ftpfs,tasklist,task, // Мои модули
  { idAttachmentFile,idsmtp,idmessage,}{idAttachment,} {,IdExplicitTLSClientServerBase,IdSSLOpenSSL,idiohandler} // Indy10
   smtpsend,mimemess,mimepart,synachar,ssl_openssl,httpsend{, blcksock} //synapse
   ;
