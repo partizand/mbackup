@@ -16,10 +16,19 @@ type
       function DirInRange(DirName:string):boolean;
       // Файл необходимо обрабатывать, имя каталога полное
       function FileInRange(FileName:string):boolean;
+      procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
+      procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
+    private
+      procedure SetRootDir(RootDir:string); // Установить корневой каталог
+
+
     private
       fpInclude:TFiltProp; // Фильтр включения
       fpExclude:TFiltProp; // Фильтр исключения
       _rootDir:string; // Корневой каталог фильтра
+    public
+      property RootDir:string read _rootDir write SetRootDir;
+
   end;
 
 implementation
@@ -58,6 +67,38 @@ InclMatch:=(fpInclude.IsFileInRange(FileName)) or (fpInclude.IsEmpty);
 ExclMatch:=fpExclude.IsFileInRange(FileName);
 Result:=(InclMatch) AND (Not ExclMatch);
 
+end;
+//------------------------------------------------------------------------------
+// Прочитать из файла
+procedure TFilter.LoadFromFile(XMLConf:TXMLConfig;Section:string);
+var
+  Sect:string;
+begin
+Sect:=Section+'/Filter/Include/';
+fpInclude.LoadFromFile(XMLConf,Sect);
+Sect:=Section+'/Filter/Exclude/';
+fpExclude.LoadFromFile(XMLConf,Sect);
+end;
+
+//------------------------------------------------------------------------------
+// Записать в файл
+procedure TFilter.SaveToFile(XMLConf:TXMLConfig;Section:string);
+var
+  Sect:string;
+begin
+Sect:=Section+'/Filter/Include/';
+fpInclude.SaveToFile(XMLConf,Sect);
+Sect:=Section+'/Filter/Exclude/';
+fpExclude.SaveToFile(XMLConf,Sect);
+end;
+
+//------------------------------------------------------------------------------
+// Установить корневой каталог
+procedure TFilter.SetRootDir(RootDir:string);
+begin
+fpInclude.RootDir:=RootDir;
+fpExclude.RootDir:=RootDir;
+_rootDir:=RootDir;
 end;
 
 end.

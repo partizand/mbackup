@@ -167,7 +167,7 @@ constructor TTask.Create;
 begin
   inherited Create;
   // Создаем объекты
-  Filter:=TFilter.Create('root');
+  Filter:=TFilter.Create('');
   LastResult:=trOk;
 end;
 //------------------------------------------------------------------------------

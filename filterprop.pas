@@ -63,12 +63,7 @@ type
      procedure RemoveMask(Index:integer);
      procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
      procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
-   public
 
-     //property Dirs:TStringList read GetDirs;
-     //Dirs:TStringList;
-     //Files:TStringList;
-     //Masks:TStringList;
    private
      procedure RemoveByIndex(List:TStringList;Index:integer); // Удалить по индексу
      procedure RemoveByName(List:TStringList;EntryName:string); // Удалить по имени
@@ -83,6 +78,12 @@ type
      _isEmpty:boolean; // Кэшированное значение IsEmpty
      _isChanged:boolean; // Фильтр менялся, Если false то кэшированное значение верно
      //_FilterType:TFilterType; // Тип фильтра
+   public
+     property RootDir:string read _RootDir write _RootDir;
+     //property Dirs:TStringList read GetDirs;
+     //Dirs:TStringList;
+     //Files:TStringList;
+     //Masks:TStringList;
    end;
 
 
