@@ -6,7 +6,7 @@ object MForm: TMForm
   ActiveControl = ListTask
   Align = alTop
   Caption = 'AutoSave'
-  ClientHeight = 365
+  ClientHeight = 357
   ClientWidth = 780
   Icon.Data = {
     FE0200000000010001002020100000000000E802000016000000280000002000
@@ -39,7 +39,7 @@ object MForm: TMForm
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '0.9.28.2'
+  LCLVersion = '0.9.30'
   object ToolBar1: TToolBar
     Left = 0
     Height = 41
@@ -73,57 +73,57 @@ object MForm: TMForm
       ImageIndex = 3
     end
     object ToolButton1: TToolButton
-      Left = 512
+      Left = 534
       Top = 2
-      Width = 5
+      Width = 8
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
     object ButStart: TToolButton
-      Left = 192
+      Left = 195
       Top = 2
       Action = ActRun
       ImageIndex = 2
     end
     object ButStop: TToolButton
-      Left = 254
+      Left = 257
       Top = 2
       Caption = 'Stop'
       ImageIndex = 4
       OnClick = ButStopClick
     end
     object ToolButton2: TToolButton
-      Left = 316
+      Left = 319
       Top = 2
-      Width = 5
+      Width = 8
       Caption = 'ToolButton2'
       Style = tbsSeparator
     end
     object ButUp: TToolButton
-      Left = 321
+      Left = 327
       Top = 2
       Action = ActUp
     end
     object ButDown: TToolButton
-      Left = 383
+      Left = 389
       Top = 2
       Action = ActDown
     end
     object ToolButton3: TToolButton
-      Left = 445
+      Left = 451
       Top = 2
-      Width = 5
+      Width = 8
       Caption = 'ToolButton3'
       Style = tbsSeparator
     end
     object ButSet: TToolButton
-      Left = 450
+      Left = 459
       Top = 2
       Action = ActSet
       ImageIndex = 7
     end
     object ButHelp: TToolButton
-      Left = 517
+      Left = 542
       Top = 2
       Action = ActHelp
       ImageIndex = 8
@@ -131,14 +131,14 @@ object MForm: TMForm
     object ToolButton4: TToolButton
       Left = 187
       Top = 2
-      Width = 5
+      Width = 8
       Caption = 'ToolButton4'
       Style = tbsSeparator
     end
   end
   object ListTask: TListView
     Left = 0
-    Height = 210
+    Height = 202
     Top = 41
     Width = 780
     Align = alClient
@@ -180,7 +180,7 @@ object MForm: TMForm
     AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 23
-    Top = 342
+    Top = 334
     Width = 780
     Anchors = [akBottom]
     Panels = <    
@@ -199,7 +199,7 @@ object MForm: TMForm
     AnchorSideBottom.Control = StatusBar
     Left = 0
     Height = 87
-    Top = 255
+    Top = 247
     Width = 780
     Align = alBottom
     Anchors = [akRight, akBottom]
@@ -215,7 +215,7 @@ object MForm: TMForm
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 251
+    Top = 243
     Width = 780
     Align = alBottom
     AutoSnap = False

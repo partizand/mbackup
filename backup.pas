@@ -70,7 +70,7 @@ type
 
     function RunTask(num: integer; countsize: boolean): integer;
 
-    function FindTaskSt(state: integer): integer;
+//    function FindTaskSt(state: integer): integer;
     // procedure RunThTask(num:integer);
 
     class function GetNameFS(FSParam:TFSparam):string; // Возвращает отображемое имя задания
@@ -103,11 +103,11 @@ type
 
 
     //function  GetFileNam(shortnam:String):String;
-    procedure DublicateTask(NumTask: integer);
+//    procedure DublicateTask(NumTask: integer);
     //procedure TaskCopy(NumTask:integer);
 
-    procedure UpTask(NumTask: integer);
-    procedure DownTask(NumTask: integer);
+//    procedure UpTask(NumTask: integer);
+//    procedure DownTask(NumTask: integer);
     function GetSizeDir(dir, syncdir: string; NumTask: integer; Recurse: boolean): integer;
 //    procedure ReplaceNameDisk(NumTask: integer; replace: boolean);
 //    function ShortFileNam(FileName: string): string;
@@ -116,7 +116,7 @@ type
 //    function DecryptStr(Str: string): string;
 
    class function GetFullExePath(const Executable: String):string; // Возвращает полный путь для исполняемого файла
-    procedure Clear; // Очистка списка заданий
+//    procedure Clear; // Очистка списка заданий
    // procedure ReadIni;
 //    procedure SaveIni;
     function ReadArgv(var IsProfile: boolean): boolean;
@@ -128,7 +128,7 @@ type
 
 
     // Скопировать задания (перегружена)
-    class procedure CopyTask(var FromTask:TTask;var ToTask:TTask);
+//    class procedure CopyTask(var FromTask:TTask;var ToTask:TTask);
     //  procedure SendMail(MesSubject:string;MesBody:TStrings);
     //  procedure StrToList (Str:string;var StrList:StringList);
   private
@@ -172,9 +172,9 @@ type
     function ForceDir(DirName: string): boolean;
 
     // Поменять задания местами
-    procedure SwapTask(NumTask1,NumTask2:integer);
+//    procedure SwapTask(NumTask1,NumTask2:integer);
 
-    procedure CopyTask(FromTask, ToTask: integer);
+//    procedure CopyTask(FromTask, ToTask: integer);
 
     // Выполнение внешней программы (платформо независимая)
     function ExecProc(const FileName, Param: string; const Wait: boolean): integer;
@@ -196,8 +196,8 @@ type
     procedure DelOldArhsFS(NumTask: integer;CustomFS:TCustomFS);
     function MinInRange(ArhList:array of TArhList;DateBeg,DateEnd:TDateTime):integer;
 
-    procedure SaveToXMLFile(filenam: string);
-    procedure LoadFromXMLFile(filenam: string);
+//    procedure SaveToXMLFile(filenam: string);
+//    procedure LoadFromXMLFile(filenam: string);
     function ReplDate(S: string): string;
     function ReplaceParam(S:string;numtask:integer):string;
     function ReplaceParamEx(const S:string;RParam:TReplParam):string;
@@ -234,7 +234,7 @@ type
     InCmdMode: boolean;  // Запуск заданий происходит из командной строки (для одно разово дневных заданий)
     AlertStart:boolean; // -as в командной строке
     AlertFinish:boolean; // -af в командной строке
-    Count:    integer; //Количество заданий
+//    Count:    integer; //Количество заданий
 
 
 
@@ -256,7 +256,7 @@ uses msgstrings{, SendMailUnit}{,potranslator};
 constructor TBackup.Create;
 begin
   inherited Create;
-  Count  := 0;
+//  Count  := 0;
   //SetLength(Tasks,0);
   Tasks:=TTaskList.Create;
   LastStdOut := TStringList.Create;
@@ -513,7 +513,7 @@ begin
         p := ParamStr(i + 1)
       else
         continue;
-      Clear; //Count:=0;
+      //Clear;
       LoadFromFile(p);
       estp      := True;
       IsProfile := True;
@@ -585,7 +585,7 @@ begin
     begin
       if (Length(sour) <> 0) and (Length(dest) <> 0) then
       begin
-        Clear;
+        Tasks.Clear;
         Tasks.Add(nil);
         Tasks[0].Name := 'Cmd';
         Tasks[0].Action := act;
@@ -793,6 +793,7 @@ end;
 // Поиск задания со статусом state, возвращает его номер
 // Если не найдено возварщается -1
 // Находит первое попавшееся задание с таким статусом
+{
 function TBackup.FindTaskSt(state: integer): integer;
 var
   i: integer;
@@ -807,6 +808,7 @@ begin
     end;
   end;
 end;
+}
  //=========================================================
  // Удаление из набора задния NumTask
  {
@@ -1163,7 +1165,7 @@ var
 begin
 //  AlertMes := '';
   Result   := trOk;
-  if num > Count-1 then
+  if num >Tasks.Count-1 then
     exit;
   if num < 0 then
     exit;
@@ -3536,134 +3538,24 @@ end;
  //================================================================
  // Запись массива заданий в XML файл
  //----------------------------------------------------------------
-procedure TBackup.SaveToXMLFile(filenam: string);
+procedure TBackup.SaveToFile(filenam: string);
 var
-  i: integer;
-  //MailAlert:integer;
+//  i: integer;
   xmldoc: TXMLConfig;
-  sec: string;
-  FrmSet:TFormatSettings;
-  //cr:string;
+//  sec: string;
 begin
 
   if filenam = '' then filenam := Settings.profile;
   Settings.profile   := filenam;
-  FrmSet.DecimalSeparator:='.';
-  //filenam:=FullFileNam(filenam);
-
   xmldoc := TXMLConfig.Create(nil);
-  //xmldoc.Filename:=filenam;
   xmldoc.StartEmpty := True;
   xmldoc.Filename := utf8toansi(filenam); //'probcfg.xml';
   xmldoc.RootName := 'AutoSave';
   // Версия программы
   xmldoc.SetValue('version/value', versionas);
-  // количество заданий
-  xmldoc.SetValue('tasks/count/value', Count);
-  for i := 0 to Count-1 do
-  begin
-    // Имя секции с заданием
 
-    sec := 'tasks/task' + IntToStr(i+1) + '/';
+  Tasks.SaveToFile(XMLDoc,'tasks/');
 
-    xmldoc.SetValue(sec + 'name/value', Tasks[i].Name);
-    // Источник
-//    xmldoc.SetValue(sec + 'SorPath/value', Tasks[i].SrcFSParam.RootDir);
-    xmldoc.SetValue(sec + 'SrcFSParam/RootDir/value', Tasks[i].SrcFSParam.RootDir);
-    xmldoc.SetValue(sec + 'SrcFSParam/FSType/value',integer(Tasks[i].SrcFSParam.FSType));
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Host/value', Tasks[i].SrcFSParam.FtpServParam.Host);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Port/value', Tasks[i].SrcFSParam.FtpServParam.Port);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/InintialDir/value', Tasks[i].SrcFSParam.FtpServParam.InintialDir);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/UserName/value', Tasks[i].SrcFSParam.FtpServParam.UserName);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Password/value', Tasks[i].SrcFSParam.FtpServParam.Password);
-{
-    cr:=EncryptString(Tasks[i].SrcFSParam.FtpServParam.Password,KeyStrTask);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/PasswordCrypt/value', cr);
-}
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/PassiveMode/value', Tasks[i].SrcFSParam.FtpServParam.PassiveMode);
-    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/AutoTLS/value', Tasks[i].SrcFSParam.FtpServParam.AutoTLS);
-    // Приемник
-//    xmldoc.SetValue(sec + 'DestPath/value', Tasks[i].DstFSParam.RootDir);
-    xmldoc.SetValue(sec + 'DstFSParam/RootDir/value', Tasks[i].DstFSParam.RootDir);
-    xmldoc.SetValue(sec + 'DstFSParam/FSType/value', integer(Tasks[i].DstFSParam.FSType));
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Host/value', Tasks[i].DstFSParam.FtpServParam.Host);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Port/value', Tasks[i].DstFSParam.FtpServParam.Port);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/InintialDir/value', Tasks[i].DstFSParam.FtpServParam.InintialDir);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/UserName/value', Tasks[i].DstFSParam.FtpServParam.UserName);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Password/value', Tasks[i].DstFSParam.FtpServParam.Password);
-{
-    cr:=EncryptString(Tasks[i].DstFSParam.FtpServParam.Password,KeyStrTask);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/PasswordCrypt/value', cr);
-}
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/PassiveMode/value', Tasks[i].DstFSParam.FtpServParam.PassiveMode);
-    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/AutoTLS/value', Tasks[i].DstFSParam.FtpServParam.AutoTLS);
-
-
-    xmldoc.SetValue(sec + 'Action/value', Tasks[i].Action);
-    xmldoc.SetValue(sec + 'Enabled/value', Tasks[i].Enabled);
-    // Сохраняем параметры архива
-    xmldoc.SetValue(sec + 'Arh/Name/value', Tasks[i].Arh.Name);
-    xmldoc.SetValue(sec + 'Arh/DelOldArh/value', Tasks[i].Arh.DelOldArh);
-    xmldoc.SetValue(sec + 'Arh/DaysOld/value', Tasks[i].Arh.DaysOld);
-    xmldoc.SetValue(sec + 'Arh/MonthsOld/value', Tasks[i].Arh.MonthsOld);
-    xmldoc.SetValue(sec + 'Arh/YearsOld/value', Tasks[i].Arh.YearsOld);
-    xmldoc.SetValue(sec + 'Arh/DelAfterArh/value', Tasks[i].Arh.DelAfterArh);
-    xmldoc.SetValue(sec + 'Arh/EncryptEnabled/value', Tasks[i].Arh.EncryptEnabled);
-    xmldoc.SetValue(sec + 'Arh/Password/value', Tasks[i].Arh.Password);
-    xmldoc.SetValue(sec + 'Arh/LevelCompress/value', integer(Tasks[i].Arh.LevelCompress));
-    xmldoc.SetValue(sec + 'Arh/ArhOpenFiles/value', Tasks[i].Arh.ArhOpenFiles);
-    xmldoc.SetValue(sec + 'Arh/Solid/value', Tasks[i].Arh.Solid);
-    xmldoc.SetValue(sec + 'Arh/AddOptions/value', Tasks[i].Arh.AddOptions);
-
-   {
-     TmpStr.Add(BoolToStr(Tasks[i].Rasp.Manual));
-     TmpStr.Add(BoolToStr(Tasks[i].Rasp.AtTime));
-     TmpStr.Add(BoolToStr(Tasks[i].Rasp.AtStart));
-
-     TmpStr.Add(BoolToStr(Tasks[i].Rasp.EvMinutes));
-     TmpStr.Add(IntToStr(Tasks[i].Rasp.Minutes));
-     TmpStr.Add(TimeToStr(Tasks[i].Rasp.Time));
-     }
-    //Параметры запуска внешних программ
-    // before
-    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Enabled/value', Tasks[i].ExtBefore.Enabled);
-    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Cmd/value', Tasks[i].ExtBefore.Cmd);
-    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Condition/value', Tasks[i].ExtBefore.Condition);
-
-    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Enabled/value', Tasks[i].ExtAfter.Enabled);
-    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Cmd/value', Tasks[i].ExtAfter.Cmd);
-    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Condition/value', Tasks[i].ExtAfter.Condition);
-    // Копирование прав
-    xmldoc.SetValue(sec + 'NTFSPerm/value', Tasks[i].NTFSPerm);
-    // Уведомления по почте
-    //MailAlert:=Tasks[i].MailAlert;
-    xmldoc.SetValue(sec + 'MailAlert/value', Tasks[i].MailAlert);
-    //xmldoc.SetValue(sec+'MailAlert/value',MailAlert);
-    // Расписание
-    xmldoc.SetValue(sec + 'Rasp/OnceForDay/value', Tasks[i].Rasp.OnceForDay);
-
-    // Результат последнего выполнения задачи
-    xmldoc.SetValue(sec + 'LastResult/value', Tasks[i].LastResult);
-//    xmldoc.SetValue(sec + 'LastRunDate/value',  DateTimeToStr(Tasks[i].LastRunDate));
-    xmldoc.SetValue(sec + 'LastRunDate/value', FloatToStr(Tasks[i].LastRunDate,FrmSet));
-    // Параметры фильтрации каталогов и файлов источника
-    xmldoc.SetValue(sec + 'SourceFilt/Recurse/value', Tasks[i].SourceFilt.Recurse);
-    xmldoc.SetValue(sec + 'SourceFilt/FiltSubDir/value', Tasks[i].SourceFilt.FiltSubDir);
-    // список исключаемых директорий
-    xmldoc.SetValue(sec + 'SourceFilt/SubDirs/value',Tasks[i].SourceFilt.SubDirs);
-//    cnt := Tasks[i].SourceFilt.SubDirs.Count;
-//    xmldoc.SetValue(sec + 'SourceFilt/SubDirs/count/value', cnt);
-//    for j := 1 to cnt do
-//    begin
-//      xmldoc.SetValue(sec + 'SourceFilt/SubDirs/path' + IntToStr(j) +'/value', Tasks[i].SourceFilt.SubDirs.Strings[j - 1]);
-//    end;
-    xmldoc.SetValue(sec + 'SourceFilt/FiltFiles/value', Tasks[i].SourceFilt.FiltFiles);
-    xmldoc.SetValue(sec + 'SourceFilt/ModeFiltFiles/value',      Tasks[i].SourceFilt.ModeFiltFiles);
-    xmldoc.SetValue(sec + 'SourceFilt/FileMask/value',Tasks[i].SourceFilt.FileMask);
-
-  end;
-
-  //TmpStr.SaveToFile(filenam);
   xmldoc.Flush;
   xmldoc.Free;
 end;
@@ -3672,203 +3564,40 @@ end;
 // старые задания не удаляются, если нужно удалить все то нужно перед
  // вызовом функции сделать count=0;
  // Возвращает PName - имя профиля загруженного
-procedure TBackup.LoadFromXMLFile(filenam: string);
+procedure TBackup.LoadFromFile(filenam: string);
 var
-  i, cnt: integer;
-  // TmpStr:TStringList;
-  // ver:integer;
-  // i,j,cnt:integer;
+//  i, cnt: integer;
   xmldoc:  TXMLConfig;
-  sec:     string;
-  strDate: string;
-  FrmSet:TFormatSettings;
-  tmpint:integer;
-  //cr:string;
+//  sec:     string;
+
 begin
   if filenam = '' then    filenam := Settings.profile;
-  //filenam:=FullFileNam(filenam);
 
-  FrmSet.DecimalSeparator:='.';
-
-
-  //filenam:='probcfg.xml';
   if not FileExists(utf8toansi(filenam)) then
     exit;
+  Settings.Profile := ShortFileNam(filenam);
 
   xmldoc := TXMLConfig.Create(nil);
-
   xmldoc.StartEmpty := False; //false;
   xmldoc.RootName   := 'AutoSave';
   xmldoc.Filename := utf8toansi(filenam);
   xmldoc.flush;
-  // количество заданий
-  cnt := xmldoc.GetValue('tasks/count/value', 0);
-  if cnt = 0 then
-  begin
-    Clear;
-    exit;
-  end;
-  //count:=cnt;
-  Settings.Profile := ShortFileNam(filenam);
 
+  Tasks.LoadFromFile(XMLDoc,'tasks/');
 
-
-  SetLength(Tasks,cnt);
-//  Count:=cnt
-  for i := 0 to cnt-1 do
-    //while strcount<TmpStr.Count do
-  begin
-    // Имя секции с заданием
-    sec := 'tasks/task' + IntToStr(i+1) + '/';
-    if i > MaxTasks then
-      exit; // вдруг пакостный файл
-
-    Tasks[i].Name := xmldoc.GetValue(sec + 'name/value', '');
-    // Источник
-    //Tasks[i].SorPath  := xmldoc.GetValue(sec + 'SorPath/value', '');  //TmpStr[strcount+1];
-    //tmpstr:=xmldoc.GetValue(sec + 'SorPath/value', '');
-    Tasks[i].SrcFSParam.RootDir:=xmldoc.GetValue(sec + 'SrcFSParam/RootDir/value','');
-
-    tmpint:=xmldoc.GetValue(sec + 'SrcFSParam/FSType/value',integer(fstFile));
-    Tasks[i].SrcFSParam.FSType:=TFSType(tmpint);
-    Tasks[i].SrcFSParam.FtpServParam.Host:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Host/value','');
-    Tasks[i].SrcFSParam.FtpServParam.Port:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Port/value','' );
-    Tasks[i].SrcFSParam.FtpServParam.InintialDir:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/InintialDir/value','');
-    Tasks[i].SrcFSParam.FtpServParam.UserName:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/UserName/value', '');
-    Tasks[i].SrcFSParam.FtpServParam.Password:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Password/value', '');
-{
-    cr:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/PasswordCrypt/value', '');
-    if cr='' then  Tasks[i].SrcFSParam.FtpServParam.Password:=''
-          else
-          Tasks[i].SrcFSParam.FtpServParam.Password:=DecryptString(cr,KeyStrTask);
-}
-//    Tasks[i].SrcFSParam.FtpServParam.Password:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Password/value', '');
-
-    Tasks[i].SrcFSParam.FtpServParam.PassiveMode:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/PassiveMode/value', false);
-    Tasks[i].SrcFSParam.FtpServParam.AutoTLS:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/AutoTLS/value', false);
-
-     if (Tasks[i].SrcFSParam.RootDir='') and (Tasks[i].SrcFSParam.FSType=fstFile) then
-        Tasks[i].SrcFSParam.RootDir:=xmldoc.GetValue(sec + 'SorPath/value','');
-
-
-
-    // Приемник
-//    Tasks[i].DestPath := xmldoc.GetValue(sec + 'DestPath/value', '');
-
-    Tasks[i].DstFSParam.RootDir:=xmldoc.GetValue(sec + 'DstFSParam/RootDir/value','');
-    tmpint:=xmldoc.GetValue(sec + 'DstFSParam/FSType/value', integer(fstFile));
-    Tasks[i].DstFSParam.FSType :=TFSType(tmpint);
-    Tasks[i].DstFSParam.FtpServParam.Host:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Host/value','' );
-    Tasks[i].DstFSParam.FtpServParam.Port:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Port/value','' );
-    Tasks[i].DstFSParam.FtpServParam.InintialDir:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/InintialDir/value','');
-    Tasks[i].DstFSParam.FtpServParam.UserName:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/UserName/value','' );
-{
-    cr:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/PasswordCrypt/value','' );
-    if cr='' then  Tasks[i].DstFSParam.FtpServParam.Password:=''
-          else
-          Tasks[i].DstFSParam.FtpServParam.Password:=DecryptString(cr,KeyStrTask);
-}
-    Tasks[i].DstFSParam.FtpServParam.Password:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Password/value','' );
-
-    Tasks[i].DstFSParam.FtpServParam.PassiveMode:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/PassiveMode/value',false );
-    Tasks[i].DstFSParam.FtpServParam.AutoTLS:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/AutoTLS/value',false );
-    if (Tasks[i].DstFSParam.RootDir='') and (Tasks[i].DstFSParam.FSType=fstFile) then
-        Tasks[i].DstFSParam.RootDir:=xmldoc.GetValue(sec + 'DestPath/value','');
-
-
-    Tasks[i].Action   := xmldoc.GetValue(sec + 'Action/value', 0);
-    Tasks[i].Enabled  := xmldoc.GetValue(sec + 'Enabled/value', False);
-
-    Tasks[i].Status   := stNone;
-    // Чтение параметров архива
-
-    Tasks[i].Arh.Name      := xmldoc.GetValue(sec + 'Arh/Name/value', '');
-    Tasks[i].Arh.DelOldArh := xmldoc.GetValue(sec + 'Arh/DelOldArh/value', False);
-    Tasks[i].Arh.DaysOld   := xmldoc.GetValue(sec + 'Arh/DaysOld/value', 0);
-    Tasks[i].Arh.MonthsOld := xmldoc.GetValue(sec + 'Arh/MonthsOld/value', 0);
-    Tasks[i].Arh.YearsOld  := xmldoc.GetValue(sec + 'Arh/YearsOld/value', 0);
-    Tasks[i].Arh.DelAfterArh:=xmldoc.GetValue(sec + 'Arh/DelAfterArh/value', False);
-    Tasks[i].Arh.ArhOpenFiles:=xmldoc.GetValue(sec + 'Arh/ArhOpenFiles/value', False);
-    Tasks[i].Arh.Solid:=xmldoc.GetValue(sec + 'Arh/Solid/value', true);
-    Tasks[i].Arh.AddOptions:=xmldoc.GetValue(sec + 'Arh/AddOptions/value', '');
-
-    Tasks[i].Arh.EncryptEnabled:=xmldoc.GetValue(sec + 'Arh/EncryptEnabled/value', False);
-    Tasks[i].Arh.Password:=xmldoc.GetValue(sec + 'Arh/Password/value', '');
-    Tasks[i].Arh.LevelCompress:=TLevelCompress(xmldoc.GetValue(sec + 'Arh/LevelCompress/value',integer(lcNormal)));
-//    Tasks[i].Arh.LevelCompress:=k;
-
-    // Чтение параметров запуска внешних программ
-    Tasks[i].ExtBefore.Enabled :=xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Enabled/value', False);
-    Tasks[i].ExtBefore.Cmd := xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Cmd/value', '');
-    Tasks[i].ExtBefore.Condition := xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Condition/value', -1);
-
-    Tasks[i].ExtAfter.Enabled :=xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Enabled/value', False);
-    Tasks[i].ExtAfter.Cmd := xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Cmd/value', '');
-    Tasks[i].ExtAfter.Condition := xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Condition/value', -1);
-
-    // Копирование прав
-    Tasks[i].NTFSPerm := xmldoc.GetValue(sec + 'NTFSPerm/value', False);
-    // Уведомления по почте
-    Tasks[i].MailAlert := xmldoc.GetValue(sec + 'MailAlert/value', 0);
-    // Расписание
-    Tasks[i].Rasp.OnceForDay := xmldoc.GetValue(sec + 'Rasp/OnceForDay/value', False);
-    // Последний результат выполнения задания
-    Tasks[i].LastResult := xmldoc.GetValue(sec + 'LastResult/value', 0);
-    //StrToInt(TmpStr[strcount+19]);
-
-    strDate := xmldoc.GetValue(sec + 'LastRunDate/value', '0');
-    // Читаем дату последнего запуска в зависимости от версии (последняя float)
-    try
-     Tasks[i].LastRunDate :=StrToFloat(strDate,FrmSet);
-    except
-      try
-      Tasks[i].LastRunDate := StrToDateTime(strDate);
-      finally
-      Tasks[i].LastRunDate :=0;
-      end;
-    end;
-
-
-    // xmldoc.GetValue(sec+'LastRunDate/value',0);//StrToDateTime(TmpStr[strcount+20]);
-
-    // Чтение параметров фильтрации источника
-//    Tasks[i].SourceFilt.SubDirs  := TStringList.Create;
-//    Tasks[i].SourceFilt.SubDirs.Delimiter := ';';
-//    Tasks[i].SourceFilt.FileMask := TStringList.Create;
-//    Tasks[i].SourceFilt.FileMask.Delimiter := ';';
-
-    Tasks[i].SourceFilt.Recurse := xmldoc.GetValue(sec + 'SourceFilt/Recurse/value', True);
-    //StrToBool(TmpStr[strcount+21]);
-    Tasks[i].SourceFilt.FiltSubDir :=
-      xmldoc.GetValue(sec + 'SourceFilt/FiltSubDir/value', False);
-    //StrToBool(TmpStr[strcount+22]);
-    Tasks[i].SourceFilt.SubDirs:=xmldoc.GetValue(sec + 'SourceFilt/SubDirs/value', '');
-    // Количество фильтруемых директорий
-    {
-    cntdir := xmldoc.GetValue(sec + 'SourceFilt/SubDirs/count/value', 0);
-    for j := 1 to cntdir do // чтение фильтруемых директорий
-    begin
-      Tasks[i].SourceFilt.SubDirs.Add(
-        xmldoc.GetValue(sec + 'SourceFilt/SubDirs/path' + IntToStr(j) + '/value', ''));
-    end;
-    }
-    Tasks[i].SourceFilt.FiltFiles :=xmldoc.GetValue(sec + 'SourceFilt/FiltFiles/value', False);
-    Tasks[i].SourceFilt.ModeFiltFiles:=xmldoc.GetValue(sec + 'SourceFilt/ModeFiltFiles/value', 0);
-    Tasks[i].SourceFilt.FileMask:=xmldoc.GetValue(sec + 'SourceFilt/FileMask/value', '');
-    Count := i+1;
-  end;
   xmldoc.Free;
 end;
 
  //=================================================================
  // Запись массива заданий в файл
+{
 procedure TBackup.SaveToFile(filenam: string);
 
 begin
   SaveToXMLFile(filenam);
 
 end;
-
+ }
 
 
 
@@ -3877,20 +3606,15 @@ end;
 // старые задания не удаляются, если нужно удалить все то нужно перед
  // вызовом функции сделать count=0;
  // Возвращает PName - имя профиля загруженного
+{
 procedure TBackup.LoadFromFile(filenam: string);
- //var
- // i,strcount:integer;
- // TmpStr:TStringList;
- // ver:integer;
- // tstr:string;
- //cfgnam:string;
 begin
   LoadFromXMLFile(filenam);
   if filenam <> '' then    Settings.profile := ShortFileNam(filenam);
 
 end;
 
-
+ }
 
  //=========================================================
  // Получение процессом привелегий

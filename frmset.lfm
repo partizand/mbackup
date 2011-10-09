@@ -1,7 +1,7 @@
 object FormSet: TFormSet
-  Left = 407
+  Left = 670
   Height = 456
-  Top = 189
+  Top = 268
   Width = 638
   Caption = 'mBackup settings'
   ClientHeight = 456
@@ -43,8 +43,8 @@ object FormSet: TFormSet
   LCLVersion = '0.9.30'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 34
-    Top = 416
+    Height = 43
+    Top = 407
     Width = 626
     OKButton.Name = 'OKButton'
     OKButton.Caption = '&Œ '
@@ -61,11 +61,11 @@ object FormSet: TFormSet
   end
   object tvSettings: TTreeView
     Left = 0
-    Height = 410
+    Height = 401
     Top = 0
     Width = 152
     Align = alLeft
-    DefaultItemHeight = 17
+    DefaultItemHeight = 27
     ReadOnly = True
     ScrollBars = ssAutoBoth
     TabOrder = 1
@@ -80,7 +80,7 @@ object FormSet: TFormSet
   end
   object pcSettings: TPageControl
     Left = 157
-    Height = 410
+    Height = 401
     Top = 0
     Width = 481
     ActivePage = TabMail
@@ -312,7 +312,7 @@ object FormSet: TFormSet
     end
     object TabMail: TTabSheet
       Caption = 'TabMail'
-      ClientHeight = 382
+      ClientHeight = 363
       ClientWidth = 473
       TabVisible = False
       object GroupEmail: TGroupBox
@@ -321,7 +321,7 @@ object FormSet: TFormSet
         AnchorSideRight.Control = TabMail
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 354
+        Height = 464
         Top = 6
         Width = 461
         Anchors = [akTop, akLeft, akRight]
@@ -330,7 +330,7 @@ object FormSet: TFormSet
         BorderSpacing.Top = 6
         BorderSpacing.Right = 6
         Caption = 'E-mail notifications'
-        ClientHeight = 336
+        ClientHeight = 446
         ClientWidth = 457
         TabOrder = 0
         object LabelSmtpSrv: TLabel
@@ -338,9 +338,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = GroupEmail
           AnchorSideRight.Control = EditServ
           Left = 6
-          Height = 16
+          Height = 26
           Top = 15
-          Width = 66
+          Width = 105
           BorderSpacing.Left = 6
           BorderSpacing.Top = 15
           BorderSpacing.Right = 6
@@ -352,9 +352,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditPort
           AnchorSideRight.Control = EditPort
           Left = 6
-          Height = 16
-          Top = 44
-          Width = 100
+          Height = 26
+          Top = 54
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -366,9 +366,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditMailFrom
           AnchorSideRight.Control = EditMailFrom
           Left = 6
-          Height = 16
-          Top = 73
-          Width = 100
+          Height = 26
+          Top = 93
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -380,9 +380,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditMailTo
           AnchorSideRight.Control = EditMailTo
           Left = 6
-          Height = 16
-          Top = 102
-          Width = 100
+          Height = 26
+          Top = 132
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -394,9 +394,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditUser
           AnchorSideRight.Control = EditUser
           Left = 6
-          Height = 16
-          Top = 131
-          Width = 100
+          Height = 26
+          Top = 171
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -408,9 +408,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditPass
           AnchorSideRight.Control = EditPass
           Left = 6
-          Height = 16
-          Top = 160
-          Width = 100
+          Height = 26
+          Top = 210
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -422,9 +422,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditSubj
           AnchorSideRight.Control = EditSubj
           Left = 6
-          Height = 16
-          Top = 189
-          Width = 100
+          Height = 26
+          Top = 249
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -436,9 +436,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditBody
           AnchorSideRight.Control = EditBody
           Left = 6
-          Height = 16
-          Top = 218
-          Width = 100
+          Height = 26
+          Top = 288
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -450,9 +450,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditSubjAlert
           AnchorSideRight.Control = EditSubjAlert
           Left = 6
-          Height = 16
-          Top = 247
-          Width = 100
+          Height = 26
+          Top = 327
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -464,9 +464,9 @@ object FormSet: TFormSet
           AnchorSideTop.Control = EditBodyAlert
           AnchorSideRight.Control = EditBodyAlert
           Left = 6
-          Height = 16
-          Top = 276
-          Width = 100
+          Height = 26
+          Top = 366
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 6
@@ -479,10 +479,10 @@ object FormSet: TFormSet
           AnchorSideTop.Control = LabelSmtpSrv
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
+          Left = 151
+          Height = 33
           Top = 15
-          Width = 339
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 40
           BorderSpacing.Right = 6
@@ -495,10 +495,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 73
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 93
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -511,10 +511,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 102
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 132
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -525,9 +525,9 @@ object FormSet: TFormSet
           AnchorSideLeft.Control = EditServ
           AnchorSideTop.Control = EditServ
           AnchorSideTop.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 44
+          Left = 151
+          Height = 33
+          Top = 54
           Width = 69
           BorderSpacing.Top = 6
           MaxValue = 100000
@@ -542,10 +542,10 @@ object FormSet: TFormSet
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = GroupEmail
           AnchorSideBottom.Side = asrBottom
-          Left = 403
-          Height = 25
-          Top = 305
-          Width = 48
+          Left = 391
+          Height = 35
+          Top = 405
+          Width = 60
           Anchors = [akTop, akRight, akBottom]
           AutoSize = True
           BorderSpacing.Top = 6
@@ -561,10 +561,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 131
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 171
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -577,10 +577,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 160
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 210
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -594,10 +594,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 189
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 249
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -610,10 +610,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 218
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 288
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -626,10 +626,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 247
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 327
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -642,10 +642,10 @@ object FormSet: TFormSet
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = GroupEmail
           AnchorSideRight.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 276
-          Width = 339
+          Left = 151
+          Height = 33
+          Top = 366
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
@@ -684,7 +684,7 @@ object FormSet: TFormSet
           AnchorSideBottom.Control = GroupLang
           AnchorSideBottom.Side = asrBottom
           Left = 6
-          Height = 23
+          Height = 33
           Top = 15
           Width = 175
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -692,7 +692,7 @@ object FormSet: TFormSet
           BorderSpacing.Top = 15
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
-          ItemHeight = 15
+          ItemHeight = 25
           TabOrder = 0
           Text = 'BoxLang'
         end
@@ -886,7 +886,7 @@ object FormSet: TFormSet
   end
   object Splitter1: TSplitter
     Left = 152
-    Height = 410
+    Height = 401
     Top = 0
     Width = 5
   end

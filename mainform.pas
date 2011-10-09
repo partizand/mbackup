@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
-  ActnList, ComCtrls, StdCtrls, ExtCtrls,taskunit,unitfunc,{inifiles,inilang,}msgstrings,
+  ActnList, ComCtrls, StdCtrls, ExtCtrls,backup,unitfunc,{inifiles,inilang,}msgstrings,
   taskthread,windows;
 
 Type TOnTermEvent = Procedure( Sender: TObject) of object;
@@ -147,7 +147,7 @@ uses frmtask,frmset,unitabout;
 procedure TMForm.ActAddExecute(Sender: TObject);
 begin
 
-if Backup.Count=MaxTasks then exit; // Перебор
+//if Backup.Count=MaxTasks then exit; // Перебор
 Backup.AddTask;
 
 //FormTask.numTask:=Backup.Count;

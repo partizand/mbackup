@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   EditBtn, ExtCtrls, Buttons, MaskEdit, Spin, ComCtrls, ButtonPanel, msgStrings,
-  DateUtils, customfs, taskunit, frmftp,unitfunc;
+  DateUtils, customfs, backup,task, frmftp,unitfunc;
 
 
 const       // Константы типа задачи

@@ -45,6 +45,8 @@ type
      procedure Up(Index:integer);
      // Задание вниз
      procedure Down(Index:integer);
+     // Поиск задания со статусом state, возвращает его номер
+     function FindTaskSt(state: integer): integer;
      //procedure SetItem (Index:Integer;Value:PTTask); // Не имеет смысла
 
      property Items[Index: Integer]: TTask read GetItem; default;
@@ -72,15 +74,15 @@ var
 begin
   Task:=TTask.Create;
   // количество заданий
-  cnt := xmldoc.GetValue(Section+'tasks/count/value', 0);
+  cnt := xmldoc.GetValue(Section+'count/value', 0);
   for i := 0 to cnt-1 do
   begin
     // Имя секции с заданием
-    sec := Section+'tasks/task' + IntToStr(i+1) + '/';
+    sec := Section+'task' + IntToStr(i+1) + '/';
     Task.LoadFromFile(XMLDoc,sec);
     Add(Task); // Добавление копированием
   end;
-
+  Task.Free;
 end;
 //------------------------------------------------------------------------------
 procedure TTaskList.SaveToFile(XMLDoc:TXMLConfig;Section:string);
@@ -93,11 +95,11 @@ begin
   // количество заданий
   cnt := xmldoc.GetValue(Section+'tasks/count/value', 0);
   // количество заданий
-  xmldoc.SetValue(Section+'tasks/count/value', FTasks.Count);
+  xmldoc.SetValue(Section+'count/value', FTasks.Count);
   for i := 0 to FTasks.Count-1 do
   begin
     // Имя секции с заданием
-    sec := Section+'tasks/task' + IntToStr(i+1) + '/';
+    sec := Section+'task' + IntToStr(i+1) + '/';
     PTask:=FTasks[i];
     PTask^.SaveToFile(XMLDoc,sec);
   end;
@@ -122,6 +124,7 @@ begin
 tmpTask.Create;
 if Assigned(Task) then tmpTask.Assign(Task); // Копируем если не nil
 Result:=FTasks.Add(tmpTask);
+//tmpTask.Free;
 end;
 //------------------------------------------------------------------------------
 // Создать дубль задания
@@ -136,6 +139,7 @@ tmpTask.Assign(PTask^); // Копируем
 tmpTask.Name:=rsCopyPerfix + ' '+tmpTask.Name;
 tmpTask.LastRunDate:=0;
 Result:=FTasks.Add(tmpTask);
+//tmpTask.Free;
 end;
 //------------------------------------------------------------------------------
 // Поднять задание вверх
@@ -188,6 +192,26 @@ for i:=0 to FTasks.Count-1 do
     end;
 FTasks.Free;
 inherited Destroy;
+end;
+//=========================================================
+// Поиск задания со статусом state, возвращает его номер
+// Если не найдено возварщается -1
+// Находит первое попавшееся задание с таким статусом
+function TTaskList.FindTaskSt(state: integer): integer;
+var
+  i: integer;
+  PTask:PTTask;
+begin
+  Result := -1;
+  for i := 0 to FTasks.Count-1 do
+  begin
+    PTask:=FTasks[i];
+    if PTask^.Status = state then
+    begin
+      Result := i;
+      break;
+    end;
+  end;
 end;
 //------------------------------------------------------------------------------
 function TTaskList.GetItem (Index:Integer):TTask;

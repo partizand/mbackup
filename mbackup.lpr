@@ -51,7 +51,7 @@ if estr  then // автозапуск заданий
     begin
     Backup.InCmdMode:=true;
     if Backup.AlertStart then Backup.SendAlert(rsStarted);
-        for k:=0 to Backup.Count-1 do
+        for k:=0 to Backup.Tasks.Count-1 do
            begin
            // Задание включено                      (и на запуск при запуске)
            if Backup.Tasks[k].Enabled  then //and Backup.Tasks[k].Rasp.AtStart

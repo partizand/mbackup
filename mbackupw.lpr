@@ -7,9 +7,7 @@ uses
 //  cthreads,
 //  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
-  Forms, mainform,PoTranslator, taskunit{, taskthread, frmtask, frmset,}
-  {UnitAbout, , setunit, unitfunc}
-  {msgstrings, delfiles, customfs, filefs, ftpfs, logunit}{, frmftp};
+  Forms, mainform,PoTranslator, backup;
 
 //{$R mbackupw.res}
 
