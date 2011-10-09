@@ -9,7 +9,7 @@ unit task;
 interface
 
 uses
-  Classes, SysUtils,filter,customfs,FtpFS;
+  Classes, SysUtils,XMLCfg,filter,customfs,FtpFS;
 
 {
 type // Константы результата выполнения задачи
@@ -138,7 +138,8 @@ type    // Парметры расписания
           constructor Create;
           destructor Destroy; override;
           procedure Assign(STask:TTask); // Копирование из существующего задания
-
+          procedure LoadFromFile(XMLDoc:TXMLConfig;Sec:string);
+          procedure SaveToFile(XMLDoc:TXMLConfig;Sec:string);
       public
         //    ProfName:String; // Имя конфигурации
         Enabled:  boolean; // задание разрешено
@@ -231,6 +232,197 @@ begin
 
   inherited Destroy;
 end;
+//------------------------------------------------------------------------------
+procedure TTask.LoadFromFile(XMLDoc:TXMLConfig;Sec:string);
+var
+  i, cnt: integer;
+//  sec:     string;
+  strDate: string;
+  FrmSet:TFormatSettings;
+  tmpint:integer;
+  //cr:string;
+begin
+    // Имя секции с заданием
+//    sec := 'tasks/task' + IntToStr(i+1) + '/';
+    Name := xmldoc.GetValue(sec + 'name/value', '');
+    // Источник
+    SrcFSParam.RootDir:=xmldoc.GetValue(sec + 'SrcFSParam/RootDir/value','');
+
+    tmpint:=xmldoc.GetValue(sec + 'SrcFSParam/FSType/value',integer(fstFile));
+    SrcFSParam.FSType:=TFSType(tmpint);
+    SrcFSParam.FtpServParam.Host:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Host/value','');
+    SrcFSParam.FtpServParam.Port:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Port/value','' );
+    SrcFSParam.FtpServParam.InintialDir:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/InintialDir/value','');
+    SrcFSParam.FtpServParam.UserName:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/UserName/value', '');
+    SrcFSParam.FtpServParam.Password:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/Password/value', '');
+    SrcFSParam.FtpServParam.PassiveMode:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/PassiveMode/value', false);
+    SrcFSParam.FtpServParam.AutoTLS:=xmldoc.GetValue(sec + 'SrcFSParam/FtpServParam/AutoTLS/value', false);
+
+     if (SrcFSParam.RootDir='') and (SrcFSParam.FSType=fstFile) then
+        SrcFSParam.RootDir:=xmldoc.GetValue(sec + 'SorPath/value','');
+
+
+
+    // Приемник
+    DstFSParam.RootDir:=xmldoc.GetValue(sec + 'DstFSParam/RootDir/value','');
+    tmpint:=xmldoc.GetValue(sec + 'DstFSParam/FSType/value', integer(fstFile));
+    DstFSParam.FSType :=TFSType(tmpint);
+    DstFSParam.FtpServParam.Host:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Host/value','' );
+    DstFSParam.FtpServParam.Port:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Port/value','' );
+    DstFSParam.FtpServParam.InintialDir:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/InintialDir/value','');
+    DstFSParam.FtpServParam.UserName:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/UserName/value','' );
+    DstFSParam.FtpServParam.Password:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/Password/value','' );
+
+    DstFSParam.FtpServParam.PassiveMode:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/PassiveMode/value',false );
+    DstFSParam.FtpServParam.AutoTLS:=xmldoc.GetValue(sec + 'DstFSParam/FtpServParam/AutoTLS/value',false );
+    if (DstFSParam.RootDir='') and (DstFSParam.FSType=fstFile) then
+        DstFSParam.RootDir:=xmldoc.GetValue(sec + 'DestPath/value','');
+
+
+    Action   := xmldoc.GetValue(sec + 'Action/value', 0);
+    Enabled  := xmldoc.GetValue(sec + 'Enabled/value', False);
+
+    Status   := stNone;
+    // Чтение параметров архива
+
+    Arh.Name      := xmldoc.GetValue(sec + 'Arh/Name/value', '');
+    Arh.DelOldArh := xmldoc.GetValue(sec + 'Arh/DelOldArh/value', False);
+    Arh.DaysOld   := xmldoc.GetValue(sec + 'Arh/DaysOld/value', 0);
+    Arh.MonthsOld := xmldoc.GetValue(sec + 'Arh/MonthsOld/value', 0);
+    Arh.YearsOld  := xmldoc.GetValue(sec + 'Arh/YearsOld/value', 0);
+    Arh.DelAfterArh:=xmldoc.GetValue(sec + 'Arh/DelAfterArh/value', False);
+    Arh.ArhOpenFiles:=xmldoc.GetValue(sec + 'Arh/ArhOpenFiles/value', False);
+    Arh.Solid:=xmldoc.GetValue(sec + 'Arh/Solid/value', true);
+    Arh.AddOptions:=xmldoc.GetValue(sec + 'Arh/AddOptions/value', '');
+
+    Arh.EncryptEnabled:=xmldoc.GetValue(sec + 'Arh/EncryptEnabled/value', False);
+    Arh.Password:=xmldoc.GetValue(sec + 'Arh/Password/value', '');
+    Arh.LevelCompress:=TLevelCompress(xmldoc.GetValue(sec + 'Arh/LevelCompress/value',integer(lcNormal)));
+
+
+    // Чтение параметров запуска внешних программ
+    ExtBefore.Enabled :=xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Enabled/value', False);
+    ExtBefore.Cmd := xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Cmd/value', '');
+    ExtBefore.Condition := xmldoc.GetValue(sec + 'ExtProgs/ExtBefore/Condition/value', -1);
+
+    ExtAfter.Enabled :=xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Enabled/value', False);
+    ExtAfter.Cmd := xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Cmd/value', '');
+    ExtAfter.Condition := xmldoc.GetValue(sec + 'ExtProgs/ExtAfter/Condition/value', -1);
+
+    // Копирование прав
+    NTFSPerm := xmldoc.GetValue(sec + 'NTFSPerm/value', False);
+    // Уведомления по почте
+    MailAlert := xmldoc.GetValue(sec + 'MailAlert/value', 0);
+    // Расписание
+    Rasp.OnceForDay := xmldoc.GetValue(sec + 'Rasp/OnceForDay/value', False);
+    // Последний результат выполнения задания
+    LastResult := xmldoc.GetValue(sec + 'LastResult/value', 0);
+    strDate := xmldoc.GetValue(sec + 'LastRunDate/value', '0');
+    // Читаем дату последнего запуска в зависимости от версии (последняя float)
+    try
+     LastRunDate :=StrToFloat(strDate,FrmSet);
+    except
+      try
+      LastRunDate := StrToDateTime(strDate);
+      finally
+      LastRunDate :=0;
+      end;
+    end;
+
+    SourceFilt.Recurse := xmldoc.GetValue(sec + 'SourceFilt/Recurse/value', True);
+
+    SourceFilt.FiltSubDir :=
+      xmldoc.GetValue(sec + 'SourceFilt/FiltSubDir/value', False);
+
+    SourceFilt.SubDirs:=xmldoc.GetValue(sec + 'SourceFilt/SubDirs/value', '');
+    // Количество фильтруемых директорий
+    SourceFilt.FiltFiles :=xmldoc.GetValue(sec + 'SourceFilt/FiltFiles/value', False);
+    SourceFilt.ModeFiltFiles:=xmldoc.GetValue(sec + 'SourceFilt/ModeFiltFiles/value', 0);
+    SourceFilt.FileMask:=xmldoc.GetValue(sec + 'SourceFilt/FileMask/value', '');
+    //Count := i+1;
+    Filter.LoadFromFile(XMLDoc,sec);
+
+
+end;
+//------------------------------------------------------------------------------
+procedure TTask.SaveToFile(XMLDoc:TXMLConfig;Sec:string);
+var
+  i: integer;
+  FrmSet:TFormatSettings;
+begin
+  FrmSet.DecimalSeparator:='.';
+    xmldoc.SetValue(sec + 'name/value', Name);
+    // Источник
+    xmldoc.SetValue(sec + 'SrcFSParam/RootDir/value', SrcFSParam.RootDir);
+    xmldoc.SetValue(sec + 'SrcFSParam/FSType/value',integer(SrcFSParam.FSType));
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Host/value', SrcFSParam.FtpServParam.Host);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Port/value', SrcFSParam.FtpServParam.Port);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/InintialDir/value', SrcFSParam.FtpServParam.InintialDir);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/UserName/value', SrcFSParam.FtpServParam.UserName);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/Password/value', SrcFSParam.FtpServParam.Password);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/PassiveMode/value', SrcFSParam.FtpServParam.PassiveMode);
+    xmldoc.SetValue(sec + 'SrcFSParam/FtpServParam/AutoTLS/value', SrcFSParam.FtpServParam.AutoTLS);
+    // Приемник
+    xmldoc.SetValue(sec + 'DstFSParam/RootDir/value', DstFSParam.RootDir);
+    xmldoc.SetValue(sec + 'DstFSParam/FSType/value', integer(DstFSParam.FSType));
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Host/value', DstFSParam.FtpServParam.Host);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Port/value', DstFSParam.FtpServParam.Port);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/InintialDir/value', DstFSParam.FtpServParam.InintialDir);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/UserName/value', DstFSParam.FtpServParam.UserName);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/Password/value', DstFSParam.FtpServParam.Password);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/PassiveMode/value', DstFSParam.FtpServParam.PassiveMode);
+    xmldoc.SetValue(sec + 'DstFSParam/FtpServParam/AutoTLS/value', DstFSParam.FtpServParam.AutoTLS);
+
+
+    xmldoc.SetValue(sec + 'Action/value', Action);
+    xmldoc.SetValue(sec + 'Enabled/value', Enabled);
+    // Сохраняем параметры архива
+    xmldoc.SetValue(sec + 'Arh/Name/value', Arh.Name);
+    xmldoc.SetValue(sec + 'Arh/DelOldArh/value', Arh.DelOldArh);
+    xmldoc.SetValue(sec + 'Arh/DaysOld/value', Arh.DaysOld);
+    xmldoc.SetValue(sec + 'Arh/MonthsOld/value', Arh.MonthsOld);
+    xmldoc.SetValue(sec + 'Arh/YearsOld/value', Arh.YearsOld);
+    xmldoc.SetValue(sec + 'Arh/DelAfterArh/value', Arh.DelAfterArh);
+    xmldoc.SetValue(sec + 'Arh/EncryptEnabled/value', Arh.EncryptEnabled);
+    xmldoc.SetValue(sec + 'Arh/Password/value', Arh.Password);
+    xmldoc.SetValue(sec + 'Arh/LevelCompress/value', integer(Arh.LevelCompress));
+    xmldoc.SetValue(sec + 'Arh/ArhOpenFiles/value', Arh.ArhOpenFiles);
+    xmldoc.SetValue(sec + 'Arh/Solid/value', Arh.Solid);
+    xmldoc.SetValue(sec + 'Arh/AddOptions/value', Arh.AddOptions);
+
+    //Параметры запуска внешних программ
+    // before
+    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Enabled/value', ExtBefore.Enabled);
+    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Cmd/value', ExtBefore.Cmd);
+    xmldoc.SetValue(sec + 'ExtProgs/ExtBefore/Condition/value', ExtBefore.Condition);
+
+    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Enabled/value', ExtAfter.Enabled);
+    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Cmd/value', ExtAfter.Cmd);
+    xmldoc.SetValue(sec + 'ExtProgs/ExtAfter/Condition/value', ExtAfter.Condition);
+    // Копирование прав
+    xmldoc.SetValue(sec + 'NTFSPerm/value', NTFSPerm);
+    // Уведомления по почте
+    xmldoc.SetValue(sec + 'MailAlert/value', MailAlert);
+    // Расписание
+    xmldoc.SetValue(sec + 'Rasp/OnceForDay/value', Rasp.OnceForDay);
+
+    // Результат последнего выполнения задачи
+    xmldoc.SetValue(sec + 'LastResult/value', LastResult);
+    xmldoc.SetValue(sec + 'LastRunDate/value', FloatToStr(LastRunDate,FrmSet));
+    // Параметры фильтрации каталогов и файлов источника
+    xmldoc.SetValue(sec + 'SourceFilt/Recurse/value', SourceFilt.Recurse);
+    xmldoc.SetValue(sec + 'SourceFilt/FiltSubDir/value', SourceFilt.FiltSubDir);
+    // список исключаемых директорий
+    xmldoc.SetValue(sec + 'SourceFilt/SubDirs/value',SourceFilt.SubDirs);
+    xmldoc.SetValue(sec + 'SourceFilt/FiltFiles/value', SourceFilt.FiltFiles);
+    xmldoc.SetValue(sec + 'SourceFilt/ModeFiltFiles/value',      SourceFilt.ModeFiltFiles);
+    xmldoc.SetValue(sec + 'SourceFilt/FileMask/value',SourceFilt.FileMask);
+
+    Filter.SaveToFile(XMLDoc,sec);
+
+
+end;
+
 //------------------------------------------------------------------------------
 procedure TTask.Assign(STask:TTask); // Копирование из существующего задания
 begin

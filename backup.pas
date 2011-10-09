@@ -56,14 +56,14 @@ type
 type
   TBackup = class
 //    Tasks: array[1..MaxTasks] of TTask; //Массив заданий
-    Tasks: array of TTask; //Массив заданий
-    //Tasks:TTaskList;
+    //Tasks: array of TTask; //Массив заданий
+    Tasks:TTaskList;
     // Типа конструктор
     constructor Create;
     destructor Destroy; override;
 
-    procedure AddTask;
-    procedure DelTask(numTask: integer);
+    //procedure AddTask;
+//    procedure DelTask(numTask: integer);
     procedure LoadFromFile(filenam: string);
     procedure SaveToFile(filenam: string);
   //  function RunTask(num: integer; countsize: boolean): integer;
@@ -257,8 +257,8 @@ constructor TBackup.Create;
 begin
   inherited Create;
   Count  := 0;
-  SetLength(Tasks,0);
-  //Tasks:=TTaskList.Create;
+  //SetLength(Tasks,0);
+  Tasks:=TTaskList.Create;
   LastStdOut := TStringList.Create;
  // DelFiles:=TDeletedFiles.Create;
    Settings:=TSettings.Create;
@@ -274,8 +274,9 @@ end;
  // Деструктор
 destructor TBackup.Destroy;
 begin
-LastStdOut.Destroy;
-Settings.Destroy;
+LastStdOut.Free;
+Settings.Free;
+Tasks.Free;
 //DelFiles.Destroy;
 inherited Destroy;
 end;
@@ -585,7 +586,7 @@ begin
       if (Length(sour) <> 0) and (Length(dest) <> 0) then
       begin
         Clear;
-        AddTask;
+        Tasks.Add(nil);
         Tasks[0].Name := 'Cmd';
         Tasks[0].Action := act;
         BuildFS(sour,Tasks[0].SrcFSParam); // читаем источник
@@ -705,6 +706,7 @@ end;
 
  //================================================================
  // добавление пустого задания в массив
+{
 procedure TBackup.AddTask;
 begin
   // Найти свободный элемент
@@ -768,8 +770,10 @@ begin
 
   Inc(Count);
 end;
+}
  //============================================================
  // Очистка списка заданий
+{
 procedure TBackup.Clear;
 //var
 //  i: integer;
@@ -784,6 +788,7 @@ begin
   SetLength(Tasks,0);
   Count := 0;
 end;
+}
 //=========================================================
 // Поиск задания со статусом state, возвращает его номер
 // Если не найдено возварщается -1
@@ -804,6 +809,7 @@ begin
 end;
  //=========================================================
  // Удаление из набора задния NumTask
+ {
 procedure TBackup.DelTask(numTask: integer);
 var
   i: integer;
@@ -816,63 +822,26 @@ begin
   begin
     CopyTask(i, i - 1);
 
-    //Tasks[i-1]:=Tasks[i];
-   {
-    Tasks[i-1].Enabled:=Tasks[i].Enabled; // задание разрешено
-    Tasks[i-1].Name:=Tasks[i].Name;
-    Tasks[i-1].Status:=Tasks[i].Status;
-    Tasks[i-1].LastResult:=Tasks[i].LastResult;
-    Tasks[i-1].LastRunDate:=Tasks[i].LastRunDate;
-    Tasks[i-1].SorPath:=Tasks[i].SorPath;
-    Tasks[i-1].DestPath:=Tasks[i].DestPath;
-    Tasks[i-1].Action:=Tasks[i].Action;
-    Tasks[i-1].Rasp:=Tasks[i].Rasp;
-    Tasks[i-1].Arh:=Tasks[i].Arh;
-    Tasks[i-1].NTFSPerm:=Tasks[i].NTFSPerm;
-    Tasks[i-1].ExtProgs:=Tasks[i].ExtProgs;
-
-    Tasks[i-1].SourceFilt.Recurse:=Tasks[i].SourceFilt.Recurse;
-    Tasks[i-1].SourceFilt.FiltSubDir:=Tasks[i].SourceFilt.FiltSubDir;
-    Tasks[i-1].SourceFilt.FiltFiles:=Tasks[i].SourceFilt.FiltFiles;
-    Tasks[i-1].SourceFilt.ModeFiltFiles:=Tasks[i].SourceFilt.ModeFiltFiles;
-    Tasks[i-1].SourceFilt.SubDirs.Assign(Tasks[i].SourceFilt.SubDirs);
-    Tasks[i-1].SourceFilt.FileMask.Assign(Tasks[i].SourceFilt.FileMask);
-    }
   end;
-//  Tasks[Count].SourceFilt.SubDirs.Free;
-//  Tasks[Count].SourceFilt.FileMask.Free;
+
   Dec(Count);
   SetLength(Tasks,Count);
 end;
+}
 //==================================================
 //   Копирование задания с номером FromTask в задание с номером ToTask
 //--------------------------------------------------------------------
+{
 procedure TBackup.CopyTask(FromTask, ToTask: integer);
 begin
   if (FromTask > Count-1) or (ToTask > Count-1) then
     exit;
  CopyTask(Tasks[FromTask],Tasks[ToTask]);
-{
-  Tasks[ToTask].Enabled  := Tasks[FromTask].Enabled; // задание разрешено
-  Tasks[ToTask].Name     := Tasks[FromTask].Name;
-  Tasks[ToTask].Status   := Tasks[FromTask].Status;
-  Tasks[ToTask].LastResult := Tasks[FromTask].LastResult;
-  Tasks[ToTask].LastRunDate := Tasks[FromTask].LastRunDate;
-  Tasks[ToTask].SrcFSParam := Tasks[FromTask].SrcFSParam;
-  Tasks[ToTask].DstFSParam := Tasks[FromTask].DstFSParam;
-  Tasks[ToTask].Action   := Tasks[FromTask].Action;
-  Tasks[ToTask].Rasp     := Tasks[FromTask].Rasp;
-  Tasks[ToTask].Arh      := Tasks[FromTask].Arh;
-  Tasks[ToTask].NTFSPerm := Tasks[FromTask].NTFSPerm;
-  Tasks[ToTask].ExtBefore := Tasks[FromTask].ExtBefore;
-  Tasks[ToTask].ExtAfter := Tasks[FromTask].ExtAfter;
-  Tasks[ToTask].SourceFilt:= Tasks[FromTask].SourceFilt;
-  Tasks[ToTask].MailAlert:= Tasks[FromTask].MailAlert;
-}
-
 end;
+}
 //=============================================================
 // Скопировать задания (перегружена)
+{
 class procedure TBackup.CopyTask(var FromTask:TTask;var ToTask:TTask);
 begin
   ToTask.Enabled  := FromTask.Enabled; // задание разрешено
@@ -895,41 +864,32 @@ begin
 
   ToTask.MailAlert:= FromTask.MailAlert;
 end;
-
+  }
  //==================================================
  //   Поднять задание вверх по списку
  //--------------------------------------------------------------------
+{
 procedure TBackup.UpTask(NumTask: integer);
 begin
   if NumTask <= 0 then
     exit;
   SwapTask(NumTask,NumTask-1);
-  {
-  AddTask;
-  CopyTask(NumTask, Count);
-  CopyTask(NumTask - 1, NumTask);
-  CopyTask(Count, NumTask - 1);
-  DelTask(Count);
-  }
 end;
+}
  //==================================================
  //   Опустить задание вниз по списку
  //--------------------------------------------------------------------
+{
 procedure TBackup.DownTask(NumTask: integer);
 begin
   if NumTask > Count - 1 then
     exit;
   SwapTask(NumTask,NumTask+1);
-  {
-  AddTask;
-  CopyTask(NumTask, Count);
-  CopyTask(NumTask + 1, NumTask);
-  CopyTask(Count, NumTask + 1);
-  DelTask(Count);
-  }
 end;
+}
 //=================================================================
 // Поменять задания местами
+{
 procedure TBackup.SwapTask(NumTask1,NumTask2:integer);
 var
   Task:TTask;
@@ -942,7 +902,7 @@ CopyTask(Tasks[NumTask1],Task);
 CopyTask(Tasks[NumTask2],Tasks[NumTask1]);
 CopyTask(Task,Tasks[NumTask2]);
 end;
-
+}
  //=================================================
  // Разбивает строку по ";" на список строк StringList
  //procedure TBackup.StrToList (Str:string;var StrList:StringList);
@@ -2186,6 +2146,7 @@ end;
 
  //=====================================================
  // Копирование задания
+{
 procedure TBackup.DublicateTask(NumTask: integer);
 begin
   // Найти свободный элемент
@@ -2196,6 +2157,7 @@ begin
   Tasks[Count-1].Name := rsCopyPerfix + ' ' + Tasks[numtask].Name;
   Tasks[Count-1].LastRunDate:=0;
 end;
+}
  //===========================================================
  // Архивация Rar директории sourdir в директорию destdir
 {

@@ -10,7 +10,7 @@ unit tasklist;
 interface
 
 uses
-  Classes, SysUtils,task;
+  Classes, SysUtils,task,MsgStrings;
 
 const
   MaxTasks = 100; // Макс количество заданий
@@ -29,10 +29,14 @@ type
   public
      constructor Create;
      destructor Destroy; override;
+     // Очистить список заданий
+     procedure Clear;
      // Удалить задание
      procedure Delete(Index:integer);
      // Добавить задание
-     function Add(Task:TTask):integer;
+     function Add(Task:TTask=nil):integer;
+     // Создать дубль задания
+     function Dublicate(Index:integer):integer;
      // Поменять задания местами
      procedure Exchange(Index1,Index2:integer);
      // Поднять задание вверх
@@ -73,7 +77,21 @@ var
   tmpTask:TTask;
 begin
 tmpTask.Create;
-tmpTask.Assign(Task);
+if Assigned(Task) then tmpTask.Assign(Task); // Копируем если не nil
+Result:=FTasks.Add(tmpTask);
+end;
+//------------------------------------------------------------------------------
+// Создать дубль задания
+function TTaskList.Dublicate(Index:integer):integer;
+var
+  tmpTask:TTask;
+  PTask:PTTask;
+begin
+tmpTask.Create;
+PTask:=FTasks[Index];
+tmpTask.Assign(PTask^); // Копируем
+tmpTask.Name:=rsCopyPerfix + ' '+tmpTask.Name;
+tmpTask.LastRunDate:=0;
 Result:=FTasks.Add(tmpTask);
 end;
 //------------------------------------------------------------------------------
@@ -96,6 +114,21 @@ end;
 procedure TTaskList.Exchange(Index1,Index2:integer);
 begin
 FTasks.Exchange(Index1,Index2);
+end;
+//------------------------------------------------------------------------------
+// Очистить список заданий
+procedure TTaskList.Clear;
+var
+  i:integer;
+  PTask:PTTask;
+begin
+// Удаляем все объекты
+for i:=0 to FTasks.Count-1 do
+    begin
+    PTask:=FTasks[i];
+    PTask^.Free;
+    end;
+FTasks.Clear;
 end;
 
 //------------------------------------------------------------------------------
