@@ -9,7 +9,13 @@ uses
 
 type
   TFilter=class
-    public
+    private
+      fpInclude:TFiltProp; // Фильтр включения
+      fpExclude:TFiltProp; // Фильтр исключения
+      _rootDir:string; // Корневой каталог фильтра
+      FRecurse:boolean; // Обрабатывать подкаталоги
+      procedure SetRootDir(RootDir:string); // Установить корневой каталог
+   public
       constructor Create(RootDir:string);
       destructor Destroy; override;
       // Каталог необходимо обрабатывать, имя каталога полное
@@ -19,17 +25,8 @@ type
       procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
       procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
       procedure Assign(SFilter:TFilter);
-    private
-      procedure SetRootDir(RootDir:string); // Установить корневой каталог
-
-
-    private
-      fpInclude:TFiltProp; // Фильтр включения
-      fpExclude:TFiltProp; // Фильтр исключения
-      _rootDir:string; // Корневой каталог фильтра
-    public
       property RootDir:string read _rootDir write SetRootDir;
-
+      property Recuse:boolean read FRecurse write FRecurse;
   end;
 
 implementation

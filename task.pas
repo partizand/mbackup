@@ -173,7 +173,55 @@ begin
   inherited Create;
   // Создаем объекты
   Filter:=TFilter.Create('');
-  LastResult:=trOk;
+
+  // Заполняем значения по умолчанию
+  Name      := '';
+ SrcFSParam.RootDir   := '';
+  SrcFSParam.FSType:=fstFile;
+  SrcFSParam.FtpServParam.Port:='21';
+  DstFSParam.RootDir := '';
+  DstFSParam.FSType:=fstFile;
+  DstFSParam.FtpServParam.Port:='21';
+  Action    := 0;
+  Arh.Name  := 'arh%YYMMDD%';
+
+  Rasp.OnceForDay := False;
+
+  Enabled   := True;
+  // Архив
+  Arh.DelOldArh := False;
+  Arh.DelAfterArh := False;
+  Arh.DaysOld := 7;
+  Arh.MonthsOld := 12;
+  Arh.YearsOld := 5;
+  Arh.EncryptEnabled:=false;
+  Arh.LevelCompress:= lcNormal;
+  Arh.ArhOpenFiles:=false;
+  Arh.Solid:=false;
+  Arh.AddOptions:='';
+
+
+  Status    := stNone;
+  LastRunDate := 0;
+  LastResult := trOk;
+  ExtBefore.Enabled:= False;
+  ExtBefore.Cmd := '';
+  ExtBefore.Condition:=-1;
+
+  ExtAfter.Enabled := False;
+  ExtAfter.Cmd := '';
+  ExtAfter.Condition := -1;
+
+  NTFSPerm  := False;
+  MailAlert := 0;
+
+  SourceFilt.Recurse    := True;
+  SourceFilt.FiltSubDir := False;
+  SourceFilt.SubDirs    := '';//TStringList.Create;
+
+  SourceFilt.FiltFiles  := False;
+  SourceFilt.ModeFiltFiles := 0;
+  SourceFilt.FileMask   :='*.tmp;*.bak';// TStringList.Create;
 end;
 //------------------------------------------------------------------------------
 destructor TTask.Destroy;
