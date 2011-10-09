@@ -20,19 +20,29 @@ const
 // Список заданий как объектов
 type
   TTaskList=class
-   public
+   private
+     FTasks:TList; // Список ссылок на объекты заданий
+
+//     FCount:integer; // Счетчик
+     function GetItem (Index:Integer):TTask;
+     function GetCount:Integer;
+  public
      constructor Create;
      destructor Destroy; override;
-
-   private
-     _Tasks:TList; // Список заданий
-     _Count:integer; // Счетчик
-   private
-     function GetItem (Index:Integer):PTTask;
+     // Удалить задание
+     procedure Delete(Index:integer);
+     // Добавить задание
+     function Add(Task:TTask):integer;
+     // Поменять задания местами
+     procedure Exchange(Index1,Index2:integer);
+     // Поднять задание вверх
+     procedure Up(Index:integer);
+     // Задание вниз
+     procedure Down(Index:integer);
      //procedure SetItem (Index:Integer;Value:PTTask); // Не имеет смысла
-   public
-     property Items[Index: Integer]: PTTask read GetItem; default;
-     property Count:Integer read _Count;
+
+     property Items[Index: Integer]: TTask read GetItem; default;
+     property Count:Integer read GetCount;
 
 
   end;
@@ -43,22 +53,83 @@ implementation
 constructor TTaskList.Create;
 begin
 inherited Create;
-_Tasks.Create;
-_Count:=0;
+FTasks.Create;
+//_Count:=0;
 end;
 //------------------------------------------------------------------------------
-destructor TTaskList.Destroy;
+// Удалить задание
+procedure TTaskList.Delete(Index:integer);
+var
+  PTask:PTTask;
 begin
-_Tasks.Free;
+  PTask:=FTasks[Index];
+  PTask^.Free;
+  FTasks.Delete(Index);
+end;
+//------------------------------------------------------------------------------
+// Добавить задание
+function TTaskList.Add(Task:TTask):integer;
+var
+  tmpTask:TTask;
+begin
+tmpTask.Create;
+tmpTask.Assign(Task);
+Result:=FTasks.Add(tmpTask);
+end;
+//------------------------------------------------------------------------------
+// Поднять задание вверх
+procedure TTaskList.Up(Index:integer);
+begin
+if Index<1 then exit; // Уже и так высоко
+Exchange(Index,Index-1);
+end;
+//------------------------------------------------------------------------------
+// Задание вниз
+procedure TTaskList.Down(Index:integer);
+begin
+if Index>FTasks.Count-2 then exit; // Ниже некуда
+Exchange(Index,Index+1);
+end;
+
+//------------------------------------------------------------------------------
+// Поменять задания местами
+procedure TTaskList.Exchange(Index1,Index2:integer);
+begin
+FTasks.Exchange(Index1,Index2);
+end;
+
+//------------------------------------------------------------------------------
+destructor TTaskList.Destroy;
+var
+  i:integer;
+  PTask:PTTask;
+begin
+// Удаляем все объекты
+for i:=0 to FTasks.Count-1 do
+    begin
+    PTask:=FTasks[i];
+    PTask^.Free;
+    end;
+FTasks.Free;
 inherited Destroy;
 end;
 //------------------------------------------------------------------------------
-function TTaskList.GetItem (Index:Integer):PTTask;
+function TTaskList.GetItem (Index:Integer):TTask;
+var
+  PTask:PTTask;
 begin
-  Result:=nil;
-  if Index<_Count then
-   Result:=(_Tasks[Index]);
+//  Result:=nil;
+//  if Index<_Count then
+PTask:=FTasks[Index];
+Result:=PTask^;
+//Result:=(FTasks[Index]^);
 end;
+//------------------------------------------------------------------------------
+function TTaskList.GetCount:Integer;
+begin
+Result:=FTasks.Count;
+end;
+
 //------------------------------------------------------------------------------
 {
 procedure TTaskList.SetItem (Index:Integer;Value:PTTask);

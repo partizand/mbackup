@@ -56,8 +56,8 @@ type
 type
   TBackup = class
 //    Tasks: array[1..MaxTasks] of TTask; //Массив заданий
-    Tasks: array of TTask; //Массив заданий
-
+    //Tasks: array of TTask; //Массив заданий
+    Tasks:TTaskList;
     // Типа конструктор
     constructor Create;
     destructor Destroy; override;
@@ -257,7 +257,8 @@ constructor TBackup.Create;
 begin
   inherited Create;
   Count  := 0;
-  SetLength(Tasks,0);
+  //SetLength(Tasks,0);
+  Tasks:=TTaskList.Create;
   LastStdOut := TStringList.Create;
  // DelFiles:=TDeletedFiles.Create;
    Settings:=TSettings.Create;
