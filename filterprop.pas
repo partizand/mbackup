@@ -63,6 +63,7 @@ type
      procedure RemoveMask(Index:integer);
      procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
      procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
+     procedure Assign(SFiltProp:TFiltProp); // Копирование существующего фильтра
 
    private
      procedure RemoveByIndex(List:TStringList;Index:integer); // Удалить по индексу
@@ -91,6 +92,17 @@ type
 
 
 implementation
+//------------------------------------------------------------------------------
+// Копирование существующего фильтра
+procedure TFiltProp.Assign(SFiltProp:TFiltProp);
+begin
+Dirs.Assign(SFiltProp.Dirs);
+Files.Assign(SFiltProp.Files);
+Masks.Assign(SFiltProp.Masks);
+_RootDir:=SFiltProp.RootDir;
+_isChanged:=true;
+end;
+
 //------------------------------------------------------------------------------
 // Попадает ли файл в фильтр
 // Имя файла полное

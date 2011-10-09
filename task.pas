@@ -137,6 +137,7 @@ type    // Парметры расписания
         public
           constructor Create;
           destructor Destroy; override;
+          procedure Assign(STask:TTask); // Копирование из существующего задания
 
       public
         //    ProfName:String; // Имя конфигурации
@@ -161,6 +162,10 @@ type    // Парметры расписания
         Filter:TFilter; // Фильтр
       end;
 
+// Указатель на TTask
+ type
+  PTTask=^TTask;
+
 implementation
 //------------------------------------------------------------------------------
 constructor TTask.Create;
@@ -178,7 +183,26 @@ begin
 
   inherited Destroy;
 end;
-
+//------------------------------------------------------------------------------
+procedure TTask.Assign(STask:TTask); // Копирование из существующего задания
+begin
+Enabled:=STask.Enabled;
+Name:=STask.Name;
+ Status:=STask.Status;
+ LastResult:=STask.LastResult;
+ LastRunDate:=STask.LastRunDate;
+ SrcFSParam:=STask.SrcFSParam;
+ DstFSParam:=STask.DstFSParam; // Приемник
+ Action:=STask.Action; // действие
+ MailAlert:=STask.MailAlert;
+ Rasp:=STask.Rasp;
+ Arh:=STask.Arh;
+ NTFSPerm:=STask.NTFSPerm;
+ ExtBefore:=STask.ExtBefore;
+ ExtAfter:=STask.ExtAfter;
+ SourceFilt:=STask.SourceFilt;
+ Filter.Assign(STask.Filter);
+end;
 
 end.
 

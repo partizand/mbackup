@@ -5,7 +5,7 @@ unit filter;
 interface
 
 uses
-  Classes, SysUtils,filterprop;
+  Classes, SysUtils,XMLCfg,filterprop;
 
 type
   TFilter=class
@@ -18,6 +18,7 @@ type
       function FileInRange(FileName:string):boolean;
       procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
       procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
+      procedure Assign(SFilter:TFilter);
     private
       procedure SetRootDir(RootDir:string); // Установить корневой каталог
 
@@ -47,6 +48,14 @@ fpInclude.Free;
 fpExclude.Free;
 inherited Destroy;
 end;
+//------------------------------------------------------------------------------
+procedure TFilter.Assign(SFilter:TFilter);
+begin
+fpInclude.Assign(SFilter.fpInclude);
+fpExclude.Assign(SFilter.fpExclude);
+_rootDir:=SFilter.RootDir;
+end;
+
 //------------------------------------------------------------------------------
 // Каталог необходимо обрабатывать, имя каталога полное
 function TFilter.DirInRange(DirName:string):boolean;
