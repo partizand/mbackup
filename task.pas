@@ -136,6 +136,8 @@ type    // Парметры расписания
 
         public
           constructor Create;
+          constructor Create(Task:TTask); // Создание копированием
+          constructor Create(XMLDoc:TXMLConfig;Section:string); // Создание чтением из файла
           destructor Destroy; override;
           procedure Assign(STask:TTask); // Копирование из существующего задания
           procedure LoadFromFile(XMLDoc:TXMLConfig;Sec:string);
@@ -224,6 +226,24 @@ begin
   SourceFilt.ModeFiltFiles := 0;
   SourceFilt.FileMask   :='*.tmp;*.bak';// TStringList.Create;
 end;
+//------------------------------------------------------------------------------
+// Создание копированием
+constructor TTask.Create(Task:TTask);
+var
+  tmpTask:TTask;
+begin
+ inherited Create;
+   // Создаем объекты
+   Filter:=TFilter.Create('');
+   self.Assign(Task); // Копируем
+end;
+//------------------------------------------------------------------------------
+// Создание чтением из файла
+constructor TTask.Create(XMLDoc:TXMLConfig;Section:string);
+begin
+
+end;
+
 //------------------------------------------------------------------------------
 destructor TTask.Destroy;
 begin
