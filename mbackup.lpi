@@ -46,7 +46,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="38"/>
         <CursorPos X="31" Y="48"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="61"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit0>
@@ -58,7 +58,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="108"/>
         <CursorPos X="3" Y="73"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="56"/>
         <Bookmarks Count="1">
           <Item0 X="22" Y="519" ID="1"/>
         </Bookmarks>
@@ -69,27 +69,27 @@
         <UnitName Value="IniLangC"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit2>
       <Unit3>
         <Filename Value="sendmailunit.pas"/>
         <UnitName Value="SendMailUnit"/>
         <TopLine Value="28"/>
         <CursorPos X="32" Y="28"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit3>
       <Unit4>
         <Filename Value="C:\lazarus\lcl\fileutil.pas"/>
         <UnitName Value="FileUtil"/>
         <TopLine Value="215"/>
         <CursorPos X="2" Y="237"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\lazarus\lcl\include\fileutil.inc"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit5>
       <Unit6>
         <Filename Value="unitfunc.pas"/>
@@ -98,7 +98,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="25" Y="8"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -109,7 +109,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="250"/>
         <CursorPos X="28" Y="26"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -119,7 +119,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="29"/>
         <CursorPos X="28" Y="41"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -128,7 +128,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="43"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit9>
       <Unit10>
         <Filename Value="filter.pas"/>
@@ -138,30 +138,30 @@
         <WindowIndex Value="0"/>
         <TopLine Value="53"/>
         <CursorPos X="44" Y="89"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="tasklist.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="tasklist"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="22"/>
-        <CursorPos X="13" Y="208"/>
-        <UsageCount Value="35"/>
+        <TopLine Value="217"/>
+        <CursorPos X="16" Y="151"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="task.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="task"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="223"/>
-        <CursorPos X="81" Y="240"/>
-        <UsageCount Value="33"/>
+        <TopLine Value="145"/>
+        <CursorPos X="13" Y="249"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
@@ -170,28 +170,28 @@
         <WindowIndex Value="0"/>
         <TopLine Value="33"/>
         <CursorPos X="7" Y="44"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\lazarus\fpc\2.4.2\source\rtl\objpas\classes\classes.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="34"/>
         <CursorPos X="7" Y="58"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:\lazarus\fpc\2.4.2\source\rtl\objpas\classes\stringl.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="988"/>
         <CursorPos X="25" Y="1013"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\fpc\2.4.2\source\rtl\objpas\classes\classesh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="567"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit16>
     </Units>
     <JumpHistory Count="26" HistoryIndex="25">

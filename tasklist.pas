@@ -35,8 +35,10 @@ type
      procedure Clear;
      // Удалить задание
      procedure Delete(Index:integer);
-     // Добавить задание
+     // Добавить задание копированием
      function Add(Task:TTask=nil):integer;
+     // Добавить задание ссылкой
+     function AddLink(Task:TTask):integer;
      // Создать дубль задания
      function Dublicate(Index:integer):integer;
      // Поменять задания местами
@@ -61,7 +63,7 @@ implementation
 constructor TTaskList.Create;
 begin
 inherited Create;
-FTasks.Create;
+FTasks:=TList.Create;
 //_Count:=0;
 end;
 //------------------------------------------------------------------------------
@@ -70,7 +72,6 @@ var
   i, cnt: integer;
   sec: string;
   Task:TTask;
-  //cr:string;
 begin
   Task:=TTask.Create;
   // количество заданий
@@ -90,7 +91,6 @@ var
   i, cnt: integer;
   sec: string;
   PTask:PTTask;
-  //cr:string;
 begin
   // количество заданий
   cnt := xmldoc.GetValue(Section+'tasks/count/value', 0);
@@ -121,10 +121,25 @@ function TTaskList.Add(Task:TTask):integer;
 var
   tmpTask:TTask;
 begin
-tmpTask.Create;
-if Assigned(Task) then tmpTask.Assign(Task); // Копируем если не nil
+if Assigned(Task) then
+     begin
+     tmpTask.Assign(Task); // Копируем если не nil
+
+     end
+  else
+     begin
+     tmpTask.Create;
+     end;
+
+
 Result:=FTasks.Add(tmpTask);
-//tmpTask.Free;
+end;
+
+//------------------------------------------------------------------------------
+// Добавить задание ссылкой
+function TTaskList.AddLink(Task:TTask):integer;;
+begin
+Result:=FTasks.Add(tmpTask);
 end;
 //------------------------------------------------------------------------------
 // Создать дубль задания
@@ -133,7 +148,7 @@ var
   tmpTask:TTask;
   PTask:PTTask;
 begin
-tmpTask.Create;
+tmpTask:=TTask.Create;
 PTask:=FTasks[Index];
 tmpTask.Assign(PTask^); // Копируем
 tmpTask.Name:=rsCopyPerfix + ' '+tmpTask.Name;

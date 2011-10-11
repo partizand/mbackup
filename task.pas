@@ -240,8 +240,13 @@ end;
 //------------------------------------------------------------------------------
 // Создание чтением из файла
 constructor TTask.Create(XMLDoc:TXMLConfig;Section:string);
+var
+  tmpTask:TTask;
 begin
-
+ inherited Create;
+   // Создаем объекты
+   Filter:=TFilter.Create('');
+   self.LoadFromFile(XMLDoc,Section); // Загружаем из файла
 end;
 
 //------------------------------------------------------------------------------
