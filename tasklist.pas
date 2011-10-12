@@ -37,6 +37,8 @@ type
      procedure Delete(Index:integer);
      // Добавить задание копированием
      function Add(Task:TTask=nil):integer;
+     // Добавить задание из файла
+     function Add(XMLDoc:TXMLConfig;Section:string):integer;
      // Добавить задание ссылкой
      function AddLink(Task:TTask):integer;
      // Создать дубль задания
@@ -71,19 +73,20 @@ procedure TTaskList.LoadFromFile(XMLDoc:TXMLConfig;Section:string);
 var
   i, cnt: integer;
   sec: string;
-  Task:TTask;
+//  Task:TTask;
 begin
-  Task:=TTask.Create;
+//  Task:=TTask.Create;
   // количество заданий
   cnt := xmldoc.GetValue(Section+'count/value', 0);
   for i := 0 to cnt-1 do
   begin
     // Имя секции с заданием
     sec := Section+'task' + IntToStr(i+1) + '/';
-    Task.LoadFromFile(XMLDoc,sec);
-    Add(Task); // Добавление копированием
+//    Task.LoadFromFile(XMLDoc,sec);
+    Add(XMLDoc,sec); // Добавление из файла
+    //Add(Task); // Добавление копированием
   end;
-  Task.Free;
+//  Task.Free;
 end;
 //------------------------------------------------------------------------------
 procedure TTaskList.SaveToFile(XMLDoc:TXMLConfig;Section:string);
@@ -123,23 +126,29 @@ var
 begin
 if Assigned(Task) then
      begin
-     tmpTask.Assign(Task); // Копируем если не nil
-
+     tmpTask:=TTask.Create(Task); // Создание копированием
      end
   else
      begin
-     tmpTask.Create;
+     tmpTask:=TTask.Create;
      end;
-
-
 Result:=FTasks.Add(tmpTask);
+end;
+//------------------------------------------------------------------------------
+// Добавить задание из файла
+function TTaskList.Add(XMLDoc:TXMLConfig;Section:string):integer;
+var
+  tmpTask:TTask;
+begin
+tmpTask:=TTask.Create(XMLDoc,Section);
+Result:=AddLink(tmpTask);
 end;
 
 //------------------------------------------------------------------------------
 // Добавить задание ссылкой
-function TTaskList.AddLink(Task:TTask):integer;;
+function TTaskList.AddLink(Task:TTask):integer;
 begin
-Result:=FTasks.Add(tmpTask);
+Result:=FTasks.Add(Task);
 end;
 //------------------------------------------------------------------------------
 // Создать дубль задания

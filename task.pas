@@ -229,8 +229,6 @@ end;
 //------------------------------------------------------------------------------
 // Создание копированием
 constructor TTask.Create(Task:TTask);
-var
-  tmpTask:TTask;
 begin
  inherited Create;
    // Создаем объекты
@@ -240,8 +238,6 @@ end;
 //------------------------------------------------------------------------------
 // Создание чтением из файла
 constructor TTask.Create(XMLDoc:TXMLConfig;Section:string);
-var
-  tmpTask:TTask;
 begin
  inherited Create;
    // Создаем объекты
