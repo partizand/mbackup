@@ -3,7 +3,7 @@ unit taskthread;
 interface
 
 uses
-  Classes,TaskUnit, Sysutils{,iniLang};
+  Classes,backup,task, Sysutils{,iniLang};
 
  //Type TProgressEvent = Procedure( Sender: TObject; ProgrType: ProgressType; Filename: String; FileSize: int64 ) of object;
 
@@ -161,8 +161,8 @@ begin
 //  Backup:=TBackup.Create;
 //  Backup.Count:=1;
 //  SetLength(Backup.Tasks,1);
-  Backup.AddTask;
-  Backup.CopyTask(MForm.Backup.Tasks[numt],Backup.Tasks[0]);
+  Backup.Tasks.Add(MForm.Backup.Tasks[numt]);
+//  Backup.CopyTask(MForm.Backup.Tasks[numt],Backup.Tasks[0]);
   //Backup.Tasks[1]:=MForm.Backup.Tasks[numt];
   {
   Backup.Settings.logfile:=MForm.Backup.Settings.logfile;
@@ -180,7 +180,7 @@ procedure TTaskThread.SaveTaskCl;
 var
  i:integer;
 begin
-  i:=MForm.Backup.FindTaskSt(stRunning);
+  i:=MForm.Backup.Tasks.FindTaskSt(stRunning);
   MForm.Backup.Tasks[i].LastResult:=Backup.Tasks[0].LastResult;
   MForm.Backup.Tasks[i].LastRunDate:=Backup.Tasks[0].LastRunDate;
 end;

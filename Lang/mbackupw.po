@@ -1149,11 +1149,33 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: TMFORM.CAPTION
-msgid "AutoSave"
+#: TMFORM.LISTTASK.COLUMNS[0].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[0].CAPTION"
+msgid "Task name"
 msgstr ""
 
-#: TMFORM.LISTTASK.COLUMNS.CAPTION
+#: TMFORM.LISTTASK.COLUMNS[1].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[1].CAPTION"
+msgid "Source"
+msgstr ""
+
+#: TMFORM.LISTTASK.COLUMNS[2].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[2].CAPTION"
+msgid "Action"
+msgstr ""
+
+#: TMFORM.LISTTASK.COLUMNS[3].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[3].CAPTION"
+msgid "Destination"
+msgstr ""
+
+#: TMFORM.LISTTASK.COLUMNS[4].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[4].CAPTION"
+msgid "Enabled"
+msgstr ""
+
+#: TMFORM.LISTTASK.COLUMNS[5].CAPTION
+msgctxt "TMFORM.LISTTASK.COLUMNS[5].CAPTION"
 msgid "Last run"
 msgstr ""
 
@@ -1163,6 +1185,11 @@ msgstr ""
 
 #: TMFORM.MENUITEM2.CAPTION
 msgid "-"
+msgstr ""
+
+#: TMFORM.MFORM.CAPTION
+msgctxt "TMFORM.MFORM.CAPTION"
+msgid "AutoSave"
 msgstr ""
 
 #: TMFORM.MNUTASK.CAPTION

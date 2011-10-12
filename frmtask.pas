@@ -118,7 +118,9 @@ type
     procedure EditSorFtpButtonClick(Sender: TObject);
 //    procedure EditNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState      );
     procedure EvMinCheckChange(Sender: TObject);
+
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormDestroy(Sender: TObject);
 
 
 
@@ -583,6 +585,8 @@ begin
 end;
 
 
+
+
 procedure TFormTask.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
  if ModalResult=mrOk then
@@ -591,6 +595,11 @@ begin
       end
    else
      CanClose:=true;
+end;
+
+procedure TFormTask.FormDestroy(Sender: TObject);
+begin
+  Task.Free;
 end;
 
 
@@ -1012,6 +1021,7 @@ TC: array[1..1] of TComponent;
 }
 
 begin
+Task:=TTask.Create;
 PassArhChanged:=false;
 EditArhPass.EchoMode:=emPassword;
 

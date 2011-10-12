@@ -44,7 +44,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="38">
+    <Units Count="39">
       <Unit0>
         <Filename Value="mbackupw.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -62,11 +62,10 @@
         <ComponentName Value="MForm"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainForm"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="737"/>
-        <CursorPos X="1" Y="757"/>
+        <TopLine Value="141"/>
+        <CursorPos X="18" Y="160"/>
         <UsageCount Value="332"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -98,8 +97,8 @@
         <UnitName Value="taskthread"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="182"/>
-        <CursorPos X="22" Y="200"/>
+        <TopLine Value="165"/>
+        <CursorPos X="25" Y="183"/>
         <UsageCount Value="328"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -109,10 +108,10 @@
         <ComponentName Value="FormTask"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FrmTask"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="184"/>
-        <CursorPos X="35" Y="10"/>
+        <TopLine Value="103"/>
+        <CursorPos X="5" Y="121"/>
         <UsageCount Value="325"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -149,7 +148,7 @@
         <Filename Value="MsgStrings.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="msgstrings"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
         <TopLine Value="68"/>
         <CursorPos X="25" Y="91"/>
@@ -187,11 +186,11 @@
         <Filename Value="potranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PoTranslator"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="45"/>
         <CursorPos X="1" Y="81"/>
-        <UsageCount Value="198"/>
+        <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -223,18 +222,18 @@
         <WindowIndex Value="0"/>
         <TopLine Value="2"/>
         <CursorPos X="9" Y="20"/>
-        <UsageCount Value="193"/>
+        <UsageCount Value="197"/>
         <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="unitfunc.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitfunc"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="96" Y="12"/>
-        <UsageCount Value="187"/>
+        <UsageCount Value="191"/>
         <Loaded Value="True"/>
       </Unit18>
       <Unit19>
@@ -252,7 +251,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="15"/>
         <CursorPos X="9" Y="33"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
       </Unit20>
       <Unit21>
@@ -273,33 +272,33 @@
         <Filename Value="customfs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="customfs"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="43"/>
         <CursorPos X="20" Y="52"/>
-        <UsageCount Value="158"/>
+        <UsageCount Value="162"/>
         <Loaded Value="True"/>
       </Unit23>
       <Unit24>
         <Filename Value="filefs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="filefs"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="425"/>
-        <UsageCount Value="158"/>
+        <UsageCount Value="162"/>
         <Loaded Value="True"/>
       </Unit24>
       <Unit25>
         <Filename Value="ftpfs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ftpfs"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
         <TopLine Value="59"/>
         <CursorPos X="12" Y="77"/>
-        <UsageCount Value="156"/>
+        <UsageCount Value="160"/>
         <Loaded Value="True"/>
       </Unit25>
       <Unit26>
@@ -319,11 +318,11 @@
         <Filename Value="logunit.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="logunit"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="68"/>
         <CursorPos X="1" Y="87"/>
-        <UsageCount Value="144"/>
+        <UsageCount Value="148"/>
         <Loaded Value="True"/>
       </Unit28>
       <Unit29>
@@ -332,11 +331,11 @@
         <ComponentName Value="frmFTPParam"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmftp"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="133"/>
         <CursorPos X="41" Y="156"/>
-        <UsageCount Value="118"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit29>
@@ -390,107 +389,146 @@
         <Filename Value="backup.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="backup"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit37>
+      <Unit38>
+        <Filename Value="task.pas"/>
+        <UnitName Value="task"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="357"/>
+        <CursorPos X="14" Y="379"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit38>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="mainform.pas"/>
-        <Caret Line="200" Column="9" TopLine="195"/>
+        <Caret Line="151" Column="16" TopLine="131"/>
       </Position1>
       <Position2>
-        <Filename Value="setunit.pas"/>
-        <Caret Line="138" Column="82" TopLine="118"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="154" Column="18" TopLine="128"/>
       </Position2>
       <Position3>
-        <Filename Value="setunit.pas"/>
-        <Caret Line="20" Column="11" TopLine="2"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="757" Column="1" TopLine="737"/>
       </Position3>
       <Position4>
-        <Filename Value="delfiles.pas"/>
-        <Caret Line="150" Column="31" TopLine="136"/>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="1015" Column="1" TopLine="1007"/>
       </Position4>
       <Position5>
-        <Filename Value="delfiles.pas"/>
-        <Caret Line="18" Column="8" TopLine="2"/>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="594" Column="2" TopLine="592"/>
       </Position5>
       <Position6>
-        <Filename Value="ftpfs.pas"/>
-        <Caret Line="162" Column="1" TopLine="156"/>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="589" Column="3" TopLine="587"/>
       </Position6>
       <Position7>
-        <Filename Value="ftpfs.pas"/>
-        <Caret Line="71" Column="11" TopLine="44"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="154" Column="15" TopLine="139"/>
       </Position7>
       <Position8>
-        <Filename Value="frmtask.pas"/>
-        <Caret Line="487" Column="13" TopLine="463"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="788" Column="10" TopLine="764"/>
       </Position8>
       <Position9>
-        <Filename Value="frmtask.pas"/>
-        <Caret Line="146" Column="11" TopLine="128"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="789" Column="10" TopLine="767"/>
       </Position9>
       <Position10>
-        <Filename Value="frmset.pas"/>
-        <Caret Line="247" Column="39" TopLine="211"/>
+        <Filename Value="frmtask.pas"/>
+        <Caret Line="587" Column="1" TopLine="91"/>
       </Position10>
       <Position11>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="11" Column="60" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="784" Column="1" TopLine="749"/>
       </Position11>
       <Position12>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="26" Column="1" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="163" Column="1" TopLine="134"/>
       </Position12>
       <Position13>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="23" Column="7" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="191" Column="1" TopLine="167"/>
       </Position13>
       <Position14>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="26" Column="1" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="210" Column="23" TopLine="191"/>
       </Position14>
       <Position15>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="7" Column="7" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="222" Column="21" TopLine="204"/>
       </Position15>
       <Position16>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="15" Column="1" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="223" Column="19" TopLine="205"/>
       </Position16>
       <Position17>
-        <Filename Value="mbackupw.lpr"/>
-        <Caret Line="14" Column="1" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="262" Column="16" TopLine="244"/>
       </Position17>
       <Position18>
-        <Filename Value="frmtask.pas"/>
-        <Caret Line="155" Column="10" TopLine="137"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="334" Column="17" TopLine="316"/>
       </Position18>
       <Position19>
-        <Filename Value="taskthread.pas"/>
-        <Caret Line="163" Column="3" TopLine="143"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="450" Column="26" TopLine="432"/>
       </Position19>
       <Position20>
         <Filename Value="mainform.pas"/>
-        <Caret Line="201" Column="9" TopLine="195"/>
+        <Caret Line="637" Column="14" TopLine="619"/>
       </Position20>
       <Position21>
         <Filename Value="mainform.pas"/>
-        <Caret Line="9" Column="48" TopLine="1"/>
+        <Caret Line="670" Column="28" TopLine="652"/>
       </Position21>
       <Position22>
         <Filename Value="mainform.pas"/>
-        <Caret Line="151" Column="16" TopLine="131"/>
+        <Caret Line="735" Column="9" TopLine="717"/>
       </Position22>
       <Position23>
         <Filename Value="mainform.pas"/>
-        <Caret Line="154" Column="18" TopLine="128"/>
+        <Caret Line="811" Column="22" TopLine="793"/>
       </Position23>
+      <Position24>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="839" Column="33" TopLine="821"/>
+      </Position24>
+      <Position25>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="200" Column="22" TopLine="182"/>
+      </Position25>
+      <Position26>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="6" Column="23" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="165" Column="10" TopLine="147"/>
+      </Position27>
+      <Position28>
+        <Filename Value="taskthread.pas"/>
+        <Caret Line="183" Column="25" TopLine="165"/>
+      </Position28>
+      <Position29>
+        <Filename Value="task.pas"/>
+        <Caret Line="344" Column="1" TopLine="326"/>
+      </Position29>
+      <Position30>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="160" Column="18" TopLine="141"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

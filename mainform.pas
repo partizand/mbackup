@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
-  ActnList, ComCtrls, StdCtrls, ExtCtrls,backup,unitfunc,{inifiles,inilang,}msgstrings,
+  ActnList, ComCtrls, StdCtrls, ExtCtrls,backup,task,unitfunc,{inifiles,inilang,}msgstrings,
   taskthread,windows;
 
 Type TOnTermEvent = Procedure( Sender: TObject) of object;
@@ -107,6 +107,7 @@ type
     procedure RunThTask(numT:integer);
     procedure TaskDone(Sender: TObject);
     function ShowTaskForm(NumEdTask:integer):boolean;
+    function ShowTaskForm(var Task:TTask):boolean;
     function RunAllTasks:boolean;
   private
     { private declarations }
@@ -143,19 +144,25 @@ uses frmtask,frmset,unitabout;
 
 
 
-
+// ƒобавление задани€
 procedure TMForm.ActAddExecute(Sender: TObject);
+var
+  tmpTask:TTask;
+  i:integer;
 begin
-
-//if Backup.Count=MaxTasks then exit; // ѕеребор
-Backup.AddTask;
+tmpTask:=TTask.Create;
 
 //FormTask.numTask:=Backup.Count;
-if Not ShowTaskForm(Backup.Count-1) then
-                Backup.DelTask(Backup.Count-1);
-
-
-// FormTask.Showmodal;
+if ShowTaskForm(tmpTask) then
+   begin
+   i:=Backup.Tasks.AddLink(tmpTask);
+   Backup.SaveToFile('');
+   FillListTask(i);
+   end
+  else
+   begin
+   tmpTask.Free;
+   end;
 end;
 
 procedure TMForm.ActAddProfileExecute(Sender: TObject);
@@ -178,7 +185,7 @@ begin
 if ListTask.SelCount=0 then exit;
   num:=ListTask.Selected.Index;
   if num<0 then exit;
-  Backup.DublicateTask (num);
+  Backup.Tasks.Dublicate(num);
   FillListTask(num);
 end;
 
@@ -202,7 +209,7 @@ if num<0 then exit;
 str:=format(rsQuestDeleteTask,[Backup.Tasks[num].Name]);
 if MessageDlg(str,mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
-  Backup.DelTask(num);
+  Backup.Tasks.Delete(num);
   FillListTask(num-1);
   Backup.SaveToFile('');
   end;
@@ -215,8 +222,8 @@ var
 begin
 if ListTask.SelCount=0 then exit;
 num:=ListTask.Selected.Index;
-if num>Backup.Count-2 then exit;
-Backup.DownTask(num);
+if num>Backup.Tasks.Count-2 then exit;
+Backup.Tasks.Down(num);
 FillListTask(num+1);
 Backup.SaveToFile('');
 end;
@@ -255,7 +262,7 @@ if SaveDialog1.Execute then
   begin
   filenam:=ShortFileNam(SaveDialog1.FileName);
   if ExtractFileExt(filenam)='' then filenam:=filenam+'.xml';
-  Backup.Clear; //Count:=0;
+  Backup.Tasks.Clear; //Count:=0;
   FillListTask(-1);
 //  Backup.ProfName:='';
   Backup.SaveToFile(filenam);
@@ -327,7 +334,7 @@ begin
 if ListTask.SelCount=0 then exit;
 num:=ListTask.Selected.Index;
 if num<1 then exit;
-Backup.UpTask(num);
+Backup.Tasks.Up(num);
 FillListTask(num-1);
 Backup.SaveToFile('');
 end;
@@ -443,7 +450,7 @@ if ListTask.SelCount>0 then
     olditem:=-1;
 ListTask.Items.Clear;
 // «апись задач
-for i:=0 to Backup.Count-1 do
+for i:=0 to Backup.Tasks.Count-1 do
  begin
      ListTask.Items.Add;
      ListTask.Items.Item[i].Caption:=Backup.Tasks[i].Name;
@@ -630,7 +637,7 @@ var
 // ParamQ2:boolean;
  IsProfile:boolean;
 begin
-Backup.Clear;
+Backup.Tasks.Clear;
 estr:=Backup.ReadArgv(IsProfile);
 
 // ≈сли есть параметр -r запуск заданий
@@ -663,7 +670,7 @@ var
   k:integer;
 begin
 Result:=false;
-  for k:=0 to Backup.Count-1 do
+  for k:=0 to Backup.Tasks.Count-1 do
            begin
            // «адание включено                      (и на запуск при запуске)
            if Backup.Tasks[k].Enabled  then //and Backup.Tasks[k].Rasp.AtStart
@@ -748,7 +755,7 @@ alertmes.Free;
 end;
   }
 //===================================================================
-// —оздание формы задани€ и его показ
+// —оздание формы задани€ и его показ и уничтожение
 // numTask- номер редактируемого задани€
 // ¬озвращает true если нажали ok, false если cancel
 function TMForm.ShowTaskForm(NumEdTask:integer):boolean;
@@ -756,14 +763,36 @@ function TMForm.ShowTaskForm(NumEdTask:integer):boolean;
 begin
 Application.CreateForm(TFormTask, FormTask); // создание формы
 //FormTask.numTask:=NumEdTask;
-FormTask.Task:=Backup.Tasks[NumEdTask];
+FormTask.Task.Assign(Backup.Tasks[NumEdTask]);
 //FormTask.Task.Arh:=Backup.Tasks[NumEdTask].Arh;
 FormTask.FillForm;
 if FormTask.ShowModal=mrOk then
   begin
-  Backup.Tasks[NumEdTask]:=FormTask.Task;
+  Backup.Tasks[NumEdTask].Assign(FormTask.Task);
   Backup.SaveToFile('');
   FillListTask(NumEdTask);
+  Result:=true;
+  end
+ else
+  begin
+  Result:=false;
+  end;
+FormTask.Free;
+end;
+//===================================================================
+// —оздание формы задани€ и его показ и уничтожение
+// PTask- ссылка на задание дл€ редактировани€
+// ¬озвращает true если нажали ok, false если cancel
+function TMForm.ShowTaskForm(var Task:TTask):boolean;
+//=====================================================================
+begin
+Application.CreateForm(TFormTask, FormTask); // создание формы
+
+FormTask.Task.Assign(Task);
+FormTask.FillForm;
+if FormTask.ShowModal=mrOk then
+  begin
+  Task.Assign(FormTask.Task);
   Result:=true;
   end
  else
@@ -782,7 +811,7 @@ procedure TMForm.RunThTask(numT:integer);
 // taskth:TTaskThread;
 begin
 if numt<0 then exit;
-if numt>Backup.Count-1 then exit;
+if numt>Backup.Tasks.Count-1 then exit;
 if taskcount=0 then // нет запущенных потоков
   begin
    taskcount:=1;
@@ -810,10 +839,10 @@ var
 begin
 //ButStart.Down:=false;
 // —н€ть статус выполн€етс€
-numRun:=Backup.FindTaskSt(stRunning);
+numRun:=Backup.Tasks.FindTaskSt(stRunning);
 Backup.Tasks[numRun].Status:=stNone;
 // Ќайти есть ли в очереди задани€
-numRun:=Backup.FindTaskSt(stWaiting);
+numRun:=Backup.Tasks.FindTaskSt(stWaiting);
 if numRun=-1 then // в очереди ничего нет
   begin
    TaskCount:=0;
