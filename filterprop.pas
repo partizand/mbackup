@@ -61,8 +61,8 @@ type
      procedure AddMask(MaskName:string);
      procedure RemoveMask(MaskName:string);
      procedure RemoveMask(Index:integer);
-     procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
-     procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
+     procedure LoadFromFile(var XMLConf:TXMLConfig;Section:string);
+     procedure SaveToFile(var XMLConf:TXMLConfig;Section:string);
      procedure Assign(SFiltProp:TFiltProp); // Копирование существующего фильтра
 
    private
@@ -221,7 +221,7 @@ end;
 
 //------------------------------------------------------------------------------
 // Записать в файл
-procedure TFiltProp.SaveToFile(XMLConf:TXMLConfig;Section:string);
+procedure TFiltProp.SaveToFile(var XMLConf:TXMLConfig;Section:string);
 var
   i:integer;
   sec,str:string;
@@ -252,7 +252,7 @@ end;
 
 //------------------------------------------------------------------------------
 // Прочитать из файла
-procedure TFiltProp.LoadFromFile(XMLConf:TXMLConfig;Section:string);
+procedure TFiltProp.LoadFromFile(var XMLConf:TXMLConfig;Section:string);
 var
   i,cnt:integer;
   sec,str:string;

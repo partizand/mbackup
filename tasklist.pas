@@ -29,8 +29,8 @@ type
   public
      constructor Create;
      destructor Destroy; override;
-     procedure LoadFromFile(XMLDoc:TXMLConfig;Section:string);
-     procedure SaveToFile(XMLDoc:TXMLConfig;Section:string);
+     procedure LoadFromFile(var XMLDoc:TXMLConfig;Section:string);
+     procedure SaveToFile(var XMLDoc:TXMLConfig;Section:string);
      // Очистить список заданий
      procedure Clear;
      // Удалить задание
@@ -69,7 +69,7 @@ FTasks:=TList.Create;
 //_Count:=0;
 end;
 //------------------------------------------------------------------------------
-procedure TTaskList.LoadFromFile(XMLDoc:TXMLConfig;Section:string);
+procedure TTaskList.LoadFromFile(var XMLDoc:TXMLConfig;Section:string);
 var
   i, cnt: integer;
   sec: string;
@@ -89,14 +89,13 @@ begin
 //  Task.Free;
 end;
 //------------------------------------------------------------------------------
-procedure TTaskList.SaveToFile(XMLDoc:TXMLConfig;Section:string);
+procedure TTaskList.SaveToFile(var XMLDoc:TXMLConfig;Section:string);
 var
-  i, cnt: integer;
+  i: integer;
   sec: string;
   PTask:PTTask;
 begin
-  // количество заданий
-  cnt := xmldoc.GetValue(Section+'tasks/count/value', 0);
+
   // количество заданий
   xmldoc.SetValue(Section+'count/value', FTasks.Count);
   for i := 0 to FTasks.Count-1 do
@@ -104,7 +103,7 @@ begin
     // Имя секции с заданием
     sec := Section+'task' + IntToStr(i+1) + '/';
     PTask:=FTasks[i];
-    PTask^.SaveToFile(XMLDoc,sec);
+    (PTask^).SaveToFile(XMLDoc,sec);
   end;
 
 end;

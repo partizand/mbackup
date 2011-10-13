@@ -22,8 +22,8 @@ type
       function DirInRange(DirName:string):boolean;
       // Файл необходимо обрабатывать, имя каталога полное
       function FileInRange(FileName:string):boolean;
-      procedure LoadFromFile(XMLConf:TXMLConfig;Section:string);
-      procedure SaveToFile(XMLConf:TXMLConfig;Section:string);
+      procedure LoadFromFile(var XMLConf:TXMLConfig;Section:string);
+      procedure SaveToFile(var XMLConf:TXMLConfig;Section:string);
       procedure Assign(SFilter:TFilter);
       property RootDir:string read _rootDir write SetRootDir;
       property Recuse:boolean read FRecurse write FRecurse;
@@ -76,7 +76,7 @@ Result:=(InclMatch) AND (Not ExclMatch);
 end;
 //------------------------------------------------------------------------------
 // Прочитать из файла
-procedure TFilter.LoadFromFile(XMLConf:TXMLConfig;Section:string);
+procedure TFilter.LoadFromFile(var XMLConf:TXMLConfig;Section:string);
 var
   Sect:string;
 begin
@@ -88,7 +88,7 @@ end;
 
 //------------------------------------------------------------------------------
 // Записать в файл
-procedure TFilter.SaveToFile(XMLConf:TXMLConfig;Section:string);
+procedure TFilter.SaveToFile(var XMLConf:TXMLConfig;Section:string);
 var
   Sect:string;
 begin

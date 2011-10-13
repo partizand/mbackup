@@ -87,6 +87,7 @@ type    // Парметры расписания
         DelAfterArh:boolean; // Удалять архивы после упаковки (только Rar)
         EncryptEnabled:boolean; // Устанавливать пароль на архив
         Password:string; // Пароль на архив
+        PasswordArh:string; // Пароль на архив
         ArhOpenFiles:boolean; // Архивировать файлы открытые для записи
         Solid:boolean; // непрерывный архив
         AddOptions:string; // Дополнительные опции архивирования
@@ -137,15 +138,16 @@ type    // Парметры расписания
         public
           constructor Create;
           constructor Create(Task:TTask); // Создание копированием
-          constructor Create(XMLDoc:TXMLConfig;Section:string); // Создание чтением из файла
+          constructor Create(var XMLDoc:TXMLConfig;Section:string); // Создание чтением из файла
           destructor Destroy; override;
           procedure Assign(STask:TTask); // Копирование из существующего задания
-          procedure LoadFromFile(XMLDoc:TXMLConfig;Sec:string);
-          procedure SaveToFile(XMLDoc:TXMLConfig;Sec:string);
+          procedure LoadFromFile(var XMLDoc:TXMLConfig;Sec:string);
+          procedure SaveToFile(var XMLDoc:TXMLConfig;Sec:string);
       public
         //    ProfName:String; // Имя конфигурации
         Enabled:  boolean; // задание разрешено
         Name:     string; // Имя задания
+        NameTask:string;
         Status:   integer;  // Статус задания, см константы stNone,stRuning,stWaiting
         LastResult: integer;// Результат последнего выполнения
         LastRunDate: TDateTime; // Дата и время последнего запуска задания
@@ -178,7 +180,7 @@ begin
   Filter:=TFilter.Create('');
 
   // Заполняем значения по умолчанию
-  Name      := '';
+  self.Name      := '';
  SrcFSParam.RootDir   := '';
   SrcFSParam.FSType:=fstFile;
   SrcFSParam.FtpServParam.Port:='21';
@@ -202,7 +204,7 @@ begin
   Arh.ArhOpenFiles:=false;
   Arh.Solid:=false;
   Arh.AddOptions:='';
-
+  Arh.Password:='';
 
   Status    := stNone;
   LastRunDate := 0;
@@ -237,7 +239,7 @@ begin
 end;
 //------------------------------------------------------------------------------
 // Создание чтением из файла
-constructor TTask.Create(XMLDoc:TXMLConfig;Section:string);
+constructor TTask.Create(var XMLDoc:TXMLConfig;Section:string);
 begin
  inherited Create;
    // Создаем объекты
@@ -254,7 +256,7 @@ begin
   inherited Destroy;
 end;
 //------------------------------------------------------------------------------
-procedure TTask.LoadFromFile(XMLDoc:TXMLConfig;Sec:string);
+procedure TTask.LoadFromFile(var XMLDoc:TXMLConfig;Sec:string);
 var
   i, cnt: integer;
 //  sec:     string;
@@ -366,13 +368,14 @@ begin
 
 end;
 //------------------------------------------------------------------------------
-procedure TTask.SaveToFile(XMLDoc:TXMLConfig;Sec:string);
+procedure TTask.SaveToFile(var XMLDoc:TXMLConfig;Sec:string);
 var
   i: integer;
   FrmSet:TFormatSettings;
 begin
-  FrmSet.DecimalSeparator:='.';
-    xmldoc.SetValue(sec + 'name/value', Name);
+
+ FrmSet.DecimalSeparator:='.';
+    xmldoc.SetValue(sec + 'name/value', NameTask);
     // Источник
     xmldoc.SetValue(sec + 'SrcFSParam/RootDir/value', SrcFSParam.RootDir);
     xmldoc.SetValue(sec + 'SrcFSParam/FSType/value',integer(SrcFSParam.FSType));
@@ -405,7 +408,7 @@ begin
     xmldoc.SetValue(sec + 'Arh/YearsOld/value', Arh.YearsOld);
     xmldoc.SetValue(sec + 'Arh/DelAfterArh/value', Arh.DelAfterArh);
     xmldoc.SetValue(sec + 'Arh/EncryptEnabled/value', Arh.EncryptEnabled);
-    xmldoc.SetValue(sec + 'Arh/Password/value', Arh.Password);
+    xmldoc.SetValue(sec + 'Arh/Password/value', Arh.Password);  // Исключение
     xmldoc.SetValue(sec + 'Arh/LevelCompress/value', integer(Arh.LevelCompress));
     xmldoc.SetValue(sec + 'Arh/ArhOpenFiles/value', Arh.ArhOpenFiles);
     xmldoc.SetValue(sec + 'Arh/Solid/value', Arh.Solid);
