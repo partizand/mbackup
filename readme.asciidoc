@@ -1,0 +1,42 @@
+﻿mbackup 0.5.2g
+==============
+:lang: ru
+:description: Backup program for Windows
+//Backup program for Windows
+
+Программа для копирования/синхронизации/архивации директорий 
+
+Позволяет автоматизировать процесс резервного копирования директорий. Возможно копирование, синхронизирование, зеркалирование, архивация директорий. Поддержка FTP/FTPs. Уведомления на почту. mBackup не требует инсталляции, не изменяет реестр и системные файлы на компьютере.
+
+Работает на Windows. Установка не требуется, зависимостей нет.
+
+Распространяется по лицензии http://www.gnu.org/licenses/gpl-3.0.html[GNU GPL 3]
+
+[red]#ВАЖНО!!! ВЫ ИСПОЛЬЗУЕТЕ ДАННЫЙ ПРОГРАММНЫЙ ПРОДУКТ НА СВОЙ СТРАХ И РИСК!!!#
+
+*Автор заранее слагает с себя ответственность за весь возможный ущерб, причиненный программой.*
+
+*This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.*
+
+
+Описание
+--------
+
+http://atsave.narod.ru
+
+Ссылки
+------
+
+Использован проект Lazarus. http://lazarus.freepascal.org
+
+Архиватор 7-zip можно бесплатно скачать на http://7-zip.org/
+
+
+Контакты 
+--------
+
+Вопросы, предложения, замечания принимаются по адресу atsave@narod.ru    +  
+Сайт программы: http://atsave.narod.ru
